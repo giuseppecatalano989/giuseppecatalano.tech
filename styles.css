@@ -106,6 +106,15 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; }
 .topbar nav a { text-decoration: none; color: var(--ink-2); transition: color .2s; }
 .topbar nav a b { color: var(--red); font-weight: 500; margin-right: 4px; }
 .topbar nav a:hover { color: var(--ink); }
+.topbar nav { margin-left: auto; }
+.theme-switch { display: flex; border: 1px solid var(--ink); flex: none; }
+.theme-switch button {
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+  padding: 5px 10px; background: none; color: var(--ink-2); border: 0; cursor: pointer; transition: background .2s, color .2s;
+}
+.theme-switch button + button { border-left: 1px solid var(--ink); }
+.theme-switch button[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); }
+.theme-switch button:not([aria-pressed="true"]):hover { color: var(--red); }
 
 /* ---------- Tavole (sezioni) ---------- */
 main { padding: 0 var(--gutter); }
@@ -331,7 +340,9 @@ main { padding: 0 var(--gutter); }
   .sheet-frame, .ruler { inset: 6px; }
   .ruler { display: none; }
   .topbar { top: 6px; left: 6px; right: 6px; padding: 12px 16px; }
-  .topbar nav a:not(:nth-child(3)):not(:nth-child(4)) { display: none; }
+  .topbar { gap: 12px; }
+  .topbar nav a:not(:nth-child(3)) { display: none; }
+  .topbar nav a b { display: none; }
   .mark em, .mark span { display: none; }
   .hero { min-height: auto; }
   .hero-grid { margin-top: 36px; }

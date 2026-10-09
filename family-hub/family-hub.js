@@ -1,5 +1,20 @@
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/* ---------- Tema light / dark (stessa preferenza del portfolio) ---------- */
+const root = document.documentElement;
+const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+const switchBtns = document.querySelectorAll('[data-set-theme]');
+const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : darkQuery.matches);
+const syncTheme = () => switchBtns.forEach((b) =>
+  b.setAttribute('aria-pressed', String((b.dataset.setTheme === 'dark') === isDark())));
+switchBtns.forEach((b) => b.addEventListener('click', () => {
+  root.dataset.theme = b.dataset.setTheme;
+  try { localStorage.setItem('gc-theme', b.dataset.setTheme); } catch (e) {}
+  syncTheme();
+}));
+darkQuery.addEventListener('change', syncTheme);
+syncTheme();
+
 /* ---------- Frigo: biglietti trascinabili ---------- */
 const fridge = document.getElementById('fridge');
 let zTop = 1;

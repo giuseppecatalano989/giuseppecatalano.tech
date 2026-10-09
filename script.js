@@ -2,19 +2,27 @@ const root = document.documentElement;
 const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------- Tema: carta / cianografia ---------- */
+/* ---------- Tema: light (carta) / dark (cianografia) ---------- */
 const themeBtn = document.getElementById('theme');
 const themeLabel = document.getElementById('theme-label');
+const switchBtns = document.querySelectorAll('[data-set-theme]');
 const isDark = () => root.dataset.theme
   ? root.dataset.theme === 'dark'
   : window.matchMedia('(prefers-color-scheme: dark)').matches;
-const syncLabel = () => { themeLabel.textContent = isDark() ? 'Ciano' : 'Carta'; };
-syncLabel();
-themeBtn.addEventListener('click', () => {
-  root.dataset.theme = isDark() ? 'light' : 'dark';
-  try { localStorage.setItem('gc-theme', root.dataset.theme); } catch (e) {}
-  syncLabel();
-});
+function syncTheme() {
+  const dark = isDark();
+  themeLabel.textContent = dark ? 'Dark' : 'Light';
+  switchBtns.forEach((b) => b.setAttribute('aria-pressed', String((b.dataset.setTheme === 'dark') === dark)));
+}
+function setTheme(t) {
+  root.dataset.theme = t;
+  try { localStorage.setItem('gc-theme', t); } catch (e) {}
+  syncTheme();
+}
+syncTheme();
+themeBtn.addEventListener('click', () => setTheme(isDark() ? 'light' : 'dark'));
+switchBtns.forEach((b) => b.addEventListener('click', () => setTheme(b.dataset.setTheme)));
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncTheme);
 
 /* ---------- Mirino e coordinate ---------- */
 const cross = document.querySelector('.crosshair');

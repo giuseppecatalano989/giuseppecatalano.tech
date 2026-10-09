@@ -13,13 +13,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="family-hub.css">
+<script>try { var t = localStorage.getItem('gc-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 
 <header class="bar">
   <a class="back" href="../#tav-04"><span aria-hidden="true">←</span> <span class="back-txt">Portfolio</span></a>
   <a class="logo" href="#top"><img src="../assets/family-hub.svg" alt="" width="34" height="34"> Family Hub</a>
-  <a class="btn btn-small" href="https://family-hub-giuseppecatalano.vercel.app" target="_blank" rel="noopener">Prova<span class="hide-sm"> Family Hub</span></a>
+  <div class="bar-end">
+    <div class="theme-switch" role="group" aria-label="Tema"><button type="button" data-set-theme="light">Light</button><button type="button" data-set-theme="dark">Dark</button></div>
+    <a class="btn btn-small" href="https://family-hub-giuseppecatalano.vercel.app" target="_blank" rel="noopener">Prova<span class="hide-sm"> Family Hub</span></a>
+  </div>
 </header>
 
 <main id="top">
