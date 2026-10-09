@@ -106,8 +106,10 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; }
 .topbar nav a { text-decoration: none; color: var(--ink-2); transition: color .2s; }
 .topbar nav a b { color: var(--red); font-weight: 500; margin-right: 4px; }
 .topbar nav a:hover { color: var(--ink); }
-.topbar nav { margin-left: auto; }
-.theme-switch { display: flex; border: 1px solid var(--ink); flex: none; }
+/* Tavole subito dopo il nome, a sinistra; selettore del tema isolato a destra */
+.topbar { justify-content: flex-start; }
+.topbar nav { margin-left: clamp(20px, 4vw, 56px); padding-left: clamp(20px, 4vw, 56px); border-left: 1px solid var(--grid-2); }
+.theme-switch { display: flex; border: 1px solid var(--ink); flex: none; margin-left: auto; }
 .theme-switch button {
   font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
   padding: 5px 10px; background: none; color: var(--ink-2); border: 0; cursor: pointer; transition: background .2s, color .2s;
