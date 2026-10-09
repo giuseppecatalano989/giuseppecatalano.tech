@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Family Hub — La vita di casa, in un posto solo</title>
+<meta name="description" content="Family Hub è la web app per organizzare finanze e vita quotidiana della famiglia: budget, obiettivi, spesa, menu, scadenze e lavagna condivisa.">
+<meta property="og:title" content="Family Hub — Una casa organizzata. Più spazio per voi.">
+<meta property="og:description" content="Conti, progetti e cose da ricordare. Tutta la vita di famiglia, in un posto solo.">
+<meta name="theme-color" content="#176854">
+<link rel="icon" href="../assets/family-hub.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="family-hub.css">
+</head>
+<body>
+
+<header class="bar">
+  <a class="back" href="../#tav-04"><span aria-hidden="true">←</span> <span class="back-txt">Portfolio</span></a>
+  <a class="logo" href="#top"><img src="../assets/family-hub.svg" alt="" width="34" height="34"> Family Hub</a>
+  <a class="btn btn-small" href="https://family-hub-giuseppecatalano.vercel.app" target="_blank" rel="noopener">Prova<span class="hide-sm"> Family Hub</span></a>
+</header>
+
+<main id="top">
+
+  <!-- HERO con la porta del frigo -->
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow"><span aria-hidden="true">♥</span> Piccole cose, insieme</p>
+      <h1>Una casa organizzata.<br><em>Più spazio per voi.</em></h1>
+      <p class="lead">Conti, progetti e cose da ricordare. Tutta la vita di famiglia, in un posto solo: ognuno con il proprio account, tutti sulla stessa pagina.</p>
+      <div class="cta">
+        <a class="btn" href="https://family-hub-giuseppecatalano.vercel.app" target="_blank" rel="noopener">Prova Family Hub <span aria-hidden="true">↗</span></a>
+        <a class="btn btn-ghost" href="#budget">Scopri cosa fa</a>
+      </div>
+      <p class="hint">Psst: i biglietti sul frigo si possono spostare.</p>
+    </div>
+
+    <div class="fridge" id="fridge" aria-label="Esempi di quello che trovi in Family Hub">
+      <div class="note n-budget" style="--x:6%;--y:4%;--r:-4deg">
+        <span class="magnet m-green" aria-hidden="true"></span>
+        <small>Il nostro mese</small>
+        <strong>Tutto sotto controllo</strong>
+        <div class="mini-bars" aria-hidden="true"><i style="--h:50%"></i><i style="--h:72%"></i><i style="--h:40%"></i><i style="--h:86%"></i><i style="--h:62%"></i><i style="--h:94%"></i></div>
+      </div>
+      <div class="note n-shop" style="--x:52%;--y:10%;--r:3deg">
+        <span class="magnet m-amber" aria-hidden="true"></span>
+        <strong>Per la cena di stasera</strong>
+        <label><input type="checkbox" checked> Pomodori</label>
+        <label><input type="checkbox" checked> Pasta fresca</label>
+        <label><input type="checkbox"> Basilico</label>
+      </div>
+      <div class="note n-sticky" style="--x:10%;--y:52%;--r:2deg">
+        <span class="tape" aria-hidden="true"></span>
+        <p>Il prossimo progetto?<br><b>Decidiamolo insieme.</b></p>
+      </div>
+      <div class="note n-waste" style="--x:56%;--y:56%;--r:-3deg">
+        <span class="magnet m-lav" aria-hidden="true"></span>
+        <small>Rifiuti · domani</small>
+        <strong>Carta e cartone</strong>
+      </div>
+      <div class="note n-due" style="--x:36%;--y:78%;--r:5deg">
+        <span class="magnet m-red" aria-hidden="true"></span>
+        <small>Scadenza</small>
+        <strong>Bollo auto · 30 ott</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUDGET INTERATTIVO -->
+  <section class="budget" id="budget">
+    <div class="sec-head">
+      <p class="eyebrow">Ripartizione budget</p>
+      <h2>Ogni euro ha<br><em>il suo posto.</em></h2>
+      <p class="lead">Family Hub divide le entrate ricorrenti in categorie, con un massimale per ognuna. Scegli uno schema e prova.</p>
+    </div>
+
+    <div class="planner">
+      <div class="planner-controls">
+        <label class="income">Entrate ricorrenti del mese
+          <output id="income-out">2.800 €</output>
+          <input type="range" id="income" min="1200" max="6000" step="100" value="2800">
+        </label>
+        <fieldset class="schemes">
+          <legend>Schema</legend>
+          <label><input type="radio" name="scheme" value="conservativa"> Conservativa</label>
+          <label><input type="radio" name="scheme" value="prudente"> Prudente</label>
+          <label><input type="radio" name="scheme" value="equilibrata" checked> Equilibrata</label>
+          <label><input type="radio" name="scheme" value="svago"> Svago</label>
+        </fieldset>
+      </div>
+      <div class="planner-out">
+        <div class="stack-bar" id="stack" aria-hidden="true"></div>
+        <ul class="cats" id="cats" aria-live="polite"></ul>
+      </div>
+    </div>
+    <p class="footnote">Percentuali reali degli schemi predefiniti di Family Hub. Nell'app c'è anche uno schema personalizzabile.</p>
+  </section>
+
+  <!-- VITA DI CASA -->
+  <section class="home-life">
+    <div class="sec-head">
+      <p class="eyebrow">La vita di casa</p>
+      <h2>Tutto quello che<br><em>di solito sta sul frigo.</em></h2>
+    </div>
+    <ul class="tiles">
+      <li class="tile t-mint"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><h3>Lista della spesa</h3><p>Condivisa: chi passa dal supermercato sa cosa manca.</p></li>
+      <li class="tile t-amber"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg><h3>Menu settimanale</h3><p>Il pranzo e la cena della settimana, decisi una volta sola.</p></li>
+      <li class="tile t-lav"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg><h3>Conferimento rifiuti</h3><p>Cosa esce stasera, senza consultare il calendario.</p></li>
+      <li class="tile t-red"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><h3>Scadenze</h3><p>Bollette, bolli e rinnovi, con promemoria.</p></li>
+      <li class="tile t-green"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/><path d="M15 3v6h6"/></svg><h3>Lavagna di famiglia</h3><p>Note e allegati per tutti, da evidenziare quando contano.</p></li>
+      <li class="tile t-paper"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg><h3>Obiettivi di risparmio</h3><p>Le vacanze, la macchina nuova: accantonamenti e progresso.</p></li>
+    </ul>
+  </section>
+
+  <!-- CONTI E CONSULENTE -->
+  <section class="money">
+    <div class="money-card">
+      <p class="eyebrow">Conti bancari · sola lettura</p>
+      <h2>I movimenti arrivano da soli.<br><em>I pagamenti, mai.</em></h2>
+      <p>Family Hub si collega alla banca con un consenso PSD2 di sola lettura: legge saldo e movimenti, ma non può disporre pagamenti o bonifici. Le credenziali si inseriscono solo sul sito della banca.</p>
+    </div>
+    <div class="money-card advisor">
+      <p class="eyebrow">Consulente AI</p>
+      <div class="bubble">
+        <p>Questo mese lo svago è all'88% del massimale e mancano dieci giorni. Se rimandate la cena fuori alla prossima settimana, l'obiettivo “Vacanze” resta in linea.</p>
+        <small>Esempio di consiglio</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- SICUREZZA -->
+  <section class="safe">
+    <div class="sec-head">
+      <p class="eyebrow">Fatta per stare tranquilli</p>
+      <h2>I dati di famiglia<br><em>restano in famiglia.</em></h2>
+    </div>
+    <ul class="safe-list">
+      <li><b>Un account per persona</b><span>Ognuno accede con le proprie credenziali; le registrazioni private restano private.</span></li>
+      <li><b>Inviti a scadenza</b><span>Per entrare in famiglia serve un invito valido sette giorni.</span></li>
+      <li><b>Recupero sicuro</b><span>Link monouso valido 30 minuti; il cambio password chiude gli altri accessi.</span></li>
+      <li><b>Backup automatici</b><span>Copie giornaliere ed esportazione completa in ZIP.</span></li>
+    </ul>
+  </section>
+
+  <!-- CTA FINALE -->
+  <section class="final">
+    <img src="../assets/family-hub.svg" alt="" width="88" height="88">
+    <h2>Meno cose da gestire.<br><em>Più cose da vivere.</em></h2>
+    <a class="btn btn-big" href="https://family-hub-giuseppecatalano.vercel.app" target="_blank" rel="noopener">Prova Family Hub <span aria-hidden="true">↗</span></a>
+    <p class="hint">Crea il tuo spazio di famiglia e installalo sul telefono: “Aggiungi alla schermata Home”.</p>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>Family Hub è un progetto di <a href="../">Giuseppe Catalano</a>, progettato da lui e costruito con l'intelligenza artificiale.</p>
+  <p class="stack">React · TypeScript · Node.js · PostgreSQL · Open banking PSD2 · Claude · PWA</p>
+  <a class="back" href="../#tav-04"><span aria-hidden="true">←</span> Torna ai progetti</a>
+</footer>
+
+<script src="family-hub.js"></script>
+</body>
+</html>

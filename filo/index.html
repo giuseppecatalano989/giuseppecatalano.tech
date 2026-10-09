@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Filo — Il tuo diario di serie</title>
+<meta name="description" content="Filo è il diario personale delle tue serie TV: episodi visti, revisioni, consigli su misura e notifiche solo quando esce qualcosa che segui.">
+<meta property="og:title" content="Filo — Riprendi il filo. Di ogni storia.">
+<meta property="og:description" content="Le tue serie, gli episodi visti e il piacere di sapere sempre dove sei arrivato.">
+<meta name="theme-color" content="#0d1218">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d1218'/%3E%3Ccircle cx='46' cy='44' r='5' fill='%23d4ed98'/%3E%3Cpath d='M18 46V24a8 8 0 0 1 8-8h6M14 30h14' stroke='%23f4f3ee' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="filo.css">
+</head>
+<body>
+
+<header class="bar">
+  <a class="back" href="../#tav-04"><span aria-hidden="true">←</span> Portfolio</a>
+  <a class="logo" href="#top" aria-label="Filo">filo<span>.</span></a>
+  <a class="btn btn-small" href="https://filo-serie.expo.app/" target="_blank" rel="noopener">Prova Filo</a>
+</header>
+
+<div class="thread-wrap" id="top">
+  <svg class="thread" aria-hidden="true"><path id="thread-path"/></svg>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow" data-knot>Il tuo diario di serie</p>
+        <h1>Riprendi il filo.<br><span>Di ogni storia.</span></h1>
+        <p class="lead">Le tue serie, gli episodi visti e il piacere di sapere sempre dove sei arrivato.</p>
+        <div class="cta">
+          <a class="btn" href="https://filo-serie.expo.app/" target="_blank" rel="noopener">Prova Filo <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="#episodi">Come funziona</a>
+        </div>
+        <p class="small">Web app installabile su telefono e computer</p>
+      </div>
+
+      <div class="phone" aria-hidden="true">
+        <div class="ph-notch"></div>
+        <div class="ph-top"><span>Ciao Giuseppe</span><i class="bell"></i></div>
+        <div class="ph-banner">
+          <div class="poster p1"></div><div class="poster p2"></div><div class="poster p3"></div>
+          <div class="ph-banner-txt"><small>Top 5 imperdibili</small><b>Orbita silenziosa</b></div>
+        </div>
+        <div class="ph-chips"><span class="on">Tutti</span><span>Streaming 1</span><span>Streaming 2</span></div>
+        <p class="ph-h">Continua a guardare</p>
+        <div class="ph-row">
+          <div class="ph-card"><div class="poster p4"></div><i style="--w:70%"></i><small>S2 · E7</small></div>
+          <div class="ph-card"><div class="poster p5"></div><i style="--w:30%" class="o"></i><small>S1 · E3</small></div>
+          <div class="ph-card"><div class="poster p6"></div><i style="--w:88%"></i><small>S4 · E9</small></div>
+        </div>
+        <div class="ph-dock"><span class="on"></span><span></span><span></span><span></span></div>
+      </div>
+    </section>
+
+    <!-- DEMO EPISODI -->
+    <section class="episodes" id="episodi">
+      <div class="sec-head">
+        <p class="eyebrow" data-knot>Prova qui sotto</p>
+        <h2>Segna un episodio.<br><span>Filo pensa al resto.</span></h2>
+        <p class="lead">Tocca un episodio: se ne hai saltati, Filo ti chiede se segnare anche i precedenti. Toccane uno già visto per segnarlo come rivisto.</p>
+      </div>
+
+      <div class="ep-card">
+        <div class="ep-head">
+          <div class="poster p1 ep-poster" aria-hidden="true"></div>
+          <div>
+            <small>Serie dimostrativa</small>
+            <h3>Orbita silenziosa</h3>
+            <p>Stagione 1 · <span id="ep-count">0/10</span> visti · <b id="ep-state">Da iniziare</b></p>
+          </div>
+        </div>
+        <div class="ep-bar"><i id="ep-bar"></i></div>
+        <ol class="ep-grid" id="ep-grid" aria-label="Episodi della stagione 1"></ol>
+        <div class="ep-ask" id="ep-ask" hidden>
+          <p id="ep-ask-text"></p>
+          <div><button type="button" class="btn btn-small" id="ep-yes">Sì, segna anche quelli</button><button type="button" class="btn btn-small btn-ghost" id="ep-no">Solo questo</button></div>
+        </div>
+        <ul class="ep-legend">
+          <li><i class="k-seen"></i>Visto</li><li><i class="k-re"></i>Rivisto</li><li><i class="k-todo"></i>Da vedere</li>
+        </ul>
+        <button type="button" class="ep-reset" id="ep-reset">Azzera</button>
+      </div>
+    </section>
+
+    <!-- FUNZIONI -->
+    <section class="features">
+      <div class="sec-head">
+        <p class="eyebrow" data-knot>Cosa fa Filo</p>
+        <h2>Un diario che ti conosce.</h2>
+      </div>
+      <div class="f-grid">
+        <article class="f f-wide">
+          <span class="f-n">01</span>
+          <h3>Consigli su misura</h3>
+          <p>Dopo la prima visione compare “Serie che potrebbero piacerti”. Tutta la cronologia contribuisce al tuo profilo di generi e temi, con più peso alle visioni recenti. Le serie già iniziate non vengono mai riproposte.</p>
+          <div class="genres" aria-hidden="true"><span style="--s:1">Fantascienza</span><span style="--s:.8">Thriller</span><span style="--s:.62">Drammatico</span><span style="--s:.45">Commedia</span><span style="--s:.3">Documentario</span></div>
+        </article>
+        <article class="f">
+          <span class="f-n">02</span>
+          <h3>Dove guardarla</h3>
+          <p>Per ogni serie vedi su quali servizi è disponibile in Italia, con i collegamenti diretti. Puoi filtrare la Home per servizio di streaming.</p>
+        </article>
+        <article class="f">
+          <span class="f-n">03</span>
+          <h3>Notifiche solo quando serve</h3>
+          <p>La campanella si accende per i nuovi episodi delle serie che stai seguendo. Mai avvisi su uscite vecchie.</p>
+          <div class="notif" aria-hidden="true"><i class="bell"></i><span><b>Nuovo episodio</b><small>Orbita silenziosa · S2 E1</small></span></div>
+        </article>
+        <article class="f f-wide">
+          <span class="f-n">04</span>
+          <h3>Visto, rivisto, in pari</h3>
+          <p>Filo tiene il conto di episodi e stagioni, distingue le visioni dalle revisioni e sa quando sei in pari con una serie ancora in corso. Gli episodi non ancora usciti non si possono segnare.</p>
+          <div class="states" aria-hidden="true"><span class="s-seen">Visto</span><span class="s-prog">In corso</span><span class="s-re">Rivisto</span><span class="s-pari">In pari</span></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA FINALE -->
+    <section class="final">
+      <p class="eyebrow" data-knot>Tocca a te</p>
+      <h2>Dove eri rimasto?</h2>
+      <a class="btn btn-big" href="https://filo-serie.expo.app/" target="_blank" rel="noopener">Prova Filo <span aria-hidden="true">↗</span></a>
+      <p class="small">Crei l'account con nome, email e password, senza email di conferma.</p>
+    </section>
+  </main>
+</div>
+
+<footer class="foot">
+  <p>Filo è un progetto di <a href="../">Giuseppe Catalano</a>, progettato da lui e costruito con l'intelligenza artificiale.</p>
+  <p class="stack">React Native · Expo · TypeScript · Supabase · TMDB · Notifiche push</p>
+  <a class="back" href="../#tav-04"><span aria-hidden="true">←</span> Torna ai progetti</a>
+</footer>
+
+<script src="filo.js"></script>
+</body>
+</html>
