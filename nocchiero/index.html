@@ -30,7 +30,6 @@
       <a href="#ordini">Ordini</a>
       <a href="#clienti">Marketing</a>
       <a href="#import">Integrazioni</a>
-      <a href="#contatto">Contatti</a>
     </div>
     <a class="v-btn v-btn-fantasma v-nav-cta" href="https://plancia.nocchiero.it" target="_blank" rel="noopener">Accedi</a>
   </div>
@@ -48,10 +47,9 @@
       <br>Tutto in Cloud: puoi guidare il tuo ristorante ovunque, da qualsiasi dispositivo.
     </p>
     <div class="v-hero-cta">
-      <a class="v-btn v-btn-primario v-btn-grande" href="#contatto">Richiedi una demo</a>
-      <a class="v-btn v-btn-fantasma v-btn-grande" href="https://plancia.nocchiero.it" target="_blank" rel="noopener">Accedi alla plancia</a>
+      <a class="v-btn v-btn-primario v-btn-grande" href="https://plancia.nocchiero.it" target="_blank" rel="noopener">Accedi alla plancia</a>
+      <a class="v-btn v-btn-fantasma v-btn-grande" href="#assistente">Scopri cosa fa</a>
     </div>
-    <p class="v-hero-nota">Nessun impegno · Ti mostriamo Nocchiero sui tuoi dati</p>
   </div>
   <div class="v-wrap v-hero-shot v-reveal-shot"><div class="v-screen"><div class="v-screen-bar"><span></span><span></span><span></span></div><div class="v-screen-body" data-mock="dashboard"></div></div></div>
 </header>
@@ -201,44 +199,6 @@
       <div class="v-passo v-reveal"><div class="v-passo-n">1</div><h3>Importi i tuoi dati</h3><p>Inserisci i dati con l'aiuto dell'AI, o colleghi la tua cassa per sincronizzarli in modo automatico.</p></div>
       <div class="v-passo v-reveal" style="transition-delay:90ms"><div class="v-passo-n">2</div><h3>Guardi i numeri</h3><p>Incassi, margini, magazzino, marketing, prenotazioni ed ordini sempre aggiornati sulla plancia, da qualsiasi dispositivo. Hai tutto in Cloud, consultabile ovunque.</p></div>
       <div class="v-passo v-reveal" style="transition-delay:180ms"><div class="v-passo-n">3</div><h3>Chiedi all'assistente</h3><p>Fai domande, ricevi proposte, agisci con un tocco. Come avere un aiutante che conosce i tuoi dati.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTATTO -->
-<section id="contatto" class="v-contatto">
-  <div class="v-wrap">
-    <div class="v-contatto-card v-reveal">
-      <div>
-        <h2>Vuoi vederlo sui tuoi dati?</h2>
-        <p class="v-contatto-p">Raccontaci del tuo locale: ti mostriamo Nocchiero in una demo, senza impegno.</p>
-        <ul class="v-contatto-lista">
-          <li><i data-lucide="check"></i> Una demo su misura del tuo ristorante</li>
-          <li><i data-lucide="check"></i> Ti spieghiamo come collegare la tua cassa</li>
-          <li><i data-lucide="check"></i> Nessun costo e nessun impegno</li>
-        </ul>
-      </div>
-
-      <form class="v-form" id="contatto-form" novalidate>
-        <div class="v-campo"><label for="v-nome">Nome e cognome</label><input id="v-nome" name="nome" class="v-input" placeholder="Mario Rossi" autocomplete="name"></div>
-        <div class="v-campo"><label for="v-locale">Nome del locale</label><input id="v-locale" name="locale" class="v-input" placeholder="Trattoria da Mario"></div>
-        <div class="v-form-due">
-          <div class="v-campo"><label for="v-email">Email</label><input id="v-email" name="email" type="email" class="v-input" placeholder="mario@esempio.it" autocomplete="email"></div>
-          <div class="v-campo"><label for="v-tel">Telefono <span style="font-weight:400">(facoltativo)</span></label><input id="v-tel" name="telefono" class="v-input" placeholder="333 1234567" autocomplete="tel"></div>
-        </div>
-        <div class="v-campo"><label for="v-locali">Quanti punti vendita? <span style="font-weight:400">(facoltativo)</span></label><input id="v-locali" name="locali" class="v-input" placeholder="1" inputmode="numeric"></div>
-        <div class="v-campo"><label for="v-msg">Messaggio <span style="font-weight:400">(facoltativo)</span></label><textarea id="v-msg" name="messaggio" class="v-textarea" placeholder="Che cassa usi? Cosa ti piacerebbe migliorare?"></textarea></div>
-        <!-- Trappola anti-robot: invisibile, va lasciata vuota -->
-        <div class="v-trappola" aria-hidden="true"><label for="v-azienda">Azienda</label><input id="v-azienda" name="azienda" tabindex="-1" autocomplete="off"></div>
-        <div class="v-esito ko" id="form-errore" role="alert" hidden></div>
-        <button type="submit" class="v-btn v-btn-primario v-btn-grande" id="form-invia" style="justify-content:center;margin-top:4px"><i data-lucide="send"></i> <span>Richiedi una demo</span></button>
-        <p style="font-size:12.5px;color:var(--fumo);margin:0">Ti ricontattiamo solo per la demo. Niente spam.</p>
-      </form>
-      <div class="v-form v-form-ok" id="form-ok" hidden>
-        <div class="v-ok-ic"><i data-lucide="check"></i></div>
-        <div style="font-size:19px;font-weight:700">Richiesta inviata!</div>
-        <p style="font-size:15px;color:var(--fumo);max-width:34ch" id="form-ok-txt">Ti ricontattiamo a breve per organizzare la demo.</p>
-      </div>
     </div>
   </div>
 </section>

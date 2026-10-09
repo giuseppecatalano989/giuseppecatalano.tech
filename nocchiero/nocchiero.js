@@ -327,36 +327,3 @@ if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-m
 const su = document.getElementById('torna-su');
 addEventListener('scroll', () => su.classList.toggle('on', scrollY > 700), { passive: true });
 su.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
-
-/* ---------- Modulo "Richiedi una demo" ----------
-   Stessa Edge Function pubblica usata da nocchiero.it (richiesta-contatto):
-   accetta richieste da qualsiasi origine e non richiede login. */
-const ENDPOINT = 'https://fntfysxlzerqysagbkqw.supabase.co/functions/v1/richiesta-contatto';
-const form = document.getElementById('contatto-form');
-const errore = document.getElementById('form-errore');
-const invia = document.getElementById('form-invia');
-
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const dati = Object.fromEntries(new FormData(form));
-  const mostra = (msg) => { errore.textContent = msg; errore.hidden = false; };
-  errore.hidden = true;
-  if (!dati.nome.trim()) return mostra('Scrivi il tuo nome.');
-  if (!/^[^@\s]+@[^@\s.]+\.[^@\s]+$/.test(dati.email.trim())) return mostra("Controlla l'indirizzo email.");
-
-  invia.disabled = true;
-  invia.querySelector('span').textContent = 'Invio in corso…';
-  try {
-    const r = await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dati) });
-    const out = await r.json().catch(() => ({}));
-    if (!r.ok || out.error) throw new Error(out.error || 'Invio non riuscito. Riprova o scrivici direttamente.');
-    document.getElementById('form-ok-txt').textContent =
-      `Grazie ${dati.nome.trim().split(' ')[0]}. Ti ricontattiamo a breve per organizzare la demo.`;
-    form.hidden = true;
-    document.getElementById('form-ok').hidden = false;
-  } catch (err) {
-    mostra(err.message || 'Invio non riuscito. Riprova o scrivici direttamente.');
-    invia.disabled = false;
-    invia.querySelector('span').textContent = 'Richiedi una demo';
-  }
-});
