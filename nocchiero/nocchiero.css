@@ -331,10 +331,10 @@ html { zoom: var(--zoom); }
 .v-blocco-grid > * { min-width: 0; }
 
 /* Il pulsante di ritorno occupa spazio in più: le voci non vanno mai a capo e,
-   sotto i 1100 px, lasciano il posto al solo "Accedi" (l'originale lo fa a 860). */
+   sugli schermi medi, si avvicinano un po'. Sotto gli 860 px spariscono come nell'originale. */
 .v-nav-links { gap: 22px; }
 .v-nav-links a { white-space: nowrap; }
-@media (max-width: 1100px) { .v-nav-links { display: none; } .v-nav-cta { margin-left: auto; } }
+@media (max-width: 1100px) { .v-nav-in { gap: 16px; } .v-nav-links { gap: 16px; } .v-nav-links a { font-size: 14px; } }
 .v-footer-autore { font-size: 13px; margin-top: 18px; }
 .v-footer-autore a { text-decoration: underline; text-underline-offset: 3px; }
 
