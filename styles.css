@@ -106,8 +106,9 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; }
 .topbar nav a { text-decoration: none; color: var(--ink-2); transition: color .2s; }
 .topbar nav a b { color: var(--red); font-weight: 500; margin-right: 4px; }
 .topbar nav a:hover { color: var(--ink); }
-/* Tavole spostate verso sinistra, selettore del tema staccato in fondo a destra */
-.topbar nav { margin-left: auto; margin-right: clamp(28px, 6vw, 96px); }
+/* Tre blocchi con spazi identici: le tavole sono equidistanti da nome e selettore.
+   Margine interno ridotto per spingere nome e selettore verso i bordi (oltre il righello). */
+.topbar { justify-content: space-between; padding-left: clamp(30px, 3vw, 44px); padding-right: clamp(16px, 2.4vw, 32px); }
 .theme-switch { display: flex; border: 1px solid var(--ink); flex: none; }
 .theme-switch button {
   font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
