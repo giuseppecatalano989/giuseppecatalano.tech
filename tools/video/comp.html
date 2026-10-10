@@ -135,7 +135,6 @@
       <div class="byline" id="byline">Un progetto di Giuseppe Catalano</div>
     </div>
   </div>
-  <div class="credit" id="credit">Musica: «Chill (Loopable)» di Pro Sensory (Alex McCulloch) · CC0</div>
 
   <div class="grain"></div><div class="vignette"></div>
 </div>
@@ -316,7 +315,7 @@ SCENES.forEach((s, i) => {
 // Chiusura
 gsap.set('#outro', { opacity: 0 }); gsap.set(['#o1', '#o2'], { yPercent: 115 });
 gsap.set('#outroLogo span', { yPercent: 60, opacity: 0, filter: 'blur(12px)' });
-gsap.set(['#byline', '#credit'], { opacity: 0, y: 14 });
+gsap.set('#byline', { opacity: 0, y: 14 });
 tl.to('#rig', { scale: .55, opacity: 0, rotationY: 0, x: FMT === '16' ? W / 2 - 217 : L.phoneX(), y: L.phoneY + 120, duration: 0.9, ease: 'power3.in' }, OUTRO - 0.3);
 tl.set('#outro', { opacity: 1 }, OUTRO);
 tl.set('#thread', { opacity: .9, strokeDashoffset: tLen }, OUTRO);
@@ -326,7 +325,6 @@ tl.to('#o2', { yPercent: 0, duration: 1, ease: 'expo.out' }, OUTRO + 0.75);
 tl.to('#outroLogo span:not(.dot)', { yPercent: 0, opacity: 1, filter: 'blur(0px)', duration: 0.8, stagger: 0.07, ease: 'expo.out' }, OUTRO + 1.5);
 tl.to('#outroLogo .dot', { yPercent: 0, opacity: 1, filter: 'blur(0px)', duration: 0.8, ease: 'bounce.out' }, OUTRO + 1.95);
 tl.to('#byline', { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out' }, OUTRO + 2.3);
-tl.to('#credit', { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out' }, OUTRO + 2.6);
 tl.to('#stage', { opacity: 0, duration: 0.6, ease: 'power1.in' }, END - 0.6);
 tl.set({}, {}, END);
 

@@ -25,9 +25,10 @@ const [W, H] = fmt === '16' ? [1920, 1080] : [1080, 1350];
   await page.evaluate(() => window.ready);
   const duration = await page.evaluate(() => window.DURATION);
 
+  const from = Number(process.env.FROM || 0);
   const times = previewTimes.length ? previewTimes : Array.from({ length: Math.round(duration * FPS) }, (_, i) => i / FPS);
   const t0 = Date.now();
-  for (let i = 0; i < times.length; i++) {
+  for (let i = previewTimes.length ? 0 : from; i < times.length; i++) {
     await page.evaluate((t) => window.renderAt(t), times[i]);
     const name = previewTimes.length ? `prova_${times[i]}.jpg` : `f${String(i + 1).padStart(5, '0')}.jpg`;
     await page.screenshot({ path: path.join(outDir, name), type: 'jpeg', quality: 94, clip: { x: 0, y: 0, width: W, height: H } });

@@ -172,7 +172,6 @@ section { padding: 120px 0; }
 @media (max-aspect-ratio: 1 / 1) {
   .demo-frame { width: min(92vw, calc(76vh * 4 / 5)); aspect-ratio: 4 / 5; }
 }
-.demo-cap { font-size: 12.5px; color: var(--muted); text-align: center; max-width: 92vw; padding: 0 16px; }
 .demo-close {
   position: fixed; top: 20px; right: 20px; width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
   background: var(--surface); border: 1.5px solid var(--border); color: var(--text); display: grid; place-items: center;
