@@ -64,3 +64,24 @@ if (reduce || !('IntersectionObserver' in window)) {
   }), { threshold: 0.15 });
   targets.forEach((el) => io.observe(el));
 }
+
+/* ---------- Video dimostrativo nel popup ----------
+   Il pulsante compare solo se il file video esiste; il clic del visitatore
+   avvia la riproduzione, che si ferma alla chiusura (X, Esc o clic fuori). */
+const demoBtn = document.querySelector('[data-demo]');
+const modal = document.getElementById('demo-modal');
+const video = document.getElementById('demo-video');
+
+fetch(video.getAttribute('src'), { method: 'HEAD' })
+  .then((r) => { if (r.ok) demoBtn.hidden = false; })
+  .catch(() => {});
+
+demoBtn.addEventListener('click', () => {
+  modal.showModal();
+  video.currentTime = 0;
+  video.play().catch(() => {});
+});
+const closeDemo = () => modal.close();
+modal.querySelector('[data-close]').addEventListener('click', closeDemo);
+modal.addEventListener('click', (e) => { if (e.target === modal) closeDemo(); });
+modal.addEventListener('close', () => video.pause());

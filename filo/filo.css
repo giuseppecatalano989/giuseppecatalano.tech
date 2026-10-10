@@ -147,3 +147,33 @@ section { padding: 120px 0; }
   .bar .back-txt { display: none; }
   .cta .btn { flex: 1 1 100%; justify-content: center; }
 }
+
+/* ---------- Video dimostrativo: pulsante e popup ---------- */
+.btn-play { font: inherit; font-weight: 700; cursor: pointer; }
+.btn-play[hidden] { display: none; }
+.play-ic { width: 24px; height: 24px; border-radius: 50%; background: var(--ink); display: grid; place-items: center; margin-left: -8px; }
+.play-ic svg { width: 12px; height: 12px; fill: var(--accent); margin-left: 2px; }
+
+.demo-modal {
+  border: 0; padding: 0; background: transparent; color: var(--text); overflow: visible;
+  max-width: none; max-height: none; width: auto;
+  margin: auto; /* il reset globale azzera i margini: senza questo il popup non resta al centro */
+}
+.demo-modal[open] { display: grid; justify-items: center; gap: 16px; animation: demo-in .35s cubic-bezier(.2, .8, .2, 1); }
+.demo-modal::backdrop { background: rgba(5, 8, 11, .82); backdrop-filter: blur(6px); }
+@keyframes demo-in { from { opacity: 0; transform: translateY(18px) scale(.97); } }
+.demo-phone {
+  height: min(82vh, 760px); aspect-ratio: 390 / 844; padding: 9px; border-radius: 40px;
+  background: #05080b; border: 2px solid var(--border);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, .7), 0 0 120px rgba(212, 237, 152, .12);
+}
+.demo-phone video { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 31px; background: var(--bg); }
+.demo-cap { font-size: 13px; color: var(--muted); }
+.demo-close {
+  position: fixed; top: 20px; right: 20px; width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
+  background: var(--surface); border: 1.5px solid var(--border); color: var(--text); display: grid; place-items: center;
+  transition: border-color .2s, color .2s;
+}
+.demo-close:hover { border-color: var(--accent); color: var(--accent); }
+.demo-close svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+@media (prefers-reduced-motion: reduce) { .demo-modal[open] { animation: none; } }

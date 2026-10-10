@@ -33,7 +33,11 @@
         <h1>Riprendi il filo.<br><span>Di ogni storia.</span></h1>
         <p class="lead">Le tue serie, gli episodi visti e il piacere di sapere sempre dove sei arrivato.</p>
         <div class="cta">
-          <a class="btn" href="#dentro">Guarda l'app</a>
+          <button type="button" class="btn btn-play" data-demo hidden>
+            <span class="play-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+            Guarda la demo
+          </button>
+          <a class="btn btn-ghost" href="#dentro">Guarda l'app</a>
         </div>
         <p class="small">Web app installabile su telefono e computer</p>
       </div>
@@ -115,6 +119,17 @@
     <span class="back-txt">Torna ai progetti</span>
   </a>
 </footer>
+
+<!-- Popup con il video dimostrativo (registrato dall'app reale) -->
+<dialog class="demo-modal" id="demo-modal" aria-label="Video dimostrativo di Filo">
+  <button type="button" class="demo-close" data-close aria-label="Chiudi il video">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <div class="demo-phone">
+    <video id="demo-video" src="video/demo.mp4" poster="img/home.jpg" playsinline muted preload="none" width="390" height="844"></video>
+  </div>
+  <p class="demo-cap">Filo in uso, registrato dall'app reale</p>
+</dialog>
 
 <script src="filo.js"></script>
 </body>

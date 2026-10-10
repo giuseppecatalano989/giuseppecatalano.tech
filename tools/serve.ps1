@@ -5,7 +5,7 @@ param([int]$Port = 4173, [switch]$NoBrowser)
 $Root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $mime = @{
   '.html' = 'text/html; charset=utf-8'; '.css' = 'text/css; charset=utf-8'; '.js' = 'text/javascript; charset=utf-8'
-  '.svg' = 'image/svg+xml'; '.png' = 'image/png'; '.jpg' = 'image/jpeg'; '.ttf' = 'font/ttf'; '.json' = 'application/json'
+  '.svg' = 'image/svg+xml'; '.png' = 'image/png'; '.jpg' = 'image/jpeg'; '.ttf' = 'font/ttf'; '.json' = 'application/json'; '.mp4' = 'video/mp4'; '.webm' = 'video/webm'
 }
 
 $l = New-Object System.Net.HttpListener
