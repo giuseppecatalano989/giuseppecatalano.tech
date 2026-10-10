@@ -90,7 +90,7 @@
   .outro-l2 { font-weight: 300; font-size: 96px; letter-spacing: -.03em; line-height: 1.05; color: var(--muted); }
   .f45 .outro-l1, .f45 .outro-l2 { font-size: 74px; }
   .outro .logo { font-size: 120px; margin-top: 40px; }
-  .byline { margin-top: 30px; font-size: 26px; color: var(--muted); }
+  .byline { margin-top: 58px; font-size: 27px; font-weight: 700; color: var(--text); letter-spacing: .01em; }
   .credit { position: absolute; left: 0; right: 0; bottom: 34px; text-align: center; font-size: 17px; color: #6b7584; }
 </style>
 </head>
@@ -225,6 +225,12 @@ $('thread').setAttribute('d', wave);
 const streak = FMT === '16' ? 'M -100 980 L 2020 100' : 'M -100 1300 L 1180 60';
 $('streak').setAttribute('d', streak);
 const tLen = $('thread').getTotalLength(), sLen = $('streak').getTotalLength();
+// In chiusura il filo passa più in basso, sotto la firma
+const waveOut = FMT === '16'
+  ? 'M -80 1010 C 320 820, 640 1080, 960 950 S 1600 800, 2000 900'
+  : 'M -80 1250 C 220 1080, 420 1330, 620 1180 S 980 1040, 1160 1110';
+const tmpPath = document.createElementNS('http://www.w3.org/2000/svg', 'path'); tmpPath.setAttribute('d', waveOut); $('threadSvg').append(tmpPath);
+const tLenOut = tmpPath.getTotalLength(); tmpPath.remove();
 gsap.set('#thread', { strokeDasharray: tLen, strokeDashoffset: tLen });
 gsap.set('#streak', { strokeDasharray: `260 ${sLen}`, strokeDashoffset: 260 });
 
@@ -318,7 +324,7 @@ gsap.set('#outroLogo span', { yPercent: 60, opacity: 0, filter: 'blur(12px)' });
 gsap.set('#byline', { opacity: 0, y: 14 });
 tl.to('#rig', { scale: .55, opacity: 0, rotationY: 0, x: FMT === '16' ? W / 2 - 217 : L.phoneX(), y: L.phoneY + 120, duration: 0.9, ease: 'power3.in' }, OUTRO - 0.3);
 tl.set('#outro', { opacity: 1 }, OUTRO);
-tl.set('#thread', { opacity: .9, strokeDashoffset: tLen }, OUTRO);
+tl.set('#thread', { attr: { d: waveOut }, strokeDasharray: tLenOut, strokeDashoffset: tLenOut, opacity: .9 }, OUTRO);
 tl.to('#thread', { strokeDashoffset: 0, duration: 1.8, ease: 'power2.inOut' }, OUTRO + 0.1);
 tl.to('#o1', { yPercent: 0, duration: 1, ease: 'expo.out' }, OUTRO + 0.5);
 tl.to('#o2', { yPercent: 0, duration: 1, ease: 'expo.out' }, OUTRO + 0.75);
