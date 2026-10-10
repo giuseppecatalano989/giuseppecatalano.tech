@@ -2,3 +2,9 @@
 .DS_Store
 Thumbs.db
 *.log
+tools/video/node_modules/
+tools/video/frames/
+tools/video/out*/
+tools/video/prova*/
+tools/video/edge-profilo/
+tools/video/*.ttf

@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Filo — video di presentazione</title>
+<style>
+  @font-face { font-family: 'Selawik'; src: url('Selawik-Light.ttf'); font-weight: 300; }
+  @font-face { font-family: 'Selawik'; src: url('Selawik-Regular.ttf'); font-weight: 400; }
+  @font-face { font-family: 'Selawik'; src: url('Selawik-Bold.ttf'); font-weight: 700; }
+  :root { --bg: #0d1218; --surface: #171e27; --border: #2b3542; --text: #f4f3ee; --muted: #a8b2c1; --lime: #d4ed98; --violet: #b594f6; --teal: #3e6b8f; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); overflow: hidden; }
+  #stage { position: relative; overflow: hidden; background: var(--bg); font-family: 'Selawik', 'Segoe UI', sans-serif; color: var(--text); }
+  .f16 #stage { width: 1920px; height: 1080px; }
+  .f45 #stage { width: 1080px; height: 1350px; }
+
+  /* Sfondo: macchie di colore sfocate, grana e vignettatura */
+  .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0; }
+  .b1 { width: 900px; height: 900px; background: radial-gradient(circle, rgba(212,237,152,.55), rgba(212,237,152,0) 65%); }
+  .b2 { width: 1000px; height: 1000px; background: radial-gradient(circle, rgba(62,107,143,.7), rgba(62,107,143,0) 65%); }
+  .b3 { width: 800px; height: 800px; background: radial-gradient(circle, rgba(181,148,246,.45), rgba(181,148,246,0) 65%); }
+  .grain { position: absolute; inset: 0; opacity: .07; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,.55) 100%); }
+
+  /* Il filo */
+  svg.thread { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  svg.thread path { fill: none; stroke: var(--lime); stroke-linecap: round; }
+
+  /* Numero di capitolo in filigrana */
+  .bignum { position: absolute; font-weight: 700; font-size: 520px; line-height: 1; color: transparent; -webkit-text-stroke: 2px rgba(212,237,152,.13); opacity: 0; letter-spacing: -.04em; }
+
+  /* Testi delle scene */
+  .copy { position: absolute; opacity: 1; }
+  .eyebrow { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 22px; letter-spacing: .22em; text-transform: uppercase; color: var(--lime); margin-bottom: 26px; }
+  .eyebrow i { display: block; width: 46px; height: 3px; border-radius: 2px; background: var(--lime); transform-origin: left; }
+  .line { display: block; overflow: hidden; padding-bottom: .08em; white-space: nowrap; }
+  .w { display: inline-block; will-change: transform; }
+  .l1 { font-weight: 700; font-size: 82px; line-height: 1.02; letter-spacing: -.035em; }
+  .l2 { font-weight: 300; font-size: 82px; line-height: 1.02; letter-spacing: -.03em; color: var(--muted); }
+  .f45 .l1, .f45 .l2 { font-size: 62px; }
+  .f45 .copy { text-align: center; }
+  .f45 .eyebrow { justify-content: center; margin-bottom: 18px; font-size: 19px; }
+
+  /* Etichette in vetro */
+  .chip { position: absolute; display: inline-flex; align-items: center; gap: 14px; padding: 16px 26px 16px 18px; border-radius: 999px;
+    background: rgba(23,30,39,.74); backdrop-filter: blur(16px); border: 1.5px solid rgba(212,237,152,.35);
+    box-shadow: 0 18px 50px rgba(0,0,0,.45); font-weight: 700; font-size: 25px; white-space: nowrap; opacity: 0; }
+  .chip .ic { width: 38px; height: 38px; border-radius: 50%; background: var(--lime); display: grid; place-items: center; flex: none; }
+  .chip .ic svg { width: 20px; height: 20px; fill: none; stroke: #17210f; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; }
+  .f45 .chip { font-size: 22px; padding: 13px 22px 13px 15px; }
+
+  /* Telefono in prospettiva */
+  .persp { position: absolute; inset: 0; perspective: 2000px; }
+  #rig { position: absolute; transform-style: preserve-3d; will-change: transform; }
+  #float { transform-style: preserve-3d; }
+  .phone { position: relative; width: 434px; height: 911px; border-radius: 64px; padding: 12px;
+    background: linear-gradient(145deg, #2a3442, #07090c 40%, #0b0f14); box-shadow: inset 0 0 0 2px #313c4b, 0 70px 140px rgba(0,0,0,.65), 0 0 160px rgba(212,237,152,.10); }
+  .phone img { display: block; width: 410px; height: 887px; border-radius: 52px; object-fit: cover; background: var(--bg); }
+  .phone .glare { position: absolute; inset: 12px; border-radius: 52px; pointer-events: none;
+    background: linear-gradient(120deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0) 70%, rgba(255,255,255,.05) 100%); }
+  .phone .flash { position: absolute; inset: 12px; border-radius: 52px; background: var(--bg); opacity: 0; }
+  .shadow { position: absolute; left: 50%; bottom: -70px; width: 360px; height: 60px; margin-left: -180px; border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(212,237,152,.25), rgba(212,237,152,0) 70%); filter: blur(10px); }
+
+  /* Contatore della libreria */
+  .counter { position: absolute; opacity: 0; }
+  .counter .big { display: flex; align-items: baseline; gap: 18px; }
+  .counter .num { font-weight: 700; font-size: 190px; line-height: .9; letter-spacing: -.05em; color: var(--lime); font-variant-numeric: tabular-nums; }
+  .counter .unit { font-weight: 300; font-size: 64px; color: var(--text); }
+  .counter .sub { margin-top: 18px; font-size: 30px; color: var(--muted); }
+  .counter .sub b { color: var(--text); font-weight: 700; }
+  .counter .bar { margin-top: 26px; height: 6px; width: 520px; border-radius: 3px; background: rgba(255,255,255,.08); overflow: hidden; }
+  .counter .bar i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--lime), #69d391); transform-origin: left; transform: scaleX(0); }
+  .f45 .counter .num { font-size: 120px; }
+  .f45 .counter .unit { font-size: 44px; }
+  .f45 .counter .sub { font-size: 22px; margin-top: 8px; }
+  .f45 .counter .bar { width: 340px; margin-top: 16px; }
+  .f45 .counter { padding: 26px 34px; border-radius: 30px; background: rgba(23,30,39,.78); backdrop-filter: blur(16px); border: 1.5px solid rgba(212,237,152,.3); }
+
+  /* Apertura e chiusura */
+  .center { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
+  .logo { font-weight: 700; font-size: 230px; letter-spacing: -.05em; line-height: 1; display: inline-flex; }
+  .logo span { display: inline-block; }
+  .logo .dot { color: var(--lime); }
+  .tagline { margin-top: 26px; font-weight: 700; font-size: 26px; letter-spacing: .4em; text-transform: uppercase; color: var(--lime); }
+  .f45 .logo { font-size: 190px; }
+  .f45 .tagline { font-size: 21px; }
+  .outro-l1 { font-weight: 700; font-size: 96px; letter-spacing: -.035em; line-height: 1.05; }
+  .outro-l2 { font-weight: 300; font-size: 96px; letter-spacing: -.03em; line-height: 1.05; color: var(--muted); }
+  .f45 .outro-l1, .f45 .outro-l2 { font-size: 74px; }
+  .outro .logo { font-size: 120px; margin-top: 40px; }
+  .byline { margin-top: 30px; font-size: 26px; color: var(--muted); }
+  .credit { position: absolute; left: 0; right: 0; bottom: 34px; text-align: center; font-size: 17px; color: #6b7584; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+  <svg class="thread" id="threadSvg"><path id="thread" stroke-width="5"/><path id="streak" stroke-width="3" opacity="0"/></svg>
+
+
+  <div id="copies"></div>
+
+
+
+
+  <div class="persp">
+    <div id="rig"><div id="float">
+      <div class="phone"><img id="screen" alt=""><div class="glare"></div><div class="flash" id="flash"></div></div>
+      <div class="shadow"></div>
+    </div></div>
+  </div>
+
+  <div id="chips"></div>
+  <div class="counter" id="counter">
+    <div class="big"><span class="num" id="cHours">0</span><span class="unit">ore</span></div>
+    <div class="sub">e 57 minuti di serie · <b id="cEp">0</b> episodi</div>
+    <div class="bar"><i id="cBar"></i></div>
+  </div>
+
+  <div class="center" id="intro">
+    <div>
+      <div class="logo" id="introLogo"><span>f</span><span>i</span><span>l</span><span>o</span><span class="dot">.</span></div>
+      <div class="tagline" id="introTag">Il tuo diario di serie</div>
+    </div>
+  </div>
+
+  <div class="center outro" id="outro">
+    <div>
+      <div class="line"><span class="outro-l1 w" id="o1">Riprendi il filo.</span></div>
+      <div class="line"><span class="outro-l2 w" id="o2">Di ogni storia.</span></div>
+      <div class="logo" id="outroLogo"><span>f</span><span>i</span><span>l</span><span>o</span><span class="dot">.</span></div>
+      <div class="byline" id="byline">Un progetto di Giuseppe Catalano</div>
+    </div>
+  </div>
+  <div class="credit" id="credit">Musica: «Chill (Loopable)» di Pro Sensory (Alex McCulloch) · CC0</div>
+
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script>
+const FMT = new URLSearchParams(location.search).get('fmt') === '45' ? '45' : '16';
+document.documentElement.className = 'f' + FMT;
+const W = FMT === '16' ? 1920 : 1080, H = FMT === '16' ? 1080 : 1350;
+const FPS = 30;
+
+/* ---------- Scene: clip, durata, testi, etichette ---------- */
+const ICON = {
+  star: '<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.6 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/>',
+  play: '<path d="M8 5v14l11-7z"/>',
+  spark: '<path d="M12 3v6M12 15v6M3 12h6M15 12h6"/>',
+  grid: '<path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/>',
+  filter: '<path d="M4 6h16M7 12h10M10 18h4"/>',
+  search: '<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/>',
+  heart: '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+  tv: '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M9 21h6"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+};
+const SCENES = [
+  { id: 'home', start: 4.2, dur: 14, side: 'R', num: '01', eyebrow: 'Home', l1: 'Le serie del momento,', l2: 'a colpo d’occhio.',
+    chips: [[0.9, 'star', 'Top 5 della settimana'], [5.0, 'play', 'Continua a guardare'], [8.6, 'spark', 'Consigli su misura']] },
+  { id: 'esplora', start: 18.2, dur: 8, side: 'L', num: '02', eyebrow: 'Esplora', l1: 'Un catalogo', l2: 'tutto da sfogliare.',
+    chips: [[0.9, 'grid', 'Migliaia di serie'], [3.4, 'filter', 'Piattaforma, genere e anno']] },
+  { id: 'ricerca', start: 26.2, dur: 5.2, side: 'R', num: '03', eyebrow: 'Ricerca', l1: 'Trova qualsiasi serie,', l2: 'in un attimo.',
+    chips: [[1.4, 'search', 'Risultati mentre scrivi']] },
+  { id: 'serie', start: 31.4, dur: 15, side: 'L', num: '04', eyebrow: 'La serie', l1: 'Salvala. Guardala.', l2: 'Segna ogni episodio.',
+    chips: [[0.6, 'heart', 'Aggiunta a Da vedere', 6.5], [2.0, 'tv', 'Disponibile in streaming in Italia', 6.5], [12.1, 'check', 'Episodi precedenti inclusi']],
+    zoom: [9.9, 12.9] },
+  { id: 'libreria', start: 46.4, dur: 13.5, side: 'R', num: '05', eyebrow: 'Libreria', l1: 'Il tempo che dedichi', l2: 'alle tue storie.',
+    chips: [], counterAt: 5.0 },
+];
+const END = 65.4, OUTRO = 59.9;
+const COUNT = { home: 420, esplora: 240, ricerca: 156, serie: 450, libreria: 405 };
+
+/* ---------- Geometria per formato ---------- */
+const L = FMT === '16' ? {
+  phoneX: s => s === 'R' ? 1250 : 236, phoneY: 85,
+  copy: s => s === 'R' ? { left: 150, top: 300, width: 900 } : { left: 830, top: 300, width: 960 },
+  chip: (s, i) => (s === 'R' ? [[905, 210], [880, 545], [905, 830]] : [[640, 230], [660, 560], [640, 840]])[i],
+  num: s => s === 'R' ? { left: 40, top: 360 } : { left: 900, top: 360 },
+  counter: { left: 150, top: 560 },
+  rotY: s => s === 'R' ? -14 : 14,
+} : {
+  phoneX: () => 323, phoneY: 390,
+  copy: () => ({ left: 40, top: 70, width: 1000 }),
+  chip: (s, i) => [[26, 560], [560, 760], [30, 1010]][i],
+  num: () => ({ left: 230, top: 120 }),
+  counter: { left: 60, top: 860 },
+  rotY: s => s === 'R' ? -10 : 10,
+};
+
+/* ---------- Costruzione degli elementi ---------- */
+const $ = id => document.getElementById(id);
+const words = (txt, cls) => txt.split(' ').map(w => `<span class="w ${cls}">${w}&nbsp;</span>`).join('');
+SCENES.forEach((s, i) => {
+  const c = L.copy(s.side);
+  const el = document.createElement('div');
+  el.className = 'copy'; el.id = 'copy' + i;
+  Object.assign(el.style, { left: c.left + 'px', top: c.top + 'px', width: c.width + 'px' });
+  el.innerHTML = `<div class="eyebrow"><i></i><span>${s.num} · ${s.eyebrow}</span></div>
+    <span class="line">${words(s.l1, 'l1')}</span><span class="line">${words(s.l2, 'l2')}</span>`;
+  $('copies').append(el);
+  const nb = document.createElement('div');
+  nb.className = 'bignum'; nb.id = 'num' + i; nb.textContent = s.num;
+  Object.assign(nb.style, { left: L.num(s.side).left + 'px', top: L.num(s.side).top + 'px' });
+  $('copies').before(nb);
+  s.chips.forEach((ch, j) => {
+    const [x, y] = L.chip(s.side, j);
+    const d = document.createElement('div');
+    d.className = 'chip'; d.id = `chip${i}_${j}`;
+    d.style.left = x + 'px'; d.style.top = y + 'px';
+    d.innerHTML = `<span class="ic"><svg viewBox="0 0 24 24">${ICON[ch[1]]}</svg></span>${ch[2]}`;
+    $('chips').append(d);
+  });
+});
+Object.assign($('counter').style, { left: L.counter.left + 'px', top: L.counter.top + 'px' });
+
+// Il filo: un'onda che attraversa lo schermo
+const wave = FMT === '16'
+  ? 'M -80 760 C 300 520, 560 980, 960 720 S 1600 420, 2000 560'
+  : 'M -80 980 C 220 760, 420 1180, 620 920 S 980 660, 1160 780';
+$('thread').setAttribute('d', wave);
+const streak = FMT === '16' ? 'M -100 980 L 2020 100' : 'M -100 1300 L 1180 60';
+$('streak').setAttribute('d', streak);
+const tLen = $('thread').getTotalLength(), sLen = $('streak').getTotalLength();
+gsap.set('#thread', { strokeDasharray: tLen, strokeDashoffset: tLen });
+gsap.set('#streak', { strokeDasharray: `260 ${sLen}`, strokeDashoffset: 260 });
+
+/* ---------- Timeline ---------- */
+const tl = gsap.timeline({ paused: true });
+const P0 = SCENES[0];
+
+// Sfondo vivo per tutta la durata
+gsap.set('.b1', { x: W * .55, y: H * .1 }); gsap.set('.b2', { x: -W * .2, y: H * .35 }); gsap.set('.b3', { x: W * .2, y: -H * .3 });
+tl.to('.blob', { opacity: 1, duration: 1.6, ease: 'power2.out' }, 0);
+tl.to('.b1', { x: W * .05, y: H * .45, duration: END, ease: 'sine.inOut' }, 0);
+tl.to('.b2', { x: W * .45, y: -H * .15, duration: END, ease: 'sine.inOut' }, 0);
+tl.to('.b3', { x: -W * .1, y: H * .5, duration: END, ease: 'sine.inOut' }, 0);
+
+// Apertura
+gsap.set('#introLogo span', { yPercent: 60, opacity: 0, filter: 'blur(14px)' });
+gsap.set('#introLogo .dot', { yPercent: -120, scale: .4 });
+gsap.set('#introTag', { opacity: 0, letterSpacing: '1.1em' });
+tl.to('#thread', { strokeDashoffset: 0, duration: 1.7, ease: 'power2.inOut' }, 0.2);
+tl.to('#introLogo span:not(.dot)', { yPercent: 0, opacity: 1, filter: 'blur(0px)', duration: 0.9, stagger: 0.08, ease: 'expo.out' }, 0.8);
+tl.to('#introLogo .dot', { yPercent: 0, opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'bounce.out' }, 1.35);
+tl.to('#introTag', { opacity: 1, letterSpacing: '.4em', duration: 1.1, ease: 'expo.out' }, 1.8);
+tl.to('#intro', { scale: .86, opacity: 0, filter: 'blur(10px)', duration: 0.7, ease: 'power2.in' }, 3.6);
+tl.to('#thread', { opacity: 0, duration: 0.6 }, 3.7);
+
+// Telefono: ingresso, fluttuazione e passaggi di lato
+gsap.set('#rig', { x: L.phoneX(P0.side) + (FMT === '16' ? 420 : 0), y: L.phoneY + (FMT === '16' ? 0 : 500), rotationY: 38, rotationX: 10, opacity: 0, scale: .9 });
+tl.to('#rig', { x: L.phoneX(P0.side), y: L.phoneY, rotationY: L.rotY(P0.side), rotationX: 4, opacity: 1, scale: 1, duration: 1.3, ease: 'expo.out' }, 3.75);
+tl.to('#float', { y: -14, rotationZ: .6, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: Math.ceil(END / 2.6) }, 0);
+
+SCENES.forEach((s, i) => {
+  const T = s.start;
+  const c = '#copy' + i;
+  const ws = `${c} .w`;
+  gsap.set(ws, { yPercent: 115 }); gsap.set(`${c} .eyebrow`, { opacity: 0, x: -20 }); gsap.set(`${c} .eyebrow i`, { scaleX: 0 });
+
+  // numero di capitolo
+  tl.fromTo('#num' + i, { opacity: 0, x: FMT === '16' ? 80 : 0, y: FMT === '16' ? 0 : 40 }, { opacity: 1, x: 0, y: 0, duration: 1.2, ease: 'expo.out', immediateRender: false }, T + 0.1);
+  tl.to('#num' + i, { opacity: 0, duration: 0.4 }, T + s.dur - 0.55);
+  // testi in entrata e in uscita
+  tl.to(`${c} .eyebrow`, { opacity: 1, x: 0, duration: 0.7, ease: 'expo.out' }, T + 0.15);
+  tl.to(`${c} .eyebrow i`, { scaleX: 1, duration: 0.7, ease: 'expo.out' }, T + 0.2);
+  tl.to(ws, { yPercent: 0, duration: 0.9, stagger: 0.055, ease: 'expo.out' }, T + 0.25);
+  tl.to(ws, { yPercent: -115, duration: 0.45, stagger: 0.025, ease: 'power3.in' }, T + s.dur - 0.6);
+  tl.to(`${c} .eyebrow`, { opacity: 0, duration: 0.35 }, T + s.dur - 0.55);
+
+  // etichette
+  s.chips.forEach((ch, j) => {
+    const id = `#chip${i}_${j}`;
+    tl.fromTo(id, { opacity: 0, scale: .6, y: 26 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: 'back.out(2.2)' }, T + ch[0]);
+    tl.to(id, { opacity: 0, scale: .85, y: -14, duration: 0.35, ease: 'power2.in' }, ch[3] != null ? T + ch[3] : T + s.dur - 0.6);
+  });
+
+  // cambio di scena: il telefono passa dall'altro lato girando, con una scia di luce
+  if (i > 0) {
+    const prev = SCENES[i - 1];
+    tl.to('#rig', { keyframes: [
+      { x: (L.phoneX(prev.side) + L.phoneX(s.side)) / 2, rotationY: FMT === '16' ? (s.side === 'L' ? 55 : -55) : 32, scale: .9, duration: 0.45, ease: 'power2.in' },
+      { x: L.phoneX(s.side), rotationY: L.rotY(s.side), scale: 1, duration: 0.65, ease: 'expo.out' },
+    ] }, T - 0.45);
+    tl.fromTo('#flash', { opacity: 0 }, { opacity: 1, duration: 0.18, yoyo: true, repeat: 1, ease: 'power1.inOut' }, T - 0.18);
+    tl.fromTo('#streak', { strokeDashoffset: 260, opacity: .9 }, { strokeDashoffset: -sLen, opacity: .9, duration: 0.9, ease: 'power2.inOut' }, T - 0.5);
+    tl.set('#streak', { opacity: 0 }, T + 0.45);
+  }
+
+  // zoom sul momento chiave
+  if (s.zoom) {
+    const [z0, z1] = s.zoom;
+    const cx = FMT === '16' ? W / 2 - 217 : L.phoneX();
+    tl.to('#rig', { x: cx, rotationY: 0, rotationX: 0, scale: FMT === '16' ? 1.12 : 1.05, duration: 0.9, ease: 'expo.inOut' }, T + z0);
+    tl.to('#copy' + i, { opacity: .15, duration: 0.5 }, T + z0);
+    tl.to('#rig', { x: L.phoneX(s.side), rotationY: L.rotY(s.side), rotationX: 4, scale: 1, duration: 0.9, ease: 'expo.inOut' }, T + z1);
+    tl.to('#copy' + i, { opacity: 1, duration: 0.5 }, T + z1 + 0.3);
+  }
+
+  // contatore della libreria
+  if (s.counterAt) {
+    const k = { h: 0, e: 0 };
+    tl.fromTo('#counter', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out' }, T + s.counterAt);
+    tl.to(k, { h: 196, e: 440, duration: 2.4, ease: 'power3.out', onUpdate: () => {
+      $('cHours').textContent = Math.round(k.h); $('cEp').textContent = Math.round(k.e);
+    } }, T + s.counterAt + 0.15);
+    tl.to('#cBar', { scaleX: 1, duration: 2.4, ease: 'power3.out' }, T + s.counterAt + 0.15);
+    tl.to('#counter', { opacity: 0, y: -20, duration: 0.4 }, T + s.dur - 0.5);
+  }
+});
+
+// Chiusura
+gsap.set('#outro', { opacity: 0 }); gsap.set(['#o1', '#o2'], { yPercent: 115 });
+gsap.set('#outroLogo span', { yPercent: 60, opacity: 0, filter: 'blur(12px)' });
+gsap.set(['#byline', '#credit'], { opacity: 0, y: 14 });
+tl.to('#rig', { scale: .55, opacity: 0, rotationY: 0, x: FMT === '16' ? W / 2 - 217 : L.phoneX(), y: L.phoneY + 120, duration: 0.9, ease: 'power3.in' }, OUTRO - 0.3);
+tl.set('#outro', { opacity: 1 }, OUTRO);
+tl.set('#thread', { opacity: .9, strokeDashoffset: tLen }, OUTRO);
+tl.to('#thread', { strokeDashoffset: 0, duration: 1.8, ease: 'power2.inOut' }, OUTRO + 0.1);
+tl.to('#o1', { yPercent: 0, duration: 1, ease: 'expo.out' }, OUTRO + 0.5);
+tl.to('#o2', { yPercent: 0, duration: 1, ease: 'expo.out' }, OUTRO + 0.75);
+tl.to('#outroLogo span:not(.dot)', { yPercent: 0, opacity: 1, filter: 'blur(0px)', duration: 0.8, stagger: 0.07, ease: 'expo.out' }, OUTRO + 1.5);
+tl.to('#outroLogo .dot', { yPercent: 0, opacity: 1, filter: 'blur(0px)', duration: 0.8, ease: 'bounce.out' }, OUTRO + 1.95);
+tl.to('#byline', { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out' }, OUTRO + 2.3);
+tl.to('#credit', { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out' }, OUTRO + 2.6);
+tl.to('#stage', { opacity: 0, duration: 0.6, ease: 'power1.in' }, END - 0.6);
+tl.set({}, {}, END);
+
+/* ---------- Rendering di un fotogramma al tempo t ---------- */
+const img = $('screen');
+let lastSrc = '';
+window.renderAt = async (t) => {
+  let s = SCENES.findLast(x => t >= x.start) || SCENES[0];
+  const local = Math.max(0, t - s.start);
+  const n = Math.min(COUNT[s.id], Math.floor(local * FPS) + 1);
+  const src = `frames/${s.id}/${String(n).padStart(5, '0')}.jpg`;
+  if (src !== lastSrc) { img.src = src; lastSrc = src; await img.decode().catch(() => {}); }
+  tl.seek(t, false);
+};
+window.DURATION = END;
+window.ready = document.fonts.ready.then(() => window.renderAt(0)).then(() => true);
+</script>
+</body>
+</html>
