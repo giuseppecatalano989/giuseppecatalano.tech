@@ -24,12 +24,41 @@ while ($l.IsListening) {
   }
   if (Test-Path $f -PathType Container) { $f = Join-Path $f 'index.html' }
   $full = [IO.Path]::GetFullPath($f)
-  if ($full.StartsWith($Root) -and (Test-Path $full -PathType Leaf)) {
-    $b = [IO.File]::ReadAllBytes($full)
-    $c.Response.ContentType = $mime[[IO.Path]::GetExtension($full).ToLower()]
-    $c.Response.OutputStream.Write($b, 0, $b.Length)
-  } else {
-    $c.Response.StatusCode = 404
+  try {
+    if ($full.StartsWith($Root) -and (Test-Path $full -PathType Leaf)) {
+      $res = $c.Response
+      $res.ContentType = $mime[[IO.Path]::GetExtension($full).ToLower()]
+      $res.AddHeader('Accept-Ranges', 'bytes')
+      $fs = [IO.File]::OpenRead($full)
+      try {
+        $size = $fs.Length; $start = 0; $end = $size - 1
+        # Richieste parziali (Range): servono ai video per spostarsi in un punto qualsiasi
+        $range = $c.Request.Headers['Range']
+        if ($range -match '^bytes=(\d*)-(\d*)$') {
+          if ($Matches[1] -ne '') { $start = [long]$Matches[1]; if ($Matches[2] -ne '') { $end = [Math]::Min([long]$Matches[2], $size - 1) } }
+          elseif ($Matches[2] -ne '') { $start = [Math]::Max(0, $size - [long]$Matches[2]) }
+          if ($start -gt $end) { $res.StatusCode = 416; $res.AddHeader('Content-Range', "bytes */$size"); continue }
+          $res.StatusCode = 206
+          $res.AddHeader('Content-Range', "bytes $start-$end/$size")
+        }
+        $len = $end - $start + 1
+        $res.ContentLength64 = $len
+        if ($c.Request.HttpMethod -ne 'HEAD') {
+          $fs.Position = $start
+          $buf = New-Object byte[] 262144
+          while ($len -gt 0) {
+            $n = $fs.Read($buf, 0, [int][Math]::Min($buf.Length, $len))
+            if ($n -le 0) { break }
+            $res.OutputStream.Write($buf, 0, $n); $len -= $n
+          }
+        }
+      } finally { $fs.Dispose() }
+    } else {
+      $c.Response.StatusCode = 404
+    }
+  } catch {
+    # Il browser ha annullato la richiesta (succede spostandosi nel video): si passa alla successiva
+  } finally {
+    try { $c.Response.Close() } catch {}
   }
-  $c.Response.Close()
 }
