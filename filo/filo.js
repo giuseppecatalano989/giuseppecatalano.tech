@@ -28,25 +28,27 @@ function buildThread() {
   const m = Math.max(8, Math.min(...knots.map((k) => k.x)) - 26);
   let d = `M ${m} -40`;
   let prevY = -40;
-  const r = 10;                 // raggio dell'occhiello
-  const c = 0.5523 * r;         // costante per approssimare il cerchio con curve di Bézier
+  // A ogni sezione il filo fa un ricciolo verso destra, come la "l" corsiva:
+  // scende, gira su se stesso incrociandosi e prosegue dritto verso il basso.
+  const R = 13;                 // raggio del ricciolo
+  const c = 0.5523 * R;         // costante per approssimare il cerchio con curve di Bézier
   knots.forEach((k, i) => {
     const sway = i % 2 ? 10 : -6;
     const last = i === knots.length - 1;
-    const x = k.x, y = k.y, b = y + r; // il cerchio ha centro accanto all'etichetta; si entra dal punto più basso
-    d += ` C ${m + sway} ${prevY + (b - prevY) * 0.4}, ${m - sway} ${b - 90}, ${m} ${b - 34}`;
-    d += ` C ${m} ${b - 6}, ${x - 26} ${b}, ${x} ${b}`;
-    // occhiello: un giro completo di filo (destra, alto, sinistra, di nuovo in basso)
-    d += ` C ${x + c} ${b}, ${x + r} ${y + c}, ${x + r} ${y}`;
-    d += ` C ${x + r} ${y - c}, ${x + c} ${y - r}, ${x} ${y - r}`;
-    d += ` C ${x - c} ${y - r}, ${x - r} ${y - c}, ${x - r} ${y}`;
-    d += ` C ${x - r} ${y + c}, ${x - c} ${b}, ${x} ${b}`;
-    if (!last) {
-      // il filo riparte passando sotto l'occhiello e torna al margine
-      d += ` C ${x + 18} ${b}, ${x + 4} ${b + 26}, ${x - 18} ${b + 26}`;
-      d += ` C ${x - 40} ${b + 26}, ${m} ${b + 20}, ${m} ${b + 64}`;
-      prevY = b + 64;
-    }
+    const y = k.y;              // il centro del ricciolo è all'altezza dell'etichetta
+    const cx = m + R;           // centro del ricciolo, a destra del filo
+    // discesa lungo il margine fino a poco sopra il ricciolo
+    d += ` C ${m + sway} ${prevY + (y - R * 2 - prevY) * 0.4}, ${m - sway} ${y - 80}, ${m} ${y - R * 2}`;
+    // il filo scivola in basso a destra, verso il fondo del ricciolo
+    d += ` C ${m} ${y - R * 0.5}, ${cx - c * 1.7} ${y + R}, ${cx} ${y + R}`;
+    // giro completo: destra, alto, poi giù a sinistra attraversando il filo (l'incrocio a "X")
+    d += ` C ${cx + c} ${y + R}, ${cx + R} ${y + c}, ${cx + R} ${y}`;
+    d += ` C ${cx + R} ${y - c}, ${cx + c} ${y - R}, ${cx} ${y - R}`;
+    d += ` C ${cx - c * 1.4} ${y - R}, ${m - R * 0.7} ${y - c * 0.6}, ${m - R * 0.4} ${y + R * 0.45}`;
+    // ripresa della discesa verso il basso
+    const tail = last ? 46 : 70;
+    d += ` C ${m - R * 0.2} ${y + R * 1.1}, ${m} ${y + R + 12}, ${m} ${y + tail}`;
+    prevY = y + tail;
   });
   path.setAttribute('d', d);
   length = path.getTotalLength();
