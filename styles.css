@@ -269,17 +269,9 @@ main { padding: 0 var(--gutter); }
 
 /* ---------- TAV 05 · Contatti ---------- */
 .contact { padding-bottom: 180px; }
-.mail {
-  display: inline-block; font-family: var(--display); font-weight: 300; font-stretch: 112%;
-  font-size: clamp(24px, 5.2vw, 72px); line-height: 1.05; text-decoration: none; letter-spacing: -.02em;
-  background: linear-gradient(var(--red), var(--red)) left bottom / 0 3px no-repeat;
-  transition: background-size .5s cubic-bezier(.7, 0, .2, 1), color .3s;
-  word-break: break-word;
-}
-.mail:hover { background-size: 100% 3px; color: var(--red); }
-.contact-links { display: flex; gap: 28px; margin-top: 36px; font-family: var(--mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
-.contact-links a { text-decoration: none; border-bottom: 1px solid var(--ink-3); padding-bottom: 3px; }
-.contact-links a:hover { color: var(--red); border-color: var(--red); }
+.contact .tav-title { margin-bottom: 44px; }
+.contact-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.contact-cta .btn { min-width: 170px; justify-content: center; }
 .sign { margin-top: 110px; width: min(340px, 100%); display: grid; gap: 4px; }
 .sign-label { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--ink-3); padding-bottom: 8px; border-bottom: 1px solid var(--ink); }
 .sign-name { font-family: var(--serif); font-style: italic; font-size: 40px; color: var(--red); line-height: 1.2; margin-top: 8px; }
@@ -354,5 +346,5 @@ main { padding: 0 var(--gutter); }
   .quota { grid-template-columns: 1fr; gap: 26px; margin-top: 64px; padding-bottom: 0; }
   .q-nodes { display: none; }
   .btn { flex: 1 1 100%; justify-content: center; }
-  .contact-links { flex-wrap: wrap; }
+
 }
