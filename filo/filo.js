@@ -65,21 +65,35 @@ if (reduce || !('IntersectionObserver' in window)) {
   targets.forEach((el) => io.observe(el));
 }
 
-/* ---------- Video dimostrativo nel popup ----------
-   Il pulsante compare solo se il file video esiste; il clic del visitatore
-   avvia la riproduzione, che si ferma alla chiusura (X, Esc o clic fuori). */
+/* ---------- Video di presentazione nel popup ----------
+   Il pulsante compare solo se il video esiste. Al clic si sceglie la versione
+   adatta allo schermo (16:9 orizzontale, 4:5 verticale) e la riproduzione parte
+   con l'audio: il clic del visitatore lo consente. Alla chiusura si ferma. */
 const demoBtn = document.querySelector('[data-demo]');
 const modal = document.getElementById('demo-modal');
 const video = document.getElementById('demo-video');
+const tall = window.matchMedia('(max-aspect-ratio: 1/1)');
 
-fetch(video.getAttribute('src'), { method: 'HEAD' })
+fetch(video.dataset.wide, { method: 'HEAD' })
   .then((r) => { if (r.ok) demoBtn.hidden = false; })
   .catch(() => {});
 
+function pickVersion() {
+  const kind = tall.matches ? 'tall' : 'wide';
+  const src = video.dataset[kind];
+  if (video.getAttribute('src') !== src) {
+    video.src = src;
+    video.poster = video.dataset[kind + 'Poster'];
+  }
+}
+
 demoBtn.addEventListener('click', () => {
+  pickVersion();
   modal.showModal();
   video.currentTime = 0;
-  video.play().catch(() => {});
+  video.muted = false;
+  // Se il browser rifiuta l'audio, parte comunque senza: il volume resta nei comandi
+  video.play().catch(() => { video.muted = true; video.play().catch(() => {}); });
 });
 const closeDemo = () => modal.close();
 modal.querySelector('[data-close]').addEventListener('click', closeDemo);
