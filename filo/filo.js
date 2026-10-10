@@ -59,7 +59,11 @@ function buildThread() {
 function drawThread() {
   if (reduce) { path.style.strokeDashoffset = 0; return; }
   const box = wrap.getBoundingClientRect();
-  const progress = Math.min(1, Math.max(0, (innerHeight * 0.75 - box.top) / box.height));
+  const raw = (innerHeight * 0.75 - box.top) / box.height;
+  // Quanto vale lo stesso calcolo con la pagina scorsa fino in fondo: lì il filo deve essere completo
+  const maxScroll = document.documentElement.scrollHeight - innerHeight;
+  const rawAtEnd = (innerHeight * 0.75 - (box.top + scrollY - maxScroll)) / box.height;
+  const progress = Math.min(1, Math.max(0, raw / Math.min(1, rawAtEnd)));
   path.style.strokeDashoffset = length * (1 - progress);
 }
 
