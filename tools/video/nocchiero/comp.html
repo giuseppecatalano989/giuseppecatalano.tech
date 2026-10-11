@@ -30,7 +30,8 @@
   .copy { position: absolute; }
   .eyebrow { display: flex; align-items: center; gap: 14px; font-weight: 800; font-size: 20px; letter-spacing: .22em; text-transform: uppercase; color: var(--salvia); margin-bottom: 20px; }
   .eyebrow i { display: block; width: 46px; height: 3px; border-radius: 2px; background: var(--salvia); transform-origin: left; }
-  .line { display: block; overflow: hidden; padding-bottom: .1em; white-space: nowrap; }
+  /* Le righe nascondono le parole che salgono: lo spazio sotto e ai lati (compensato dai margini) lascia intere le lettere discendenti e quelle che sporgono per la spaziatura stretta */
+  .line { display: block; overflow: hidden; padding: .06em .14em .26em; margin: 0 -.14em -.2em; white-space: nowrap; }
   .w { display: inline-block; will-change: transform; }
   .l1 { font-weight: 900; font-size: 96px; line-height: 1.0; letter-spacing: -.045em; color: var(--inchiostro); }
   .l2 { font-weight: 300; font-size: 96px; line-height: 1.0; letter-spacing: -.04em; color: var(--salvia); }
@@ -66,7 +67,7 @@
   .card .bg { position: absolute; inset: 0; transform: scaleX(0); transform-origin: left; }
   .card .in { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
   .card .num { font-weight: 800; font-size: 34px; letter-spacing: .3em; margin-bottom: 18px; opacity: 0; }
-  .card .t { font-weight: 900; font-size: 250px; letter-spacing: -.06em; line-height: .95; }
+  .card .t { font-weight: 900; font-size: 250px; letter-spacing: -.06em; line-height: 1; }
   .card .s { margin-top: 26px; font-weight: 400; font-size: 40px; letter-spacing: -.01em; opacity: 0; }
   .f45 .card .t { font-size: 150px; }
   .f45 .card .s { font-size: 32px; padding: 0 60px; }
