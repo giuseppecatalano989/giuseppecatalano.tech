@@ -82,3 +82,16 @@ if (reduce || !('IntersectionObserver' in window)) {
   }, { threshold: 0.15 });
   els.forEach((el) => io.observe(el));
 }
+
+/* ---------- Elenco progetti: la colonna del nome parte sempre su una linea della griglia ---------- */
+// I quadretti dello sfondo sono di 24 px: la colonna del numero si allarga quanto basta
+// (da 56 px in su) perché il nome del progetto cominci sulla linea successiva.
+const regHead = document.querySelector('.reg-head');
+function allineaElenco() {
+  if (!regHead) return;
+  const x = regHead.getBoundingClientRect().left + scrollX, gap = 16;
+  const inizioNome = Math.ceil((x + 56 + gap) / 24) * 24;
+  regHead.parentElement.style.setProperty('--reg-num', `${inizioNome - x - gap}px`);
+}
+allineaElenco();
+addEventListener('resize', allineaElenco);
