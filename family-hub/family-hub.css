@@ -26,6 +26,14 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var
 .back-tondo:hover { border-color: var(--green); }
 .back-tondo svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform .25s cubic-bezier(.2, .8, .2, 1); }
 .back-tondo:hover svg { transform: translateX(-2px); }
+/* In fondo: lo stesso cerchio con la freccia, dentro una pillola con il testo */
+.back-pill { display: inline-flex; align-items: center; gap: 10px; margin-top: 10px; padding: 4px 18px 4px 4px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); color: var(--text); font-weight: 600; font-size: 14px; text-decoration: none; transition: border-color .2s, color .2s; }
+.back-pill .back-tondo { width: 34px; height: 34px; border-color: var(--line); background: var(--bg); }
+.back-pill:hover { border-color: var(--green); color: var(--green); }
+.back-pill:hover .back-tondo { border-color: var(--green); }
+.back-pill:hover svg { transform: translateX(-2px); }
+.foot .back-pill { color: var(--text); }
+.foot .back-pill:hover { color: var(--green); }
 .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; text-decoration: none; }
 
 /* Pulsanti */
