@@ -183,9 +183,9 @@ $('o1').innerHTML = split('Riprendi il filo.');
 // Tracciato pulito: arriva da "a", corre sotto la riga da u0 a u1 con un arco appena accennato, prosegue fino a "z"
 function percorso(a, u0, u1, z) {
   const w = u1[0] - u0[0];
-  let d = `M ${a[0]} ${a[1]} C ${a[0] + (u0[0] - a[0]) * 0.55} ${a[1]}, ${u0[0] - (u0[0] - a[0]) * 0.45} ${u0[1]}, ${u0[0]} ${u0[1]}`;
-  d += ` C ${u0[0] + w / 3} ${u0[1] + 7}, ${u1[0] - w / 3} ${u1[1] + 7}, ${u1[0]} ${u1[1]}`;
-  if (z) d += ` C ${u1[0] + (z[0] - u1[0]) * 0.45} ${u1[1]}, ${z[0] - (z[0] - u1[0]) * 0.55} ${z[1]}, ${z[0]} ${z[1]}`;
+  let d = `M ${a[0]} ${a[1]} C ${a[0] + (u0[0] - a[0]) * 0.5} ${a[1]}, ${u0[0] - (u0[0] - a[0]) * 0.5} ${u0[1]}, ${u0[0]} ${u0[1]}`;
+  d += ` C ${u0[0] + w / 3} ${u0[1] + 4}, ${u1[0] - w / 3} ${u1[1] + 4}, ${u1[0]} ${u1[1]}`;
+  if (z) d += ` C ${u1[0] + (z[0] - u1[0]) * 0.5} ${u1[1]}, ${z[0] - (z[0] - u1[0]) * 0.5} ${z[1]}, ${z[0]} ${z[1]}`;
   return d;
 }
 // Lunghezza lungo il tracciato fino al punto più vicino a "pt"
@@ -234,18 +234,20 @@ function build() {
   });
   // Prima di comparire, lettere ed etichette sono nascoste
   gsap.set('.ch', { opacity: 0 }); gsap.set('.copy .tag', { opacity: 0 }); gsap.set(['#introDot', '#introTag'], { opacity: 0 });
-  // Apertura: il filo entra, passa sotto "filo" cucendolo e si ferma sotto il punto
+  // Apertura: il filo entra, passa sotto "filo" cucendolo, fa comparire il punto e prosegue fuori dallo schermo
   const lett = box($('introLett')), dot = box($('introDot'));
   const yU = lett.y + lett.h * 0.95, dx = dot.x + dot.w / 2;
   const uI0 = [lett.x - 8, yU], uI1 = [dx, yU];
-  const fIntro = filo(percorso([-60, yU + 150], uI0, uI1));
+  const fIntro = filo(percorso([uI0[0] - 1000, yU + 110], uI0, uI1, [uI1[0] + 1000, yU - 90]));
+  const qDot = lunghezzaA(fIntro.paths[1], uI1) / fIntro.len;
   const qI1 = lunghezzaA(fIntro.paths[1], uI0) / fIntro.len, qI2 = lunghezzaA(fIntro.paths[1], [lett.x + lett.w, yU + 6]) / fIntro.len;
   tl.set(ago, { opacity: 1 }, 0.2);
-  fIntro.to(qI1, 0.2, 0.9, 'power2.in');
+  fIntro.to(qI1, 0.1, 1.0, 'power1.in');
   fIntro.to(qI2, 1.1, 0.9, 'none');
   cuci($('introLett'), 1.1, 0.9);
-  fIntro.to(1, 2.0, 0.45, 'power2.out');
-  tl.fromTo('#introDot', { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(3)', immediateRender: false }, 2.3);
+  fIntro.to(qDot, 2.0, 0.14, 'none');
+  fIntro.to(1, 2.14, 1.25, 'power1.in');
+  tl.fromTo('#introDot', { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(3)', immediateRender: false }, 2.1);
   tl.fromTo('#introTag', { opacity: 0, letterSpacing: '1em' }, { opacity: 1, letterSpacing: FMT === '16' ? '.4em' : '.3em', duration: 1, ease: 'expo.out', immediateRender: false }, 2.1);
   tl.to('#intro', { opacity: 0, y: -40, duration: 0.5, ease: 'power2.in' }, 3.5);
   tl.to(fIntro.g, { opacity: 0, duration: 0.5 }, 3.5);
@@ -270,13 +272,13 @@ function build() {
     // Filo della scena: entra da sinistra, cuce la seconda riga ed esce a destra passando dietro al telefono
     const u0 = [b.x - 14, yU], u1 = [b.x + b.w + 10, yU];
     let a, z;
-    if (FMT === '16' && s.side === 'L') { a = [-60, yU + 250]; z = [W + 60, yU + 140]; }
-    else if (FMT === '16') { a = [-60, yU + 140]; z = [W + 60, yU + 250]; }
-    else { a = [-60, yU + 110]; z = [W + 60, yU + 110]; }
+    if (FMT === '16' && s.side === 'L') { a = [u0[0] - 1300, yU + 170]; z = [u1[0] + 1000, yU + 110]; }
+    else if (FMT === '16') { a = [u0[0] - 1000, yU + 110]; z = [u1[0] + 1300, yU + 170]; }
+    else { a = [u0[0] - 900, yU + 80]; z = [u1[0] + 900, yU + 80]; }
     const f = filo(percorso(a, u0, u1, z));
     const q1 = lunghezzaA(f.paths[1], u0) / f.len, q2 = lunghezzaA(f.paths[1], u1) / f.len;
-    tl.set(ago, { opacity: 1 }, T + 0.05);
-    f.to(q1, T + 0.05, 0.5, 'power2.in');
+    tl.set(ago, { opacity: 1 }, T - 0.15);
+    f.to(q1, T - 0.15, 0.7, 'power1.in');
     f.to(q2, T + 0.55, 0.85, 'none');
     cuci(s.el.querySelector('.b'), T + 0.55, 0.85);
     f.to(1, T + 1.4, 0.7, 'power2.out');
@@ -333,10 +335,10 @@ function build() {
   cadono('#o1 .ch', OUTRO + 0.2);
   const o2 = box($('o2')), yO = o2.y + o2.h * 0.9;
   const uO0 = [o2.x - 12, yO], uO1 = [o2.x + o2.w + 12, yO];
-  const fO = filo(percorso([-60, yO + 170], uO0, uO1, [W + 60, yO + 170]));
+  const fO = filo(percorso([uO0[0] - 1000, yO + 120], uO0, uO1, [uO1[0] + 1000, yO + 120]));
   const q1 = lunghezzaA(fO.paths[1], uO0) / fO.len, q2 = lunghezzaA(fO.paths[1], uO1) / fO.len;
   tl.set(ago, { opacity: 1 }, OUTRO + 0.6);
-  fO.to(q1, OUTRO + 0.6, 0.5, 'power2.in');
+  fO.to(q1, OUTRO + 0.45, 0.65, 'power1.in');
   fO.to(q2, OUTRO + 1.1, 0.9, 'none');
   cuci($('o2'), OUTRO + 1.1, 0.9);
   fO.to(1, OUTRO + 2.0, 0.5, 'power2.out');
