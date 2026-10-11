@@ -166,7 +166,6 @@ h1 em, h2 em { font-size: 1.04em; letter-spacing: -.01em; }
 
 .foot { border-top: 1px solid var(--line); padding: 40px clamp(16px, 4vw, 48px); display: grid; gap: 10px; justify-items: center; text-align: center; color: var(--muted); font-size: 15px; }
 .foot a { color: var(--text); }
-.foot .stack { font-size: 13px; }
 
 /* Comparse */
 .rv { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s cubic-bezier(.2, .8, .2, 1); }
