@@ -190,7 +190,7 @@ const SCENES = [
   { id: 'ovunque', dev: 'm', addon: true, card: ['+', 'Anche in tasca.', 'La plancia, in versione mobile.', 'c'],
     eyebrow: 'Plancia · Mobile', l1: 'Il tuo locale,', l2: 'ovunque tu sia.',
     points: ['Tutto, anche dal telefono', 'Incassi in tempo reale', 'Tutte le sedi insieme'],
-    stat: [5.5, 3, 0, '', ' sedi', 'sotto controllo, dal telefono'] },
+    stat: [5.5, 'Più sedi', 0, '', '', 'sotto controllo, dal telefono'] },
   { id: 'assistente', dev: 'm', addon: true, card: ['08', 'Assistente AI', 'Chiedi. Lui risponde e agisce.', 'b'],
     eyebrow: 'Assistente AI', l1: 'Un assistente', l2: 'che lavora per te.',
     points: ['Domande sui tuoi dati', 'Bolle caricate in magazzino', 'Tu confermi, lui esegue'],
@@ -212,7 +212,7 @@ const SCENES = [
     points: ['Ricevuto, pronto, ritirato'] },
   { id: 'club', dev: 'm', card: ['12', 'Fedeltà', 'Punti e premi, sempre in tasca.', 'a'],
     eyebrow: 'Cabina · Fedeltà', l1: 'Punti e premi,', l2: 'sempre in tasca.',
-    points: ['1 punto per ogni euro', 'Premi e coupon', 'Il codice da mostrare in cassa'],
+    points: ['Modalità accumulo punti personalizzabile', 'Premi e coupon', 'Il codice da mostrare in cassa'],
     stat: [5.4, 100, 0, '', ' punti', 'diventati uno sconto di 5 €'] },
 ];
 
@@ -282,7 +282,7 @@ SCENES.forEach((s, i) => {
     st.className = 'stat'; st.id = 'stat' + i;
     const p = G.stat(s);
     st.style.left = p.left + 'px'; st.style.top = p.top + 'px';
-    st.innerHTML = `<div class="v" id="statv${i}">${s.stat[3]}${fmtNum(0, s.stat[2])}${s.stat[4]}</div><div class="k">${s.stat[5]}</div>`;
+    st.innerHTML = `<div class="v" id="statv${i}">${typeof s.stat[1] === 'string' ? s.stat[1] : s.stat[3] + fmtNum(0, s.stat[2]) + s.stat[4]}</div><div class="k">${s.stat[5]}</div>`;
     $('stats').append(st);
   }
   const mk = (id, num, title, sub, tone) => {
@@ -328,7 +328,7 @@ tl.to('#route', { opacity: .15, duration: 0.6 }, INTRO - 0.4);
 });
 
 // Copertina: tendina che entra da sinistra, titolo, tendina che esce a destra
-function copertina(id, T, dur) {
+function copertina(id, T, dur, tieni) {
   const sel = '#' + id;
   gsap.set(`${sel} .t`, { yPercent: 110 });
   tl.fromTo(`${sel} .bg`, { scaleX: 0, transformOrigin: 'left center' }, { scaleX: 1, duration: 0.38, ease: 'power3.inOut', immediateRender: false }, T);
@@ -336,6 +336,7 @@ function copertina(id, T, dur) {
   tl.to(`${sel} .t`, { yPercent: 0, duration: 0.7, ease: 'expo.out' }, T + 0.28);
   tl.fromTo(`${sel} .s`, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, T + 0.5);
   tl.to(`${sel} .in`, { opacity: 0, x: -60, duration: 0.3, ease: 'power2.in' }, T + dur - 0.42);
+  if (tieni) { tl.set(sel, { opacity: 0 }, T + dur + 0.42); return; }
   tl.set(`${sel} .bg`, { transformOrigin: 'right center' }, T + dur - 0.36);
   tl.to(`${sel} .bg`, { scaleX: 0, duration: 0.4, ease: 'power3.inOut' }, T + dur - 0.36);
 }
@@ -343,7 +344,10 @@ function copertina(id, T, dur) {
 const rigOf = s => s.dev === 'm' ? '#rigM' : '#rigD';
 SCENES.forEach((s, i) => {
   const T = s.start, prev = SCENES[i - 1];
-  if (s.section) copertina('sec' + i, s.secStart, SEZ);
+  if (s.section) {
+    copertina('sec' + i, s.secStart, SEZ, true);
+    tl.set(['#rigM', '#rigD'], { opacity: 0 }, s.secStart + 0.42);
+  }
   if (s.card) copertina('card' + i, s.cardStart, CARD);
 
   // Dispositivi: dietro la copertina si sistemano, poi entrano con uno zoom morbido
@@ -394,7 +398,7 @@ SCENES.forEach((s, i) => {
     const box = '#stat' + i, k = { n: 0 };
     const t0 = T + Math.min(at, s.dur - 2.2);
     tl.fromTo(box, { opacity: 0, y: 40, scale: .85, rotation: -3 }, { opacity: 1, y: 0, scale: 1, rotation: 0, duration: 0.7, ease: 'back.out(1.6)', immediateRender: false }, t0);
-    tl.to(k, { n: v, duration: 1.4, ease: 'power3.out', onUpdate: () => { $('statv' + i).textContent = pre + fmtNum(k.n, dec) + suf; } }, t0 + 0.1);
+    if (typeof v === 'number') tl.to(k, { n: v, duration: 1.4, ease: 'power3.out', onUpdate: () => { $('statv' + i).textContent = pre + fmtNum(k.n, dec) + suf; } }, t0 + 0.1);
     tl.to(box, { opacity: 0, y: -20, duration: 0.3, ease: 'power2.in' }, T + s.dur - 0.45);
   }
 });
