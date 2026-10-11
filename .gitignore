@@ -11,3 +11,10 @@ tools/video/*.ttf
 tools/video/nocchiero/frames/
 tools/video/nocchiero/out*/
 tools/video/nocchiero/prova*/
+tools/video/familyhub/frames/
+tools/video/familyhub/raw/
+tools/video/familyhub/out*/
+tools/video/familyhub/prova*/
+tools/video/familyhub/fh-data/
+tools/video/familyhub/demo/credenziali.json
+tools/video/familyhub/demo/advisor-input.log

@@ -1,0 +1,105 @@
+{
+ "_note": "in/out = tratto della ripresa (s); move = velocità durante il movimento; keep = secondi di pausa tenuti fermi; hold = accelerazione del resto della pausa",
+ "scenes": [
+  {
+   "id": "panoramica",
+   "src": "m1-panoramica",
+   "in": 3,
+   "out": 30.5,
+   "move": 2,
+   "keep": 0.55,
+   "hold": 8
+  },
+  {
+   "id": "budget",
+   "src": "m2-budget",
+   "in": 2.5,
+   "out": 24.5,
+   "move": 1.6,
+   "keep": 0.55,
+   "hold": 8
+  },
+  {
+   "id": "uscite",
+   "src": "m3-uscite",
+   "in": 2.5,
+   "out": 20.5,
+   "move": 1.7,
+   "keep": 0.55,
+   "hold": 8
+  },
+  {
+   "id": "conti",
+   "src": "m7-conti",
+   "in": 3.5,
+   "out": 27.5,
+   "move": 1.9,
+   "keep": 0.55,
+   "hold": 8
+  },
+  {
+   "id": "scadenze",
+   "src": "m4-scadenze",
+   "in": 2.5,
+   "out": 23.5,
+   "move": 1.6,
+   "keep": 0.55,
+   "hold": 8
+  },
+  {
+   "id": "obiettivi",
+   "src": "m5-obiettivi",
+   "in": 4.5,
+   "out": 26,
+   "move": 2,
+   "keep": 0.55,
+   "hold": 8
+  },
+  {
+   "id": "consigli",
+   "src": "m6-consigli",
+   "in": 5.4,
+   "out": 16.5,
+   "tail": 4.5,
+   "move": 1.4,
+   "keep": 0.55,
+   "hold": 8
+  },
+  {
+   "id": "spesa",
+   "src": "m8-spesa",
+   "in": 4.5,
+   "out": 27,
+   "move": 1.8,
+   "keep": 0.55,
+   "hold": 8
+  },
+  {
+   "id": "menu",
+   "src": "m9-menu",
+   "in": 4,
+   "out": 29,
+   "move": 2.1,
+   "keep": 0.55,
+   "hold": 8
+  },
+  {
+   "id": "rifiuti",
+   "src": "m10-rifiuti",
+   "in": 4,
+   "out": 22,
+   "move": 2.1,
+   "keep": 0.55,
+   "hold": 8
+  },
+  {
+   "id": "lavagna",
+   "src": "m11-lavagna",
+   "in": 6,
+   "out": 33,
+   "move": 1.9,
+   "keep": 0.55,
+   "hold": 8
+  }
+ ]
+}
