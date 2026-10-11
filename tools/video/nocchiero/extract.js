@@ -15,9 +15,12 @@ for (const s of scenes) {
   if (only.length && !only.includes(s.id)) continue;
   // Velocità scalate perché la scena duri "target" secondi
   const natural = s.seg.reduce((a, [i, o, v]) => a + (o - i) / v, 0);
-  const k = natural / s.target;
-  const parts = s.seg.map(([i, o, v], n) =>
-    `[0:v]trim=start=${i}:end=${o},setpts=(PTS-STARTPTS)/${(v * k).toFixed(4)}[p${n}]`);
+  // dec: si tolgono i fotogrammi fermi (al massimo dec di fila) e si tiene il movimento quasi a velocità reale,
+  // così gli scorrimenti restano fluidi; in quel caso la durata la decidono le velocità dei tratti
+  const k = s.dec ? 1 : natural / s.target;
+  const parts = s.seg.map(([i, o, v], n) => s.dec
+    ? `[0:v]trim=start=${i}:end=${o},setpts=PTS-STARTPTS,mpdecimate=hi=200:lo=100:frac=0.1:max=${s.dec},setpts=N/(30*${v})/TB[p${n}]`
+    : `[0:v]trim=start=${i}:end=${o},setpts=(PTS-STARTPTS)/${(v * k).toFixed(4)}[p${n}]`);
   const concat = s.seg.map((_, n) => `[p${n}]`).join('') + `concat=n=${s.seg.length}:v=1:a=0[c]`;
   const fix = s.fix ? ',crop=386:839:0:0,scale=390:844' : '';
   const graph = [...parts, concat, `[c]fps=30${fix}[out]`].join(';');

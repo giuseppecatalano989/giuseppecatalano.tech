@@ -289,11 +289,11 @@ SCENES.forEach((s, i) => {
     const cd = document.createElement('div');
     cd.className = 'card tone-' + tone; cd.id = id;
     cd.innerHTML = `<div class="bg"></div><div class="in"><div>
-      <div class="num">${num}</div><div class="line"><span class="t w">${title}</span></div><div class="s">${sub}</div></div></div>`;
+      ${num ? `<div class="num">${num}</div>` : ""}<div class="line"><span class="t w">${title}</span></div><div class="s">${sub}</div></div></div>`;
     $('cards').append(cd);
   };
   if (s.section) mk('sec' + i, s.section[1].toUpperCase(), s.section[0], s.section[2], 'b');
-  if (s.card) mk('card' + i, s.card[0], s.card[1], s.card[2], s.card[3]);
+  if (s.card) mk('card' + i, '', s.card[1], s.card[2], s.card[3]); // copertine senza numero
 });
 
 const routeD = FMT === '16' ? 'M -80 820 C 360 600, 640 1020, 1000 760 S 1640 480, 2000 620' : 'M -80 1080 C 220 860, 440 1260, 640 1000 S 980 760, 1160 860';
