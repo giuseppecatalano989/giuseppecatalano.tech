@@ -18,3 +18,6 @@ tools/video/familyhub/prova*/
 tools/video/familyhub/fh-data/
 tools/video/familyhub/demo/credenziali.json
 tools/video/familyhub/demo/advisor-input.log
+
+.vercel
+.env*

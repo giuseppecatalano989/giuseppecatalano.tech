@@ -2,3 +2,5 @@
 tools/
 .claude/
 Avvia sito.cmd
+.env*
+.vercel/
