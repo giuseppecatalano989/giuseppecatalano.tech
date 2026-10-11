@@ -30,6 +30,7 @@ button { font: inherit; cursor: pointer; }
   color: var(--text); font-weight: 700; font-size: 14px; text-decoration: none;
   transition: border-color .2s, background .2s, color .2s;
 }
+.bar .back-pill { padding: 4px; } /* in alto solo la freccia, senza testo */
 .back-ic {
   width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
   background: var(--bg); border: 1.5px solid var(--border); transition: background .2s, border-color .2s;
@@ -140,8 +141,6 @@ section { padding: 120px 0; }
   section { padding: 90px 0; }
 }
 @media (max-width: 560px) {
-  .bar .back-pill { padding-right: 4px; }
-  .bar .back-txt { display: none; }
   .cta .btn { flex: 1 1 100%; justify-content: center; }
 }
 
