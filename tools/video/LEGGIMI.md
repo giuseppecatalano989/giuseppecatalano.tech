@@ -7,9 +7,11 @@ Preparazione: `npm install` in questa cartella; copiare i font Selawik e mettere
 estratti dalle registrazioni dell'app (vedi `COUNT` e `SCENES` in `comp.html`).
 
 Rendering: `node render.js 16 out16`, poi unire i fotogrammi e la musica con ffmpeg.
+Concept di Filo: "il filo che cuce". Un filo luminoso con l'ago in punta entra dal bordo, cuce la seconda riga del titolo e si chiude ad anello intorno al telefono frontale; lettere che cadono al loro posto, etichette con il bordo a punti.
 Musica usata per Filo: «Chill (Loopable)» di Pro Sensory (Alex McCulloch), OpenGameArt, licenza CC0.
 
 ## Nocchiero (`nocchiero/`)
+- Concept "plancia": copertine a tendina, titoli che salgono nelle righe, telefono e plancia in prospettiva, rotta tratteggiata, contatori.
 - `scenes.json`: per ogni scena la ripresa di partenza, i tagli `[inizio, fine, velocità]` e la durata voluta.
 - `extract.js`: estrae i fotogrammi delle scene in `frames/<scena>/` e scrive `counts.js` (le riprese stanno fuori dal repository).
 - `comp.html` + `render.js`: come per Filo (`node render.js 16 out16`, `node render.js 45 out45`), palette e logo della vetrina Nocchiero.
@@ -21,5 +23,5 @@ Musica usata per Filo: «Chill (Loopable)» di Pro Sensory (Alex McCulloch), Ope
   - `demo/server.mjs` avvia l'app (repository `family-hub`) con un fornitore bancario e un consulente simulati: conti, movimenti e report sono inventati, le schermate sono quelle vere.
   - `demo/seed.mjs` crea la famiglia Bianchi (Giulia e Marco) con entrate, spese, scadenze, obiettivi, spesa, menu, rifiuti e lavagna; le password di prova generate restano in `demo/credenziali.json`, fuori dal repository.
 - `extract.js`: velocità "intelligente": scorrimenti e interazioni quasi a velocità reale, pause tenute un attimo e poi accelerate (`move`, `keep`, `hold` in `scenes.json`).
-- `comp.html` + `render.js`: come per Nocchiero (`node render.js 16 out16`, `node render.js 45 out45`), con palette, logo e caratteri (Inter, Fraunces) della vetrina Family Hub.
+- `comp.html` + `render.js`: concept "porta del frigo", come nella vetrina. Biglietti e post-it attaccati con le calamite che si staccano a ogni scena, frasi scritte a mano (Caveat), lista con le spunte, numeri sul post-it, telefono dritto fissato con il nastro (`node render.js 16 out16`, `node render.js 45 out45`).
 - Musica: «Happy Clappy Loop» di OwlishMedia, OpenGameArt (https://opengameart.org/content/happy-clappy-loop), licenza CC0; ripetuta per tutta la durata, con dissolvenza finale.

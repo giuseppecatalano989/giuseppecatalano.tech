@@ -4,139 +4,113 @@
 <meta charset="utf-8">
 <title>Filo — video di presentazione</title>
 <style>
+  /* Concept "il filo che cuce": un filo luminoso con un ago in punta attraversa tutto il video,
+     cuce i titoli, si annoda intorno al telefono e porta da una scena all'altra. */
   @font-face { font-family: 'Selawik'; src: url('Selawik-Light.ttf'); font-weight: 300; }
   @font-face { font-family: 'Selawik'; src: url('Selawik-Regular.ttf'); font-weight: 400; }
   @font-face { font-family: 'Selawik'; src: url('Selawik-Bold.ttf'); font-weight: 700; }
-  :root { --bg: #0d1218; --surface: #171e27; --border: #2b3542; --text: #f4f3ee; --muted: #a8b2c1; --lime: #d4ed98; --violet: #b594f6; --teal: #3e6b8f; }
+  :root { --bg: #0b1016; --surface: #151c25; --text: #f4f3ee; --muted: #a8b2c1; --lime: #d4ed98; --violet: #b594f6; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: var(--bg); overflow: hidden; }
-  #stage { position: relative; overflow: hidden; background: var(--bg); font-family: 'Selawik', 'Segoe UI', sans-serif; color: var(--text); }
+  #stage { position: relative; overflow: hidden; font-family: 'Selawik', 'Segoe UI', sans-serif; color: var(--text);
+    background: radial-gradient(ellipse 120% 90% at 50% 40%, #121a24 0%, #0b1016 60%, #07090d 100%); }
   .f16 #stage { width: 1920px; height: 1080px; }
   .f45 #stage { width: 1080px; height: 1350px; }
-
-  /* Sfondo: macchie di colore sfocate, grana e vignettatura */
-  .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0; }
-  .b1 { width: 900px; height: 900px; background: radial-gradient(circle, rgba(212,237,152,.55), rgba(212,237,152,0) 65%); }
-  .b2 { width: 1000px; height: 1000px; background: radial-gradient(circle, rgba(62,107,143,.7), rgba(62,107,143,0) 65%); }
-  .b3 { width: 800px; height: 800px; background: radial-gradient(circle, rgba(181,148,246,.45), rgba(181,148,246,0) 65%); }
-  .grain { position: absolute; inset: 0; opacity: .07; mix-blend-mode: overlay;
+  /* Trama del tessuto, appena visibile */
+  .trama { position: absolute; inset: 0; opacity: .05; pointer-events: none;
+    background-image: repeating-linear-gradient(0deg, rgba(255,255,255,.5) 0 1px, transparent 1px 7px), repeating-linear-gradient(90deg, rgba(255,255,255,.5) 0 1px, transparent 1px 7px); }
+  .grain { position: absolute; inset: 0; opacity: .06; mix-blend-mode: overlay; pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
-  .vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,.55) 100%); }
 
-  /* Il filo */
-  svg.thread { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
-  svg.thread path { fill: none; stroke: var(--lime); stroke-linecap: round; }
+  /* Il filo: tratto luminoso con alone, e l'ago in punta */
+  svg.filo { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  svg.filo path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .glow { stroke: var(--lime); stroke-width: 14; opacity: .28; filter: url(#sfoca); }
+  .core { stroke: var(--lime); stroke-width: 4; }
+  .ago { fill: #fbffe9; filter: url(#bagliore); }
 
-  /* Numero di capitolo in filigrana */
-  .bignum { position: absolute; font-weight: 700; font-size: 520px; line-height: 1; color: transparent; -webkit-text-stroke: 2px rgba(212,237,152,.13); opacity: 0; letter-spacing: -.04em; }
+  /* Titoli: lettere che cadono al loro posto, e la seconda riga cucita dal filo */
+  .copy { position: absolute; white-space: nowrap; }
+  .copy .tag { font-weight: 700; font-size: 24px; letter-spacing: .3em; text-transform: uppercase; color: var(--violet); margin-bottom: 18px; }
+  .copy .a { font-weight: 700; font-size: 112px; line-height: 1.04; letter-spacing: -.04em; }
+  .copy .b { font-weight: 300; font-size: 112px; line-height: 1.12; letter-spacing: -.035em; color: var(--lime); display: inline-block; }
+  .cuce { clip-path: inset(-25% 100% -40% -4%); }
+  .ch { display: inline-block; white-space: pre; }
+  .f45 .copy { text-align: center; } .f45 .copy .a, .f45 .copy .b { font-size: 76px; } .f45 .copy .tag { font-size: 19px; }
 
-  /* Testi delle scene */
-  .copy { position: absolute; opacity: 1; }
-  .eyebrow { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 22px; letter-spacing: .22em; text-transform: uppercase; color: var(--lime); margin-bottom: 26px; }
-  .eyebrow i { display: block; width: 46px; height: 3px; border-radius: 2px; background: var(--lime); transform-origin: left; }
-  .line { display: block; overflow: hidden; padding-bottom: .08em; white-space: nowrap; }
-  .w { display: inline-block; will-change: transform; }
-  .l1 { font-weight: 700; font-size: 82px; line-height: 1.02; letter-spacing: -.035em; }
-  .l2 { font-weight: 300; font-size: 82px; line-height: 1.02; letter-spacing: -.03em; color: var(--muted); }
-  .f45 .l1, .f45 .l2 { font-size: 62px; }
-  .f45 .copy { text-align: center; }
-  .f45 .eyebrow { justify-content: center; margin-bottom: 18px; font-size: 19px; }
+  /* Etichette cucite: bordo a punti, come una toppa */
+  .patch { position: absolute; display: inline-flex; align-items: center; gap: 14px; padding: 14px 26px 14px 16px; border-radius: 18px;
+    background: rgba(21,28,37,.92); border: 2.5px dashed rgba(212,237,152,.75); box-shadow: 0 18px 44px rgba(0,0,0,.5);
+    font-weight: 700; font-size: 27px; white-space: nowrap; opacity: 0; }
+  .patch .ic { width: 40px; height: 40px; border-radius: 12px; background: var(--violet); display: grid; place-items: center; flex: none; }
+  .patch .ic svg { width: 21px; height: 21px; fill: none; stroke: #1a1330; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+  .f45 .patch { font-size: 22px; padding: 11px 20px 11px 12px; }
+  .f45 .patch .ic { width: 34px; height: 34px; }
 
-  /* Etichette in vetro */
-  .chip { position: absolute; display: inline-flex; align-items: center; gap: 14px; padding: 16px 26px 16px 18px; border-radius: 999px;
-    background: rgba(23,30,39,.74); backdrop-filter: blur(16px); border: 1.5px solid rgba(212,237,152,.35);
-    box-shadow: 0 18px 50px rgba(0,0,0,.45); font-weight: 700; font-size: 25px; white-space: nowrap; opacity: 0; }
-  .chip .ic { width: 38px; height: 38px; border-radius: 50%; background: var(--lime); display: grid; place-items: center; flex: none; }
-  .chip .ic svg { width: 20px; height: 20px; fill: none; stroke: #17210f; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; }
-  .f45 .chip { font-size: 22px; padding: 13px 22px 13px 15px; }
-
-  /* Telefono in prospettiva */
-  .persp { position: absolute; inset: 0; perspective: 2000px; }
-  #rig { position: absolute; transform-style: preserve-3d; will-change: transform; }
-  #float { transform-style: preserve-3d; }
+  /* Telefono frontale, dentro l'anello del filo */
+  #rig { position: absolute; left: 0; top: 0; width: 434px; height: 911px; opacity: 0; }
   .phone { position: relative; width: 434px; height: 911px; border-radius: 64px; padding: 12px;
-    background: linear-gradient(145deg, #2a3442, #07090c 40%, #0b0f14); box-shadow: inset 0 0 0 2px #313c4b, 0 70px 140px rgba(0,0,0,.65), 0 0 160px rgba(212,237,152,.10); }
+    background: linear-gradient(160deg, #26303c, #0a0d12 45%, #10151c); box-shadow: inset 0 0 0 2px #2e3946, 0 60px 120px rgba(0,0,0,.6); }
   .phone img { display: block; width: 410px; height: 887px; border-radius: 52px; object-fit: cover; background: var(--bg); }
-  .phone .glare { position: absolute; inset: 12px; border-radius: 52px; pointer-events: none;
-    background: linear-gradient(120deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0) 70%, rgba(255,255,255,.05) 100%); }
-  .phone .flash { position: absolute; inset: 12px; border-radius: 52px; background: var(--bg); opacity: 0; }
-  .shadow { position: absolute; left: 50%; bottom: -70px; width: 360px; height: 60px; margin-left: -180px; border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(212,237,152,.25), rgba(212,237,152,0) 70%); filter: blur(10px); }
+  .phone .velo { position: absolute; inset: 12px; border-radius: 52px; background: var(--bg); opacity: 0; }
+  svg.anello { position: absolute; left: -40px; top: -40px; width: 514px; height: 991px; overflow: visible; pointer-events: none; }
 
   /* Contatore della libreria */
   .counter { position: absolute; opacity: 0; }
   .counter .big { display: flex; align-items: baseline; gap: 18px; }
-  .counter .num { font-weight: 700; font-size: 190px; line-height: .9; letter-spacing: -.05em; color: var(--lime); font-variant-numeric: tabular-nums; }
-  .counter .unit { font-weight: 300; font-size: 64px; color: var(--text); }
-  .counter .sub { margin-top: 18px; font-size: 30px; color: var(--muted); }
+  .counter .num { font-weight: 700; font-size: 200px; line-height: .9; letter-spacing: -.05em; color: var(--lime); font-variant-numeric: tabular-nums; }
+  .counter .unit { font-weight: 300; font-size: 66px; }
+  .counter .sub { margin-top: 18px; font-size: 30px; color: var(--muted); white-space: nowrap; }
   .counter .sub b { color: var(--text); font-weight: 700; }
-  .counter .bar { margin-top: 26px; height: 6px; width: 520px; border-radius: 3px; background: rgba(255,255,255,.08); overflow: hidden; }
-  .counter .bar i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, var(--lime), #69d391); transform-origin: left; transform: scaleX(0); }
-  .f45 .counter .num { font-size: 120px; }
-  .f45 .counter .unit { font-size: 44px; }
-  .f45 .counter .sub { font-size: 22px; margin-top: 8px; }
-  .f45 .counter .bar { width: 340px; margin-top: 16px; }
-  .f45 .counter { padding: 26px 34px; border-radius: 30px; background: rgba(23,30,39,.78); backdrop-filter: blur(16px); border: 1.5px solid rgba(212,237,152,.3); }
+  .f45 .counter .num { font-size: 124px; } .f45 .counter .unit { font-size: 44px; } .f45 .counter .sub { font-size: 22px; margin-top: 8px; }
+  .f45 .counter { padding: 24px 32px; border-radius: 24px; background: rgba(21,28,37,.92); border: 2.5px dashed rgba(212,237,152,.6); }
 
   /* Apertura e chiusura */
   .center { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
-  .logo { font-weight: 700; font-size: 230px; letter-spacing: -.05em; line-height: 1; display: inline-flex; }
-  .logo span { display: inline-block; }
+  .logo { font-weight: 700; font-size: 240px; letter-spacing: -.05em; line-height: 1; display: inline-block; white-space: nowrap; }
   .logo .dot { color: var(--lime); }
-  .tagline { margin-top: 26px; font-weight: 700; font-size: 26px; letter-spacing: .4em; text-transform: uppercase; color: var(--lime); }
-  .f45 .logo { font-size: 190px; }
-  .f45 .tagline { font-size: 21px; }
-  .outro-l1 { font-weight: 700; font-size: 96px; letter-spacing: -.035em; line-height: 1.05; }
-  .outro-l2 { font-weight: 300; font-size: 96px; letter-spacing: -.03em; line-height: 1.05; color: var(--muted); }
-  .f45 .outro-l1, .f45 .outro-l2 { font-size: 74px; }
-  .outro .logo { font-size: 120px; margin-top: 40px; }
-  .byline { margin-top: 58px; font-size: 27px; font-weight: 700; color: var(--text); letter-spacing: .01em; }
-  .credit { position: absolute; left: 0; right: 0; bottom: 34px; text-align: center; font-size: 17px; color: #6b7584; }
+  .tagline { margin-top: 30px; font-weight: 700; font-size: 26px; letter-spacing: .4em; text-transform: uppercase; color: var(--violet); }
+  .f45 .logo { font-size: 190px; } .f45 .tagline { font-size: 20px; letter-spacing: .3em; }
+  .fine-a { font-weight: 700; font-size: 104px; letter-spacing: -.04em; line-height: 1.08; white-space: nowrap; }
+  .fine-b { font-weight: 300; font-size: 104px; letter-spacing: -.035em; line-height: 1.12; color: var(--lime); display: inline-block; white-space: nowrap; }
+  .f45 .fine-a, .f45 .fine-b { font-size: 70px; }
+  #outro .logo { font-size: 110px; margin-top: 46px; }
+  .byline { margin-top: 40px; font-size: 27px; font-weight: 700; }
 </style>
 </head>
 <body>
 <div id="stage">
-  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
-
-  <svg class="thread" id="threadSvg"><path id="thread" stroke-width="5"/><path id="streak" stroke-width="3" opacity="0"/></svg>
-
-
+  <div class="trama"></div>
+  <svg class="filo" id="filoSvg">
+    <defs>
+      <filter id="sfoca" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter>
+      <filter id="bagliore" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <g id="fili"></g>
+    <circle class="ago" id="ago" r="9" cx="-100" cy="-100"/>
+  </svg>
   <div id="copies"></div>
-
-
-
-
-  <div class="persp">
-    <div id="rig"><div id="float">
-      <div class="phone"><img id="screen" alt=""><div class="glare"></div><div class="flash" id="flash"></div></div>
-      <div class="shadow"></div>
-    </div></div>
+  <div id="rig">
+    <svg class="anello" viewBox="-40 -40 514 991"><path class="glow" id="anelloG"/><path class="core" id="anelloC"/></svg>
+    <div class="phone"><img id="screen" alt=""><div class="velo" id="velo"></div></div>
   </div>
-
-  <div id="chips"></div>
+  <div id="patches"></div>
   <div class="counter" id="counter">
     <div class="big"><span class="num" id="cHours">0</span><span class="unit">ore</span></div>
     <div class="sub">e 57 minuti di serie · <b id="cEp">0</b> episodi</div>
-    <div class="bar"><i id="cBar"></i></div>
   </div>
 
-  <div class="center" id="intro">
-    <div>
-      <div class="logo" id="introLogo"><span>f</span><span>i</span><span>l</span><span>o</span><span class="dot">.</span></div>
-      <div class="tagline" id="introTag">Il tuo diario di serie</div>
-    </div>
-  </div>
-
-  <div class="center outro" id="outro">
-    <div>
-      <div class="line"><span class="outro-l1 w" id="o1">Riprendi il filo.</span></div>
-      <div class="line"><span class="outro-l2 w" id="o2">Di ogni storia.</span></div>
-      <div class="logo" id="outroLogo"><span>f</span><span>i</span><span>l</span><span>o</span><span class="dot">.</span></div>
-      <div class="byline" id="byline">Un progetto di Giuseppe Catalano</div>
-    </div>
-  </div>
-
-  <div class="grain"></div><div class="vignette"></div>
+  <div class="center" id="intro"><div>
+    <div class="logo" id="introLogo"><span class="cuce" id="introLett">filo</span><span class="dot" id="introDot">.</span></div>
+    <div class="tagline" id="introTag">Il tuo diario di serie</div>
+  </div></div>
+  <div class="center" id="outro"><div>
+    <div class="fine-a" id="o1"></div>
+    <div><span class="fine-b cuce" id="o2">Di ogni storia.</span></div>
+    <div class="logo" id="outroLogo">filo<span class="dot">.</span></div>
+    <div class="byline" id="byline">Un progetto di Giuseppe Catalano</div>
+  </div></div>
+  <div class="grain"></div>
 </div>
 
 <script src="node_modules/gsap/dist/gsap.min.js"></script>
@@ -145,8 +119,9 @@ const FMT = new URLSearchParams(location.search).get('fmt') === '45' ? '45' : '1
 document.documentElement.className = 'f' + FMT;
 const W = FMT === '16' ? 1920 : 1080, H = FMT === '16' ? 1080 : 1350;
 const FPS = 30;
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
 
-/* ---------- Scene: clip, durata, testi, etichette ---------- */
 const ICON = {
   star: '<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.6 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/>',
   play: '<path d="M8 5v14l11-7z"/>',
@@ -158,187 +133,237 @@ const ICON = {
   tv: '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M9 21h6"/>',
   check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
 };
+/* Stesse riprese e stessi tempi della versione precedente */
 const SCENES = [
-  { id: 'home', start: 4.2, dur: 14, side: 'R', num: '01', eyebrow: 'Home', l1: 'Le serie del momento,', l2: 'a colpo d’occhio.',
+  { id: 'home', start: 4.2, dur: 14, side: 'R', tag: 'Home', a: 'Le serie del momento,', b: 'a colpo d’occhio.',
     chips: [[0.9, 'star', 'Top 5 della settimana'], [5.0, 'play', 'Continua a guardare'], [8.6, 'spark', 'Consigli su misura']] },
-  { id: 'esplora', start: 18.2, dur: 8, side: 'L', num: '02', eyebrow: 'Esplora', l1: 'Un catalogo', l2: 'tutto da sfogliare.',
+  { id: 'esplora', start: 18.2, dur: 8, side: 'L', tag: 'Esplora', a: 'Un catalogo', b: 'tutto da sfogliare.',
     chips: [[0.9, 'grid', 'Migliaia di serie'], [3.4, 'filter', 'Piattaforma, genere e anno']] },
-  { id: 'ricerca', start: 26.2, dur: 5.2, side: 'R', num: '03', eyebrow: 'Ricerca', l1: 'Trova qualsiasi serie,', l2: 'in un attimo.',
+  { id: 'ricerca', start: 26.2, dur: 5.2, side: 'R', tag: 'Ricerca', a: 'Trova qualsiasi serie,', b: 'in un attimo.',
     chips: [[1.4, 'search', 'Risultati mentre scrivi']] },
-  { id: 'serie', start: 31.4, dur: 15, side: 'L', num: '04', eyebrow: 'La serie', l1: 'Salvala. Guardala.', l2: 'Segna ogni episodio.',
+  { id: 'serie', start: 31.4, dur: 15, side: 'L', tag: 'La serie', a: 'Salvala. Guardala.', b: 'Segna ogni episodio.',
     chips: [[0.6, 'heart', 'Aggiunta a Da vedere', 6.5], [2.0, 'tv', 'Disponibile in streaming in Italia', 6.5], [12.1, 'check', 'Episodi precedenti inclusi']],
     zoom: [9.9, 12.9] },
-  { id: 'libreria', start: 46.4, dur: 13.5, side: 'R', num: '05', eyebrow: 'Libreria', l1: 'Il tempo che dedichi', l2: 'alle tue storie.',
+  { id: 'libreria', start: 46.4, dur: 13.5, side: 'R', tag: 'Libreria', a: 'Il tempo che dedichi', b: 'alle tue storie.',
     chips: [], counterAt: 5.0 },
 ];
 const END = 65.4, OUTRO = 59.9;
 const COUNT = { home: 420, esplora: 240, ricerca: 156, serie: 450, libreria: 405 };
 
-/* ---------- Geometria per formato ---------- */
+/* ---------- Geometria ---------- */
 const L = FMT === '16' ? {
-  phoneX: s => s === 'R' ? 1250 : 236, phoneY: 85,
-  copy: s => s === 'R' ? { left: 150, top: 300, width: 900 } : { left: 830, top: 300, width: 960 },
-  chip: (s, i) => (s === 'R' ? [[905, 210], [880, 545], [905, 830]] : [[640, 230], [660, 560], [640, 840]])[i],
-  num: s => s === 'R' ? { left: 40, top: 360 } : { left: 900, top: 360 },
-  counter: { left: 150, top: 560 },
-  rotY: s => s === 'R' ? -14 : 14,
+  phone: s => ({ x: s === 'R' ? 1290 : 196, y: 84 }),
+  copy: s => s === 'R' ? { x: 120, y: 250 } : { x: 760, y: 250 },
+  chip: (s, i) => (s === 'R' ? [[150, 610], [230, 720], [150, 830]] : [[790, 610], [870, 720], [790, 830]])[i],
+  counter: { x: 140, y: 600 },
+  entra: s => s === 'R' ? [-60, 980] : [W + 60, 980],
 } : {
-  phoneX: () => 323, phoneY: 390,
-  copy: () => ({ left: 40, top: 70, width: 1000 }),
-  chip: (s, i) => [[26, 560], [560, 760], [30, 1010]][i],
-  num: () => ({ left: 230, top: 120 }),
-  counter: { left: 60, top: 860 },
-  rotY: s => s === 'R' ? -10 : 10,
+  phone: () => ({ x: 323, y: 400 }),
+  copy: () => ({ x: null, y: 64 }),
+  chip: (s, i) => [[22, 560], ['destra', 780], [22, 1010]][i],
+  counter: { x: null, y: 880 },
+  entra: s => s === 'R' ? [-60, 330] : [W + 60, 330],
 };
 
-/* ---------- Costruzione degli elementi ---------- */
-const $ = id => document.getElementById(id);
-const words = (txt, cls) => txt.split(' ').map(w => `<span class="w ${cls}">${w}&nbsp;</span>`).join('');
+/* ---------- Costruzione ---------- */
+const split = (txt) => [...txt].map(c => `<span class="ch">${c}</span>`).join('');
 SCENES.forEach((s, i) => {
-  const c = L.copy(s.side);
   const el = document.createElement('div');
   el.className = 'copy'; el.id = 'copy' + i;
-  Object.assign(el.style, { left: c.left + 'px', top: c.top + 'px', width: c.width + 'px' });
-  el.innerHTML = `<div class="eyebrow"><i></i><span>${s.num} · ${s.eyebrow}</span></div>
-    <span class="line">${words(s.l1, 'l1')}</span><span class="line">${words(s.l2, 'l2')}</span>`;
+  el.innerHTML = `<div class="tag">${s.tag}</div><div class="a">${split(s.a)}</div><span class="b cuce">${s.b}</span>`;
   $('copies').append(el);
-  const nb = document.createElement('div');
-  nb.className = 'bignum'; nb.id = 'num' + i; nb.textContent = s.num;
-  Object.assign(nb.style, { left: L.num(s.side).left + 'px', top: L.num(s.side).top + 'px' });
-  $('copies').before(nb);
-  s.chips.forEach((ch, j) => {
-    const [x, y] = L.chip(s.side, j);
+  s.el = el;
+  s.patches = s.chips.map((ch, j) => {
     const d = document.createElement('div');
-    d.className = 'chip'; d.id = `chip${i}_${j}`;
-    d.style.left = x + 'px'; d.style.top = y + 'px';
+    d.className = 'patch';
     d.innerHTML = `<span class="ic"><svg viewBox="0 0 24 24">${ICON[ch[1]]}</svg></span>${ch[2]}`;
-    $('chips').append(d);
+    $('patches').append(d); return d;
   });
 });
-Object.assign($('counter').style, { left: L.counter.left + 'px', top: L.counter.top + 'px' });
+$('o1').innerHTML = split('Riprendi il filo.');
 
-// Il filo: un'onda che attraversa lo schermo
-const wave = FMT === '16'
-  ? 'M -80 760 C 300 520, 560 980, 960 720 S 1600 420, 2000 560'
-  : 'M -80 980 C 220 760, 420 1180, 620 920 S 980 660, 1160 780';
-$('thread').setAttribute('d', wave);
-const streak = FMT === '16' ? 'M -100 980 L 2020 100' : 'M -100 1300 L 1180 60';
-$('streak').setAttribute('d', streak);
-const tLen = $('thread').getTotalLength(), sLen = $('streak').getTotalLength();
-// In chiusura il filo passa più in basso, sotto la firma
-const waveOut = FMT === '16'
-  ? 'M -80 1010 C 320 820, 640 1080, 960 950 S 1600 800, 2000 900'
-  : 'M -80 1250 C 220 1080, 420 1330, 620 1180 S 980 1040, 1160 1110';
-const tmpPath = document.createElementNS('http://www.w3.org/2000/svg', 'path'); tmpPath.setAttribute('d', waveOut); $('threadSvg').append(tmpPath);
-const tLenOut = tmpPath.getTotalLength(); tmpPath.remove();
-gsap.set('#thread', { strokeDasharray: tLen, strokeDashoffset: tLen });
-gsap.set('#streak', { strokeDasharray: `260 ${sLen}`, strokeDashoffset: 260 });
+// Anello intorno al telefono: rettangolo arrotondato, aperto in alto a sinistra/destra dove arriva il filo
+function anello(side) {
+  const x0 = -22, y0 = -22, w = 434 + 44, h = 911 + 44, r = 84;
+  // parte dal punto di aggancio (metà del lato vicino al testo) e fa un giro completo
+  if (side === 'R') return `M ${x0} ${y0 + h / 2} L ${x0} ${y0 + r} Q ${x0} ${y0} ${x0 + r} ${y0} L ${x0 + w - r} ${y0} Q ${x0 + w} ${y0} ${x0 + w} ${y0 + r} L ${x0 + w} ${y0 + h - r} Q ${x0 + w} ${y0 + h} ${x0 + w - r} ${y0 + h} L ${x0 + r} ${y0 + h} Q ${x0} ${y0 + h} ${x0} ${y0 + h - r} Z`;
+  return `M ${x0 + w} ${y0 + h / 2} L ${x0 + w} ${y0 + r} Q ${x0 + w} ${y0} ${x0 + w - r} ${y0} L ${x0 + r} ${y0} Q ${x0} ${y0} ${x0} ${y0 + r} L ${x0} ${y0 + h - r} Q ${x0} ${y0 + h} ${x0 + r} ${y0 + h} L ${x0 + w - r} ${y0 + h} Q ${x0 + w} ${y0 + h} ${x0 + w} ${y0 + h - r} Z`;
+}
 
-/* ---------- Timeline ---------- */
 const tl = gsap.timeline({ paused: true });
-const P0 = SCENES[0];
+const ago = $('ago');
+// Un filo: tratto con alone, disegnato da 0 a 1; l'ago segue la punta
+function filo(d) {
+  const g = document.createElementNS(NS, 'g');
+  g.innerHTML = `<path class="glow" d="${d}"/><path class="core" d="${d}"/>`;
+  $('fili').append(g);
+  const paths = [...g.querySelectorAll('path')], len = paths[1].getTotalLength();
+  paths.forEach(p => { p.style.strokeDasharray = len; p.style.strokeDashoffset = len; });
+  const k = { p: 0 };
+  return { g, paths, len, k,
+    to(p, at, dur, ease = 'power1.inOut', conAgo = true) {
+      tl.to(k, { p, duration: dur, ease, onUpdate: () => {
+        paths.forEach(q => { q.style.strokeDashoffset = len * (1 - k.p); });
+        if (conAgo) { const pt = paths[1].getPointAtLength(len * k.p); ago.setAttribute('cx', pt.x); ago.setAttribute('cy', pt.y); }
+      } }, at);
+    } };
+}
+const box = el => { const r = el.getBoundingClientRect(), st = $('stage').getBoundingClientRect(); return { x: r.left - st.left, y: r.top - st.top, w: r.width, h: r.height }; };
+// Cucitura: la riga si scopre da sinistra mentre il filo le passa sotto
+function cuci(el, at, dur) {
+  tl.fromTo(el, { clipPath: 'inset(-25% 100% -40% -4%)' }, { clipPath: 'inset(-25% -4% -40% -4%)', duration: dur, ease: 'none', immediateRender: false }, at);
+}
+// Lettere che cadono al loro posto
+function cadono(sel, at) {
+  tl.fromTo(sel, { y: -70, rotation: () => gsap.utils.random(-25, 25), opacity: 0 },
+    { y: 0, rotation: 0, opacity: 1, duration: 0.7, stagger: 0.028, ease: 'back.out(2)', immediateRender: false }, at);
+}
 
-// Sfondo vivo per tutta la durata
-gsap.set('.b1', { x: W * .55, y: H * .1 }); gsap.set('.b2', { x: -W * .2, y: H * .35 }); gsap.set('.b3', { x: W * .2, y: -H * .3 });
-tl.to('.blob', { opacity: 1, duration: 1.6, ease: 'power2.out' }, 0);
-tl.to('.b1', { x: W * .05, y: H * .45, duration: END, ease: 'sine.inOut' }, 0);
-tl.to('.b2', { x: W * .45, y: -H * .15, duration: END, ease: 'sine.inOut' }, 0);
-tl.to('.b3', { x: -W * .1, y: H * .5, duration: END, ease: 'sine.inOut' }, 0);
+function build() {
+  const rig = $('rig');
+  // I titoli restano nel loro spazio, lontani dal telefono
+  const maxW = FMT === '16' ? 1060 : 1000;
+  SCENES.forEach(s => {
+    let fs = parseFloat(getComputedStyle(s.el.querySelector('.a')).fontSize);
+    while (s.el.offsetWidth > maxW && fs > 40) { fs -= 2; s.el.querySelector('.a').style.fontSize = s.el.querySelector('.b').style.fontSize = fs + 'px'; }
+  });
+  // Prima di comparire, lettere ed etichette sono nascoste
+  gsap.set('.ch', { opacity: 0 }); gsap.set('.copy .tag', { opacity: 0 }); gsap.set(['#introDot', '#introTag'], { opacity: 0 });
+  // Apertura: il filo entra, passa sotto "filo" cucendolo e fa un nodo sul punto
+  const lett = box($('introLett')), dot = box($('introDot'));
+  const yU = lett.y + lett.h * 0.92, dx = dot.x + dot.w / 2, dy = dot.y + dot.h * 0.78;
+  const fIntro = filo(`M -60 ${H * 0.75} C ${W * 0.12} ${H * 0.55}, ${lett.x - 160} ${yU + 120}, ${lett.x - 10} ${yU} L ${lett.x + lett.w} ${yU} C ${dx - 10} ${yU}, ${dx - 34} ${dy + 6}, ${dx} ${dy + 18} a 18 18 0 1 0 0.1 0`);
+  tl.set(ago, { opacity: 1 }, 0.2);
+  fIntro.to(0.38, 0.2, 0.9, 'power2.in');
+  fIntro.to(0.86, 1.1, 0.9, 'none');
+  cuci($('introLett'), 1.1, 0.9);
+  fIntro.to(1, 2.0, 0.45, 'power2.out');
+  tl.fromTo('#introDot', { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(3)', immediateRender: false }, 2.3);
+  tl.fromTo('#introTag', { opacity: 0, letterSpacing: '1em' }, { opacity: 1, letterSpacing: FMT === '16' ? '.4em' : '.3em', duration: 1, ease: 'expo.out', immediateRender: false }, 2.1);
+  tl.to('#intro', { opacity: 0, y: -40, duration: 0.5, ease: 'power2.in' }, 3.5);
+  tl.to(fIntro.g, { opacity: 0, duration: 0.5 }, 3.5);
+  tl.set(ago, { opacity: 0 }, 3.9);
 
-// Apertura
-gsap.set('#introLogo span', { yPercent: 60, opacity: 0, filter: 'blur(14px)' });
-gsap.set('#introLogo .dot', { yPercent: -120, scale: .4 });
-gsap.set('#introTag', { opacity: 0, letterSpacing: '1.1em' });
-tl.to('#thread', { strokeDashoffset: 0, duration: 1.7, ease: 'power2.inOut' }, 0.2);
-tl.to('#introLogo span:not(.dot)', { yPercent: 0, opacity: 1, filter: 'blur(0px)', duration: 0.9, stagger: 0.08, ease: 'expo.out' }, 0.8);
-tl.to('#introLogo .dot', { yPercent: 0, opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'bounce.out' }, 1.35);
-tl.to('#introTag', { opacity: 1, letterSpacing: '.4em', duration: 1.1, ease: 'expo.out' }, 1.8);
-tl.to('#intro', { scale: .86, opacity: 0, filter: 'blur(10px)', duration: 0.7, ease: 'power2.in' }, 3.6);
-tl.to('#thread', { opacity: 0, duration: 0.6 }, 3.7);
+  SCENES.forEach((s, i) => {
+    const T = s.start, p = L.phone(s.side), prev = SCENES[i - 1];
+    // Posizione del testo (centrato nel 4:5)
+    const c = L.copy(s.side);
+    gsap.set(s.el, { x: c.x ?? (W - s.el.offsetWidth) / 2, y: c.y });
+    const b = box(s.el.querySelector('.b'));
+    const yU = b.y + b.h * 0.9;
+    // Telefono: entra (prima scena) o passa all'altro lato, tirato dal filo
+    if (!prev) {
+      tl.fromTo(rig, { x: p.x, y: H + 40, opacity: 1 }, { y: p.y, duration: 1.0, ease: 'power3.out', immediateRender: false }, T - 0.4);
+    } else if (FMT === '16' && prev.side !== s.side) {
+      tl.to(rig, { x: p.x, duration: 0.9, ease: 'power3.inOut' }, T - 0.55);
+      tl.fromTo('#velo', { opacity: 0 }, { opacity: 1, duration: 0.2, yoyo: true, repeat: 1, immediateRender: false }, T - 0.2);
+    } else {
+      tl.fromTo('#velo', { opacity: 0 }, { opacity: 1, duration: 0.2, yoyo: true, repeat: 1, immediateRender: false }, T - 0.2);
+    }
+    // Anello: si chiude intorno al telefono dopo che il filo arriva
+    tl.set(['#anelloG', '#anelloC'], { attr: { d: anello(FMT === '16' ? s.side : 'R') } }, T - 0.6);
+    const aLen = 2 * (434 + 44 + 911 + 44);
+    tl.fromTo(['#anelloG', '#anelloC'], { strokeDasharray: aLen, strokeDashoffset: aLen }, { strokeDashoffset: 0, duration: 0.9, ease: 'power2.inOut', immediateRender: false }, T + 1.55);
+    tl.to(['#anelloG', '#anelloC'], { strokeDashoffset: -aLen, duration: 0.5, ease: 'power2.in' }, T + s.dur - 0.7);
+    tl.set(['#anelloG', '#anelloC'], { opacity: 0 }, T + s.dur - 0.18); tl.set(['#anelloG', '#anelloC'], { opacity: 1 }, T + 1.5);
 
-// Telefono: ingresso, fluttuazione e passaggi di lato
-gsap.set('#rig', { x: L.phoneX(P0.side) + (FMT === '16' ? 420 : 0), y: L.phoneY + (FMT === '16' ? 0 : 500), rotationY: 38, rotationX: 10, opacity: 0, scale: .9 });
-tl.to('#rig', { x: L.phoneX(P0.side), y: L.phoneY, rotationY: L.rotY(P0.side), rotationX: 4, opacity: 1, scale: 1, duration: 1.3, ease: 'expo.out' }, 3.75);
-tl.to('#float', { y: -14, rotationZ: .6, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: Math.ceil(END / 2.6) }, 0);
+    // Filo della scena: entra dal bordo, cuce la seconda riga, raggiunge il telefono
+    const [ex, ey] = L.entra(s.side);
+    const aggancio = FMT === '16'
+      ? (s.side === 'R' ? [p.x - 22, p.y + 455] : [p.x + 434 + 22, p.y + 455])
+      : [p.x - 22, p.y + 455];
+    const inizio = [b.x - 12, yU], fineU = [b.x + b.w + 8, yU];
+    let d;
+    if (FMT === '16' && s.side === 'L') {
+      d = `M ${ex} ${ey} C ${W - 120} ${yU + 260}, ${b.x - 200} ${yU + 180}, ${inizio[0]} ${inizio[1]} L ${fineU[0]} ${fineU[1]} C ${fineU[0] + 120} ${yU + 40}, ${fineU[0] + 40} ${yU + 330}, ${(fineU[0] + aggancio[0]) / 2} ${yU + 360} S ${aggancio[0] + 120} ${aggancio[1]}, ${aggancio[0]} ${aggancio[1]}`;
+    } else if (FMT === '16') {
+      d = `M ${ex} ${ey} C 140 ${yU + 260}, ${b.x - 160} ${yU + 120}, ${inizio[0]} ${inizio[1]} L ${fineU[0]} ${fineU[1]} C ${fineU[0] + 120} ${yU}, ${aggancio[0] - 160} ${aggancio[1] - 40}, ${aggancio[0]} ${aggancio[1]}`;
+    } else {
+      d = `M ${ex} ${ey} C 60 ${yU + 120}, ${b.x - 120} ${yU + 40}, ${inizio[0]} ${inizio[1]} L ${fineU[0]} ${fineU[1]} C ${fineU[0] + 140} ${yU + 20}, ${fineU[0] + 80} ${p.y - 90}, ${p.x + 217} ${p.y - 22}`;
+    }
+    const f = filo(d);
+    // tratto fino all'inizio della riga, cucitura, poi verso il telefono
+    const tmp = document.createElementNS(NS, 'path'); tmp.setAttribute('d', d.split(' L ')[0]); $('fili').append(tmp);
+    const q1 = tmp.getTotalLength() / f.len; tmp.remove();
+    const q2 = q1 + (fineU[0] - inizio[0]) / f.len;
+    tl.set(ago, { opacity: 1 }, T + 0.05);
+    f.to(q1, T + 0.05, 0.5, 'power2.in');
+    f.to(q2, T + 0.55, 0.85, 'none');
+    cuci(s.el.querySelector('.b'), T + 0.55, 0.85);
+    f.to(1, T + 1.4, 0.45, 'power2.out');
+    tl.set(ago, { opacity: 0 }, T + 1.9);
+    // Testo: etichetta e lettere che cadono
+    tl.fromTo(s.el.querySelector('.tag'), { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.6, ease: 'expo.out', immediateRender: false }, T + 0.1);
+    cadono(s.el.querySelectorAll('.a .ch'), T + 0.15);
+    // Uscita: le lettere scivolano giù, il filo si sfila
+    tl.to(s.el.querySelectorAll('.a .ch'), { y: 60, opacity: 0, duration: 0.35, stagger: 0.012, ease: 'power2.in' }, T + s.dur - 0.6);
+    tl.to([s.el.querySelector('.tag'), s.el.querySelector('.b')], { opacity: 0, duration: 0.35 }, T + s.dur - 0.5);
+    tl.to(f.paths, { strokeDashoffset: -f.len, duration: 0.6, ease: 'power2.in' }, T + s.dur - 0.7);
+    tl.to(f.g, { opacity: 0, duration: 0.2 }, T + s.dur - 0.15);
 
-SCENES.forEach((s, i) => {
-  const T = s.start;
-  const c = '#copy' + i;
-  const ws = `${c} .w`;
-  gsap.set(ws, { yPercent: 115 }); gsap.set(`${c} .eyebrow`, { opacity: 0, x: -20 }); gsap.set(`${c} .eyebrow i`, { scaleX: 0 });
+    // Toppe cucite
+    s.chips.forEach((ch, j) => {
+      const el = s.patches[j];
+      let [x, y] = L.chip(s.side, j); if (x === 'destra') x = W - el.offsetWidth - 22;
+      gsap.set(el, { x, y });
+      tl.fromTo(el, { opacity: 0, clipPath: 'inset(-10% 100% -10% -10%)' }, { opacity: 1, clipPath: 'inset(-10% -10% -10% -10%)', duration: 0.55, ease: 'power2.out', immediateRender: false }, T + ch[0]);
+      tl.fromTo(el, { rotation: -3 }, { rotation: 0, duration: 0.6, ease: 'back.out(2)', immediateRender: false }, T + ch[0]);
+      tl.to(el, { opacity: 0, y: '+=24', duration: 0.35, ease: 'power2.in' }, ch[3] != null ? T + ch[3] : T + s.dur - 0.6);
+    });
 
-  // numero di capitolo
-  tl.fromTo('#num' + i, { opacity: 0, x: FMT === '16' ? 80 : 0, y: FMT === '16' ? 0 : 40 }, { opacity: 1, x: 0, y: 0, duration: 1.2, ease: 'expo.out', immediateRender: false }, T + 0.1);
-  tl.to('#num' + i, { opacity: 0, duration: 0.4 }, T + s.dur - 0.55);
-  // testi in entrata e in uscita
-  tl.to(`${c} .eyebrow`, { opacity: 1, x: 0, duration: 0.7, ease: 'expo.out' }, T + 0.15);
-  tl.to(`${c} .eyebrow i`, { scaleX: 1, duration: 0.7, ease: 'expo.out' }, T + 0.2);
-  tl.to(ws, { yPercent: 0, duration: 0.9, stagger: 0.055, ease: 'expo.out' }, T + 0.25);
-  tl.to(ws, { yPercent: -115, duration: 0.45, stagger: 0.025, ease: 'power3.in' }, T + s.dur - 0.6);
-  tl.to(`${c} .eyebrow`, { opacity: 0, duration: 0.35 }, T + s.dur - 0.55);
+    // Primo piano sul momento chiave: il telefono al centro, il resto si fa da parte
+    if (s.zoom) {
+      const [z0, z1] = s.zoom;
+      const cx = FMT === '16' ? W / 2 - 217 : p.x;
+      tl.to(rig, { x: cx, scale: FMT === '16' ? 1.1 : 1.05, duration: 0.9, ease: 'expo.inOut' }, T + z0);
+      tl.to([s.el, f.g], { opacity: .12, duration: 0.5 }, T + z0);
+      tl.to(rig, { x: p.x, scale: 1, duration: 0.9, ease: 'expo.inOut' }, T + z1);
+      tl.to([s.el, f.g], { opacity: 1, duration: 0.5 }, T + z1 + 0.3);
+    }
 
-  // etichette
-  s.chips.forEach((ch, j) => {
-    const id = `#chip${i}_${j}`;
-    tl.fromTo(id, { opacity: 0, scale: .6, y: 26 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: 'back.out(2.2)' }, T + ch[0]);
-    tl.to(id, { opacity: 0, scale: .85, y: -14, duration: 0.35, ease: 'power2.in' }, ch[3] != null ? T + ch[3] : T + s.dur - 0.6);
+    // Contatore della libreria, con il filo che lo sottolinea
+    if (s.counterAt) {
+      const cnt = $('counter');
+      gsap.set(cnt, { x: L.counter.x ?? (W - cnt.offsetWidth) / 2, y: L.counter.y });
+      const k = { h: 0, e: 0 };
+      tl.fromTo(cnt, { opacity: 0, y: L.counter.y + 40 }, { opacity: 1, y: L.counter.y, duration: 0.8, ease: 'expo.out', immediateRender: false }, T + s.counterAt);
+      tl.to(k, { h: 196, e: 440, duration: 2.4, ease: 'power3.out', onUpdate: () => { $('cHours').textContent = Math.round(k.h); $('cEp').textContent = Math.round(k.e); } }, T + s.counterAt + 0.15);
+      const cb = box(cnt), yC = cb.y + cb.h + 14 + 0;
+      const fc = filo(`M ${cb.x} ${yC} C ${cb.x + cb.w * 0.3} ${yC + 18}, ${cb.x + cb.w * 0.7} ${yC - 18}, ${cb.x + cb.w} ${yC}`);
+      fc.to(1, T + s.counterAt + 0.2, 2.2, 'power3.out', false);
+      tl.to(cnt, { opacity: 0, duration: 0.4 }, T + s.dur - 0.5);
+      tl.to(fc.paths, { strokeDashoffset: -fc.len, duration: 0.5, ease: 'power2.in' }, T + s.dur - 0.6);
+      tl.to(fc.g, { opacity: 0, duration: 0.2 }, T + s.dur - 0.15);
+    }
   });
 
-  // cambio di scena: il telefono passa dall'altro lato girando, con una scia di luce
-  if (i > 0) {
-    const prev = SCENES[i - 1];
-    tl.to('#rig', { keyframes: [
-      { x: (L.phoneX(prev.side) + L.phoneX(s.side)) / 2, rotationY: FMT === '16' ? (s.side === 'L' ? 55 : -55) : 32, scale: .9, duration: 0.45, ease: 'power2.in' },
-      { x: L.phoneX(s.side), rotationY: L.rotY(s.side), scale: 1, duration: 0.65, ease: 'expo.out' },
-    ] }, T - 0.45);
-    tl.fromTo('#flash', { opacity: 0 }, { opacity: 1, duration: 0.18, yoyo: true, repeat: 1, ease: 'power1.inOut' }, T - 0.18);
-    tl.fromTo('#streak', { strokeDashoffset: 260, opacity: .9 }, { strokeDashoffset: -sLen, opacity: .9, duration: 0.9, ease: 'power2.inOut' }, T - 0.5);
-    tl.set('#streak', { opacity: 0 }, T + 0.45);
-  }
+  // Chiusura: il telefono scende, il filo cuce "Di ogni storia." e ricompone il nome
+  tl.to(rig, { y: H + 60, duration: 0.8, ease: 'power3.in' }, OUTRO - 0.4);
+  gsap.set('#outro', { opacity: 0 });
+  tl.set('#outro', { opacity: 1 }, OUTRO);
+  cadono('#o1 .ch', OUTRO + 0.2);
+  const o2 = box($('o2')), yO = o2.y + o2.h * 0.9;
+  const fO = filo(`M -60 ${yO + 200} C ${o2.x - 300} ${yO + 160}, ${o2.x - 120} ${yO}, ${o2.x - 10} ${yO} L ${o2.x + o2.w + 10} ${yO} C ${o2.x + o2.w + 200} ${yO}, ${W - 200} ${yO + 220}, ${W + 60} ${yO + 160}`);
+  const tmp = document.createElementNS(NS, 'path'); tmp.setAttribute('d', fO.g.querySelector('.core').getAttribute('d').split(' L ')[0]); $('fili').append(tmp);
+  const q1 = tmp.getTotalLength() / fO.len; tmp.remove();
+  const q2 = q1 + (o2.w + 20) / fO.len;
+  tl.set(ago, { opacity: 1 }, OUTRO + 0.6);
+  fO.to(q1, OUTRO + 0.6, 0.5, 'power2.in');
+  fO.to(q2, OUTRO + 1.1, 0.9, 'none');
+  cuci($('o2'), OUTRO + 1.1, 0.9);
+  fO.to(1, OUTRO + 2.0, 0.5, 'power2.out');
+  tl.set(ago, { opacity: 0 }, OUTRO + 2.55);
+  tl.fromTo('#outroLogo', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out', immediateRender: false }, OUTRO + 2.0);
+  tl.fromTo('#byline', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out', immediateRender: false }, OUTRO + 2.5);
+  tl.to('#stage', { opacity: 0, duration: 0.6, ease: 'power1.in' }, END - 0.6);
+  tl.set({}, {}, END);
+}
 
-  // zoom sul momento chiave
-  if (s.zoom) {
-    const [z0, z1] = s.zoom;
-    const cx = FMT === '16' ? W / 2 - 217 : L.phoneX();
-    tl.to('#rig', { x: cx, rotationY: 0, rotationX: 0, scale: FMT === '16' ? 1.12 : 1.05, duration: 0.9, ease: 'expo.inOut' }, T + z0);
-    tl.to('#copy' + i, { opacity: .15, duration: 0.5 }, T + z0);
-    tl.to('#rig', { x: L.phoneX(s.side), rotationY: L.rotY(s.side), rotationX: 4, scale: 1, duration: 0.9, ease: 'expo.inOut' }, T + z1);
-    tl.to('#copy' + i, { opacity: 1, duration: 0.5 }, T + z1 + 0.3);
-  }
-
-  // contatore della libreria
-  if (s.counterAt) {
-    const k = { h: 0, e: 0 };
-    tl.fromTo('#counter', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out' }, T + s.counterAt);
-    tl.to(k, { h: 196, e: 440, duration: 2.4, ease: 'power3.out', onUpdate: () => {
-      $('cHours').textContent = Math.round(k.h); $('cEp').textContent = Math.round(k.e);
-    } }, T + s.counterAt + 0.15);
-    tl.to('#cBar', { scaleX: 1, duration: 2.4, ease: 'power3.out' }, T + s.counterAt + 0.15);
-    tl.to('#counter', { opacity: 0, y: -20, duration: 0.4 }, T + s.dur - 0.5);
-  }
-});
-
-// Chiusura
-gsap.set('#outro', { opacity: 0 }); gsap.set(['#o1', '#o2'], { yPercent: 115 });
-gsap.set('#outroLogo span', { yPercent: 60, opacity: 0, filter: 'blur(12px)' });
-gsap.set('#byline', { opacity: 0, y: 14 });
-tl.to('#rig', { scale: .55, opacity: 0, rotationY: 0, x: FMT === '16' ? W / 2 - 217 : L.phoneX(), y: L.phoneY + 120, duration: 0.9, ease: 'power3.in' }, OUTRO - 0.3);
-tl.set('#outro', { opacity: 1 }, OUTRO);
-tl.set('#thread', { attr: { d: waveOut }, strokeDasharray: tLenOut, strokeDashoffset: tLenOut, opacity: .9 }, OUTRO);
-tl.to('#thread', { strokeDashoffset: 0, duration: 1.8, ease: 'power2.inOut' }, OUTRO + 0.1);
-tl.to('#o1', { yPercent: 0, duration: 1, ease: 'expo.out' }, OUTRO + 0.5);
-tl.to('#o2', { yPercent: 0, duration: 1, ease: 'expo.out' }, OUTRO + 0.75);
-tl.to('#outroLogo span:not(.dot)', { yPercent: 0, opacity: 1, filter: 'blur(0px)', duration: 0.8, stagger: 0.07, ease: 'expo.out' }, OUTRO + 1.5);
-tl.to('#outroLogo .dot', { yPercent: 0, opacity: 1, filter: 'blur(0px)', duration: 0.8, ease: 'bounce.out' }, OUTRO + 1.95);
-tl.to('#byline', { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out' }, OUTRO + 2.3);
-tl.to('#stage', { opacity: 0, duration: 0.6, ease: 'power1.in' }, END - 0.6);
-tl.set({}, {}, END);
-
-/* ---------- Rendering di un fotogramma al tempo t ---------- */
+/* ---------- Un fotogramma al tempo t ---------- */
 const img = $('screen');
 let lastSrc = '';
 window.renderAt = async (t) => {
-  let s = SCENES.findLast(x => t >= x.start) || SCENES[0];
+  const s = SCENES.findLast(x => t >= x.start) || SCENES[0];
   const local = Math.max(0, t - s.start);
   const n = Math.min(COUNT[s.id], Math.floor(local * FPS) + 1);
   const src = `frames/${s.id}/${String(n).padStart(5, '0')}.jpg`;
@@ -346,7 +371,7 @@ window.renderAt = async (t) => {
   tl.seek(t, false);
 };
 window.DURATION = END;
-window.ready = document.fonts.ready.then(() => window.renderAt(0)).then(() => true);
+window.ready = document.fonts.ready.then(() => { build(); return window.renderAt(0); }).then(() => true);
 </script>
 </body>
 </html>

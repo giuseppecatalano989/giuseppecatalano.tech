@@ -5,138 +5,110 @@
 <title>Family Hub — video di presentazione</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Caveat:wght@500;600;700&display=block" rel="stylesheet">
 <style>
-  /* Palette della vetrina Family Hub: verde bosco, menta, toni caldi */
-  :root { --bg: #f7f8f5; --carta: #fff; --verde: #176854; --verde-scuro: #125440; --menta: #e9f3ec; --menta-viva: #bfe3cf;
-    --inchiostro: #29352f; --fumo: #6f7a73; --ambra: #f8eddc; --ambra-ink: #b57a32; --serif: 'Fraunces', Georgia, serif; }
+  /* Concept "porta del frigo": tutto si attacca con le calamite, si scrive a mano e si stacca. */
+  :root { --frigo: #eef1ec; --carta: #fff; --verde: #176854; --menta: #e9f3ec; --ambra: #f8eddc; --giallo: #fff4b8; --rosa: #f7e3e1;
+    --lav: #f0edf8; --inchiostro: #29352f; --fumo: #6f7a73; --matita: #4a4320; --hand: 'Caveat', 'Segoe Print', cursive; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: var(--bg); overflow: hidden; }
-  #stage { position: relative; overflow: hidden; background: var(--bg); font-family: 'Inter', 'Segoe UI', sans-serif; color: var(--inchiostro); }
+  html, body { background: var(--frigo); overflow: hidden; }
+  #stage { position: relative; overflow: hidden; font-family: 'Inter', 'Segoe UI', sans-serif; color: var(--inchiostro);
+    background: linear-gradient(100deg, #f4f6f2 0%, #eef1ec 38%, #e6eae4 62%, #eef1ec 100%); }
   .f16 #stage { width: 1920px; height: 1080px; }
   .f45 #stage { width: 1080px; height: 1350px; }
-
-  .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0; }
-  .b1 { width: 1100px; height: 1100px; background: radial-gradient(circle, rgba(23,104,84,.26), rgba(23,104,84,0) 65%); }
-  .b2 { width: 900px; height: 900px; background: radial-gradient(circle, rgba(227,169,92,.28), rgba(227,169,92,0) 65%); }
-  .b3 { width: 800px; height: 800px; background: radial-gradient(circle, rgba(255,255,255,.95), rgba(255,255,255,0) 65%); }
-  .grain { position: absolute; inset: 0; opacity: .045; mix-blend-mode: multiply; pointer-events: none;
+  /* Riflesso morbido e maniglia della porta */
+  .riflesso { position: absolute; inset: -20%; background: linear-gradient(115deg, rgba(255,255,255,0) 35%, rgba(255,255,255,.55) 45%, rgba(255,255,255,0) 55%); pointer-events: none; }
+  .maniglia { position: absolute; width: 18px; border-radius: 10px; background: linear-gradient(90deg, #c9d1c9, #f7f8f6 60%, #d8ded8);
+    box-shadow: 0 6px 14px rgba(30,50,40,.18), inset 0 0 0 1px rgba(0,0,0,.05); }
+  .f16 .maniglia { right: 34px; top: 300px; height: 480px; }
+  .f45 .maniglia { right: 22px; top: 420px; height: 420px; width: 14px; }
+  .grain { position: absolute; inset: 0; opacity: .04; mix-blend-mode: multiply; pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
-  .vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(30,60,45,.12) 100%); }
 
-  svg.route { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
-  svg.route path { fill: none; stroke-linecap: round; }
-  #route { stroke: var(--verde); stroke-width: 3; stroke-dasharray: 2 14; opacity: .5; }
+  /* Biglietti */
+  .note { position: absolute; border-radius: 18px; background: var(--carta); padding: 34px 40px 36px;
+    box-shadow: 0 22px 44px -16px rgba(30,50,40,.32), 0 2px 0 rgba(0,0,0,.03); transform-origin: 50% 0; opacity: 0; }
+  .note.sticky { border-radius: 4px; background: var(--giallo); color: var(--matita); box-shadow: 0 24px 40px -18px rgba(80,70,20,.35); }
+  .note.menta { background: var(--menta); } .note.ambra { background: var(--ambra); } .note.rosa { background: var(--rosa); } .note.lav { background: var(--lav); }
+  .magnet { position: absolute; top: -14px; left: 50%; width: 34px; height: 34px; margin-left: -17px; border-radius: 50%;
+    box-shadow: 0 5px 9px rgba(0,0,0,.25), inset 0 -4px 0 rgba(0,0,0,.16), inset 0 3px 0 rgba(255,255,255,.25); }
+  .m-verde { background: var(--verde); } .m-ambra { background: #e3a13a; } .m-lav { background: #9d88c4; } .m-rosso { background: #bb514b; } .m-blu { background: #8099b0; }
+  .tape { position: absolute; top: -18px; left: 50%; width: 150px; height: 40px; margin-left: -75px; background: rgba(255,255,255,.62);
+    border: 1px solid rgba(0,0,0,.05); transform: rotate(-3deg); box-shadow: 0 2px 4px rgba(0,0,0,.05); }
+  .label { font-size: 19px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--fumo); }
+  .hand { font-family: var(--hand); font-weight: 600; display: inline-block; white-space: nowrap; }
+  .scrive { clip-path: inset(-30% 100% -45% -6%); }
 
-  /* Testi delle scene */
-  .copy { position: absolute; }
-  .eyebrow { display: flex; align-items: center; gap: 14px; font-weight: 800; font-size: 20px; letter-spacing: .22em; text-transform: uppercase; color: var(--verde); margin-bottom: 20px; }
-  .eyebrow i { display: block; width: 46px; height: 3px; border-radius: 2px; background: var(--verde); transform-origin: left; }
-  /* Le righe nascondono le parole che salgono: lo spazio sotto e ai lati (compensato dai margini) lascia intere
-     le lettere discendenti, quelle che sporgono per la spaziatura stretta e le code del corsivo */
-  .line { display: block; overflow: hidden; white-space: nowrap; }
-  .copy .line { padding: 8px 30px 34px 18px; margin: 0 -30px -26px -18px; }
-  .card .line { padding: 20px 60px 84px 50px; margin: 0 -60px -66px -50px; }
-  #outro .line { padding: 10px 40px 40px 24px; margin: 0 -40px -30px -24px; }
-  .w { display: inline-block; will-change: transform; }
-  .l1 { font-weight: 900; font-size: 96px; line-height: 1.0; letter-spacing: -.045em; color: var(--inchiostro); }
-  .l2 { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 100px; line-height: 1.0; letter-spacing: -.02em; color: var(--verde); }
-  .points { list-style: none; margin-top: 40px; display: grid; gap: 18px; }
-  .points li { display: flex; align-items: center; gap: 16px; font-size: 30px; font-weight: 600; color: var(--inchiostro); opacity: 0; }
-  .points li b { flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--verde); display: grid; place-items: center; }
-  .points li b svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-  .f45 .copy { text-align: center; }
-  .f45 .eyebrow { justify-content: center; margin-bottom: 14px; font-size: 18px; }
-  .f45 .l1 { font-size: 62px; } .f45 .l2 { font-size: 66px; }
+  /* Biglietto della scena: etichetta, titolo, frase scritta a mano */
+  .copy .label { margin-bottom: 14px; }
+  .copy .label { font-size: 21px; }
+  .copy .tit { font-weight: 800; font-size: 88px; line-height: 1.02; letter-spacing: -.04em; white-space: nowrap; }
+  .copy .hand { font-size: 102px; line-height: 1; color: var(--verde); margin-top: 4px; }
+  .f45 .copy .tit { font-size: 62px; } .f45 .copy .hand { font-size: 74px; } .f45 .copy .label { font-size: 17px; }
+  .f45 .copy { padding: 26px 34px 26px; }
 
-  /* Punti di forza come etichette (formato verticale) */
-  .chip { position: absolute; display: inline-flex; align-items: center; gap: 14px; padding: 12px 22px 12px 12px; border-radius: 999px;
-    background: rgba(255,255,255,.92); backdrop-filter: blur(14px); border: 1.5px solid rgba(23,104,84,.18);
-    box-shadow: 0 20px 50px rgba(18,84,64,.2); font-weight: 700; font-size: 22px; white-space: nowrap; opacity: 0; color: var(--inchiostro); }
-  .chip b { width: 40px; height: 40px; border-radius: 50%; background: var(--verde); display: grid; place-items: center; flex: none; }
-  .chip b svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  /* Lista con le spunte */
+  .lista { padding: 30px 36px 30px; }
+  .lista ul { list-style: none; display: grid; gap: 16px; }
+  .lista li { display: flex; align-items: center; gap: 18px; font-size: 34px; font-weight: 600; white-space: nowrap; }
+  .box { flex: none; width: 40px; height: 40px; border-radius: 9px; border: 3px solid #b9c4bc; display: grid; place-items: center; background: #fff; }
+  .box svg { width: 22px; height: 22px; fill: none; stroke: var(--verde); stroke-width: 3.6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 30; stroke-dashoffset: 30; }
+  .f45 .mini { padding: 16px 22px; border-radius: 14px; }
+  .f45 .mini li { font-size: 22px; } .f45 .mini .box { width: 28px; height: 28px; } .f45 .mini .magnet { width: 26px; height: 26px; margin-left: -13px; top: -11px; }
 
-  /* Numero che conta */
-  .stat { position: absolute; padding: 26px 34px 24px; border-radius: 28px; background: var(--inchiostro); color: #fff; opacity: 0;
-    box-shadow: 0 30px 70px rgba(41,53,47,.32); }
-  .stat .v { font-weight: 900; font-size: 84px; letter-spacing: -.04em; line-height: 1; color: var(--menta-viva); font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .stat .k { margin-top: 10px; font-size: 22px; font-weight: 600; color: rgba(255,255,255,.75); white-space: nowrap; }
-  .f45 .stat .v { font-size: 60px; }
-  .f45 .stat .k { font-size: 19px; }
+  /* Post-it con il numero, scritto a mano */
+  .stat { padding: 26px 34px 24px; text-align: left; }
+  .stat .hand { font-size: 116px; line-height: .95; font-weight: 700; color: var(--matita); }
+  .stat .k { margin-top: 8px; font-size: 25px; font-weight: 600; color: #6b6233; white-space: nowrap; }
+  .f45 .stat .hand { font-size: 72px; } .f45 .stat .k { font-size: 19px; }
 
-  /* Copertine delle scene */
-  .card { position: absolute; inset: 0; pointer-events: none; }
-  .card .bg { position: absolute; inset: 0; transform: scaleX(0); transform-origin: left; }
-  .card .in { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
-  .card .num { font-weight: 800; font-size: 30px; letter-spacing: .3em; margin-bottom: 18px; opacity: 0; }
-  .card .t { font-weight: 900; font-size: 230px; letter-spacing: -.06em; line-height: 1; }
-  .card .s { margin-top: 26px; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 48px; letter-spacing: -.01em; opacity: 0; padding: 0 60px; }
-  .f45 .card .t { font-size: 140px; }
-  .f45 .card .s { font-size: 36px; }
-  .tone-a .bg { background: var(--verde); } .tone-a { color: #f7f8f5; } .tone-a .num, .tone-a .s { color: var(--menta-viva); }
-  .tone-b .bg { background: var(--inchiostro); } .tone-b { color: #fff; } .tone-b .num, .tone-b .s { color: var(--menta-viva); }
-  .tone-c .bg { background: var(--ambra); } .tone-c { color: var(--inchiostro); } .tone-c .num, .tone-c .s { color: var(--ambra-ink); }
+  /* Grande biglietto con il titolo della scena */
+  .titolo { text-align: center; padding: 64px 90px 70px; }
+  .titolo .t { font-weight: 900; font-size: 170px; letter-spacing: -.055em; line-height: 1; white-space: nowrap; }
+  .titolo .hand { font-size: 74px; color: var(--verde); margin-top: 18px; }
+  .f45 .titolo { padding: 48px 50px 54px; } .f45 .titolo .t { font-size: 112px; } .f45 .titolo .hand { font-size: 54px; }
+  .sezione { text-align: center; padding: 60px 100px 76px; }
+  .sezione .label { color: #8a7d3a; margin-bottom: 6px; }
+  .sezione .hand { font-size: 230px; line-height: 1; font-weight: 700; color: var(--matita); }
+  .sezione .sub { font-size: 34px; font-weight: 600; color: #6b6233; margin-top: 10px; }
+  .f45 .sezione { padding: 48px 50px 60px; } .f45 .sezione .hand { font-size: 170px; } .f45 .sezione .sub { font-size: 27px; }
 
-  /* Telefono */
-  .persp { position: absolute; inset: 0; perspective: 2400px; }
-  .rig { position: absolute; left: 0; top: 0; transform-style: preserve-3d; will-change: transform; opacity: 0; transform-origin: 50% 40%; }
-  .phone { position: relative; width: 434px; height: 911px; border-radius: 64px; padding: 12px;
-    background: linear-gradient(145deg, #34433b, #121815 40%, #1a211d); box-shadow: inset 0 0 0 2px #46564d, 0 70px 140px rgba(25,55,42,.38); }
-  .phone img { display: block; width: 410px; height: 887px; border-radius: 52px; object-fit: cover; background: var(--bg); }
-  .glare { position: absolute; pointer-events: none; inset: 12px; border-radius: 52px; background: linear-gradient(120deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 72%, rgba(255,255,255,.06) 100%); }
-  .flash { position: absolute; inset: 12px; border-radius: 52px; background: var(--bg); opacity: 0; pointer-events: none; }
+  /* Telefono bianco, attaccato con il nastro */
+  .phone { position: absolute; left: 0; top: 0; width: 434px; height: 911px; border-radius: 64px; padding: 12px; opacity: 0; transform-origin: 50% 0;
+    background: linear-gradient(150deg, #ffffff, #eef1ec 55%, #dfe5df); box-shadow: 0 50px 90px -30px rgba(25,55,42,.45), inset 0 0 0 1.5px rgba(0,0,0,.07); }
+  .phone img { display: block; width: 410px; height: 887px; border-radius: 52px; object-fit: cover; background: var(--frigo); }
+  .phone .tape { top: -22px; width: 170px; margin-left: -85px; transform: rotate(3deg); }
 
-  /* Logo: il quadrato inclinato con la casa, e il nome con il punto verde come nell'app */
+  /* Calamite sparse sulla porta */
+  .deco { position: absolute; border-radius: 50%; opacity: 0; box-shadow: 0 6px 10px rgba(0,0,0,.2), inset 0 -5px 0 rgba(0,0,0,.15), inset 0 3px 0 rgba(255,255,255,.25); }
+
+  /* Apertura e chiusura */
   .logo { display: inline-flex; align-items: center; gap: .32em; font-weight: 800; letter-spacing: -.035em; color: var(--inchiostro); white-space: nowrap; }
   .logo img { width: 1.25em; height: 1.25em; }
   .logo .dot { color: #6fae8f; }
-
-  /* Apertura e chiusura */
-  .center { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
-  .introLogo { font-size: 150px; }
-  .f45 .introLogo { font-size: 112px; }
-  .tagline { margin-top: 34px; font-weight: 800; font-size: 24px; letter-spacing: .34em; text-transform: uppercase; color: var(--verde); }
-  .f45 .tagline { font-size: 18px; letter-spacing: .22em; }
-  .trio { position: absolute; inset: 0; display: grid; place-items: center; }
-  .trio .wd { position: absolute; font-weight: 900; font-size: 240px; letter-spacing: -.06em; color: var(--inchiostro); opacity: 0; }
-  .trio .wd em { font-style: normal; color: var(--verde); }
-  .f45 .trio .wd { font-size: 150px; }
-  .outro-l1 { font-weight: 900; font-size: 120px; letter-spacing: -.05em; line-height: 1.02; }
-  .outro-l2 { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 126px; letter-spacing: -.02em; line-height: 1.02; color: var(--verde); }
-  .f45 .outro-l1 { font-size: 78px; } .f45 .outro-l2 { font-size: 82px; }
-  .outroLogo { font-size: 72px; margin-top: 50px; }
-  .byline { margin-top: 40px; font-size: 28px; font-weight: 700; color: var(--inchiostro); }
+  .intro { text-align: center; padding: 70px 110px 64px; }
+  .intro .logo { font-size: 130px; }
+  .intro .hand { font-size: 66px; color: var(--verde); margin-top: 10px; }
+  .f45 .intro { padding: 52px 56px 50px; } .f45 .intro .logo { font-size: 92px; } .f45 .intro .hand { font-size: 50px; }
+  .parola { padding: 34px 54px 40px; }
+  .parola .hand { font-size: 150px; line-height: 1; font-weight: 700; color: var(--matita); }
+  .f45 .parola .hand { font-size: 130px; }
+  .fine1 { padding: 44px 64px 48px; } .fine1 .tit { font-weight: 900; font-size: 110px; letter-spacing: -.05em; white-space: nowrap; }
+  .fine2 { padding: 26px 50px 36px; } .fine2 .hand { font-size: 120px; font-weight: 700; color: var(--matita); }
+  .fine3 { padding: 30px 46px 30px; } .fine3 .logo { font-size: 70px; }
+  .fine4 { padding: 18px 30px; border-radius: 6px; } .fine4 .by { font-size: 28px; font-weight: 700; white-space: nowrap; }
+  .f45 .fine1 .tit { font-size: 70px; } .f45 .fine2 .hand { font-size: 86px; } .f45 .fine3 .logo { font-size: 54px; } .f45 .fine4 .by { font-size: 24px; }
 </style>
 </head>
 <body>
 <div id="stage">
-  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
-  <svg class="route" id="routeSvg"><path id="route"/></svg>
-  <div class="persp">
-    <div class="rig" id="rigM">
-      <div class="phone"><img id="scrM" alt=""><div class="glare"></div><div class="flash" id="flashM"></div></div>
-    </div>
-  </div>
-
-  <div id="copies"></div>
-  <div id="chips"></div>
-  <div id="stats"></div>
-  <div id="cards"></div>
-
-  <div class="center" id="intro"><div>
-    <div class="logo introLogo" id="introLogo"><img src="../../../assets/family-hub.svg" alt=""><span>Family Hub<span class="dot">.</span></span></div>
-    <div class="tagline" id="introTag">La vita di famiglia, in un posto solo</div>
-  </div></div>
-  <div class="trio" id="trio"><div class="wd" id="wd0">Organizza<em>.</em></div><div class="wd" id="wd1">Risparmia<em>.</em></div><div class="wd" id="wd2">Condividi<em>.</em></div></div>
-
-  <div class="center" id="outro"><div>
-    <div class="line"><span class="outro-l1 w" id="o1">Meno cose da gestire.</span></div>
-    <div class="line"><span class="outro-l2 w" id="o2">Più cose da vivere.</span></div>
-    <div class="logo outroLogo" id="outroLogo"><img src="../../../assets/family-hub.svg" alt=""><span>Family Hub<span class="dot">.</span></span></div>
-    <div class="byline" id="byline">Un progetto di Giuseppe Catalano</div>
-  </div></div>
-
-  <div class="grain"></div><div class="vignette"></div>
+  <div class="riflesso"></div>
+  <div class="maniglia"></div>
+  <div id="decos"></div>
+  <div class="phone" id="phone"><img id="scrM" alt=""><span class="tape"></span></div>
+  <div id="layer"></div>
+  <div id="top"></div>
+  <div class="grain"></div>
 </div>
 
 <script src="../node_modules/gsap/dist/gsap.min.js"></script>
@@ -148,49 +120,51 @@ const W = FMT === '16' ? 1920 : 1080, H = FMT === '16' ? 1080 : 1350;
 const FPS = 30;
 const $ = id => document.getElementById(id);
 const CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const LOGO = '<span class="logo"><img src="../../../assets/family-hub.svg" alt=""><span>Family Hub<span class="dot">.</span></span></span>';
 
-/* ---------- Scene (tutte riprese dall'app su telefono, con dati dimostrativi) ---------- */
+/* ---------- Scene (tutte riprese dall'app su telefono, con dati dimostrativi) ----------
+   card: [titolo, frase a mano, colore del biglietto, calamita] */
 const SCENES = [
   { id: 'panoramica', section: ['I conti', 'Il budget di famiglia', 'Entrate, uscite e risparmi. Insieme.'],
-    card: ['Panoramica', 'Il mese di casa, a colpo d’occhio.', 'a'],
-    eyebrow: 'Conti · Panoramica', l1: 'Tutto il mese,', l2: 'in una schermata.',
+    card: ['Panoramica', 'il mese di casa, a colpo d’occhio', '', 'verde'],
+    label: 'Conti · Panoramica', l1: 'Tutto il mese,', l2: 'in una schermata.',
     points: ['Entrate, uscite e saldo', 'Dove vanno le spese', 'Traguardi e mesi a confronto'],
-    stat: [3.2, 5545.15, 2, '', ' €', 'oggi sui conti di famiglia'] },
-  { id: 'budget', card: ['Ripartizione', 'Ogni euro, al suo posto.', 'c'],
-    eyebrow: 'Conti · Ripartizione budget', l1: 'Ogni euro,', l2: 'al suo posto.',
+    stat: [3.2, '5.545,15 €', 'oggi sui conti di famiglia'] },
+  { id: 'budget', card: ['Ripartizione', 'ogni euro, al suo posto', 'ambra', 'ambra'],
+    label: 'Conti · Ripartizione budget', l1: 'Ogni euro,', l2: 'al suo posto.',
     points: ['Schemi pronti o personalizzati', 'Massimali calcolati sulle entrate', 'Il totale fa sempre 100%'],
-    stat: [3.0, 4100, 2, '', ' €', 'di entrate da ripartire'] },
-  { id: 'uscite', card: ['Movimenti', 'Arrivano dalla banca. Da soli.', 'b'],
-    eyebrow: 'Conti · Uscite', l1: 'I movimenti', l2: 'arrivano da soli.',
+    stat: [3.0, '4.100 €', 'di entrate da ripartire'] },
+  { id: 'uscite', card: ['Movimenti', 'arrivano dalla banca. Da soli.', 'menta', 'blu'],
+    label: 'Conti · Uscite', l1: 'I movimenti', l2: 'arrivano da soli.',
     points: ['Importati dal conto', 'Categoria proposta in automatico', 'Ricorrenze e confronto mensile'],
-    stat: [4.6, 'Un tocco', 0, '', '', 'per classificare una spesa'] },
-  { id: 'conti', card: ['Conti in banca', 'In sola lettura. I pagamenti, mai.', 'a'],
-    eyebrow: 'Conti · Banche collegate', l1: 'Saldo e movimenti,', l2: 'in sola lettura.',
+    stat: [4.4, 'Un tocco', 'per classificare una spesa'] },
+  { id: 'conti', card: ['Conti in banca', 'in sola lettura. I pagamenti, mai.', '', 'verde'],
+    label: 'Conti · Banche collegate', l1: 'Saldo e movimenti,', l2: 'in sola lettura.',
     points: ['Collegamento PSD2 sicuro', 'Conti condivisi o privati', 'Nessun pagamento dall’app'] },
-  { id: 'scadenze', card: ['Scadenze', 'Bollette e rinnovi, senza pensieri.', 'c'],
-    eyebrow: 'Conti · Scadenze', l1: 'Bollette e rinnovi,', l2: 'senza pensieri.',
+  { id: 'scadenze', card: ['Scadenze', 'bollette e rinnovi, senza pensieri', 'rosa', 'rosso'],
+    label: 'Conti · Scadenze', l1: 'Bollette e rinnovi,', l2: 'senza pensieri.',
     points: ['Promemoria per tutti', 'Segnate come gestite', 'L’uscita si registra da sola'],
-    stat: [4.0, 112, 2, '', ' €', 'di bolletta, gestita con un tocco'] },
-  { id: 'obiettivi', card: ['Obiettivi', 'I progetti prendono forma.', 'b'],
-    eyebrow: 'Conti · Obiettivi', l1: 'I progetti', l2: 'prendono forma.',
+    stat: [4.0, '112 €', 'di bolletta, gestita con un tocco'] },
+  { id: 'obiettivi', card: ['Obiettivi', 'i progetti prendono forma', 'lav', 'lav'],
+    label: 'Conti · Obiettivi', l1: 'I progetti', l2: 'prendono forma.',
     points: ['Breve, medio e lungo termine', 'Accantonamenti e progresso', 'Quote mensili dai risparmi'],
-    stat: [7.0, 200, 0, '', ' €', 'in più per le vacanze'] },
-  { id: 'consigli', card: ['Consigli AI', 'Un report sul vostro budget.', 'a'],
-    eyebrow: 'Conti · Consigli del budget', l1: 'Un consulente', l2: 'per il vostro budget.',
+    stat: [7.0, '+200 €', 'per le vacanze in Puglia'] },
+  { id: 'consigli', card: ['Consigli AI', 'un report sul vostro budget', 'menta', 'verde'],
+    label: 'Conti · Consigli del budget', l1: 'Un consulente', l2: 'per il vostro budget.',
     points: ['Report settimanali e mensili', 'Spese da rivedere', 'Le cifre sono sempre le vostre'] },
   { id: 'spesa', section: ['La casa', 'La vita di tutti i giorni', 'Tutto quello che di solito sta sul frigo.'],
-    card: ['La spesa', 'Chi passa dal supermercato sa cosa manca.', 'c'],
-    eyebrow: 'Casa · Lista della spesa', l1: 'Cosa manca', l2: 'in casa?',
+    card: ['La spesa', 'chi passa dal supermercato sa cosa manca', 'ambra', 'ambra'],
+    label: 'Casa · Lista della spesa', l1: 'Cosa manca', l2: 'in casa?',
     points: ['Condivisa da tutta la famiglia', 'Divisa per reparto', 'Si spunta mentre compri'] },
-  { id: 'menu', card: ['Menu', 'Pranzo e cena, decisi una volta sola.', 'b'],
-    eyebrow: 'Casa · Menu settimanale', l1: 'Cosa c’è', l2: 'di buono?',
+  { id: 'menu', card: ['Menu', 'pranzo e cena, decisi una volta sola', '', 'rosso'],
+    label: 'Casa · Menu settimanale', l1: 'Cosa c’è', l2: 'di buono?',
     points: ['Pranzo e cena di ogni giorno', 'Ingredienti e porzioni', 'Dritti nella lista della spesa'],
-    stat: [5.0, 14, 0, '', ' pasti', 'pianificati per la settimana'] },
-  { id: 'rifiuti', card: ['Rifiuti', 'Cosa esce stasera, senza calendario.', 'a'],
-    eyebrow: 'Casa · Conferimento rifiuti', l1: 'Ogni rifiuto,', l2: 'nel giorno giusto.',
+    stat: [5.0, '14 pasti', 'pianificati per la settimana'] },
+  { id: 'rifiuti', card: ['Rifiuti', 'cosa esce stasera, senza calendario', 'lav', 'lav'],
+    label: 'Casa · Conferimento rifiuti', l1: 'Ogni rifiuto,', l2: 'nel giorno giusto.',
     points: ['Oggi e domani in evidenza', 'Il calendario della settimana', 'Orari e indicazioni'] },
-  { id: 'lavagna', card: ['Lavagna', 'Le cose da ricordare, per tutti.', 'c'],
-    eyebrow: 'Casa · Lavagna', l1: 'Le cose', l2: 'da ricordare.',
+  { id: 'lavagna', card: ['Lavagna', 'le cose da ricordare, per tutti', 'menta', 'verde'],
+    label: 'Casa · Lavagna', l1: 'Le cose', l2: 'da ricordare.',
     points: ['Appunti colorati', 'In evidenza quando contano', 'Allegati fino a 10 MB'] },
 ];
 
@@ -199,176 +173,161 @@ const INTRO = 3.4, TRIO = 2.1, SEZ = 2.3, CARD = 1.5, OUTRO_DUR = 6;
 let t = INTRO + TRIO;
 SCENES.forEach(s => {
   if (s.section) { s.secStart = t; t += SEZ; }
-  if (s.card) { s.cardStart = t; t += CARD; }
+  s.cardStart = t; t += CARD;
   s.start = t; s.dur = COUNTS[s.id] / FPS; t += s.dur;
 });
 const OUTRO = t, END = t + OUTRO_DUR;
-
-// Il telefono alterna lato a ogni scena
 SCENES.forEach((s, i) => { s.side = i % 2 ? 'L' : 'R'; });
 
 /* ---------- Geometria ---------- */
 const G = FMT === '16' ? {
-  m: { scale: 1.13, y: 96, x: s => s === 'R' ? 1270 : 220, rotY: s => s === 'R' ? -9 : 9 },
-  copy: s => s.side === 'R' ? { left: 110, top: 230, width: 1100 } : { left: 830, top: 230, width: 1050 },
-  stat: s => s.side === 'R' ? { left: 110, top: 760 } : { left: 830, top: 760 },
+  phone: s => ({ x: s.side === 'R' ? 1290 : 190, y: 78, scale: 1.02, r: s.side === 'R' ? 2 : -2 }),
+  copy: s => ({ x: s.side === 'R' ? 120 : 740, y: 120, w: null, r: s.side === 'R' ? -1.6 : 1.4 }),
+  lista: s => ({ x: s.side === 'R' ? 170 : 790, y: 520, r: s.side === 'R' ? 1.4 : -1.2 }),
+  stat: s => ({ x: s.side === 'R' ? 830 : 1360, y: 740, r: s.side === 'R' ? -4 : 4 }),
 } : {
-  m: { scale: 1, y: 420, x: () => 323, rotY: s => s === 'R' ? -8 : 8 },
-  copy: () => ({ left: 40, top: 60, width: 1000 }),
-  chip: (s, i) => [[16, 640], [590, 860], [16, 1080]][i],
-  stat: () => ({ left: 640, top: 520 }),
+  phone: s => ({ x: 323, y: 380, scale: .93, r: s.side === 'R' ? 1.5 : -1.5 }),
+  copy: () => ({ x: null, y: 70, r: -1 }),
+  mini: (s, j) => [[20, 690, -3], ['destra', 900, 3], [20, 1110, -2]][j],
+  stat: s => ({ x: s.side === 'R' ? 'destra' : 30, y: 420, r: s.side === 'R' ? 4 : -4 }),
 };
-const posM = s => ({ x: G.m.x(s.side), y: G.m.y, rotationY: G.m.rotY(s.side), rotationX: 3, scale: G.m.scale });
 
 /* ---------- Costruzione ---------- */
-const words = (txt, cls) => txt.split(' ').map(w => `<span class="w ${cls}">${w}&nbsp;</span>`).join('');
-const fmtNum = (v, dec) => v.toLocaleString('it-IT', { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: 'always' });
-SCENES.forEach((s, i) => {
-  const c = G.copy(s);
-  const usaChip = FMT === '45';
+const layer = $('layer'), sopra = $('top');
+function note(cls, html, magnet = 'verde', where = layer) {
   const el = document.createElement('div');
-  el.className = 'copy'; el.id = 'copy' + i;
-  Object.assign(el.style, { left: c.left + 'px', top: c.top + 'px', width: c.width + 'px' });
-  el.innerHTML = `<div class="eyebrow"><i></i><span>${s.eyebrow}</span></div>
-    <span class="line">${words(s.l1, 'l1')}</span><span class="line">${words(s.l2, 'l2')}</span>
-    ${usaChip ? '' : `<ul class="points">${s.points.map(p => `<li><b>${CHECK}</b>${p}</li>`).join('')}</ul>`}`;
-  $('copies').append(el);
-  if (usaChip) s.points.forEach((p, j) => {
-    const [x, y] = G.chip(s, j);
-    const d = document.createElement('div');
-    d.className = 'chip'; d.id = `chip${i}_${j}`;
-    d.style.left = x + 'px'; d.style.top = y + 'px';
-    d.innerHTML = `<b>${CHECK}</b>${p}`;
-    $('chips').append(d);
-  });
-  if (s.stat) {
-    const st = document.createElement('div');
-    st.className = 'stat'; st.id = 'stat' + i;
-    const p = G.stat(s);
-    st.style.left = p.left + 'px'; st.style.top = p.top + 'px';
-    st.innerHTML = `<div class="v" id="statv${i}">${typeof s.stat[1] === 'string' ? s.stat[1] : s.stat[3] + fmtNum(0, s.stat[2]) + s.stat[4]}</div><div class="k">${s.stat[5]}</div>`;
-    $('stats').append(st);
-  }
-  const mk = (id, num, title, sub, tone) => {
-    const cd = document.createElement('div');
-    cd.className = 'card tone-' + tone; cd.id = id;
-    cd.innerHTML = `<div class="bg"></div><div class="in"><div>
-      ${num ? `<div class="num">${num}</div>` : ''}<div class="line"><span class="t w">${title}</span></div><div class="s">${sub}</div></div></div>`;
-    $('cards').append(cd);
-  };
-  if (s.section) mk('sec' + i, s.section[1].toUpperCase(), s.section[0], s.section[2], 'b');
-  mk('card' + i, '', s.card[0], s.card[1], s.card[2]);
-});
-// I titoli delle copertine non escono mai dallo schermo
-document.fonts.ready.then(() => document.querySelectorAll('.card .t').forEach(el => {
-  let fs = parseFloat(getComputedStyle(el).fontSize);
-  while (el.getBoundingClientRect().width > W * 0.86 && fs > 40) { fs -= 4; el.style.fontSize = fs + 'px'; }
-}));
-
-const routeD = FMT === '16' ? 'M -80 820 C 360 600, 640 1020, 1000 760 S 1640 480, 2000 620' : 'M -80 1080 C 220 860, 440 1260, 640 1000 S 980 760, 1160 860';
-$('route').setAttribute('d', routeD);
-const rLen = $('route').getTotalLength();
-const mask = document.createElementNS('http://www.w3.org/2000/svg', 'mask'); mask.id = 'rm';
-const mp = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-mp.setAttribute('d', routeD); mp.setAttribute('stroke', '#fff'); mp.setAttribute('stroke-width', '12'); mp.setAttribute('fill', 'none');
-mask.append(mp); $('routeSvg').prepend(mask); $('route').setAttribute('mask', 'url(#rm)');
-
-/* ---------- Timeline ---------- */
-const tl = gsap.timeline({ paused: true });
-gsap.set('.b1', { x: W * .5, y: -H * .1 }); gsap.set('.b2', { x: -W * .2, y: H * .45 }); gsap.set('.b3', { x: W * .25, y: H * .2 });
-tl.to('.blob', { opacity: 1, duration: 1.6, ease: 'power2.out' }, 0);
-tl.to('.b1', { x: W * .02, y: H * .4, duration: END, ease: 'sine.inOut' }, 0);
-tl.to('.b2', { x: W * .5, y: -H * .1, duration: END, ease: 'sine.inOut' }, 0);
-tl.to('.b3', { x: -W * .1, y: H * .55, duration: END, ease: 'sine.inOut' }, 0);
-gsap.set(mp, { attr: { 'stroke-dasharray': rLen, 'stroke-dashoffset': rLen } });
-
-// Apertura: logo, poi tre parole a ritmo
-gsap.set('#introLogo', { opacity: 0, scale: .9, filter: 'blur(14px)' });
-gsap.set('#introLogo img', { rotation: -40, scale: .6 });
-gsap.set('#introTag', { opacity: 0, letterSpacing: '.9em' });
-tl.to(mp, { attr: { 'stroke-dashoffset': 0 }, duration: 2, ease: 'power2.inOut' }, 0.1);
-tl.to('#introLogo', { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.1, ease: 'expo.out' }, 0.3);
-tl.to('#introLogo img', { rotation: 0, scale: 1, duration: 1.2, ease: 'back.out(1.7)' }, 0.35);
-tl.to('#introTag', { opacity: 1, letterSpacing: FMT === '16' ? '.34em' : '.22em', duration: 1.1, ease: 'expo.out' }, 0.9);
-tl.to('#intro', { scale: 1.15, opacity: 0, filter: 'blur(12px)', duration: 0.5, ease: 'power2.in' }, INTRO - 0.5);
-tl.to('#route', { opacity: .15, duration: 0.6 }, INTRO - 0.4);
-[0, 1, 2].forEach(k => {
-  const T0 = INTRO + k * 0.7;
-  tl.fromTo('#wd' + k, { opacity: 0, scale: 1.6, filter: 'blur(16px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.35, ease: 'expo.out', immediateRender: false }, T0);
-  tl.to('#wd' + k, { opacity: 0, scale: .8, duration: 0.25, ease: 'power2.in' }, T0 + 0.45);
-});
-
-// Copertina: tendina che entra da sinistra, titolo, tendina che esce a destra
-function copertina(id, T, dur, tieni) {
-  const sel = '#' + id;
-  gsap.set(`${sel} .t`, { yPercent: 175 });
-  tl.fromTo(`${sel} .bg`, { scaleX: 0, transformOrigin: 'left center' }, { scaleX: 1, duration: 0.38, ease: 'power3.inOut', immediateRender: false }, T);
-  tl.fromTo(`${sel} .num`, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, T + 0.25);
-  tl.to(`${sel} .t`, { yPercent: 0, duration: 0.7, ease: 'expo.out' }, T + 0.28);
-  tl.fromTo(`${sel} .s`, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, T + 0.5);
-  tl.to(`${sel} .in`, { opacity: 0, x: -60, duration: 0.3, ease: 'power2.in' }, T + dur - 0.42);
-  if (tieni) { tl.set(sel, { opacity: 0 }, T + dur + 0.42); return; }
-  tl.set(`${sel} .bg`, { transformOrigin: 'right center' }, T + dur - 0.36);
-  tl.to(`${sel} .bg`, { scaleX: 0, duration: 0.4, ease: 'power3.inOut' }, T + dur - 0.36);
+  el.className = 'note ' + cls;
+  el.innerHTML = (magnet === 'tape' ? '<span class="tape"></span>' : magnet ? `<span class="magnet m-${magnet}"></span>` : '') + html;
+  where.append(el); return el;
 }
 
+// Calamite sparse sulla porta: restano per tutto il video
+const DECO = FMT === '16'
+  ? [[70, 70, 46, 'verde'], [1780, 40, 38, 'ambra'], [60, 960, 40, 'lav'], [1010, 1010, 30, 'rosso'], [1840, 920, 34, 'blu']]
+  : [[50, 40, 40, 'verde'], [990, 30, 34, 'ambra'], [40, 1280, 36, 'lav'], [960, 1270, 30, 'rosso']];
+const decos = DECO.map(([x, y, d, c]) => { const e = document.createElement('div'); e.className = 'deco m-' + c; Object.assign(e.style, { left: x + 'px', top: y + 'px', width: d + 'px', height: d + 'px' }); $('decos').append(e); return e; });
+
 SCENES.forEach((s, i) => {
-  const T = s.start;
-  if (s.section) { copertina('sec' + i, s.secStart, SEZ, true); tl.set('#rigM', { opacity: 0 }, s.secStart + 0.42); }
-  copertina('card' + i, s.cardStart, CARD);
-
-  // Il telefono si sistema dietro la copertina, poi entra con uno zoom morbido
-  const coperto = s.cardStart + 0.42;
-  const p = posM(s);
-  tl.set('#rigM', { ...p, scale: p.scale * 1.12, opacity: 1 }, coperto);
-  tl.to('#rigM', { scale: p.scale, duration: 1.1, ease: 'expo.out' }, s.cardStart + CARD - 0.35);
-  tl.fromTo('#rigM', { y: p.y }, { y: p.y - 18, duration: s.dur - 0.8, ease: 'sine.inOut', immediateRender: false }, T + 0.75);
-
-  // Testi
-  const c = '#copy' + i, ws = `${c} .w`;
-  gsap.set(ws, { yPercent: 175 }); gsap.set(`${c} .eyebrow`, { opacity: 0, x: -20 }); gsap.set(`${c} .eyebrow i`, { scaleX: 0 });
-  tl.to(`${c} .eyebrow`, { opacity: 1, x: 0, duration: 0.6, ease: 'expo.out' }, T + 0.05);
-  tl.to(`${c} .eyebrow i`, { scaleX: 1, duration: 0.6, ease: 'expo.out' }, T + 0.1);
-  tl.to(ws, { yPercent: 0, duration: 0.8, stagger: 0.045, ease: 'expo.out' }, T + 0.12);
-  tl.to(ws, { yPercent: -175, duration: 0.4, stagger: 0.02, ease: 'power3.in' }, T + s.dur - 0.5);
-  tl.to(`${c} .eyebrow`, { opacity: 0, duration: 0.3 }, T + s.dur - 0.45);
-
-  // Punti di forza, uno alla volta
-  const step = Math.min(1.1, (s.dur - 3) / Math.max(1, s.points.length));
-  s.points.forEach((pt, j) => {
-    const at = T + 0.9 + j * step;
-    const sel = FMT === '45' ? `#chip${i}_${j}` : `${c} .points li:nth-child(${j + 1})`;
-    tl.fromTo(sel, { opacity: 0, x: -40, scale: .9 }, { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: 'back.out(1.8)', immediateRender: false }, at);
-    tl.to(sel, { opacity: 0, x: -20, duration: 0.3, ease: 'power2.in' }, T + s.dur - 0.5);
-  });
-
-  // Numero che conta
-  if (s.stat) {
-    const [at, v, dec, pre, suf] = s.stat;
-    const box = '#stat' + i, k = { n: 0 };
-    const t0 = T + Math.min(at, s.dur - 2.2);
-    tl.fromTo(box, { opacity: 0, y: 40, scale: .85, rotation: -3 }, { opacity: 1, y: 0, scale: 1, rotation: 0, duration: 0.7, ease: 'back.out(1.6)', immediateRender: false }, t0);
-    if (typeof v === 'number') tl.to(k, { n: v, duration: 1.4, ease: 'power3.out', onUpdate: () => { $('statv' + i).textContent = pre + fmtNum(k.n, dec) + suf; } }, t0 + 0.1);
-    tl.to(box, { opacity: 0, y: -20, duration: 0.3, ease: 'power2.in' }, T + s.dur - 0.45);
+  if (s.section) s.secEl = note('sticky sezione', `<div class="label">${s.section[1]}</div><div class="hand scrive">${s.section[0]}</div><div class="sub">${s.section[2]}</div>`, 'tape', sopra);
+  s.titEl = note('titolo ' + s.card[2], `<div class="t">${s.card[0]}</div><div class="hand scrive">${s.card[1]}</div>`, s.card[3], sopra);
+  s.copyEl = note('copy', `<div class="label">${s.label}</div><div class="tit">${s.l1}</div><div class="hand scrive">${s.l2}</div>`, s.card[3]);
+  if (FMT === '16') {
+    s.listaEl = note('lista ' + (s.card[2] === '' ? 'menta' : ''), `<ul>${s.points.map(p => `<li><span class="box">${CHECK}</span>${p}</li>`).join('')}</ul>`, 'tape');
+    s.mini = [];
+  } else {
+    s.mini = s.points.map((p, j) => note('lista mini ' + ['', 'menta', 'ambra'][j], `<ul><li><span class="box">${CHECK}</span>${p}</li></ul>`, ['verde', 'ambra', 'lav'][j]));
   }
+  if (s.stat) s.statEl = note('sticky stat', `<div class="hand scrive">${s.stat[1]}</div><div class="k">${s.stat[2]}</div>`, '');
+});
+const introEl = note('intro', `${LOGO}<br><span class="hand scrive">la vita di famiglia, in un posto solo</span>`, 'verde', sopra);
+const parole = [['Organizza.', 'sticky', -5], ['Risparmia.', 'sticky menta', 3], ['Condividi.', 'sticky rosa', -2]]
+  .map(([w, c, r]) => Object.assign(note('parola ' + c, `<span class="hand">${w}</span>`, 'tape', sopra), { r }));
+const fine = [note('fine1', `<div class="tit">Meno cose da gestire.</div>`, 'verde', sopra), note('sticky fine2', `<span class="hand scrive">Più cose da vivere.</span>`, 'tape', sopra),
+  note('fine3', LOGO, 'ambra', sopra), note('fine4 ambra', `<span class="by">Un progetto di Giuseppe Catalano</span>`, 'tape', sopra)];
+
+/* ---------- Animazioni di base ---------- */
+const tl = gsap.timeline({ paused: true });
+// Si attacca: arriva dall'alto, ruota e si posa; la calamita fa "clic"
+function attacca(el, at, { x, y, r = 0, from = -1, d = 0.55 } = {}) {
+  const fx = (x ?? (W - el.offsetWidth) / 2), fy = y;
+  tl.fromTo(el, { x: fx + from * 40, y: fy - 140, rotation: r + from * 9, opacity: 0, scale: 1.06 },
+    { x: fx, y: fy, rotation: r, opacity: 1, scale: 1, duration: d, ease: 'back.out(1.6)', immediateRender: false }, at);
+  const m = el.querySelector(':scope > .magnet, :scope > .tape');
+  if (m) tl.fromTo(m, { scale: 0 }, { scale: 1, duration: 0.35, ease: 'back.out(3)', immediateRender: false }, at + d * 0.55);
+}
+// Si stacca: un piccolo strappo e poi vola via
+function stacca(el, at, dir = 1, d = 0.45) {
+  tl.to(el, { rotation: `+=${dir * 4}`, y: '-=14', duration: 0.12, ease: 'power1.out' }, at);
+  tl.to(el, { x: `+=${dir * 260}`, y: '+=520', rotation: `+=${dir * 22}`, opacity: 0, duration: d, ease: 'power2.in' }, at + 0.12);
+}
+// Scrittura a mano: la frase compare da sinistra come se la penna la scrivesse
+function scrivi(el, at, d) {
+  const w = el.querySelector('.scrive'); if (!w) return;
+  tl.fromTo(w, { clipPath: 'inset(-30% 100% -45% -6%)' }, { clipPath: 'inset(-30% -6% -45% -6%)', duration: d ?? Math.min(1.1, 0.05 * w.textContent.length + 0.25), ease: 'none', immediateRender: false }, at);
+}
+
+function build() {
+/* ---------- Timeline ---------- */
+tl.fromTo('.riflesso', { x: -W * .3 }, { x: W * .3, duration: END, ease: 'none' }, 0);
+decos.forEach((e, k) => tl.fromTo(e, { opacity: 0, y: -60, scale: .6 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'bounce.out', immediateRender: false }, 0.1 + k * 0.12));
+
+// Apertura: il biglietto con il logo, poi tre post-it
+attacca(introEl, 0.5, { y: FMT === '16' ? 330 : 470, r: -2 });
+scrivi(introEl, 1.25, 1.2);
+stacca(introEl, INTRO - 0.45, 1);
+parole.forEach((p, k) => {
+  const cx = FMT === '16' ? [190, 640, 1090][k] : [110, 330, 150][k];
+  const cy = FMT === '16' ? [150, 400, 650][k] : [250, 520, 790][k];
+  attacca(p, INTRO + k * 0.55, { x: cx, y: cy, r: p.r, from: k % 2 ? 1 : -1, d: 0.45 });
+  stacca(p, INTRO + TRIO - 0.55 + k * 0.06, k % 2 ? 1 : -1, 0.4);
+});
+
+const phone = $('phone');
+SCENES.forEach((s, i) => {
+  const T = s.start, prev = SCENES[i - 1];
+  // Sezione: un grande post-it giallo scritto a mano
+  if (s.section) {
+    const y = FMT === '16' ? 250 : 380;
+    attacca(s.secEl, s.secStart + 0.05, { y, r: 1.5, d: 0.5 });
+    scrivi(s.secEl, s.secStart + 0.45, 0.8);
+    stacca(s.secEl, s.secStart + SEZ - 0.45, -1);
+  }
+  // Titolo della scena
+  const ty = FMT === '16' ? 290 : 450;
+  attacca(s.titEl, s.cardStart + 0.08, { y: ty, r: i % 2 ? 2.5 : -2.5, from: i % 2 ? 1 : -1, d: 0.5 });
+  scrivi(s.titEl, s.cardStart + 0.5, 0.75);
+  stacca(s.titEl, s.cardStart + CARD - 0.42, i % 2 ? -1 : 1, 0.42);
+
+  // Telefono: sale dal basso e si ferma, attaccato con il nastro
+  const p = G.phone(s);
+  tl.fromTo(phone, { x: p.x, y: H + 60, rotation: p.r * 4, scale: p.scale, opacity: 1 },
+    { y: p.y, rotation: p.r, duration: 0.8, ease: 'back.out(1.15)', immediateRender: false }, T - 0.35);
+  tl.fromTo('#phone .tape', { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: 'power2.out', immediateRender: false }, T + 0.35);
+
+  // Biglietto con il testo
+  const c = G.copy(s);
+  attacca(s.copyEl, T - 0.05, { x: c.x, y: c.y, r: c.r });
+  scrivi(s.copyEl, T + 0.45);
+  // Lista con le spunte (16:9) o tre biglietti piccoli (4:5)
+  const step = Math.min(1.0, (s.dur - 3) / s.points.length);
+  if (FMT === '16') {
+    const l = G.lista(s);
+    attacca(s.listaEl, T + 0.35, { x: l.x, y: l.y, r: l.r, from: 1 });
+    s.points.forEach((_, j) => tl.to(s.listaEl.querySelectorAll('.box svg')[j], { strokeDashoffset: 0, duration: 0.35, ease: 'power2.out' }, T + 1.0 + j * step));
+  } else {
+    s.mini.forEach((m, j) => {
+      let [x, y, r] = G.mini(s, j); if (x === 'destra') x = W - m.offsetWidth - 24;
+      attacca(m, T + 0.6 + j * step, { x, y, r, from: j % 2 ? 1 : -1, d: 0.45 });
+      tl.to(m.querySelector('.box svg'), { strokeDashoffset: 0, duration: 0.35, ease: 'power2.out' }, T + 1.0 + j * step);
+    });
+  }
+  // Post-it con il numero scritto a mano
+  if (s.statEl) {
+    const st = G.stat(s); if (st.x === 'destra') st.x = W - s.statEl.offsetWidth - 30; const at = T + Math.min(s.stat[0], s.dur - 2.4);
+    attacca(s.statEl, at, { x: st.x, y: st.y, r: st.r, from: st.r > 0 ? 1 : -1, d: 0.45 });
+    scrivi(s.statEl, at + 0.3, 0.7);
+  }
+  // Uscita: tutto si stacca, il telefono scende
+  const out = T + s.dur - 0.5;
+  const pezzi = [s.copyEl, s.listaEl, ...s.mini, s.statEl].filter(Boolean);
+  pezzi.forEach((el, k) => stacca(el, out + k * 0.05, k % 2 ? 1 : -1, 0.42));
+  tl.to(phone, { y: H + 80, rotation: p.r * 5, duration: 0.5, ease: 'power2.in' }, out + 0.05);
 });
 
 // Chiusura
-gsap.set('#outro', { opacity: 0 }); gsap.set(['#o1', '#o2'], { yPercent: 175 });
-gsap.set('#outroLogo', { opacity: 0, y: 20, filter: 'blur(10px)' }); gsap.set('#byline', { opacity: 0, y: 14 });
-tl.to('#rigM', { scale: .6, opacity: 0, y: '+=120', duration: 0.8, ease: 'power3.in' }, OUTRO - 0.3);
-tl.set('#outro', { opacity: 1 }, OUTRO);
-tl.to('#route', { opacity: .5, duration: 0.8 }, OUTRO);
-tl.to('#o1', { yPercent: 0, duration: 1, ease: 'expo.out' }, OUTRO + 0.4);
-tl.to('#o2', { yPercent: 0, duration: 1, ease: 'expo.out' }, OUTRO + 0.65);
-tl.to('#outroLogo', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'expo.out' }, OUTRO + 1.4);
-tl.to('#byline', { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out' }, OUTRO + 2.1);
+const F16 = FMT === '16';
+attacca(fine[0], OUTRO + 0.3, { y: F16 ? 230 : 330, r: -1.5 });
+attacca(fine[1], OUTRO + 0.9, { y: F16 ? 430 : 520, r: 2.5, from: 1 });
+scrivi(fine[1], OUTRO + 1.3, 1.0);
+attacca(fine[2], OUTRO + 2.1, { y: F16 ? 650 : 760, r: -2 });
+attacca(fine[3], OUTRO + 2.7, { y: F16 ? 850 : 950, r: 1.5, from: 1 });
 tl.to('#stage', { opacity: 0, duration: 0.6, ease: 'power1.in' }, END - 0.6);
 tl.set({}, {}, END);
+}
 
 /* ---------- Un fotogramma al tempo t ---------- */
-// L'immagine cambia mentre la copertina copre lo schermo
-SCENES.forEach(s => { s.swap = s.cardStart + 0.42; });
+// L'immagine cambia quando il telefono è fuori dallo schermo
+SCENES.forEach(s => { s.swap = s.cardStart + 0.2; });
 let lastSrc = '';
 window.renderAt = async (time) => {
   const s = [...SCENES].reverse().find(x => time >= x.swap) || SCENES[0];
@@ -379,7 +338,16 @@ window.renderAt = async (time) => {
   tl.seek(time, false);
 };
 window.DURATION = END;
-window.ready = document.fonts.ready.then(() => new Promise(r => setTimeout(r, 50))).then(() => window.renderAt(0)).then(() => true);
+window.ready = document.fonts.ready.then(() => new Promise(r => setTimeout(r, 50))).then(() => {
+  // I titoli dei biglietti grandi non escono mai dallo schermo
+  document.querySelectorAll('.titolo .t, .sezione .hand, .copy .tit, .fine1 .tit').forEach(el => {
+    let fs = parseFloat(getComputedStyle(el).fontSize);
+    const max = el.closest('.copy') ? (FMT === '16' ? 800 : 960) : W * 0.8;
+    while (el.getBoundingClientRect().width > max && fs > 30) { fs -= 2; el.style.fontSize = fs + 'px'; }
+  });
+  build();
+  return window.renderAt(0);
+}).then(() => true);
 </script>
 </body>
 </html>
