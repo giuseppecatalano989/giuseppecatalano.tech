@@ -58,7 +58,12 @@ button { font: inherit; cursor: pointer; }
 /* Il filo */
 .thread-wrap { position: relative; }
 .thread { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: visible; }
-.thread path { fill: none; stroke: var(--accent); stroke-width: 2.2; stroke-linecap: round; opacity: .75; }
+.thread path { fill: none; stroke: var(--accent); stroke-linecap: round; stroke-linejoin: round; }
+#thread-path { stroke-width: 2.2; opacity: .85; }
+/* Alone morbido intorno al filo */
+#thread-glow { stroke-width: 9; opacity: .18; filter: blur(5px); }
+/* L'ago luminoso in punta, che avanza scorrendo */
+#thread-ago { fill: #fbffe9; opacity: 0; filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 14px rgba(212, 237, 152, .6)); transition: opacity .3s; }
 main { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 48px) 0 clamp(34px, 7vw, 110px); }
 
 .eyebrow { display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
