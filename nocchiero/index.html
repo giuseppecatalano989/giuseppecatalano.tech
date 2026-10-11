@@ -45,7 +45,11 @@
       <br>Tutto in Cloud: puoi guidare il tuo ristorante ovunque, da qualsiasi dispositivo.
     </p>
     <div class="v-hero-cta">
-      <a class="v-btn v-btn-primario v-btn-grande" href="#assistente">Scopri cosa fa</a>
+      <button type="button" class="v-btn v-btn-primario v-btn-grande v-btn-play" data-demo hidden>
+        <span class="v-play-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+        Guarda la demo
+      </button>
+      <a class="v-btn v-btn-fantasma v-btn-grande" href="#assistente">Scopri cosa fa</a>
     </div>
   </div>
   <div class="v-wrap v-hero-shot v-reveal-shot"><div class="v-screen"><div class="v-screen-bar"><span></span><span></span><span></span></div><div class="v-screen-body" data-mock="dashboard"></div></div></div>
@@ -212,6 +216,19 @@
 </footer>
 
 <button class="v-torna-su" id="torna-su" type="button" aria-label="Torna in cima"><i data-lucide="arrow-up"></i></button>
+
+<!-- Popup con il video dimostrativo (registrato dall'app reale) -->
+<dialog class="v-demo" id="demo-modal" aria-label="Video dimostrativo di Nocchiero">
+  <button type="button" class="v-demo-close" data-close aria-label="Chiudi il video">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <div class="v-demo-frame">
+    <!-- 16:9 su schermi orizzontali, 4:5 su telefoni e schermi verticali (scelto dallo script) -->
+    <video id="demo-video" controls playsinline preload="none"
+      data-wide="video/presentazione-16x9.mp4" data-wide-poster="video/presentazione-16x9.jpg"
+      data-tall="video/presentazione-4x5.mp4" data-tall-poster="video/presentazione-4x5.jpg"></video>
+  </div>
+</dialog>
 
 <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <script src="nocchiero.js"></script>

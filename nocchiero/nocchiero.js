@@ -327,3 +327,41 @@ if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-m
 const su = document.getElementById('torna-su');
 addEventListener('scroll', () => su.classList.toggle('on', scrollY > 700), { passive: true });
 su.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
+
+/* ---------- Video di presentazione nel popup ----------
+   Il pulsante compare solo se il video esiste. Al clic si sceglie la versione
+   adatta allo schermo (16:9 orizzontale, 4:5 verticale) e la riproduzione parte
+   con l'audio: il clic del visitatore lo consente. Alla chiusura si ferma. */
+(() => {
+  const demoBtn = document.querySelector("[data-demo]");
+  const modal = document.getElementById("demo-modal");
+  const video = document.getElementById("demo-video");
+  if (!demoBtn || !modal || !video) return;
+  const tall = window.matchMedia("(max-aspect-ratio: 1/1)");
+
+  fetch(video.dataset.wide, { method: "HEAD" })
+    .then((r) => { if (r.ok) demoBtn.hidden = false; })
+    .catch(() => {});
+
+  function pickVersion() {
+    const kind = tall.matches ? "tall" : "wide";
+    const src = video.dataset[kind];
+    if (video.getAttribute("src") !== src) {
+      video.src = src;
+      video.poster = video.dataset[kind + "Poster"];
+    }
+  }
+
+  demoBtn.addEventListener("click", () => {
+    pickVersion();
+    modal.showModal();
+    video.currentTime = 0;
+    video.muted = false;
+    // Se il browser rifiuta l'audio, parte comunque senza: il volume resta nei comandi
+    video.play().catch(() => { video.muted = true; video.play().catch(() => {}); });
+  });
+  const closeDemo = () => modal.close();
+  modal.querySelector("[data-close]").addEventListener("click", closeDemo);
+  modal.addEventListener("click", (e) => { if (e.target === modal) closeDemo(); });
+  modal.addEventListener("close", () => video.pause());
+})();

@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Nocchiero — video di presentazione</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=block" rel="stylesheet">
+<style>
+  :root { --crema: #ede9df; --carta: #fff; --salvia: #4b6350; --salvia-scuro: #35462f; --inchiostro: #20241f; --fumo: #8a8579; --sabbia: #efe6d3; --oro: #b08238; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--crema); overflow: hidden; }
+  #stage { position: relative; overflow: hidden; background: var(--crema); font-family: 'Inter', 'Segoe UI', sans-serif; color: var(--inchiostro); }
+  .f16 #stage { width: 1920px; height: 1080px; }
+  .f45 #stage { width: 1080px; height: 1350px; }
+
+  /* Sfondo: macchie di colore morbide, grana leggera */
+  .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0; }
+  .b1 { width: 1000px; height: 1000px; background: radial-gradient(circle, rgba(75,99,80,.30), rgba(75,99,80,0) 65%); }
+  .b2 { width: 900px; height: 900px; background: radial-gradient(circle, rgba(176,130,56,.22), rgba(176,130,56,0) 65%); }
+  .b3 { width: 800px; height: 800px; background: radial-gradient(circle, rgba(255,255,255,.85), rgba(255,255,255,0) 65%); }
+  .grain { position: absolute; inset: 0; opacity: .05; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(60,50,30,.12) 100%); }
+
+  /* La rotta: linea tratteggiata che attraversa lo schermo */
+  svg.route { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  svg.route path { fill: none; stroke-linecap: round; }
+  #route { stroke: var(--salvia); stroke-width: 3; stroke-dasharray: 2 14; opacity: .55; }
+  #streak { stroke: var(--salvia); stroke-width: 3; opacity: 0; }
+
+  .bignum { position: absolute; font-weight: 800; font-size: 500px; line-height: 1; color: transparent; -webkit-text-stroke: 2px rgba(75,99,80,.13); opacity: 0; letter-spacing: -.05em; }
+
+  /* Testi delle scene */
+  .copy { position: absolute; }
+  .eyebrow { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 21px; letter-spacing: .2em; text-transform: uppercase; color: var(--salvia); margin-bottom: 24px; }
+  .eyebrow i { display: block; width: 46px; height: 3px; border-radius: 2px; background: var(--salvia); transform-origin: left; }
+  .line { display: block; overflow: hidden; padding-bottom: .1em; white-space: nowrap; }
+  .w { display: inline-block; will-change: transform; }
+  .l1 { font-weight: 800; font-size: 80px; line-height: 1.04; letter-spacing: -.04em; color: var(--inchiostro); }
+  .l2 { font-weight: 300; font-size: 80px; line-height: 1.04; letter-spacing: -.035em; color: var(--salvia); }
+  .copy.d .l1, .copy.d .l2 { font-size: 60px; }
+  .f45 .l1, .f45 .l2, .f45 .copy.d .l1, .f45 .copy.d .l2 { font-size: 58px; }
+  .f45 .copy { text-align: center; }
+  .f45 .eyebrow { justify-content: center; margin-bottom: 16px; font-size: 18px; }
+
+  /* Etichette */
+  .chip { position: absolute; display: inline-flex; align-items: center; gap: 14px; padding: 15px 26px 15px 16px; border-radius: 999px;
+    background: rgba(255,255,255,.86); backdrop-filter: blur(14px); border: 1.5px solid rgba(75,99,80,.18);
+    box-shadow: 0 18px 50px rgba(53,70,47,.18); font-weight: 700; font-size: 24px; white-space: nowrap; opacity: 0; color: var(--inchiostro); }
+  .chip .ic { width: 40px; height: 40px; border-radius: 50%; background: var(--salvia); display: grid; place-items: center; flex: none; }
+  .chip .ic svg { width: 21px; height: 21px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .f45 .chip { font-size: 21px; padding: 12px 22px 12px 13px; }
+
+  /* Dispositivi */
+  .persp { position: absolute; inset: 0; perspective: 2200px; }
+  .rig { position: absolute; left: 0; top: 0; transform-style: preserve-3d; will-change: transform; opacity: 0; }
+  .float { transform-style: preserve-3d; }
+  .phone { position: relative; width: 434px; height: 911px; border-radius: 64px; padding: 12px;
+    background: linear-gradient(145deg, #3b4639, #141813 40%, #1b201a); box-shadow: inset 0 0 0 2px #4a5547, 0 60px 120px rgba(40,50,35,.35), 0 0 0 1px rgba(0,0,0,.05); }
+  .phone img { display: block; width: 410px; height: 887px; border-radius: 52px; object-fit: cover; background: var(--crema); }
+  .glare { position: absolute; pointer-events: none; background: linear-gradient(120deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 72%, rgba(255,255,255,.06) 100%); }
+  .phone .glare { inset: 12px; border-radius: 52px; }
+  .flash { position: absolute; background: var(--crema); opacity: 0; pointer-events: none; }
+  .phone .flash { inset: 12px; border-radius: 52px; }
+  .win { position: relative; border-radius: 18px; overflow: hidden; background: #fff;
+    box-shadow: 0 60px 120px rgba(40,50,35,.30), 0 0 0 1px rgba(32,36,31,.08); }
+  .win .bar { height: 44px; display: flex; align-items: center; gap: 8px; padding: 0 18px; background: #f7f5f0; border-bottom: 1px solid rgba(32,36,31,.07); }
+  .win .bar span { width: 12px; height: 12px; border-radius: 50%; background: #d9d4c7; }
+  .win .bar .url { margin-left: 18px; flex: 1; max-width: 420px; height: 26px; border-radius: 8px; background: #fff; border: 1px solid rgba(32,36,31,.08);
+    font-size: 14px; color: var(--fumo); display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 600; }
+  .win img { display: block; background: var(--crema); }
+  .win .flash, .win .glare { left: 0; right: 0; bottom: 0; top: 44px; }
+  .shadow { position: absolute; left: 50%; bottom: -60px; width: 70%; height: 60px; transform: translateX(-50%); border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(53,70,47,.22), rgba(53,70,47,0) 70%); filter: blur(10px); }
+
+  /* Titoli di sezione, apertura e chiusura */
+  .center { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
+  .sez .k { font-weight: 700; font-size: 24px; letter-spacing: .4em; text-transform: uppercase; color: var(--salvia); margin-bottom: 22px; }
+  .sez .t { font-weight: 800; font-size: 170px; letter-spacing: -.05em; line-height: 1; }
+  .sez .s { margin-top: 24px; font-weight: 300; font-size: 44px; color: var(--fumo); letter-spacing: -.02em; }
+  .f45 .sez .t { font-size: 140px; }
+  .f45 .sez .s { font-size: 34px; }
+  .introLogo { width: 1000px; }
+  .f45 .introLogo { width: 860px; }
+  .tagline { margin-top: 34px; font-weight: 700; font-size: 24px; letter-spacing: .34em; text-transform: uppercase; color: var(--salvia); }
+  .f45 .tagline { font-size: 19px; letter-spacing: .25em; }
+  .outro-l1 { font-weight: 800; font-size: 96px; letter-spacing: -.045em; line-height: 1.06; }
+  .outro-l2 { font-weight: 300; font-size: 96px; letter-spacing: -.04em; line-height: 1.06; color: var(--salvia); }
+  .f45 .outro-l1, .f45 .outro-l2 { font-size: 72px; }
+  .outroLogo { width: 520px; margin-top: 48px; }
+  .byline { margin-top: 48px; font-size: 27px; font-weight: 700; color: var(--inchiostro); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <svg class="route" id="routeSvg"><path id="route"/><path id="streak"/></svg>
+  <div id="nums"></div>
+  <div id="copies"></div>
+
+  <div class="persp">
+    <div class="rig" id="rigM"><div class="float" id="floatM">
+      <div class="phone"><img id="scrM" alt=""><div class="glare"></div><div class="flash" id="flashM"></div></div>
+      <div class="shadow"></div>
+    </div></div>
+    <div class="rig" id="rigD"><div class="float" id="floatD">
+      <div class="win" id="win"><div class="bar"><span></span><span></span><span></span><div class="url">🔒 plancia.nocchiero.it</div></div>
+        <img id="scrD" alt=""><div class="glare"></div><div class="flash" id="flashD"></div></div>
+      <div class="shadow"></div>
+    </div></div>
+  </div>
+
+  <div id="chips"></div>
+
+  <div class="center sez" id="sezCabina"><div>
+    <div class="k" id="sezCabK">Il lato del cliente</div>
+    <div class="line"><span class="t w" id="sezCabT">La cabina</span></div>
+    <div class="s" id="sezCabS">Prenota, ordina, paga. Dal telefono.</div>
+  </div></div>
+  <div class="center sez" id="sezPlancia"><div>
+    <div class="k" id="sezPlaK">Il lato del ristoratore</div>
+    <div class="line"><span class="t w" id="sezPlaT">La plancia</span></div>
+    <div class="s" id="sezPlaS">Tutto il locale, in un unico posto.</div>
+  </div></div>
+
+  <div class="center" id="intro"><div>
+    <img class="introLogo" id="introLogo" src="../../../nocchiero/img/logo-esteso.png" alt="">
+    <div class="tagline" id="introTag">Il gestionale intelligente per la ristorazione</div>
+  </div></div>
+
+  <div class="center" id="outro"><div>
+    <div class="line"><span class="outro-l1 w" id="o1">Il tuo ristorante,</span></div>
+    <div class="line"><span class="outro-l2 w" id="o2">sotto controllo.</span></div>
+    <img class="outroLogo" id="outroLogo" src="../../../nocchiero/img/logo-esteso.png" alt="">
+    <div class="byline" id="byline">Un progetto di Giuseppe Catalano</div>
+  </div></div>
+
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+
+<script src="../node_modules/gsap/dist/gsap.min.js"></script>
+<script src="counts.js"></script>
+<script>
+const FMT = new URLSearchParams(location.search).get('fmt') === '45' ? '45' : '16';
+document.documentElement.className = 'f' + FMT;
+const W = FMT === '16' ? 1920 : 1080, H = FMT === '16' ? 1080 : 1350;
+const FPS = 30;
+const $ = id => document.getElementById(id);
+
+const ICON = {
+  calendar: '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/>',
+  users: '<circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><path d="M15.5 5.2a3 3 0 0 1 0 5.6M17.5 14.3c1.6.7 2.6 2.3 3 4.7"/>',
+  menu: '<path d="M5 5h14M5 12h14M5 19h9"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  card: '<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10.5h18M7 15h4"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  gift: '<rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M12 9v11M4 13h16M12 9c-2-4-6-4-6-1.5S9 9 12 9zm0 0c2-4 6-4 6-1.5S15 9 12 9z"/>',
+  ticket: '<path d="M4 8a2 2 0 0 0 0 4v4h16v-4a2 2 0 0 1 0-4V4H4z" transform="translate(0 2)"/><path d="M14 6v12" stroke-dasharray="2 2.5"/>',
+  phone: '<rect x="7" y="3" width="10" height="18" rx="2.2"/><path d="M11 18h2"/>',
+  table: '<path d="M4 9h16M6 9v10M18 9v10M9 5h6"/>',
+  bell: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/>',
+  eye: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
+  box: '<path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/>',
+  alert: '<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/>',
+  list: '<path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/>',
+  chart: '<path d="M4 19V5M4 19h16"/><path d="M7 15l4-4 3 3 5-6"/>',
+  spark: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/>',
+};
+
+/* ---------- Scene ---------- */
+const SCENES = [
+  { id: 'prenota', dev: 'm', eyebrow: 'Cabina · Prenotazioni', l1: 'Prenotare un tavolo?', l2: 'Bastano pochi tocchi.',
+    chips: [[0.8, 'calendar', 'Disponibilità in tempo reale'], [5.0, 'users', 'Persone, occasione e note']] },
+  { id: 'ordina', dev: 'm', eyebrow: 'Cabina · Asporto', l1: 'Il tuo menù,', l2: 'su misura.',
+    chips: [[0.8, 'menu', 'Menù sempre aggiornato'], [4.2, 'plus', 'Varianti e aggiunte']] },
+  { id: 'paga', dev: 'm', eyebrow: 'Cabina · Pagamenti', l1: 'Paga online,', l2: 'in tutta sicurezza.',
+    chips: [[0.8, 'card', 'Pagamento con Stripe'], [6.2, 'check', 'Ordine pagato']] },
+  { id: 'club', dev: 'm', eyebrow: 'Cabina · Fedeltà', l1: 'Punti e premi,', l2: 'sempre in tasca.',
+    chips: [[0.8, 'gift', '1 punto per ogni euro'], [6.0, 'ticket', 'Coupon da mostrare in cassa']] },
+  { id: 'agenda', dev: 'd', eyebrow: 'Plancia · Prenotazioni', l1: 'Un’agenda', l2: 'che si organizza da sola.', section: 'plancia',
+    chips: [[0.8, 'phone', 'Anche quelle al telefono'], [6.6, 'table', 'Tavolo assegnato in automatico']] },
+  { id: 'ordini', dev: 'd', eyebrow: 'Plancia · Ordini', l1: 'Dalla cucina al ritiro,', l2: 'con un tocco.',
+    chips: [[0.6, 'bell', 'Ordini in arrivo in tempo reale']] },
+  { id: 'stato', dev: 'm', eyebrow: 'Cabina · Stato dell’ordine', l1: 'E il cliente', l2: 'lo vede subito.',
+    chips: [[0.5, 'eye', 'Ogni passaggio in diretta']] },
+  { id: 'magazzino', dev: 'd', eyebrow: 'Plancia · Magazzino', l1: 'Sai sempre', l2: 'cosa hai in casa.',
+    chips: [[0.8, 'box', 'Ingredienti e fornitori'], [5.6, 'alert', 'Avvisi sotto soglia, sede per sede']] },
+  { id: 'ricette', dev: 'd', eyebrow: 'Plancia · Ricette', l1: 'Food cost', l2: 'sotto controllo.',
+    chips: [[0.8, 'list', 'Distinta base di ogni piatto'], [5.4, 'chart', 'Costo e margine aggiornati']] },
+  { id: 'marketing', dev: 'd', eyebrow: 'Plancia · Marketing', l1: 'Clienti che', l2: 'tornano a trovarti.',
+    chips: [[0.8, 'users', 'Rubrica con la spesa reale'], [5.0, 'ticket', 'Coupon verificati in cassa']] },
+  { id: 'ovunque', dev: 'm', eyebrow: 'Plancia · Mobile', l1: 'Il tuo locale,', l2: 'ovunque tu sia.',
+    chips: [[0.8, 'phone', 'Dal telefono, come dal computer'], [5.5, 'chart', 'Incassi in tempo reale']] },
+  { id: 'assistente', dev: 'm', eyebrow: 'Assistente AI', l1: 'Un assistente', l2: 'che lavora per te.',
+    chips: [[0.8, 'spark', 'Risponde sui tuoi dati'], [7.4, 'box', 'Carica la bolla in magazzino']] },
+];
+
+// Tempi: apertura, titolo "La cabina", scene, titolo "La plancia" prima dell'agenda, chiusura
+const INTRO = 4.2, SEZ = 2.4, OUTRO_DUR = 5.8;
+let t = INTRO;
+const SEZ_CAB = t; t += SEZ;
+let sezPla = 0;
+SCENES.forEach((s, i) => {
+  if (s.section === 'plancia') { sezPla = t; t += SEZ; }
+  s.start = t; s.dur = COUNTS[s.id] / FPS; s.num = String(i + 1).padStart(2, '0');
+  t += s.dur;
+});
+const OUTRO = t, END = t + OUTRO_DUR;
+
+// Lato del telefono: si alterna tra una scena-telefono e l'altra
+let side = 'R';
+SCENES.forEach(s => { if (s.dev === 'm') { s.side = side; side = side === 'R' ? 'L' : 'R'; } else s.side = 'D'; });
+
+/* ---------- Geometria ---------- */
+const DSCALE16 = 1180 / 960, DSCALE45 = 1000 / 960;
+const L = FMT === '16' ? {
+  m: { x: s => s === 'R' ? 1250 : 236, y: 85, rotY: s => s === 'R' ? -14 : 14 },
+  d: { x: 660, y: 205, w: 1120, rotY: -9 },
+  copy: s => s.dev === 'd' ? { left: 110, top: 70, width: 1700 } : (s.side === 'R' ? { left: 150, top: 320, width: 1000 } : { left: 830, top: 320, width: 1000 }),
+  chip: (s, i) => s.dev === 'd' ? [[96, 470], [96, 640], [96, 810]][i] : (s.side === 'R' ? [[870, 230], [860, 560], [880, 850]] : [[620, 240], [640, 580], [620, 860]])[i],
+  num: s => s.dev === 'd' ? { left: -40, top: 470 } : (s.side === 'R' ? { left: 40, top: 360 } : { left: 900, top: 360 }),
+} : {
+  m: { x: () => 323, y: 395, rotY: s => s === 'R' ? -10 : 10 },
+  d: { x: 40, y: 500, w: 1000, rotY: 0 },
+  copy: () => ({ left: 40, top: 80, width: 1000 }),
+  chip: (s, i) => s.dev === 'd' ? [[60, 1210], [500, 1265], [60, 1265]][i] : [[20, 600], [560, 820], [30, 1060]][i],
+  num: () => ({ left: 230, top: 160 }),
+};
+const dW = L.d.w, dScreenH = Math.round(600 * dW / 960);
+$('win').style.width = dW + 'px';
+$('scrD').style.width = dW + 'px'; $('scrD').style.height = dScreenH + 'px';
+const mPos = s => ({ x: L.m.x(s.side), y: L.m.y, rotationY: L.m.rotY(s.side), rotationX: 4 });
+const dPos = () => ({ x: L.d.x, y: L.d.y, rotationY: L.d.rotY, rotationX: 3 });
+
+/* ---------- Elementi ---------- */
+const words = (txt, cls) => txt.split(' ').map(w => `<span class="w ${cls}">${w}&nbsp;</span>`).join('');
+SCENES.forEach((s, i) => {
+  const c = L.copy(s);
+  const el = document.createElement('div');
+  el.className = 'copy ' + s.dev; el.id = 'copy' + i;
+  Object.assign(el.style, { left: c.left + 'px', top: c.top + 'px', width: c.width + 'px' });
+  el.innerHTML = `<div class="eyebrow"><i></i><span>${s.num} · ${s.eyebrow}</span></div>
+    <span class="line">${words(s.l1, 'l1')}</span><span class="line">${words(s.l2, 'l2')}</span>`;
+  if (s.dev === 'd' && FMT === '16') el.querySelectorAll('.line').forEach(l => { l.style.display = 'inline-block'; l.style.marginRight = '18px'; });
+  $('copies').append(el);
+  const nb = document.createElement('div');
+  nb.className = 'bignum'; nb.id = 'num' + i; nb.textContent = s.num;
+  Object.assign(nb.style, { left: L.num(s).left + 'px', top: L.num(s).top + 'px' });
+  $('nums').append(nb);
+  s.chips.forEach((ch, j) => {
+    const [x, y] = L.chip(s, j);
+    const d = document.createElement('div');
+    d.className = 'chip'; d.id = `chip${i}_${j}`;
+    d.style.left = x + 'px'; d.style.top = y + 'px';
+    d.innerHTML = `<span class="ic"><svg viewBox="0 0 24 24">${ICON[ch[1]]}</svg></span>${ch[2]}`;
+    $('chips').append(d);
+  });
+});
+
+// La rotta: una linea tratteggiata ondulata
+const routeD = FMT === '16' ? 'M -80 820 C 360 600, 640 1020, 1000 760 S 1640 480, 2000 620' : 'M -80 1080 C 220 860, 440 1260, 640 1000 S 980 760, 1160 860';
+$('route').setAttribute('d', routeD);
+const streakD = FMT === '16' ? 'M -100 980 L 2020 100' : 'M -100 1300 L 1180 60';
+$('streak').setAttribute('d', streakD);
+const rLen = $('route').getTotalLength(), sLen = $('streak').getTotalLength();
+
+/* ---------- Timeline ---------- */
+const tl = gsap.timeline({ paused: true });
+gsap.set('.b1', { x: W * .5, y: -H * .1 }); gsap.set('.b2', { x: -W * .2, y: H * .45 }); gsap.set('.b3', { x: W * .25, y: H * .2 });
+tl.to('.blob', { opacity: 1, duration: 1.6, ease: 'power2.out' }, 0);
+tl.to('.b1', { x: W * .02, y: H * .4, duration: END, ease: 'sine.inOut' }, 0);
+tl.to('.b2', { x: W * .5, y: -H * .1, duration: END, ease: 'sine.inOut' }, 0);
+tl.to('.b3', { x: -W * .1, y: H * .55, duration: END, ease: 'sine.inOut' }, 0);
+
+// La rotta si disegna con una maschera: tratteggio fisso, rivelato progressivamente
+const mask = document.createElementNS('http://www.w3.org/2000/svg', 'mask'); mask.id = 'rm';
+const mp = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+mp.setAttribute('d', routeD); mp.setAttribute('stroke', '#fff'); mp.setAttribute('stroke-width', '12'); mp.setAttribute('fill', 'none');
+mask.append(mp); $('routeSvg').prepend(mask); $('route').setAttribute('mask', 'url(#rm)');
+gsap.set(mp, { attr: { 'stroke-dasharray': rLen, 'stroke-dashoffset': rLen } });
+gsap.set('#streak', { strokeDasharray: `260 ${sLen}`, strokeDashoffset: 260 });
+
+// Apertura
+gsap.set('#introLogo', { opacity: 0, scale: .92, filter: 'blur(14px)' });
+gsap.set('#introTag', { opacity: 0, letterSpacing: '.9em' });
+tl.to(mp, { attr: { 'stroke-dashoffset': 0 }, duration: 2, ease: 'power2.inOut' }, 0.2);
+tl.to('#introLogo', { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.2, ease: 'expo.out' }, 0.6);
+tl.to('#introTag', { opacity: 1, letterSpacing: '.34em', duration: 1.2, ease: 'expo.out' }, 1.4);
+tl.to('#intro', { scale: .9, opacity: 0, filter: 'blur(10px)', duration: 0.6, ease: 'power2.in' }, INTRO - 0.65);
+tl.to('#route', { opacity: .18, duration: 0.8 }, INTRO - 0.5);
+
+// Titoli di sezione
+function sezione(id, T) {
+  const k = `#${id} .k`, tt = `#${id} .t`, ss = `#${id} .s`;
+  gsap.set(`#${id}`, { opacity: 0 }); gsap.set(tt, { yPercent: 110 }); gsap.set([k, ss], { opacity: 0, y: 16 });
+  tl.set(`#${id}`, { opacity: 1 }, T);
+  tl.to(k, { opacity: 1, y: 0, duration: 0.6, ease: 'expo.out' }, T + 0.05);
+  tl.to(tt, { yPercent: 0, duration: 0.9, ease: 'expo.out' }, T + 0.12);
+  tl.to(ss, { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out' }, T + 0.45);
+  tl.to(`#${id}`, { opacity: 0, scale: .94, filter: 'blur(8px)', duration: 0.45, ease: 'power2.in' }, T + SEZ - 0.5);
+}
+sezione('sezCabina', SEZ_CAB);
+sezione('sezPlancia', sezPla);
+
+// Dispositivi: galleggiano piano per tutta la durata
+tl.to(['#floatM', '#floatD'], { y: -12, rotationZ: .5, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: Math.ceil(END / 2.6) }, 0);
+
+const rigOf = s => s.dev === 'm' ? '#rigM' : '#rigD';
+const posOf = s => s.dev === 'm' ? mPos(s) : dPos();
+function entra(s, T) {
+  const p = posOf(s);
+  const from = s.dev === 'm'
+    ? { x: p.x + (s.side === 'R' ? 380 : -380) * (FMT === '16' ? 1 : 0), y: p.y + (FMT === '16' ? 0 : 420), rotationY: s.side === 'R' ? 38 : -38, rotationX: 10, opacity: 0, scale: .9 }
+    : { x: p.x + (FMT === '16' ? 300 : 0), y: p.y + 160, rotationY: -26, rotationX: 12, opacity: 0, scale: .9 };
+  tl.fromTo(rigOf(s), from, { ...p, opacity: 1, scale: 1, duration: 1.1, ease: 'expo.out', immediateRender: false }, T - 0.25);
+}
+function esce(s, T) {
+  tl.to(rigOf(s), { opacity: 0, scale: .86, y: posOf(s).y + 90, duration: 0.45, ease: 'power2.in' }, T - 0.5);
+}
+
+SCENES.forEach((s, i) => {
+  const T = s.start, prev = SCENES[i - 1];
+  const c = '#copy' + i, ws = `${c} .w`;
+  gsap.set(ws, { yPercent: 118 }); gsap.set(`${c} .eyebrow`, { opacity: 0, x: -20 }); gsap.set(`${c} .eyebrow i`, { scaleX: 0 });
+
+  tl.fromTo('#num' + i, { opacity: 0, x: FMT === '16' ? 80 : 0, y: FMT === '16' ? 0 : 40 }, { opacity: 1, x: 0, y: 0, duration: 1.2, ease: 'expo.out', immediateRender: false }, T + 0.1);
+  tl.to('#num' + i, { opacity: 0, duration: 0.4 }, T + s.dur - 0.55);
+  tl.to(`${c} .eyebrow`, { opacity: 1, x: 0, duration: 0.7, ease: 'expo.out' }, T + 0.15);
+  tl.to(`${c} .eyebrow i`, { scaleX: 1, duration: 0.7, ease: 'expo.out' }, T + 0.2);
+  tl.to(ws, { yPercent: 0, duration: 0.9, stagger: 0.05, ease: 'expo.out' }, T + 0.25);
+  tl.to(ws, { yPercent: -118, duration: 0.45, stagger: 0.02, ease: 'power3.in' }, T + s.dur - 0.6);
+  tl.to(`${c} .eyebrow`, { opacity: 0, duration: 0.35 }, T + s.dur - 0.55);
+
+  s.chips.forEach((ch, j) => {
+    const id = `#chip${i}_${j}`;
+    tl.fromTo(id, { opacity: 0, scale: .6, y: 26 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: 'back.out(2)', immediateRender: false }, T + ch[0]);
+    tl.to(id, { opacity: 0, scale: .85, y: -14, duration: 0.35, ease: 'power2.in' }, T + s.dur - 0.6);
+  });
+
+  // Passaggi tra le scene
+  const dopoSezione = !prev || s.section === 'plancia';
+  if (dopoSezione) {
+    if (prev) esce(prev, sezPla);
+    entra(s, T);
+  } else if (prev.dev !== s.dev) {
+    esce(prev, T);
+    entra(s, T + 0.1);
+  } else if (s.dev === 'm') {
+    tl.to('#rigM', { keyframes: [
+      { x: (L.m.x(prev.side) + L.m.x(s.side)) / 2, rotationY: FMT === '16' ? (s.side === 'L' ? 55 : -55) : 32, scale: .9, duration: 0.45, ease: 'power2.in' },
+      { x: L.m.x(s.side), rotationY: L.m.rotY(s.side), scale: 1, duration: 0.65, ease: 'expo.out' },
+    ] }, T - 0.45);
+    tl.fromTo('#flashM', { opacity: 0 }, { opacity: 1, duration: 0.18, yoyo: true, repeat: 1, immediateRender: false }, T - 0.18);
+    tl.fromTo('#streak', { strokeDashoffset: 260, opacity: .8 }, { strokeDashoffset: -sLen, duration: 0.9, ease: 'power2.inOut', immediateRender: false }, T - 0.5);
+    tl.set('#streak', { opacity: 0 }, T + 0.45);
+  } else {
+    tl.to('#rigD', { keyframes: [
+      { rotationY: 6, scale: .96, duration: 0.4, ease: 'power2.in' },
+      { rotationY: L.d.rotY, scale: 1, duration: 0.6, ease: 'expo.out' },
+    ] }, T - 0.4);
+    tl.fromTo('#flashD', { opacity: 0 }, { opacity: 1, duration: 0.18, yoyo: true, repeat: 1, immediateRender: false }, T - 0.18);
+  }
+});
+
+// Chiusura
+const last = SCENES[SCENES.length - 1];
+gsap.set('#outro', { opacity: 0 }); gsap.set(['#o1', '#o2'], { yPercent: 118 });
+gsap.set('#outroLogo', { opacity: 0, y: 20, filter: 'blur(10px)' }); gsap.set('#byline', { opacity: 0, y: 14 });
+tl.to(rigOf(last), { scale: .55, opacity: 0, rotationY: 0, y: posOf(last).y + 120, duration: 0.9, ease: 'power3.in' }, OUTRO - 0.3);
+tl.set('#outro', { opacity: 1 }, OUTRO);
+tl.to('#route', { opacity: .5, duration: 0.8 }, OUTRO);
+tl.to('#o1', { yPercent: 0, duration: 1, ease: 'expo.out' }, OUTRO + 0.4);
+tl.to('#o2', { yPercent: 0, duration: 1, ease: 'expo.out' }, OUTRO + 0.65);
+tl.to('#outroLogo', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'expo.out' }, OUTRO + 1.4);
+tl.to('#byline', { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out' }, OUTRO + 2.1);
+tl.to('#stage', { opacity: 0, duration: 0.6, ease: 'power1.in' }, END - 0.6);
+tl.set({}, {}, END);
+
+/* ---------- Un fotogramma al tempo t ---------- */
+const last_ = { m: '', d: '' };
+window.renderAt = async (time) => {
+  // Le immagini cambiano poco prima dell'inizio: 0,6 s se entra un altro dispositivo, durante il lampo se è lo stesso
+  const s = [...SCENES].reverse().find((x, k, arr) => { const p = SCENES[SCENES.indexOf(x) - 1]; return time >= x.start - (p && p.dev === x.dev && !x.section ? 0.18 : 0.6); }) || SCENES[0];
+  const local = Math.max(0, time - s.start);
+  const n = Math.min(COUNTS[s.id], Math.floor(local * FPS) + 1);
+  const src = `frames/${s.id}/${String(n).padStart(5, '0')}.jpg`;
+  const img = s.dev === 'm' ? $('scrM') : $('scrD');
+  if (last_[s.dev] !== src) { img.src = src; last_[s.dev] = src; await img.decode().catch(() => {}); }
+  tl.seek(time, false);
+};
+window.DURATION = END;
+window.ready = document.fonts.ready.then(() => window.renderAt(0)).then(() => true);
+</script>
+</body>
+</html>

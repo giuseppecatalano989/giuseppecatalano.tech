@@ -1,0 +1,29 @@
+{
+  "_note": "seg = [inizio, fine, velocità] in secondi della ripresa; target = durata voluta della scena (le velocità vengono scalate). fix = ripresa fatta con l'area spostata di 2-3 px",
+  "scenes": [
+    { "id": "prenota", "dev": "m", "src": "cabL3-prenota", "fix": true, "target": 11,
+      "seg": [[2.5, 4, 1], [8.5, 10.5, 1.2], [16, 24, 3], [24, 31, 3.5], [32, 57, 4.5], [58, 61.5, 1]] },
+    { "id": "ordina", "dev": "m", "src": "cabL2-asporto", "fix": true, "target": 11,
+      "seg": [[14, 16, 1], [22, 36, 2.5], [36, 50, 3], [56, 58, 1.5], [62, 67, 1.5]] },
+    { "id": "paga", "dev": "m", "src": "cabL2-asporto", "fix": true, "target": 10,
+      "seg": [[88, 95, 2.5], [96, 104, 2.5], [110, 128, 4], [128, 129.6, 1]] },
+    { "id": "club", "dev": "m", "src": "cabL1-club2", "target": 10,
+      "seg": [[0, 3, 1.2], [3, 9, 2], [9, 20, 2.2], [20, 26, 1.3]] },
+    { "id": "agenda", "dev": "d", "src": "pla-desk2", "target": 10,
+      "seg": [[3, 15, 3], [15, 29, 3.5], [29, 32, 1.5], [38, 45, 1.6]] },
+    { "id": "ordini", "dev": "d", "src": "pla-desk2", "target": 7,
+      "seg": [[50, 75, 2.5]] },
+    { "id": "stato", "dev": "m", "src": "cab-stato", "target": 4,
+      "seg": [[0.5, 5, 1]] },
+    { "id": "magazzino", "dev": "d", "src": "pla-desk1", "target": 11,
+      "seg": [[24, 30, 2], [30, 54, 4.5], [63, 72, 3], [75, 92, 3.5]] },
+    { "id": "ricette", "dev": "d", "src": "pla-desk1", "target": 9,
+      "seg": [[96, 108, 3], [108, 128, 3.5], [128, 145, 3]] },
+    { "id": "marketing", "dev": "d", "src": "pla-desk2", "target": 9,
+      "seg": [[76, 92, 3.5], [98, 104, 2], [106, 128, 3.5]] },
+    { "id": "ovunque", "dev": "m", "src": "pla-mobile2", "target": 12,
+      "seg": [[0, 8, 2.2], [24, 40, 4], [56, 70, 3.5], [76, 90, 3.5], [94, 104, 3]] },
+    { "id": "assistente", "dev": "m", "src": "pla-mobile2", "target": 12,
+      "seg": [[106, 117, 2.5], [126.5, 148, 3.5], [148, 163, 2.5]] }
+  ]
+}
