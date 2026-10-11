@@ -1,14 +1,14 @@
 const COUNTS = {
- "prenota": 330,
- "ordina": 330,
- "paga": 300,
- "club": 300,
- "agenda": 300,
+ "prenota": 300,
+ "ordina": 300,
+ "paga": 270,
+ "club": 270,
+ "agenda": 270,
  "ordini": 210,
  "stato": 120,
- "magazzino": 330,
- "ricette": 270,
- "marketing": 270,
- "ovunque": 360,
- "assistente": 360
+ "magazzino": 300,
+ "ricette": 240,
+ "marketing": 240,
+ "ovunque": 300,
+ "assistente": 330
 };

@@ -1,4 +1,4 @@
-// Rende comp.html fotogramma per fotogramma con Microsoft Edge (puppeteer-core).
+﻿// Rende comp.html fotogramma per fotogramma con Microsoft Edge (puppeteer-core).
 // Uso: node render.js <16|45> <cartella-uscita> [secondi-di-anteprima...]
 const puppeteer = require('../node_modules/puppeteer-core');
 const path = require('path');
@@ -26,7 +26,8 @@ const [W, H] = fmt === '16' ? [1920, 1080] : [1080, 1350];
   const duration = await page.evaluate(() => window.DURATION);
 
   const from = Number(process.env.FROM || 0);
-  const times = previewTimes.length ? previewTimes : Array.from({ length: Math.round(duration * FPS) }, (_, i) => i / FPS);
+  const TO = Number(process.env.TO || 0);
+  const times = previewTimes.length ? previewTimes : Array.from({ length: TO || Math.round(duration * FPS) }, (_, i) => i / FPS);
   const t0 = Date.now();
   for (let i = previewTimes.length ? 0 : from; i < times.length; i++) {
     await page.evaluate((t) => window.renderAt(t), times[i]);
@@ -37,3 +38,4 @@ const [W, H] = fmt === '16' ? [1920, 1080] : [1080, 1350];
   console.log(`FATTO: ${times.length} fotogrammi in ${Math.round((Date.now() - t0) / 1000)} s`);
   await browser.close();
 })().catch((e) => { console.error(e); process.exit(1); });
+
