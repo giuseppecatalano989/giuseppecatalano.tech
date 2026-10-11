@@ -32,6 +32,10 @@
   .eyebrow i { display: block; width: 46px; height: 3px; border-radius: 2px; background: var(--salvia); transform-origin: left; }
   /* Le righe nascondono le parole che salgono: lo spazio sotto e ai lati (compensato dai margini) lascia intere le lettere discendenti e quelle che sporgono per la spaziatura stretta */
   .line { display: block; overflow: hidden; padding: .06em .14em .26em; margin: 0 -.14em -.2em; white-space: nowrap; }
+  /* La riga eredita il carattere piccolo di base: lo spazio va dato in pixel, sulla misura dei testi che contiene */
+  .copy .line { padding: 8px 18px 30px; margin: 0 -18px -24px; }
+  .card .line { padding: 20px 50px 80px; margin: 0 -50px -64px; }
+  #outro .line { padding: 10px 24px 36px; margin: 0 -24px -28px; }
   .w { display: inline-block; will-change: transform; }
   .l1 { font-weight: 900; font-size: 96px; line-height: 1.0; letter-spacing: -.045em; color: var(--inchiostro); }
   .l2 { font-weight: 300; font-size: 96px; line-height: 1.0; letter-spacing: -.04em; color: var(--salvia); }
@@ -331,7 +335,7 @@ tl.to('#route', { opacity: .15, duration: 0.6 }, INTRO - 0.4);
 // Copertina: tendina che entra da sinistra, titolo, tendina che esce a destra
 function copertina(id, T, dur, tieni) {
   const sel = '#' + id;
-  gsap.set(`${sel} .t`, { yPercent: 110 });
+  gsap.set(`${sel} .t`, { yPercent: 175 });
   tl.fromTo(`${sel} .bg`, { scaleX: 0, transformOrigin: 'left center' }, { scaleX: 1, duration: 0.38, ease: 'power3.inOut', immediateRender: false }, T);
   tl.fromTo(`${sel} .num`, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, T + 0.25);
   tl.to(`${sel} .t`, { yPercent: 0, duration: 0.7, ease: 'expo.out' }, T + 0.28);
@@ -377,11 +381,11 @@ SCENES.forEach((s, i) => {
 
   // Testi
   const c = '#copy' + i, ws = `${c} .w`;
-  gsap.set(ws, { yPercent: 118 }); gsap.set(`${c} .eyebrow`, { opacity: 0, x: -20 }); gsap.set(`${c} .eyebrow i`, { scaleX: 0 });
+  gsap.set(ws, { yPercent: 175 }); gsap.set(`${c} .eyebrow`, { opacity: 0, x: -20 }); gsap.set(`${c} .eyebrow i`, { scaleX: 0 });
   tl.to(`${c} .eyebrow`, { opacity: 1, x: 0, duration: 0.6, ease: 'expo.out' }, T + 0.05);
   tl.to(`${c} .eyebrow i`, { scaleX: 1, duration: 0.6, ease: 'expo.out' }, T + 0.1);
   tl.to(ws, { yPercent: 0, duration: 0.8, stagger: 0.045, ease: 'expo.out' }, T + 0.12);
-  tl.to(ws, { yPercent: -118, duration: 0.4, stagger: 0.02, ease: 'power3.in' }, T + s.dur - 0.5);
+  tl.to(ws, { yPercent: -175, duration: 0.4, stagger: 0.02, ease: 'power3.in' }, T + s.dur - 0.5);
   tl.to(`${c} .eyebrow`, { opacity: 0, duration: 0.3 }, T + s.dur - 0.45);
 
   // Punti di forza, uno alla volta
@@ -406,7 +410,7 @@ SCENES.forEach((s, i) => {
 
 // Chiusura
 const last = SCENES[SCENES.length - 1];
-gsap.set('#outro', { opacity: 0 }); gsap.set(['#o1', '#o2'], { yPercent: 118 });
+gsap.set('#outro', { opacity: 0 }); gsap.set(['#o1', '#o2'], { yPercent: 175 });
 gsap.set('#outroLogo', { opacity: 0, y: 20, filter: 'blur(10px)' }); gsap.set('#byline', { opacity: 0, y: 14 });
 tl.to(rigOf(last), { scale: .6, opacity: 0, y: '+=120', duration: 0.8, ease: 'power3.in' }, OUTRO - 0.3);
 tl.set('#outro', { opacity: 1 }, OUTRO);
