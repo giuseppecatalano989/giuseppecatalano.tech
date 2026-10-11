@@ -7,7 +7,7 @@ Preparazione: `npm install` in questa cartella; copiare i font Selawik e mettere
 estratti dalle registrazioni dell'app (vedi `COUNT` e `SCENES` in `comp.html`).
 
 Rendering: `node render.js 16 out16`, poi unire i fotogrammi e la musica con ffmpeg.
-Concept di Filo: "il filo che cuce". Un filo luminoso con l'ago in punta entra dal bordo, cuce la seconda riga del titolo e si chiude ad anello intorno al telefono frontale; lettere che cadono al loro posto, etichette con il bordo a punti.
+Concept di Filo: "il filo che cuce". Un filo luminoso sottile, con l'ago in punta, attraversa lo schermo da sinistra a destra con curve ampie e regolari, sottolinea la seconda riga del titolo e passa dietro al telefono frontale; lettere che cadono al loro posto, etichette con il bordo a punti.
 Musica usata per Filo: «Chill (Loopable)» di Pro Sensory (Alex McCulloch), OpenGameArt, licenza CC0.
 
 ## Nocchiero (`nocchiero/`)

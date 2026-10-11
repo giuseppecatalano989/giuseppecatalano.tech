@@ -169,7 +169,7 @@ const SCENES = [
 ];
 
 /* ---------- Tempi ---------- */
-const INTRO = 3.4, TRIO = 2.1, SEZ = 2.3, CARD = 1.5, OUTRO_DUR = 6;
+const INTRO = 3.4, TRIO = 2.1, SEZ = 3.2, CARD = 3.2, OUTRO_DUR = 6;
 let t = INTRO + TRIO;
 SCENES.forEach(s => {
   if (s.section) { s.secStart = t; t += SEZ; }
@@ -269,13 +269,13 @@ SCENES.forEach((s, i) => {
   if (s.section) {
     const y = FMT === '16' ? 250 : 380;
     attacca(s.secEl, s.secStart + 0.05, { y, r: 1.5, d: 0.5 });
-    scrivi(s.secEl, s.secStart + 0.45, 0.8);
+    scrivi(s.secEl, s.secStart + 0.45, 0.9);
     stacca(s.secEl, s.secStart + SEZ - 0.45, -1);
   }
   // Titolo della scena
   const ty = FMT === '16' ? 290 : 450;
   attacca(s.titEl, s.cardStart + 0.08, { y: ty, r: i % 2 ? 2.5 : -2.5, from: i % 2 ? 1 : -1, d: 0.5 });
-  scrivi(s.titEl, s.cardStart + 0.5, 0.75);
+  scrivi(s.titEl, s.cardStart + 0.5, 1.0);
   stacca(s.titEl, s.cardStart + CARD - 0.42, i % 2 ? -1 : 1, 0.42);
 
   // Telefono: sale dal basso e si ferma, attaccato con il nastro

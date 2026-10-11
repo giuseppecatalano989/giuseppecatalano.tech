@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <title>Filo — video di presentazione</title>
 <style>
-  /* Concept "il filo che cuce": un filo luminoso con un ago in punta attraversa tutto il video,
-     cuce i titoli, si annoda intorno al telefono e porta da una scena all'altra. */
+  /* Concept "il filo che cuce": un filo luminoso con l'ago in punta attraversa lo schermo da sinistra
+     a destra, cuce la seconda riga del titolo e prosegue dietro al telefono. */
   @font-face { font-family: 'Selawik'; src: url('Selawik-Light.ttf'); font-weight: 300; }
   @font-face { font-family: 'Selawik'; src: url('Selawik-Regular.ttf'); font-weight: 400; }
   @font-face { font-family: 'Selawik'; src: url('Selawik-Bold.ttf'); font-weight: 700; }
@@ -25,8 +25,8 @@
   /* Il filo: tratto luminoso con alone, e l'ago in punta */
   svg.filo { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
   svg.filo path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-  .glow { stroke: var(--lime); stroke-width: 14; opacity: .28; filter: url(#sfoca); }
-  .core { stroke: var(--lime); stroke-width: 4; }
+  .glow { stroke: var(--lime); stroke-width: 10; opacity: .22; filter: url(#sfoca); }
+  .core { stroke: var(--lime); stroke-width: 3; }
   .ago { fill: #fbffe9; filter: url(#bagliore); }
 
   /* Titoli: lettere che cadono al loro posto, e la seconda riga cucita dal filo */
@@ -47,13 +47,12 @@
   .f45 .patch { font-size: 22px; padding: 11px 20px 11px 12px; }
   .f45 .patch .ic { width: 34px; height: 34px; }
 
-  /* Telefono frontale, dentro l'anello del filo */
+  /* Telefono frontale: il filo gli passa dietro */
   #rig { position: absolute; left: 0; top: 0; width: 434px; height: 911px; opacity: 0; }
   .phone { position: relative; width: 434px; height: 911px; border-radius: 64px; padding: 12px;
     background: linear-gradient(160deg, #26303c, #0a0d12 45%, #10151c); box-shadow: inset 0 0 0 2px #2e3946, 0 60px 120px rgba(0,0,0,.6); }
   .phone img { display: block; width: 410px; height: 887px; border-radius: 52px; object-fit: cover; background: var(--bg); }
   .phone .velo { position: absolute; inset: 12px; border-radius: 52px; background: var(--bg); opacity: 0; }
-  svg.anello { position: absolute; left: -40px; top: -40px; width: 514px; height: 991px; overflow: visible; pointer-events: none; }
 
   /* Contatore della libreria */
   .counter { position: absolute; opacity: 0; }
@@ -87,11 +86,10 @@
       <filter id="bagliore" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     </defs>
     <g id="fili"></g>
-    <circle class="ago" id="ago" r="9" cx="-100" cy="-100"/>
+    <circle class="ago" id="ago" r="6" cx="-100" cy="-100"/>
   </svg>
   <div id="copies"></div>
   <div id="rig">
-    <svg class="anello" viewBox="-40 -40 514 991"><path class="glow" id="anelloG"/><path class="core" id="anelloC"/></svg>
     <div class="phone"><img id="screen" alt=""><div class="velo" id="velo"></div></div>
   </div>
   <div id="patches"></div>
@@ -182,12 +180,19 @@ SCENES.forEach((s, i) => {
 });
 $('o1').innerHTML = split('Riprendi il filo.');
 
-// Anello intorno al telefono: rettangolo arrotondato, aperto in alto a sinistra/destra dove arriva il filo
-function anello(side) {
-  const x0 = -22, y0 = -22, w = 434 + 44, h = 911 + 44, r = 84;
-  // parte dal punto di aggancio (metà del lato vicino al testo) e fa un giro completo
-  if (side === 'R') return `M ${x0} ${y0 + h / 2} L ${x0} ${y0 + r} Q ${x0} ${y0} ${x0 + r} ${y0} L ${x0 + w - r} ${y0} Q ${x0 + w} ${y0} ${x0 + w} ${y0 + r} L ${x0 + w} ${y0 + h - r} Q ${x0 + w} ${y0 + h} ${x0 + w - r} ${y0 + h} L ${x0 + r} ${y0 + h} Q ${x0} ${y0 + h} ${x0} ${y0 + h - r} Z`;
-  return `M ${x0 + w} ${y0 + h / 2} L ${x0 + w} ${y0 + r} Q ${x0 + w} ${y0} ${x0 + w - r} ${y0} L ${x0 + r} ${y0} Q ${x0} ${y0} ${x0} ${y0 + r} L ${x0} ${y0 + h - r} Q ${x0} ${y0 + h} ${x0 + r} ${y0 + h} L ${x0 + w - r} ${y0 + h} Q ${x0 + w} ${y0 + h} ${x0 + w} ${y0 + h - r} Z`;
+// Tracciato pulito: arriva da "a", corre sotto la riga da u0 a u1 con un arco appena accennato, prosegue fino a "z"
+function percorso(a, u0, u1, z) {
+  const w = u1[0] - u0[0];
+  let d = `M ${a[0]} ${a[1]} C ${a[0] + (u0[0] - a[0]) * 0.55} ${a[1]}, ${u0[0] - (u0[0] - a[0]) * 0.45} ${u0[1]}, ${u0[0]} ${u0[1]}`;
+  d += ` C ${u0[0] + w / 3} ${u0[1] + 7}, ${u1[0] - w / 3} ${u1[1] + 7}, ${u1[0]} ${u1[1]}`;
+  if (z) d += ` C ${u1[0] + (z[0] - u1[0]) * 0.45} ${u1[1]}, ${z[0] - (z[0] - u1[0]) * 0.55} ${z[1]}, ${z[0]} ${z[1]}`;
+  return d;
+}
+// Lunghezza lungo il tracciato fino al punto più vicino a "pt"
+function lunghezzaA(path, pt) {
+  const L = path.getTotalLength(); let best = 0, bd = Infinity;
+  for (let l = 0; l <= L; l += 3) { const q = path.getPointAtLength(l), dd = (q.x - pt[0]) ** 2 + (q.y - pt[1]) ** 2; if (dd < bd) { bd = dd; best = l; } }
+  return best;
 }
 
 const tl = gsap.timeline({ paused: true });
@@ -229,13 +234,15 @@ function build() {
   });
   // Prima di comparire, lettere ed etichette sono nascoste
   gsap.set('.ch', { opacity: 0 }); gsap.set('.copy .tag', { opacity: 0 }); gsap.set(['#introDot', '#introTag'], { opacity: 0 });
-  // Apertura: il filo entra, passa sotto "filo" cucendolo e fa un nodo sul punto
+  // Apertura: il filo entra, passa sotto "filo" cucendolo e si ferma sotto il punto
   const lett = box($('introLett')), dot = box($('introDot'));
-  const yU = lett.y + lett.h * 0.92, dx = dot.x + dot.w / 2, dy = dot.y + dot.h * 0.78;
-  const fIntro = filo(`M -60 ${H * 0.75} C ${W * 0.12} ${H * 0.55}, ${lett.x - 160} ${yU + 120}, ${lett.x - 10} ${yU} L ${lett.x + lett.w} ${yU} C ${dx - 10} ${yU}, ${dx - 34} ${dy + 6}, ${dx} ${dy + 18} a 18 18 0 1 0 0.1 0`);
+  const yU = lett.y + lett.h * 0.95, dx = dot.x + dot.w / 2;
+  const uI0 = [lett.x - 8, yU], uI1 = [dx, yU];
+  const fIntro = filo(percorso([-60, yU + 150], uI0, uI1));
+  const qI1 = lunghezzaA(fIntro.paths[1], uI0) / fIntro.len, qI2 = lunghezzaA(fIntro.paths[1], [lett.x + lett.w, yU + 6]) / fIntro.len;
   tl.set(ago, { opacity: 1 }, 0.2);
-  fIntro.to(0.38, 0.2, 0.9, 'power2.in');
-  fIntro.to(0.86, 1.1, 0.9, 'none');
+  fIntro.to(qI1, 0.2, 0.9, 'power2.in');
+  fIntro.to(qI2, 1.1, 0.9, 'none');
   cuci($('introLett'), 1.1, 0.9);
   fIntro.to(1, 2.0, 0.45, 'power2.out');
   tl.fromTo('#introDot', { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(3)', immediateRender: false }, 2.3);
@@ -260,38 +267,20 @@ function build() {
     } else {
       tl.fromTo('#velo', { opacity: 0 }, { opacity: 1, duration: 0.2, yoyo: true, repeat: 1, immediateRender: false }, T - 0.2);
     }
-    // Anello: si chiude intorno al telefono dopo che il filo arriva
-    tl.set(['#anelloG', '#anelloC'], { attr: { d: anello(FMT === '16' ? s.side : 'R') } }, T - 0.6);
-    const aLen = 2 * (434 + 44 + 911 + 44);
-    tl.fromTo(['#anelloG', '#anelloC'], { strokeDasharray: aLen, strokeDashoffset: aLen }, { strokeDashoffset: 0, duration: 0.9, ease: 'power2.inOut', immediateRender: false }, T + 1.55);
-    tl.to(['#anelloG', '#anelloC'], { strokeDashoffset: -aLen, duration: 0.5, ease: 'power2.in' }, T + s.dur - 0.7);
-    tl.set(['#anelloG', '#anelloC'], { opacity: 0 }, T + s.dur - 0.18); tl.set(['#anelloG', '#anelloC'], { opacity: 1 }, T + 1.5);
-
-    // Filo della scena: entra dal bordo, cuce la seconda riga, raggiunge il telefono
-    const [ex, ey] = L.entra(s.side);
-    const aggancio = FMT === '16'
-      ? (s.side === 'R' ? [p.x - 22, p.y + 455] : [p.x + 434 + 22, p.y + 455])
-      : [p.x - 22, p.y + 455];
-    const inizio = [b.x - 12, yU], fineU = [b.x + b.w + 8, yU];
-    let d;
-    if (FMT === '16' && s.side === 'L') {
-      d = `M ${ex} ${ey} C ${W - 120} ${yU + 260}, ${b.x - 200} ${yU + 180}, ${inizio[0]} ${inizio[1]} L ${fineU[0]} ${fineU[1]} C ${fineU[0] + 120} ${yU + 40}, ${fineU[0] + 40} ${yU + 330}, ${(fineU[0] + aggancio[0]) / 2} ${yU + 360} S ${aggancio[0] + 120} ${aggancio[1]}, ${aggancio[0]} ${aggancio[1]}`;
-    } else if (FMT === '16') {
-      d = `M ${ex} ${ey} C 140 ${yU + 260}, ${b.x - 160} ${yU + 120}, ${inizio[0]} ${inizio[1]} L ${fineU[0]} ${fineU[1]} C ${fineU[0] + 120} ${yU}, ${aggancio[0] - 160} ${aggancio[1] - 40}, ${aggancio[0]} ${aggancio[1]}`;
-    } else {
-      d = `M ${ex} ${ey} C 60 ${yU + 120}, ${b.x - 120} ${yU + 40}, ${inizio[0]} ${inizio[1]} L ${fineU[0]} ${fineU[1]} C ${fineU[0] + 140} ${yU + 20}, ${fineU[0] + 80} ${p.y - 90}, ${p.x + 217} ${p.y - 22}`;
-    }
-    const f = filo(d);
-    // tratto fino all'inizio della riga, cucitura, poi verso il telefono
-    const tmp = document.createElementNS(NS, 'path'); tmp.setAttribute('d', d.split(' L ')[0]); $('fili').append(tmp);
-    const q1 = tmp.getTotalLength() / f.len; tmp.remove();
-    const q2 = q1 + (fineU[0] - inizio[0]) / f.len;
+    // Filo della scena: entra da sinistra, cuce la seconda riga ed esce a destra passando dietro al telefono
+    const u0 = [b.x - 14, yU], u1 = [b.x + b.w + 10, yU];
+    let a, z;
+    if (FMT === '16' && s.side === 'L') { a = [-60, yU + 250]; z = [W + 60, yU + 140]; }
+    else if (FMT === '16') { a = [-60, yU + 140]; z = [W + 60, yU + 250]; }
+    else { a = [-60, yU + 110]; z = [W + 60, yU + 110]; }
+    const f = filo(percorso(a, u0, u1, z));
+    const q1 = lunghezzaA(f.paths[1], u0) / f.len, q2 = lunghezzaA(f.paths[1], u1) / f.len;
     tl.set(ago, { opacity: 1 }, T + 0.05);
     f.to(q1, T + 0.05, 0.5, 'power2.in');
     f.to(q2, T + 0.55, 0.85, 'none');
     cuci(s.el.querySelector('.b'), T + 0.55, 0.85);
-    f.to(1, T + 1.4, 0.45, 'power2.out');
-    tl.set(ago, { opacity: 0 }, T + 1.9);
+    f.to(1, T + 1.4, 0.7, 'power2.out');
+    tl.set(ago, { opacity: 0 }, T + 2.1);
     // Testo: etichetta e lettere che cadono
     tl.fromTo(s.el.querySelector('.tag'), { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.6, ease: 'expo.out', immediateRender: false }, T + 0.1);
     cadono(s.el.querySelectorAll('.a .ch'), T + 0.15);
@@ -329,7 +318,7 @@ function build() {
       tl.fromTo(cnt, { opacity: 0, y: L.counter.y + 40 }, { opacity: 1, y: L.counter.y, duration: 0.8, ease: 'expo.out', immediateRender: false }, T + s.counterAt);
       tl.to(k, { h: 196, e: 440, duration: 2.4, ease: 'power3.out', onUpdate: () => { $('cHours').textContent = Math.round(k.h); $('cEp').textContent = Math.round(k.e); } }, T + s.counterAt + 0.15);
       const cb = box(cnt), yC = cb.y + cb.h + 14 + 0;
-      const fc = filo(`M ${cb.x} ${yC} C ${cb.x + cb.w * 0.3} ${yC + 18}, ${cb.x + cb.w * 0.7} ${yC - 18}, ${cb.x + cb.w} ${yC}`);
+      const fc = filo(percorso([cb.x, yC], [cb.x, yC], [cb.x + cb.w, yC]));
       fc.to(1, T + s.counterAt + 0.2, 2.2, 'power3.out', false);
       tl.to(cnt, { opacity: 0, duration: 0.4 }, T + s.dur - 0.5);
       tl.to(fc.paths, { strokeDashoffset: -fc.len, duration: 0.5, ease: 'power2.in' }, T + s.dur - 0.6);
@@ -343,10 +332,9 @@ function build() {
   tl.set('#outro', { opacity: 1 }, OUTRO);
   cadono('#o1 .ch', OUTRO + 0.2);
   const o2 = box($('o2')), yO = o2.y + o2.h * 0.9;
-  const fO = filo(`M -60 ${yO + 200} C ${o2.x - 300} ${yO + 160}, ${o2.x - 120} ${yO}, ${o2.x - 10} ${yO} L ${o2.x + o2.w + 10} ${yO} C ${o2.x + o2.w + 200} ${yO}, ${W - 200} ${yO + 220}, ${W + 60} ${yO + 160}`);
-  const tmp = document.createElementNS(NS, 'path'); tmp.setAttribute('d', fO.g.querySelector('.core').getAttribute('d').split(' L ')[0]); $('fili').append(tmp);
-  const q1 = tmp.getTotalLength() / fO.len; tmp.remove();
-  const q2 = q1 + (o2.w + 20) / fO.len;
+  const uO0 = [o2.x - 12, yO], uO1 = [o2.x + o2.w + 12, yO];
+  const fO = filo(percorso([-60, yO + 170], uO0, uO1, [W + 60, yO + 170]));
+  const q1 = lunghezzaA(fO.paths[1], uO0) / fO.len, q2 = lunghezzaA(fO.paths[1], uO1) / fO.len;
   tl.set(ago, { opacity: 1 }, OUTRO + 0.6);
   fO.to(q1, OUTRO + 0.6, 0.5, 'power2.in');
   fO.to(q2, OUTRO + 1.1, 0.9, 'none');
