@@ -26,30 +26,24 @@ function buildThread() {
   });
   if (!knots.length) return;
   const m = Math.max(8, Math.min(...knots.map((k) => k.x)) - 26);
-  let d = `M ${m} -40`;
-  let prevY = -40;
-  // A ogni sezione il filo fa un ricciolo verso destra, come la "l" corsiva:
-  // scende, gira su se stesso incrociandosi e prosegue dritto verso il basso.
-  const R = 13;                 // raggio del ricciolo
-  const c = 0.5523 * R;         // costante per approssimare il cerchio con curve di Bézier
+  // Il filo scende lungo il margine ondeggiando appena; all'altezza di ogni etichetta
+  // si avvicina con una curva ampia, la sfiora e torna al margine. Niente riccioli né spigoli.
+  const pts = [[m, -40]];
   knots.forEach((k, i) => {
-    const sway = i % 2 ? 10 : -6;
-    const last = i === knots.length - 1;
-    const y = k.y;              // il centro del ricciolo è all'altezza dell'etichetta
-    const cx = m + R;           // centro del ricciolo, a destra del filo
-    // discesa lungo il margine fino a poco sopra il ricciolo
-    d += ` C ${m + sway} ${prevY + (y - R * 2 - prevY) * 0.4}, ${m - sway} ${y - 80}, ${m} ${y - R * 2}`;
-    // il filo scivola in basso a destra, verso il fondo del ricciolo
-    d += ` C ${m} ${y - R * 0.5}, ${cx - c * 1.7} ${y + R}, ${cx} ${y + R}`;
-    // giro completo: destra, alto, poi giù a sinistra attraversando il filo (l'incrocio a "X")
-    d += ` C ${cx + c} ${y + R}, ${cx + R} ${y + c}, ${cx + R} ${y}`;
-    d += ` C ${cx + R} ${y - c}, ${cx + c} ${y - R}, ${cx} ${y - R}`;
-    d += ` C ${cx - c * 1.4} ${y - R}, ${m - R * 0.7} ${y - c * 0.6}, ${m - R * 0.4} ${y + R * 0.45}`;
-    // ripresa della discesa verso il basso
-    const tail = last ? 46 : 70;
-    d += ` C ${m - R * 0.2} ${y + R * 1.1}, ${m} ${y + R + 12}, ${m} ${y + tail}`;
-    prevY = y + tail;
+    const prev = pts[pts.length - 1];
+    // resta nel margine anche quando l'etichetta è centrata (sezione finale)
+    const tocco = Math.min(m + 34, Math.max(m + 18, k.x + 6));
+    const largo = Math.min(220, Math.max(120, (k.y - prev[1]) * 0.4));
+    if (k.y - largo - prev[1] > 260) pts.push([m + (i % 2 ? 7 : -5), (prev[1] + k.y - largo) / 2]);
+    pts.push([m + 2, k.y - largo], [tocco, k.y], [m - 2, k.y + largo]);
   });
+  pts.push([m, pts[pts.length - 1][1] + 120]);
+  // Curva morbida che passa per tutti i punti (Catmull-Rom convertita in Bézier)
+  let d = `M ${pts[0][0]} ${pts[0][1]}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+    d += ` C ${p1[0] + (p2[0] - p0[0]) / 6} ${p1[1] + (p2[1] - p0[1]) / 6}, ${p2[0] - (p3[0] - p1[0]) / 6} ${p2[1] - (p3[1] - p1[1]) / 6}, ${p2[0]} ${p2[1]}`;
+  }
   path.setAttribute('d', d);
   length = path.getTotalLength();
   path.style.strokeDasharray = length;
