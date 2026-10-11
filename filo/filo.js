@@ -1,8 +1,8 @@
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------- Il filo: una linea luminosa che attraversa la pagina e si disegna scorrendo ----------
-   Scende nei margini e passa da un lato all'altro tra le sezioni con grandi curve a S,
-   con un leggero bagliore e l'ago luminoso in punta. */
+/* ---------- Il filo: una linea luminosa che scende nel margine sinistro e si disegna scorrendo ----------
+   Onda morbida a ritmo regolare, più ampia accanto alle etichette delle sezioni;
+   leggero bagliore e ago luminoso in punta. */
 const wrap = document.querySelector('.thread-wrap');
 const svg = document.querySelector('.thread');
 const path = document.getElementById('thread-path');
@@ -25,50 +25,34 @@ function buildThread() {
   };
   const rect = (el) => { const r = el.getBoundingClientRect(), dy = shiftY(el); return { l: r.left - box.left, r: r.right - box.left, t: r.top - box.top - dy, b: r.bottom - box.top - dy }; };
   const main = document.querySelector('main'), cs = getComputedStyle(main), mr = rect(main);
-  const sinistra = mr.l + parseFloat(cs.paddingLeft) / 2 - 4;                        // corsia nel margine sinistro
-  const destra = (mr.r - parseFloat(cs.paddingRight) + Math.min(W, mr.r)) / 2 + 6;   // e in quello destro
   const sezioni = [...document.querySelectorAll('[data-knot]')].map((label) => {
-    const sec = label.closest('section');
-    return { label: rect(label), fondo: rect(sec.lastElementChild) };
+    return { label: rect(label) };
   });
   if (!sezioni.length) return;
-  // Onda armoniosa: il filo scende in un margine ondeggiando appena e, nello spazio vuoto tra
-  // una sezione e l'altra, attraversa la pagina con una grande S fino al margine opposto.
-  // Ogni tratto arriva e riparte in verticale: nessun cambio di direzione brusco.
-  // Testi da non attraversare
-  const testi = [...document.querySelectorAll('main p, main h1, main h2, main h3, figcaption, .btn, .genres, .states, .notif')].map(rect);
-  const corsie = [sinistra, destra];
-  let lato = 0;
-  const tappe = [[corsie[0], -40]];
-  const scendi = (fino) => {
-    // discesa nel margine con un'oscillazione leggera e regolare
-    const da = tappe[tappe.length - 1][1], n = Math.max(1, Math.round((fino - da) / 380));
-    for (let k = 1; k <= n; k++) tappe.push([corsie[lato] + (k === n ? 0 : (k % 2 ? 9 : -9) * (lato ? -1 : 1)), da + (fino - da) * k / n]);
+  // Onda nel margine sinistro: creste arrotondate a ritmo regolare (tangenti sempre verticali),
+  // più ampie all'altezza di ogni etichetta, con la cresta rivolta verso la parola,
+  // più quiete tra una sezione e l'altra. Il filo non esce mai dal margine.
+  const centro = mr.l + parseFloat(cs.paddingLeft) / 2 - 2;
+  const A = Math.max(6, parseFloat(cs.paddingLeft) / 2 - 10);   // ampiezza massima
+  const mezzaOnda = 170;                                          // distanza tra due creste
+  const ys = sezioni.map((s) => (s.label.t + s.label.b) / 2);
+  const ampiezza = (y) => {
+    const vicino = Math.min(...ys.map((l) => Math.abs(l - y)));
+    return A * (0.3 + 0.7 * Math.exp(-((vicino / 210) ** 2)));
   };
-  sezioni.forEach((s, i) => {
-    const prossima = sezioni[i + 1];
-    if (!prossima) return;
-    // la S comincia già accanto alla fine della sezione e finisce all'altezza dell'etichetta successiva:
-    // più spazio in verticale, curva più distesa
-    // Si sceglie la partenza più alta che non fa passare il filo sopra nessun testo
-    const basso = prossima.label.t + (W < 700 ? 20 : 40);
-    const da = corsie[lato], a = corsie[1 - lato];
-    const libera = (y0) => {
-      for (let k = 0; k <= 60; k++) {
-        const t = k / 60, u = 1 - t, dy = basso - y0;
-        const x = u * u * u * da + 3 * u * u * t * da + 3 * u * t * t * a + t * t * t * a;
-        const y = u * u * u * y0 + 3 * u * u * t * (y0 + dy / 2) + 3 * u * t * t * (basso - dy / 2) + t * t * t * basso;
-        if (testi.some((r) => x > r.l - 8 && x < r.r + 8 && y > r.t - 8 && y < r.b + 8)) return false;
-      }
-      return true;
-    };
-    const alto = [-170, -120, -70, -20, 16].map((o) => s.fondo.b + o).find(libera) ?? s.fondo.b + 16;
-    if (basso - alto < 160) return;
-    scendi(alto);
-    lato = 1 - lato;
-    tappe.push([corsie[lato], basso]);
-  });
-  scendi(box.height - 30);
+  const tappe = [[centro, -40]];
+  // tra due tappe di cresta a destra (le etichette) un numero pari di mezze onde, alternate
+  const tratto = (y0, y1, finale) => {
+    let n = Math.max(2, Math.round((y1 - y0) / mezzaOnda));
+    if (!finale && n % 2) n += 1;
+    for (let k = 1; k <= n; k++) {
+      const y = y0 + (y1 - y0) * k / n;
+      const lato = (n - k) % 2 ? -1 : 1;                           // all'arrivo la cresta è a destra
+      tappe.push([centro + lato * (finale && k === n ? 0 : ampiezza(y)), y]);
+    }
+  };
+  ys.forEach((y) => tratto(tappe[tappe.length - 1][1], y, false));
+  tratto(ys[ys.length - 1], box.height - 30, true);
   let d = `M ${tappe[0][0]} ${tappe[0][1]}`;
   for (let i = 1; i < tappe.length; i++) {
     const [x0, y0] = tappe[i - 1], [x1, y1] = tappe[i], dy = y1 - y0;
