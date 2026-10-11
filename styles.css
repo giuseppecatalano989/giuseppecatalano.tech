@@ -223,7 +223,7 @@ main { padding: 0 var(--gutter); }
 
 /* ---------- TAV 04 · Elenco progetti ---------- */
 .register { border-top: 2px solid var(--ink); }
-.reg-head, .reg-row { display: grid; grid-template-columns: 70px 1.3fr 1.6fr 150px 40px; align-items: center; gap: 16px; }
+.reg-head, .reg-row { display: grid; grid-template-columns: 48px minmax(0, 1.45fr) minmax(0, 1.45fr) 150px 40px; align-items: center; gap: 16px; }
 .reg-head { padding: 12px 0; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); border-bottom: 1px solid var(--ink); }
 .reg-row { position: relative; padding: 26px 0; border-bottom: 1px solid var(--ink); text-decoration: none; overflow: hidden; isolation: isolate; transition: color .35s; }
 .reg-row::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--ink); transform: scaleY(0); transform-origin: bottom; transition: transform .45s cubic-bezier(.7, 0, .2, 1); }
