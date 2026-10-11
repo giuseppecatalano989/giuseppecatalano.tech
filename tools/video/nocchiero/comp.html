@@ -114,8 +114,6 @@
 <div id="stage">
   <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
   <svg class="route" id="routeSvg"><path id="route"/></svg>
-  <div id="copies"></div>
-
   <div class="persp">
     <div class="rig" id="rigD">
       <div class="win" id="win"><div class="bar"><span></span><span></span><span></span><div class="url">🔒 plancia.nocchiero.it</div></div>
@@ -126,6 +124,7 @@
     </div>
   </div>
 
+  <div id="copies"></div>
   <div id="chips"></div>
   <div id="stats"></div>
   <div id="cards"></div>
@@ -159,16 +158,16 @@ const CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
 /* ---------- Scene ----------
    card: copertina a tutto schermo prima della scena; addon: il telefono entra davanti alla plancia desktop */
 const SCENES = [
-  { id: 'agenda', dev: 'd', section: ['La plancia', 'Il lato del ristoratore', 'Tutto il locale, in un unico posto.'],
-    card: ['01', 'Prenotazioni', 'Un’agenda che si organizza da sola.', 'a'],
-    eyebrow: 'Plancia · Prenotazioni', l1: 'Un’agenda', l2: 'che si organizza da sola.',
-    points: ['Dal sito o al telefono', 'Tavolo assegnato in automatico', 'Filtri per pranzo, cena e occasione'],
-    stat: [5.0, 35, 0, '', ' coperti', 'attesi oggi'] },
-  { id: 'ordini', dev: 'd', card: ['02', 'Ordini', 'Dalla cucina al ritiro, con un tocco.', 'b'],
-    eyebrow: 'Plancia · Ordini', l1: 'Dalla cucina al ritiro,', l2: 'con un tocco.',
-    points: ['Asporto e domicilio', 'Pagati online o al ritiro', 'Lo stato arriva al cliente'],
-    stat: [3.2, 23.6, 2, '€ ', '', 'ordine pagato online'] },
-  { id: 'magazzino', dev: 'd', card: ['03', 'Magazzino', 'Sai sempre cosa hai in casa.', 'c'],
+  { id: 'dashboard', dev: 'd', section: ['La plancia', 'Il lato del ristoratore', 'Tutto il locale, in un unico posto.'],
+    card: ['01', 'Dashboard', 'La giornata, a colpo d’occhio.', 'a'],
+    eyebrow: 'Plancia · Dashboard', l1: 'Tutto il locale,', l2: 'in una schermata.',
+    points: ['Incassi, margini e utile', 'Prenotazioni e ordini in arrivo', 'Avvisi su magazzino e riordini'],
+    stat: [3.6, 1268.81, 2, '€ ', '', 'di utile netto, oggi'] },
+  { id: 'incassi', dev: 'd', card: ['02', 'Incassi', 'Incassi, margini e utile. Quelli veri.', 'c'],
+    eyebrow: 'Plancia · Incassi', l1: 'Incassi e margini,', l2: 'quelli veri.',
+    points: ['Vendite importate in automatico', 'Filtri per periodo, menù e articolo', 'Divisione per canale e pagamento'],
+    stat: [5.4, 1757.8, 2, '€ ', '', 'incasso lordo di oggi'] },
+  { id: 'magazzino', dev: 'd', card: ['03', 'Magazzino', 'Sai sempre cosa hai in casa.', 'b'],
     eyebrow: 'Plancia · Magazzino', l1: 'Sai sempre', l2: 'cosa hai in casa.',
     points: ['Ingredienti e fornitori', 'Carichi per sede', 'Avvisi sotto soglia'],
     stat: [6.0, 5000, 0, '', ' g', 'di Salsa BBQ caricati'] },
@@ -176,34 +175,42 @@ const SCENES = [
     eyebrow: 'Plancia · Ricette', l1: 'Food cost', l2: 'sotto controllo.',
     points: ['Distinta base di ogni piatto', 'Costi aggiornati in tempo reale', 'Prezzo e margine a colpo d’occhio'],
     stat: [4.6, 17, 0, '', '%', 'food cost del Crispy Chicken'] },
-  { id: 'marketing', dev: 'd', card: ['05', 'Marketing', 'Clienti che tornano a trovarti.', 'b'],
+  { id: 'agenda', dev: 'd', card: ['05', 'Prenotazioni', 'Un’agenda che si organizza da sola.', 'c'],
+    eyebrow: 'Plancia · Prenotazioni', l1: 'Un’agenda', l2: 'che si organizza da sola.',
+    points: ['Dal sito o al telefono', 'Tavolo assegnato in automatico', 'Filtri per pranzo, cena e occasione'],
+    stat: [5.0, 35, 0, '', ' coperti', 'attesi oggi'] },
+  { id: 'ordini', dev: 'd', card: ['06', 'Ordini', 'Dalla cucina al ritiro, con un tocco.', 'b'],
+    eyebrow: 'Plancia · Ordini', l1: 'Dalla cucina al ritiro,', l2: 'con un tocco.',
+    points: ['Asporto e domicilio', 'Pagati online o al ritiro', 'Lo stato arriva al cliente'],
+    stat: [3.2, 23.6, 2, '€ ', '', 'ordine pagato online'] },
+  { id: 'marketing', dev: 'd', card: ['07', 'Marketing', 'Clienti che tornano a trovarti.', 'a'],
     eyebrow: 'Plancia · Marketing', l1: 'Clienti che', l2: 'tornano a trovarti.',
     points: ['Rubrica con la spesa reale', 'Campagne mirate', 'Coupon verificati in cassa'],
     stat: [3.5, 36, 0, '', ' clienti', 'in rubrica, con lo storico'] },
   { id: 'ovunque', dev: 'm', addon: true, card: ['+', 'Anche in tasca.', 'La plancia, in versione mobile.', 'c'],
     eyebrow: 'Plancia · Mobile', l1: 'Il tuo locale,', l2: 'ovunque tu sia.',
     points: ['Tutto, anche dal telefono', 'Incassi in tempo reale', 'Tutte le sedi insieme'],
-    stat: [5.5, 1757.8, 2, '€ ', '', 'incassati oggi'] },
-  { id: 'assistente', dev: 'm', addon: true, card: ['06', 'Assistente AI', 'Chiedi. Lui risponde e agisce.', 'a'],
+    stat: [5.5, 3, 0, '', ' sedi', 'sotto controllo, dal telefono'] },
+  { id: 'assistente', dev: 'm', addon: true, card: ['08', 'Assistente AI', 'Chiedi. Lui risponde e agisce.', 'b'],
     eyebrow: 'Assistente AI', l1: 'Un assistente', l2: 'che lavora per te.',
     points: ['Domande sui tuoi dati', 'Bolle caricate in magazzino', 'Tu confermi, lui esegue'],
     stat: [8.0, 52, 0, '€ ', '', 'di merce caricata in un messaggio'] },
   { id: 'prenota', dev: 'm', section: ['La cabina', 'Il lato del cliente', 'Prenota, ordina, paga. Dal telefono.'],
-    card: ['07', 'Prenota', 'Un tavolo in pochi tocchi.', 'b'],
+    card: ['09', 'Prenota', 'Un tavolo in pochi tocchi.', 'a'],
     eyebrow: 'Cabina · Prenotazioni', l1: 'Prenotare un tavolo?', l2: 'Bastano pochi tocchi.',
     points: ['Giorno, ora e persone', 'Occasione e richieste', 'Conferma immediata'],
     stat: [7.0, 3, 0, '', ' persone', 'alle 21:00, Milano Navigli'] },
-  { id: 'ordina', dev: 'm', card: ['08', 'Ordina', 'Il menù del locale, su misura.', 'c'],
+  { id: 'ordina', dev: 'm', card: ['10', 'Ordina', 'Il menù del locale, su misura.', 'c'],
     eyebrow: 'Cabina · Asporto', l1: 'Il tuo menù,', l2: 'su misura.',
     points: ['Menù composti', 'Varianti e aggiunte', 'Prezzi sempre corretti'],
     stat: [4.5, 19.4, 2, '€ ', '', 'Menù Pyno personalizzato'] },
-  { id: 'paga', dev: 'm', card: ['09', 'Paga', 'Online, in tutta sicurezza.', 'a'],
+  { id: 'paga', dev: 'm', card: ['11', 'Paga', 'Online, in tutta sicurezza.', 'b'],
     eyebrow: 'Cabina · Pagamenti', l1: 'Paga online,', l2: 'in tutta sicurezza.',
     points: ['Stripe integrato', 'Carta, Apple Pay, Klarna', 'Nessun contante da gestire'],
     stat: [6.0, 23.6, 2, '€ ', '', 'pagati con carta'] },
   { id: 'stato', dev: 'm', eyebrow: 'Cabina · Stato dell’ordine', l1: 'E il cliente', l2: 'lo vede subito.',
     points: ['Ricevuto, pronto, ritirato'] },
-  { id: 'club', dev: 'm', card: ['10', 'Fedeltà', 'Punti e premi, sempre in tasca.', 'b'],
+  { id: 'club', dev: 'm', card: ['12', 'Fedeltà', 'Punti e premi, sempre in tasca.', 'a'],
     eyebrow: 'Cabina · Fedeltà', l1: 'Punti e premi,', l2: 'sempre in tasca.',
     points: ['1 punto per ogni euro', 'Premi e coupon', 'Il codice da mostrare in cassa'],
     stat: [5.4, 100, 0, '', ' punti', 'diventati uno sconto di 5 €'] },
@@ -230,7 +237,7 @@ SCENES.forEach((s, i) => {
 /* ---------- Geometria ---------- */
 const G = FMT === '16' ? {
   d: { x: 340, y: 168, w: 1540, rotY: -6 },
-  dAddon: s => s === "R" ? { x: 640, y: 230, scale: .72, rotY: -14 } : { x: -470, y: 230, scale: .72, rotY: 14 },
+  dAddon: s => s === "R" ? { x: 640, y: 230, scale: .72, rotY: -14 } : { x: -760, y: 230, scale: .72, rotY: 14 },
   m: { scale: 1.13, y: 96, x: s => s === 'R' ? 1270 : 220, rotY: s => s === 'R' ? -9 : 9 },
   copy: s => s.dev === 'd' ? { left: 60, top: 34, width: 1800 } : (s.side === 'R' ? { left: 110, top: 230, width: 1100 } : { left: 830, top: 230, width: 1050 }),
   chip: (s, i) => [[40, 470], [40, 600], [40, 730]][i],

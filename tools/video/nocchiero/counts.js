@@ -10,5 +10,7 @@ const COUNTS = {
  "ricette": 240,
  "marketing": 240,
  "ovunque": 300,
- "assistente": 330
+ "assistente": 330,
+ "dashboard": 240,
+ "incassi": 270
 };
