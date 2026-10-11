@@ -1,20 +1,5 @@
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------- Tema light / dark (stessa preferenza del portfolio) ---------- */
-const root = document.documentElement;
-const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
-const switchBtns = document.querySelectorAll('[data-set-theme]');
-const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : darkQuery.matches);
-const syncTheme = () => switchBtns.forEach((b) =>
-  b.setAttribute('aria-pressed', String((b.dataset.setTheme === 'dark') === isDark())));
-switchBtns.forEach((b) => b.addEventListener('click', () => {
-  root.dataset.theme = b.dataset.setTheme;
-  try { localStorage.setItem('gc-theme', b.dataset.setTheme); } catch (e) {}
-  syncTheme();
-}));
-darkQuery.addEventListener('change', syncTheme);
-syncTheme();
-
 /* ---------- Frigo: biglietti trascinabili ---------- */
 const fridge = document.getElementById('fridge');
 let zTop = 1;
@@ -117,3 +102,38 @@ if (reduce || !('IntersectionObserver' in window)) {
   }), { threshold: 0.12 });
   targets.forEach((el) => io.observe(el));
 }
+
+/* ---------- Video di presentazione nel popup ----------
+   Il pulsante compare solo se il video esiste. Al clic si sceglie la versione
+   adatta allo schermo (16:9 orizzontale, 4:5 verticale) e la riproduzione parte
+   con l'audio: il clic del visitatore lo consente. Alla chiusura si ferma. */
+const demoBtn = document.querySelector('[data-demo]');
+const modal = document.getElementById('demo-modal');
+const video = document.getElementById('demo-video');
+const tall = window.matchMedia('(max-aspect-ratio: 1/1)');
+
+fetch(video.dataset.wide, { method: 'HEAD' })
+  .then((r) => { if (r.ok) demoBtn.hidden = false; })
+  .catch(() => {});
+
+function pickVersion() {
+  const kind = tall.matches ? 'tall' : 'wide';
+  const src = video.dataset[kind];
+  if (video.getAttribute('src') !== src) {
+    video.src = src;
+    video.poster = video.dataset[kind + 'Poster'];
+  }
+}
+
+demoBtn.addEventListener('click', () => {
+  pickVersion();
+  modal.showModal();
+  video.currentTime = 0;
+  video.muted = false;
+  // Se il browser rifiuta l'audio, parte comunque senza: il volume resta nei comandi
+  video.play().catch(() => { video.muted = true; video.play().catch(() => {}); });
+});
+const closeDemo = () => modal.close();
+modal.querySelector('[data-close]').addEventListener('click', closeDemo);
+modal.addEventListener('click', (e) => { if (e.target === modal) closeDemo(); });
+modal.addEventListener('close', () => video.pause());

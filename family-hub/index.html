@@ -13,16 +13,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="family-hub.css">
-<script>try { var t = localStorage.getItem('gc-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 
 <header class="bar">
   <a class="back" href="../#tav-04"><span aria-hidden="true">←</span> <span class="back-txt">Portfolio</span></a>
   <a class="logo" href="#top"><img src="../assets/family-hub.svg" alt="" width="34" height="34"> Family Hub</a>
-  <div class="bar-end">
-    <div class="theme-switch" role="group" aria-label="Tema"><button type="button" data-set-theme="light">Light</button><button type="button" data-set-theme="dark">Dark</button></div>
-  </div>
+  <span aria-hidden="true"></span>
 </header>
 
 <main id="top">
@@ -34,7 +31,10 @@
       <h1>Una casa organizzata.<br><em>Più spazio per voi.</em></h1>
       <p class="lead">Conti, progetti e cose da ricordare. Tutta la vita di famiglia, in un posto solo: ognuno con il proprio account, tutti sulla stessa pagina.</p>
       <div class="cta">
-        <a class="btn" href="#budget">Scopri cosa fa</a>
+        <button type="button" class="btn btn-play" data-demo hidden>
+          <span class="play-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+          Guarda la demo
+        </button>
       </div>
       <p class="hint">Psst: i biglietti sul frigo si possono spostare.</p>
     </div>
@@ -158,6 +158,19 @@
   <p class="stack">React · TypeScript · Node.js · PostgreSQL · Open banking PSD2 · Claude · PWA</p>
   <a class="back" href="../#tav-04"><span aria-hidden="true">←</span> Torna ai progetti</a>
 </footer>
+
+<!-- Popup con il video dimostrativo (registrato dall'app reale) -->
+<dialog class="demo-modal" id="demo-modal" aria-label="Video dimostrativo di Family Hub">
+  <button type="button" class="demo-close" data-close aria-label="Chiudi il video">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <div class="demo-frame">
+    <!-- 16:9 su schermi orizzontali, 4:5 su telefoni e schermi verticali (scelto dallo script) -->
+    <video id="demo-video" controls playsinline preload="none"
+      data-wide="video/presentazione-16x9.mp4" data-wide-poster="video/presentazione-16x9.jpg"
+      data-tall="video/presentazione-4x5.mp4" data-tall-poster="video/presentazione-4x5.jpg"></video>
+  </div>
+</dialog>
 
 <script src="family-hub.js"></script>
 </body>

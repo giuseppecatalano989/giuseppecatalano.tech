@@ -9,20 +9,6 @@
   --hand: 'Caveat', 'Segoe Print', cursive;
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #111916; --card: #18221e; --text: #e8eee9; --muted: #9aa8a0; --line: #26332d;
-    --green: #4fb48f; --green-dark: #3a9a77; --mint: #1b2e26; --amber: #2f281c; --amber-ink: #e0b06b;
-    --lav: #252236; --lav-ink: #b9a8da; --red: #e07a73; --red-soft: #3a2422; --fridge: #16201c;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #111916; --card: #18221e; --text: #e8eee9; --muted: #9aa8a0; --line: #26332d;
-  --green: #4fb48f; --green-dark: #3a9a77; --mint: #1b2e26; --amber: #2f281c; --amber-ink: #e0b06b;
-  --lav: #252236; --lav-ink: #b9a8da; --red: #e07a73; --red-soft: #3a2422; --fridge: #16201c;
-  color-scheme: dark;
-}
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -37,10 +23,6 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var
 .back { color: var(--muted); text-decoration: none; font-size: 14px; }
 .back:hover { color: var(--green); }
 .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; text-decoration: none; }
-.bar-end { justify-self: end; display: flex; align-items: center; gap: 12px; }
-.theme-switch { display: flex; padding: 3px; border-radius: 10px; background: var(--mint); }
-.theme-switch button { font: inherit; font-size: 12.5px; font-weight: 600; padding: 5px 10px; border: 0; border-radius: 7px; background: none; color: var(--muted); cursor: pointer; }
-.theme-switch button[aria-pressed="true"] { background: var(--card); color: var(--green); box-shadow: 0 1px 3px rgba(0, 0, 0, .12); }
 
 /* Pulsanti */
 .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 12px; background: var(--green); color: #fff; font-weight: 600; text-decoration: none; border: 1px solid var(--green); transition: background .2s, transform .2s, box-shadow .2s; }
@@ -49,6 +31,22 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var
 .btn-ghost { background: transparent; color: var(--text); border-color: var(--line); }
 .btn-ghost:hover { background: var(--card); box-shadow: none; }
 .btn-big { padding: 18px 34px; font-size: 18px; border-radius: 14px; }
+.btn-play { font: inherit; font-weight: 600; cursor: pointer; }
+.btn-play[hidden] { display: none; }
+.play-ic { width: 24px; height: 24px; border-radius: 50%; background: #fff; display: grid; place-items: center; margin-left: -6px; }
+.play-ic svg { width: 12px; height: 12px; fill: var(--green); margin-left: 2px; }
+
+/* Popup del video dimostrativo */
+.demo-modal { border: 0; padding: 0; background: transparent; overflow: visible; max-width: none; max-height: none; width: auto; margin: auto; }
+.demo-modal[open] { display: grid; justify-items: center; animation: demo-in .35s cubic-bezier(.2, .8, .2, 1); }
+.demo-modal::backdrop { background: rgba(20, 32, 27, .78); backdrop-filter: blur(6px); }
+@keyframes demo-in { from { opacity: 0; transform: translateY(18px) scale(.97); } }
+.demo-frame { width: min(92vw, calc(80vh * 16 / 9), 1280px); aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden; background: var(--bg); box-shadow: 0 40px 100px rgba(0, 0, 0, .45); }
+.demo-frame video { display: block; width: 100%; height: 100%; object-fit: contain; background: var(--bg); }
+@media (max-aspect-ratio: 1 / 1) { .demo-frame { width: min(92vw, calc(76vh * 4 / 5)); aspect-ratio: 4 / 5; } }
+.demo-close { position: fixed; top: 20px; right: 20px; width: 46px; height: 46px; border-radius: 50%; cursor: pointer; background: var(--card); border: 0; color: var(--text); display: grid; place-items: center; box-shadow: 0 8px 24px rgba(0, 0, 0, .25); }
+.demo-close:hover { color: var(--green); }
+.demo-close svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
 
 main { max-width: 1200px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 48px); }
 section { padding: 110px 0; }
@@ -163,6 +161,7 @@ h1 em, h2 em { font-size: 1.04em; letter-spacing: -.01em; }
 .rv.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .demo-modal[open] { animation: none; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
   .rv { opacity: 1; transform: none; }
 }
