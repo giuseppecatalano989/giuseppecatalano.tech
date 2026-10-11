@@ -52,12 +52,17 @@ function buildThread() {
     }
   };
   ys.forEach((y) => tratto(tappe[tappe.length - 1][1], y, false));
-  tratto(ys[ys.length - 1], box.height - 30, true);
+  // Dalla cresta accanto all'ultima etichetta scende, passa sotto il titolo finale
+  // ed esce dal bordo destro dello schermo con una curva ampia
+  const titoloFinale = rect(document.querySelector('section:last-of-type h2') || document.querySelector('main').lastElementChild);
+  const uscita = Math.min(box.height - 18, titoloFinale.b + 70);
   let d = `M ${tappe[0][0]} ${tappe[0][1]}`;
   for (let i = 1; i < tappe.length; i++) {
     const [x0, y0] = tappe[i - 1], [x1, y1] = tappe[i], dy = y1 - y0;
     d += ` C ${x0} ${y0 + dy * 0.5}, ${x1} ${y1 - dy * 0.5}, ${x1} ${y1}`;
   }
+  const [xf, yf] = tappe[tappe.length - 1];
+  d += ` C ${xf} ${yf + (uscita - yf) * 0.9}, ${W * 0.35} ${uscita}, ${W + 80} ${uscita}`;
   path.setAttribute('d', d); glow.setAttribute('d', d);
   length = path.getTotalLength();
   [path, glow].forEach((p) => { p.style.strokeDasharray = length; });
