@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=e4242ea6">
+  <link rel="stylesheet" href="css/style.css?v=bfcacce8">
 </head>
 <body data-page="tenuta">
 
@@ -157,6 +157,7 @@
         <p class="reveal">Sentieri segnati che attraversano bosco, prato e frutteto. Nessuno è difficile, nessuno ha fretta di finire. Alla reception trovate le mappe disegnate a mano e, su richiesta, un cestino per il pranzo.</p>
       </div>
 
+      <div class="trails-layout">
       <ol class="trails" data-trails>
         <li class="trail" data-preview="Il Sentiero dei Castagni" data-img="img/sentiero-castagni.jpg">
           <span class="trail-n">01</span>
@@ -188,8 +189,14 @@
         </li>
       </ol>
 
+      <!-- Anteprima del sentiero sotto il mouse: nella colonna a destra, solo su computer -->
       <div class="trail-preview" aria-hidden="true" data-trail-preview>
-        <div class="trail-preview-media ratio-4x5"><img alt="" data-trail-preview-img><span class="trail-preview-label" data-trail-preview-label></span></div>
+        <div class="trail-preview-media ratio-4x5">
+          <img alt="" data-trail-preview-img>
+          <img alt="" data-trail-preview-img>
+          <span class="trail-preview-label" data-trail-preview-label></span>
+        </div>
+      </div>
       </div>
 
       <figure class="map">
@@ -292,6 +299,6 @@
     </a>
   </div>
 
-  <script src="js/main.js?v=3a298c84"></script>
+  <script src="js/main.js?v=472b5c31"></script>
 </body>
 </html>

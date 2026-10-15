@@ -127,17 +127,23 @@ $$("[data-cover]").forEach(function initCover(cover) {
   clips.forEach((v) => { v.muted = true; v.pause(); });
   let current = -1;
 
-  let target = 0, p = 0, raf = null;
+  let target = 0, p = 0, raf = null, lastT = 0, lastVar = "";
+  let span = 1;
+  const measure = () => { span = Math.max(1, cover.offsetHeight - window.innerHeight); };
+  measure();
 
   function progress() {
-    const span = cover.offsetHeight - window.innerHeight;
-    return span > 0 ? Math.min(1, Math.max(0, -cover.getBoundingClientRect().top / span)) : 0;
+    return Math.min(1, Math.max(0, -cover.getBoundingClientRect().top / span));
   }
 
-  function render() {
-    p += (target - p) * CONFIG.cover.smoothing;
-    if (Math.abs(target - p) < 0.0005) p = target;
-    cover.style.setProperty("--p", p.toFixed(4));
+  function render(now) {
+    // Inseguimento morbido dello scorrimento, uguale a 60, 120 o 144 Hz
+    const dt = lastT ? Math.min(64, now - lastT) : 16.67;
+    lastT = now;
+    p += (target - p) * (1 - Math.pow(1 - CONFIG.cover.smoothing, dt / 16.67));
+    if (Math.abs(target - p) < 0.00005) p = target;
+    const v = p.toFixed(3);
+    if (v !== lastVar) { cover.style.setProperty("--p", v); lastVar = v; }
     steps.forEach((s) => s.classList.toggle("is-active", p >= +s.dataset.from && p < +s.dataset.to));
 
     if (frames) frames.draw(p);
@@ -154,7 +160,8 @@ $$("[data-cover]").forEach(function initCover(cover) {
         if (Math.abs(v.currentTime - t) > 1 / 60) v.currentTime = t;
       }
     }
-    raf = p !== target ? requestAnimationFrame(render) : null;
+    if (p !== target) raf = requestAnimationFrame(render);
+    else { raf = null; lastT = 0; }
   }
 
   const update = () => { target = progress(); if (!raf) raf = requestAnimationFrame(render); };
@@ -162,10 +169,14 @@ $$("[data-cover]").forEach(function initCover(cover) {
   clips.forEach((v) => v.addEventListener("seeked", () => { if (!raf) raf = requestAnimationFrame(render); }));
   update();
   window.addEventListener("scroll", update, { passive: true });
-  window.addEventListener("resize", () => { if (frames) frames.resize(); update(); });
+  window.addEventListener("resize", () => { measure(); if (frames) frames.resize(); update(); });
 });
 
-// Sequenza di fotogrammi disegnata su canvas, con caricamento progressivo
+// Sequenza di fotogrammi disegnata su canvas.
+// Per essere fluida (60–120 fps) non decodifica mai un'immagine mentre disegna:
+// i fotogrammi si scaricano compressi, e quelli vicini al punto in cui ci si trova vengono
+// decodificati in anticipo, fuori dal thread principale (createImageBitmap), già ritagliati
+// e ridimensionati alla misura del canvas. Disegnarli costa quindi una semplice copia.
 function frameSequence(canvas) {
   // Sui telefoni una serie più leggera (data-scrub-frames-mobile), un fotogramma su due
   const light = window.matchMedia("(max-width: 900px)").matches || navigator.connection?.saveData;
@@ -174,10 +185,16 @@ function frameSequence(canvas) {
   const pad = (pattern.match(/#+/) || ["#"])[0].length;
   const url = (i) => pattern.replace(/#+/, String(i + 1).padStart(pad, "0"));
   const ctx = canvas.getContext("2d");
-  const imgs = new Array(count);
   // Stacchi (data-cuts="347,…"): fotogrammi che iniziano una nuova inquadratura; lì non si sfuma
   const cuts = (canvas.dataset.cuts || "").split(",").map(Number).filter((n) => n > 0);
-  let lastP = 0, shown = null;
+
+  const blobs = new Array(count);   // fotogrammi scaricati, ancora compressi (leggeri)
+  const bitmaps = new Map();        // fotogrammi decodificati, pronti da disegnare
+  const decoding = new Set();
+  const AHEAD = light ? 14 : 22, BEHIND = light ? 6 : 10, PARALLEL = 4;
+  let generation = 0;               // cambia a ogni ridimensionamento: i bitmap vecchi si scartano
+  let srcW = 0, srcH = 0;           // misura dei fotogrammi originali
+  let lastP = 0, shown = "", center = 0, dir = 1, prevF = 0;
 
   // Mappa facoltativa (data-map): a quale frazione di scorrimento corrisponde ogni fotogramma.
   // Generata da tools/estrai-fotogrammi.html per rendere uniforme la velocità percepita.
@@ -185,7 +202,7 @@ function frameSequence(canvas) {
   if (canvas.dataset.map) {
     fetch(canvas.dataset.map)
       .then((r) => (r.ok ? r.json() : null))
-      .then((m) => { if (Array.isArray(m) && m.length === count) { map = m; shown = null; draw(lastP); } })
+      .then((m) => { if (Array.isArray(m) && m.length === count) { map = m; shown = ""; draw(lastP); } })
       .catch(() => {});
   }
   // Posizione nella sequenza, con la parte frazionaria: tra due fotogrammi si sfuma dall'uno all'altro
@@ -202,90 +219,169 @@ function frameSequence(canvas) {
     return lo + (span > 0 ? (p - map[lo]) / span : 0);
   }
 
-  // Prima un fotogramma ogni 16, poi via via più fitti: la sequenza è subito navigabile.
+  // Scaricamento: prima un fotogramma ogni 16 su tutta la sequenza (così è subito navigabile),
+  // poi si riempiono i buchi partendo dal punto in cui ci si trova e allargandosi.
   // Sui telefoni basta un fotogramma su due: la dissolvenza tra i vicini copre la differenza.
-  const order = [];
-  const seen = new Set();
-  (light ? [16, 8, 4, 2] : [16, 8, 4, 2, 1]).forEach((step) => {
-    for (let i = 0; i < count; i += step) if (!seen.has(i)) { seen.add(i); order.push(i); }
-  });
-  if (light && !seen.has(count - 1)) order.push(count - 1);
-  order.forEach((i) => {
-    const img = new Image();
-    img.decoding = "async";
-    img.onload = () => { imgs[i] = img; shown = null; draw(lastP); };
-    img.src = url(i);
-  });
+  const stride = light ? 2 : 1;
+  const coarse = [];
+  for (let i = 0; i < count; i += 16) coarse.push(i);
+  if (coarse[coarse.length - 1] !== count - 1) coarse.push(count - 1);
+  const requested = new Uint8Array(count);
+  let coarseNext = 0;
+  function nextIndex() {
+    while (coarseNext < coarse.length) {
+      const i = coarse[coarseNext++];
+      if (!requested[i]) return i;
+    }
+    // Il fotogramma mancante più vicino al punto corrente, cercando prima nella direzione dello scorrimento
+    for (let d = 0; d < count; d++) {
+      for (const i of [center + d * dir, center - d * dir]) {
+        if (i >= 0 && i < count && i % stride === 0 && !requested[i]) return i;
+      }
+    }
+    return -1;
+  }
+  function download() {
+    const i = nextIndex();
+    if (i < 0) return;
+    requested[i] = 1;
+    fetch(url(i))
+      .then((r) => (r.ok ? r.blob() : null))
+      .then((b) => {
+        if (!b) return;
+        blobs[i] = b;
+        if (!srcW) {
+          // Primo fotogramma: se ne legge la misura, poi si decide il ritaglio
+          return createImageBitmap(b).then((bm) => { srcW = bm.width; srcH = bm.height; bm.close(); resize(); });
+        }
+        if (Math.abs(i - center) <= AHEAD + BEHIND) schedule();
+      })
+      .catch(() => { requested[i] = 0; })
+      .finally(download);
+  }
+  for (let k = 0; k < 8; k++) download();
 
-  // Fotogramma caricato più vicino, cercando prima all'indietro (a) o in avanti (b)
-  function loadedBefore(i) { for (let k = i; k >= 0; k--) if (imgs[k]) return k; return -1; }
-  function loadedAfter(i) { for (let k = i; k < count; k++) if (imgs[k]) return k; return -1; }
+  // Ritaglio "cover": la parte del fotogramma che si vede nel canvas
+  function crop() {
+    const s = Math.max(canvas.width / srcW, canvas.height / srcH);
+    const sw = canvas.width / s, sh = canvas.height / s;
+    return { sx: (srcW - sw) / 2, sy: (srcH - sh) / 2, sw, sh };
+  }
+
+  function decode(i) {
+    const gen = generation;
+    const c = crop();
+    decoding.add(i);
+    createImageBitmap(blobs[i], c.sx, c.sy, c.sw, c.sh, {
+      resizeWidth: canvas.width, resizeHeight: canvas.height, resizeQuality: "high",
+    }).then((bm) => {
+      decoding.delete(i);
+      if (gen !== generation || Math.abs(i - center) > AHEAD + BEHIND) bm.close();
+      else { bitmaps.set(i, bm); shown = ""; draw(lastP); }
+      schedule();
+    }).catch(() => { decoding.delete(i); });
+  }
+
+  // Decodifica i fotogrammi vicini, a partire dal più vicino, nella direzione in cui si scorre
+  function schedule() {
+    if (!srcW) return;
+    const ahead = dir > 0 ? AHEAD : BEHIND, behind = dir > 0 ? BEHIND : AHEAD;
+    for (let d = 0; d <= Math.max(ahead, behind) && decoding.size < PARALLEL; d++) {
+      for (const i of [center + d * dir, center - d * dir]) {
+        if (i < 0 || i >= count || decoding.size >= PARALLEL) continue;
+        const off = (i - center) * dir;
+        if (off > ahead || -off > behind) continue;
+        if (blobs[i] && !bitmaps.has(i) && !decoding.has(i)) decode(i);
+      }
+    }
+    // Libera la memoria dei fotogrammi lontani
+    for (const [k, bm] of bitmaps) {
+      if (k < center - AHEAD - BEHIND || k > center + AHEAD + BEHIND) { bm.close(); bitmaps.delete(k); }
+    }
+  }
+
+  // Fotogramma decodificato più vicino a i, cercando all'indietro (step -1) o in avanti (+1)
+  function nearest(i, step, limit) {
+    for (let k = i, n = 0; k >= 0 && k < count && n <= limit; k += step, n++) if (bitmaps.has(k)) return k;
+    return -1;
+  }
 
   function resize() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(canvas.clientWidth * dpr);
-    canvas.height = Math.round(canvas.clientHeight * dpr);
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = "high";
-    shown = null;
+    // Risoluzione del canvas: nitida sugli schermi ad alta densità, ma mai oltre quella dei
+    // fotogrammi (sarebbe solo lavoro in più per la scheda grafica)
+    const cw = canvas.clientWidth, ch = canvas.clientHeight;
+    const dpr = window.devicePixelRatio || 1;
+    const r = Math.min(dpr, 1.5, Math.max(1, (srcW || 1600) / cw));
+    canvas.width = Math.round(cw * r);
+    canvas.height = Math.round(ch * r);
+    generation++;
+    for (const bm of bitmaps.values()) bm.close();
+    bitmaps.clear();
+    shown = "";
+    schedule();
     draw(lastP);
   }
-  function paint(img, alpha) {
-    const s = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
-    const w = img.naturalWidth * s, h = img.naturalHeight * s;
-    ctx.globalAlpha = alpha;
-    ctx.drawImage(img, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
-    ctx.globalAlpha = 1;
-  }
+
   function draw(p) {
     lastP = p;
     const f = frameAt(p);
-    let a = loadedBefore(Math.floor(f)), b = loadedAfter(Math.ceil(f));
+    dir = f > prevF ? 1 : f < prevF ? -1 : dir;
+    prevF = f;
+    const c = Math.round(f);
+    if (c !== center) { center = c; schedule(); }
+    let a = nearest(Math.floor(f), -1, 24), b = nearest(Math.ceil(f), 1, 24);
     if (a < 0) a = b;
     if (b < 0) b = a;
-    if (a < 0) return;
-    // Si sfuma solo tra fotogrammi vicini; durante il caricamento, con buchi più ampi, si mostra il più vicino
+    if (a < 0) return;   // nulla di pronto: resta visibile l'immagine sotto il canvas
+    // Si sfuma solo tra fotogrammi vicini; con buchi più ampi o su uno stacco si mostra il più vicino
     let mix = b > a ? Math.min(1, Math.max(0, (f - a) / (b - a))) : 0;
-    if (b - a > 2 || cuts.some((c) => a < c && c <= b)) { if (mix >= 0.5) a = b; mix = 0; }
-    const key = `${a}:${b}:${mix.toFixed(3)}`;
+    if (b - a > 4 || cuts.some((k) => a < k && k <= b)) { if (mix >= 0.5) a = b; mix = 0; }
+    const key = `${generation}:${a}:${b}:${Math.round(mix * 64)}`;
     if (key === shown) return;
     shown = key;
-    paint(imgs[a], 1);
-    if (mix > 0.004) paint(imgs[b], mix);
+    ctx.globalAlpha = 1;
+    ctx.drawImage(bitmaps.get(a), 0, 0);
+    if (mix > 1 / 64) {
+      ctx.globalAlpha = mix;
+      ctx.drawImage(bitmaps.get(b), 0, 0);
+      ctx.globalAlpha = 1;
+    }
   }
-  resize();
-  return { draw, resize };
+  return { draw, resize: () => { if (srcW) resize(); } };
 }
 
-/* ---------- Sentieri: anteprima che segue il cursore ---------- */
+/* ---------- Sentieri: anteprima nella colonna a destra ---------- */
+// Passando sopra un sentiero, la foto compare e scende all'altezza della sua riga.
+// Solo con mouse su schermi larghi (lo decide il CSS: altrimenti l'anteprima è nascosta).
 (function initTrails() {
   const list = $("[data-trails]");
   const preview = $("[data-trail-preview]");
   if (!list || !preview || !finePointer) return;
   const label = $("[data-trail-preview-label]");
-  const img = $("[data-trail-preview-img]");
-  let tx = 0, ty = 0, x = 0, y = 0, raf = null;
+  const imgs = $$("[data-trail-preview-img]", preview);
+  let front = 0, currentSrc = "";
 
-  function tick() {
-    x += (tx - x) * 0.14;
-    y += (ty - y) * 0.14;
-    preview.style.setProperty("--px", `${x}px`);
-    preview.style.setProperty("--py", `${y}px`);
-    raf = (Math.abs(tx - x) > 0.5 || Math.abs(ty - y) > 0.5) ? requestAnimationFrame(tick) : null;
+  function show(li) {
+    if (getComputedStyle(preview).display === "none") return;
+    // Altezza: centrata sulla riga, senza uscire dalla tabella
+    const max = Math.max(0, list.offsetHeight - preview.offsetHeight);
+    const y = li.offsetTop + li.offsetHeight / 2 - preview.offsetHeight / 2;
+    preview.style.setProperty("--ty", `${Math.round(Math.min(max, Math.max(0, y)))}px`);
+    label.textContent = li.dataset.preview;
+    // Cambio di foto con una dissolvenza tra le due immagini sovrapposte
+    if (li.dataset.img && li.dataset.img !== currentSrc) {
+      currentSrc = li.dataset.img;
+      front = 1 - front;
+      imgs[front].src = currentSrc;
+      imgs[front].classList.add("is-current");
+      imgs[1 - front].classList.remove("is-current");
+    }
+    preview.classList.add("is-on");
   }
-  list.addEventListener("pointermove", (e) => {
-    tx = e.clientX + 28;
-    ty = e.clientY - preview.offsetHeight / 2;
-    if (!preview.classList.contains("is-on")) { x = tx; y = ty; }
-    if (!raf) raf = requestAnimationFrame(tick);
-  });
+
   $$(".trail", list).forEach((li) => {
     if (li.dataset.img) new Image().src = li.dataset.img;  // precarica: l'anteprima appare subito
-    li.addEventListener("pointerenter", () => {
-      label.textContent = li.dataset.preview;
-      if (img && li.dataset.img) img.src = li.dataset.img;
-      preview.classList.add("is-on");
-    });
+    li.addEventListener("pointerenter", () => show(li));
   });
   list.addEventListener("pointerleave", () => preview.classList.remove("is-on"));
 })();

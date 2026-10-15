@@ -819,20 +819,38 @@ body.menu-open { overflow: hidden; }
 .trail-when { justify-self: end; font-size: .7rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); }
 .trail:hover .trail-name { transform: translateX(14px); color: var(--honey); font-style: italic; }
 
-.trail-preview {
-  position: fixed;
-  top: 0; left: 0;
-  z-index: 30;
-  width: clamp(180px, 16vw, 250px);
-  pointer-events: none;
-  opacity: 0;
-  transform: translate3d(var(--px, -999px), var(--py, -999px), 0);
-  transition: opacity .35s var(--ease);
+/* Anteprima dei sentieri: colonna a destra della tabella; scorre all'altezza della riga
+   sotto il mouse, compare sfumata e ha lo stesso filetto color legno delle altre foto */
+.trails-layout { position: relative; }
+.trail-preview { display: none; }
+@media (min-width: 901px) and (hover: hover) and (pointer: fine) {
+  .trails-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(210px, 20vw, 280px);
+    gap: clamp(2.5rem, 4.5vw, 4.5rem);
+    align-items: start;
+  }
+  .trail { grid-template-columns: 3.2rem 1.25fr 1.5fr 5rem 8.5rem; gap: 1.2rem; }
+  .trail-preview {
+    display: block;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(var(--ty, 0px));
+    filter: brightness(1.5) saturate(.4);
+    transition:
+      opacity .6s cubic-bezier(.25, .46, .45, .94),
+      filter .9s cubic-bezier(.33, 0, .2, 1),
+      transform .7s cubic-bezier(.22, .61, .36, 1);
+  }
+  .trail-preview.is-on { opacity: 1; filter: none; }
 }
-.trail-preview.is-on { opacity: 1; }
-.trail-preview-media { position: relative; overflow: hidden; background: var(--paper-deep); box-shadow: 0 18px 40px -18px rgba(40, 30, 15, .45); }
-.trail-preview-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.trail-preview-media::after { content: ""; position: absolute; inset: 55% 0 0; background: linear-gradient(transparent, rgba(25, 20, 12, .62)); }
+.trail-preview-media { position: relative; background: var(--paper-deep); outline: 1px solid var(--oak); outline-offset: 6px; }
+.trail-preview-media img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity .5s cubic-bezier(.25, .46, .45, .94);
+}
+.trail-preview-media img.is-current { opacity: 1; }
+.trail-preview-media::after { content: ""; position: absolute; inset: 55% 0 0; background: linear-gradient(transparent, rgba(25, 20, 12, .62)); pointer-events: none; }
 .trail-preview-label { position: absolute; z-index: 1; left: 18px; right: 18px; bottom: 16px; font-family: var(--display); font-style: italic; font-size: 1rem; color: #f6efe1; }
 
 .map { margin-top: clamp(60px, 8vw, 110px); }
@@ -1349,7 +1367,6 @@ img.curtain {
   .trail { grid-template-columns: 2.2rem 1fr auto; row-gap: .3rem; }
   .trail-desc { grid-column: 2 / -1; grid-row: 2; }
   .trail-km { grid-column: 3; grid-row: 1; }
-  .trail-preview { display: none; }
   .year-list { grid-template-columns: repeat(3, 1fr); }
   .carta-cols { grid-template-columns: 1fr; }
   .side-sticky { position: static; }
@@ -1465,26 +1482,10 @@ video.cover-media:first-of-type, video.cover-media.is-current { opacity: 1; }
 .page-hero--scroll .cover-sticky { min-height: 520px; }
 .page-hero--scroll.is-static { height: 82svh; }
 .page-hero--scroll.page-hero--short.is-static { height: 62svh; }
-/* Grana fotografica leggerissima sulle copertine animate: sui grandi schermi maschera
-   l'ingrandimento dei video (720p) e dà un aspetto da pellicola */
-.cover-sticky:has(canvas)::after {
-  content: "";
-  position: absolute;
-  inset: -50%;
-  z-index: 1;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.4 -.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-  opacity: .16;
-  mix-blend-mode: overlay;
-  animation: grana 1s steps(4) infinite;
-}
-@keyframes grana {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-7%, 4%); }
-  50% { transform: translate(5%, -6%); }
-  75% { transform: translate(-3%, -2%); }
-}
-@media (prefers-reduced-motion: reduce) { .cover-sticky:has(canvas)::after { animation: none; } }
+/* Il canvas delle copertine su un livello proprio della scheda grafica: lo scorrimento
+   della pagina non lo ridisegna (la vecchia grana animata è stata tolta: con i video
+   a 1080p non serve più e costava un ricalcolo a ogni fotogramma) */
+canvas.cover-media { will-change: contents; transform: translateZ(0); }
 .page-hero:has(.cover-media) .page-hero-shade {
   background:
     linear-gradient(180deg, rgba(30, 34, 22, .45) 0%, rgba(30, 34, 22, 0) 24%),
