@@ -830,7 +830,9 @@ body.menu-open { overflow: hidden; }
     gap: clamp(2.5rem, 4.5vw, 4.5rem);
     align-items: start;
   }
-  .trail { grid-template-columns: 3.2rem 1.25fr 1.5fr 5rem 8.5rem; gap: 1.2rem; }
+  /* Il nome del sentiero sta sempre su una riga: la colonna si allarga quanto il nome più lungo */
+  .trail { grid-template-columns: 2.6rem max-content minmax(0, 1fr) 4.6rem 8.5rem; gap: 1.2rem; }
+  .trail-name { white-space: nowrap; font-size: clamp(1.3rem, 1.75vw, 1.95rem); }
   .trail-preview {
     display: block;
     pointer-events: none;
@@ -1497,4 +1499,9 @@ canvas.cover-media { will-change: contents; transform: translateZ(0); }
   .bar-wa { padding: 0 1.2rem; }
   .bar-wa span { display: none; }
   .bar-go { letter-spacing: .16em; padding-inline: .8rem; }
+}
+
+/* Sentieri su schermi medi con il mouse: senza la colonna "quando", il nome resta su una riga */
+@media (min-width: 901px) and (max-width: 1180px) and (hover: hover) and (pointer: fine) {
+  .trails-layout .trail { grid-template-columns: 2.4rem max-content minmax(0, 1fr) 4.4rem; }
 }
