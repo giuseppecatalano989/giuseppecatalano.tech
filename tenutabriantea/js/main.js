@@ -101,7 +101,7 @@ if ("IntersectionObserver" in window && !reduceMotion) {
   }, { rootMargin: "60px 0px 60px 0px" });
   // Foto vicine (es. le tre residenze in fila) entrano una dopo l'altra
   new Set($$(".curtain").map((el) => el.closest("ul, ol, .grid12, .portico")).filter(Boolean)).forEach((group) => {
-    $$(".curtain", group).forEach((el, i) => el.style.setProperty("--delay", `${Math.min(i, 4) * 0.25}s`));
+    $$(".curtain", group).forEach((el, i) => el.style.setProperty("--delay", `${Math.min(i, 4) * 0.18}s`));
   });
   $$(".curtain").forEach((el) => { curtains.observe(el); reset.observe(el); });
 } else {
