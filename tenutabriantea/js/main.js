@@ -123,7 +123,7 @@ $$("[data-cover]").forEach(function initCover(cover) {
   const steps = $$(".cover-step", cover);
   const clips = $$("video[data-scrub]", cover);
   const canvas = $("canvas[data-scrub-frames]", cover);
-  const frames = canvas ? frameSequence(canvas) : null;
+  const frames = canvas ? (canvas.dataset.video ? videoSequence(canvas) : frameSequence(canvas)) : null;
   clips.forEach((v) => { v.muted = true; v.pause(); });
   let current = -1;
 
@@ -311,7 +311,7 @@ function frameSequence(canvas) {
     // fotogrammi (sarebbe solo lavoro in più per la scheda grafica)
     const cw = canvas.clientWidth, ch = canvas.clientHeight;
     const dpr = window.devicePixelRatio || 1;
-    const r = Math.min(dpr, 1.5, Math.max(1, (srcW || 1600) / cw));
+    const r = Math.max(1, Math.min(dpr, 1.5, (srcW || 1600) / cw));
     canvas.width = Math.round(cw * r);
     canvas.height = Math.round(ch * r);
     generation++;
@@ -348,6 +348,154 @@ function frameSequence(canvas) {
     }
   }
   return { draw, resize: () => { if (srcW) resize(); } };
+}
+
+// Copertina da video H.264 (preparato con tools/prepara_video.py), decodificato dalla scheda
+// grafica con WebCodecs. Il file arriva in streaming; si decodificano a blocchi di 12 fotogrammi
+// (da un fotogramma chiave al successivo) quelli attorno al punto in cui ci si trova, già
+// ritagliati alla misura del canvas. Disegnare è poi una semplice copia, a 60–120 fps.
+// Se il browser non ha WebCodecs o non sa decodificare il flusso, si torna ai fotogrammi WebP.
+// Indirizzo del worker di decodifica (build.py lo scrive, con la versione, sul tag <script>)
+const VIDEO_WORKER = document.currentScript?.dataset.worker || "js/video-worker.js";
+
+function videoSequence(canvas) {
+  const light = window.matchMedia("(max-width: 900px)").matches || navigator.connection?.saveData;
+  // data-video="video/osteria/clip?v=1": per i telefoni si usa clip-m
+  const [path, query = ""] = canvas.dataset.video.split("?");
+  const base = light ? path.replace(/clip$/, "clip-m") : path;
+  const file = (ext) => `${base}.${ext}${query ? "?" + query : ""}`;
+
+  let engine = null, lastP = 0;
+  const api = {
+    draw(p) { lastP = p; if (engine) engine.draw(p); },
+    resize() { if (engine) engine.resize(); },
+  };
+  const fallback = () => {
+    if (engine && engine.isVideo) engine.destroy();
+    canvas.dataset.engine = "fotogrammi";
+    engine = frameSequence(canvas);
+    engine.draw(lastP);
+  };
+
+  (async () => {
+    // Pagina preparata in anticipo dal browser: si aspetta che venga aperta davvero
+    if (document.prerendering) await new Promise((ok) => document.addEventListener("prerenderingchange", ok, { once: true }));
+    if (!("VideoDecoder" in window)) throw new Error("WebCodecs assente");
+    const info = await fetch(file("json")).then((r) => r.json());
+    const config = { codec: info.codec, codedWidth: info.width, codedHeight: info.height, optimizeForLatency: true };
+    const { supported } = await VideoDecoder.isConfigSupported(config);
+    if (!supported) throw new Error("codec non supportato");
+    engine = videoEngine(canvas, info, config, file("h264"), light, fallback);
+    engine.draw(lastP);
+  })().catch(fallback);
+
+  return api;
+}
+
+function videoEngine(canvas, info, config, src, light, onError) {
+  const ctx = canvas.getContext("2d");
+  const { count, map } = info;
+  const bitmaps = new Map();
+  const AHEAD = light ? 30 : 40, BEHIND = light ? 14 : 16;
+  let lastP = 0, shown = "", center = 0, dir = 1, prevF = 0, dead = false;
+
+  // Scaricamento e decodifica avvengono nel worker: qui si riceve il fotogramma pronto e si disegna
+  const worker = new Worker(VIDEO_WORKER);
+  canvas.dataset.engine = "video";
+  worker.onmessage = ({ data: m }) => {
+    if (m.type === "frame") {
+      if (dead || Math.abs(m.i - center) > AHEAD + BEHIND + 24) { m.bitmap.close(); return; }
+      bitmaps.get(m.i)?.close();
+      bitmaps.set(m.i, m.bitmap);
+      if (Math.abs(m.i - center) <= 3) { shown = ""; draw(lastP); }
+    } else if (m.type === "error" && !dead) {
+      destroy();
+      onError();
+    }
+  };
+  worker.onerror = () => { if (!dead) { destroy(); onError(); } };
+  worker.postMessage({ type: "init", info, config, src: new URL(src, location.href).href, ahead: AHEAD, behind: BEHIND });
+
+  function crop() {
+    const s = Math.max(canvas.width / info.width, canvas.height / info.height);
+    const sw = canvas.width / s, sh = canvas.height / s;
+    return [(info.width - sw) / 2, (info.height - sh) / 2, sw, sh];
+  }
+
+  // Libera i fotogrammi lontani (il worker applica la stessa regola e li rimanda se servono)
+  function evict() {
+    const lo = center - AHEAD - BEHIND - 24, hi = center + AHEAD + BEHIND + 24;
+    for (const [i, bm] of bitmaps) if (i < lo || i > hi) { bm.close(); bitmaps.delete(i); }
+  }
+
+  function frameAt(p) {
+    if (!map) return p * (count - 1);
+    if (p <= map[0]) return 0;
+    if (p >= map[count - 1]) return count - 1;
+    let lo = 0, hi = count - 1;
+    while (lo < hi) { const mid = (lo + hi + 1) >> 1; if (map[mid] <= p) lo = mid; else hi = mid - 1; }
+    const span = map[lo + 1] - map[lo];
+    return lo + (span > 0 ? (p - map[lo]) / span : 0);
+  }
+
+  function nearest(i, step, limit) {
+    for (let k = i, n = 0; k >= 0 && k < count && n <= limit; k += step, n++) if (bitmaps.has(k)) return k;
+    return -1;
+  }
+
+  function resize() {
+    const cw = canvas.clientWidth, ch = canvas.clientHeight;
+    // Tanti pixel quanti ne ha davvero lo schermo (fino a 1,5× sugli schermi ad alta densità),
+    // mai più di quelli del video
+    const r = Math.max(1, Math.min(window.devicePixelRatio || 1, 1.5, info.width / cw));
+    canvas.width = Math.round(cw * r);
+    canvas.height = Math.round(ch * r);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    shown = "";
+    draw(lastP);
+  }
+
+  function draw(p) {
+    lastP = p;
+    if (dead) return;
+    const f = frameAt(p);
+    dir = f > prevF ? 1 : f < prevF ? -1 : dir;
+    prevF = f;
+    const c = Math.round(f);
+    if (c !== center) {
+      center = c;
+      evict();
+      worker.postMessage({ type: "center", center, dir });
+    }
+    let a = nearest(Math.floor(f), -1, 48), b = nearest(Math.ceil(f), 1, 48);
+    if (a < 0) a = b;
+    if (b < 0) b = a;
+    if (a < 0) return;   // nulla di pronto: resta visibile l'immagine sotto il canvas
+    let mix = b > a ? Math.min(1, Math.max(0, (f - a) / (b - a))) : 0;
+    if (b - a > 2) { if (mix >= 0.5) a = b; mix = 0; }
+    const key = `${canvas.width}:${a}:${b}:${Math.round(mix * 64)}`;
+    if (key === shown) return;
+    shown = key;
+    const [sx, sy, sw, sh] = crop();
+    ctx.globalAlpha = 1;
+    ctx.drawImage(bitmaps.get(a), sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+    if (mix > 1 / 64) {
+      ctx.globalAlpha = mix;
+      ctx.drawImage(bitmaps.get(b), sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function destroy() {
+    dead = true;
+    worker.terminate();
+    for (const bm of bitmaps.values()) bm.close();
+    bitmaps.clear();
+  }
+
+  resize();
+  return { draw, resize, destroy, isVideo: true };
 }
 
 /* ---------- Sentieri: anteprima nella colonna a destra ---------- */

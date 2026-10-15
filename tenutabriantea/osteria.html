@@ -13,7 +13,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=e01eda8a">
+  <link rel="stylesheet" href="css/style.css?v=9089acdb">
+  <!-- Navigazione istantanea (Chrome, Edge): la pagina sotto il mouse si prepara in anticipo -->
+  <script type="speculationrules">
+  {
+    "prerender": [{ "where": { "href_matches": "*.html" }, "eagerness": "moderate" }],
+    "prefetch": [{ "where": { "href_matches": "*.html" }, "eagerness": "conservative" }]
+  }
+  </script>
 </head>
 <body data-page="osteria">
 
@@ -88,8 +95,8 @@
 
     <section class="page-hero page-hero--scroll page-hero--walnut" data-hero data-cover>
       <div class="cover-sticky">
-        <img class="cover-media" src="video/osteria/f_0001.webp?v=3" alt="La sala dell'osteria con il grande camino acceso">
-        <canvas class="cover-media" data-scrub-frames="video/osteria/f_####.webp?v=3" data-scrub-frames-mobile="video/osteria/m_####.webp?v=3" data-count="191" data-map="video/osteria/mappa.json?v=3" aria-hidden="true"></canvas>
+        <img class="cover-media" src="video/osteria/poster.webp?v=1" srcset="video/osteria/poster-m.webp?v=1 960w, video/osteria/poster.webp?v=1 1920w" sizes="100vw" alt="La sala dell'osteria con il grande camino acceso" fetchpriority="high">
+        <canvas class="cover-media" data-video="video/osteria/clip?v=2" data-scrub-frames="video/osteria/m_####.webp?v=3" data-count="191" data-map="video/osteria/mappa.json?v=3" aria-hidden="true"></canvas>
         <div class="page-hero-shade"></div>
         <div class="page-hero-text">
           <p class="page-hero-kicker"><span>III</span> L'Osteria</p>
@@ -313,6 +320,6 @@
     </a>
   </div>
 
-  <script src="js/main.js?v=472b5c31"></script>
+  <script src="js/main.js?v=b300a4cf" data-worker="js/video-worker.js?v=5e038076"></script>
 </body>
 </html>

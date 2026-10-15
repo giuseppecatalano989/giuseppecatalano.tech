@@ -13,7 +13,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=e01eda8a">
+  <link rel="stylesheet" href="css/style.css?v=9089acdb">
+  <!-- Navigazione istantanea (Chrome, Edge): la pagina sotto il mouse si prepara in anticipo -->
+  <script type="speculationrules">
+  {
+    "prerender": [{ "where": { "href_matches": "*.html" }, "eagerness": "moderate" }],
+    "prefetch": [{ "where": { "href_matches": "*.html" }, "eagerness": "conservative" }]
+  }
+  </script>
 </head>
 <body data-page="home">
 
@@ -91,7 +98,7 @@
          Quando il video sarà pronto, sostituire il blocco .cover-placeholder con UNA delle due opzioni:
 
          A) Sequenza di fotogrammi (consigliata: fluida anche su iPhone)
-            <canvas class="cover-media" data-scrub-frames="video/copertina/f_####.webp" data-count="949"></canvas>
+            <canvas class="cover-media" data-video="video/copertina/clip?v=2" data-scrub-frames="video/copertina/m_####.webp" data-count="949"></canvas>
 
          B) Video unico (più semplice, meno fluido su alcuni smartphone)
             <video class="cover-media" data-scrub muted playsinline preload="auto" poster="img/copertina.jpg">
@@ -108,8 +115,8 @@
                f_####.webp per i computer (1600 px), m_####.webp per i telefoni (960 px).
                data-map distribuisce lo scorrimento in base al movimento, per una velocità uniforme.
                Quando si rigenerano i fotogrammi: aggiornare data-count e aumentare ?v= in entrambi gli indirizzi. -->
-          <img class="cover-media" src="video/copertina/f_0001.webp?v=7" alt="" fetchpriority="high">
-          <canvas class="cover-media" data-scrub-frames="video/copertina/f_####.webp?v=7" data-scrub-frames-mobile="video/copertina/m_####.webp?v=7" data-count="764" data-map="video/copertina/mappa.json?v=7" aria-hidden="true"></canvas>
+          <img class="cover-media" src="video/copertina/poster.webp?v=1" srcset="video/copertina/poster-m.webp?v=1 960w, video/copertina/poster.webp?v=1 1920w" sizes="100vw" alt="" fetchpriority="high">
+          <canvas class="cover-media" data-video="video/copertina/clip?v=2" data-scrub-frames="video/copertina/m_####.webp?v=7" data-count="764" data-map="video/copertina/mappa.json?v=7" aria-hidden="true"></canvas>
           <div class="cover-placeholder" aria-hidden="true" hidden>
             <div class="layer layer-sky"></div>
             <div class="layer layer-dusk"></div>
@@ -405,6 +412,6 @@
     </a>
   </div>
 
-  <script src="js/main.js?v=472b5c31"></script>
+  <script src="js/main.js?v=b300a4cf" data-worker="js/video-worker.js?v=5e038076"></script>
 </body>
 </html>

@@ -1505,3 +1505,17 @@ canvas.cover-media { will-change: contents; transform: translateZ(0); }
 @media (min-width: 901px) and (max-width: 1180px) and (hover: hover) and (pointer: fine) {
   .trails-layout .trail { grid-template-columns: 2.4rem max-content minmax(0, 1fr) 4.4rem; }
 }
+
+/* =========================================================
+   PASSAGGIO TRA LE PAGINE
+   La nuova pagina sfuma sulla precedente; l'intestazione resta ferma.
+   ========================================================= */
+@view-transition { navigation: auto; }
+.hd { view-transition-name: intestazione; }
+::view-transition-old(root) { animation: pagina-esce .35s cubic-bezier(.4, 0, .2, 1) both; }
+::view-transition-new(root) { animation: pagina-entra .55s cubic-bezier(.22, .61, .36, 1) both; }
+@keyframes pagina-esce { to { opacity: 0; } }
+@keyframes pagina-entra { from { opacity: 0; transform: translateY(10px); } }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}

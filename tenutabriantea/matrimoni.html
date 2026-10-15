@@ -13,7 +13,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=e01eda8a">
+  <link rel="stylesheet" href="css/style.css?v=9089acdb">
+  <!-- Navigazione istantanea (Chrome, Edge): la pagina sotto il mouse si prepara in anticipo -->
+  <script type="speculationrules">
+  {
+    "prerender": [{ "where": { "href_matches": "*.html" }, "eagerness": "moderate" }],
+    "prefetch": [{ "where": { "href_matches": "*.html" }, "eagerness": "conservative" }]
+  }
+  </script>
 </head>
 <body data-page="matrimoni">
 
@@ -88,8 +95,8 @@
 
     <section class="page-hero page-hero--scroll page-hero--wedding" data-hero data-cover>
       <div class="cover-sticky">
-        <img class="cover-media" src="video/matrimoni/f_0001.webp?v=2" alt="La corte apparecchiata per una cena di nozze, con candele e lucine sotto il portico">
-        <canvas class="cover-media" data-scrub-frames="video/matrimoni/f_####.webp?v=2" data-scrub-frames-mobile="video/matrimoni/m_####.webp?v=2" data-count="191" data-map="video/matrimoni/mappa.json?v=2" aria-hidden="true"></canvas>
+        <img class="cover-media" src="video/matrimoni/poster.webp?v=1" srcset="video/matrimoni/poster-m.webp?v=1 960w, video/matrimoni/poster.webp?v=1 1920w" sizes="100vw" alt="La corte apparecchiata per una cena di nozze, con candele e lucine sotto il portico" fetchpriority="high">
+        <canvas class="cover-media" data-video="video/matrimoni/clip?v=2" data-scrub-frames="video/matrimoni/m_####.webp?v=2" data-count="191" data-map="video/matrimoni/mappa.json?v=2" aria-hidden="true"></canvas>
         <div class="page-hero-shade"></div>
         <div class="page-hero-text">
           <p class="page-hero-kicker"><span>V</span> Matrimoni &amp; Cerimonie</p>
@@ -335,6 +342,6 @@
     </a>
   </div>
 
-  <script src="js/main.js?v=472b5c31"></script>
+  <script src="js/main.js?v=b300a4cf" data-worker="js/video-worker.js?v=5e038076"></script>
 </body>
 </html>
