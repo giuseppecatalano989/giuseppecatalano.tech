@@ -36,6 +36,9 @@ const DISHES = [
   ["Castegn e mièl", [9, 10, 11]],
 ];
 
+// Tag <script> di questo file: build.py ci scrive gli indirizzi (con la versione) dei worker
+const SCRIPT_TAG = document.currentScript;
+
 const $ = (s, root = document) => root.querySelector(s);
 const $$ = (s, root = document) => [...root.querySelectorAll(s)];
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -123,7 +126,11 @@ $$("[data-cover]").forEach(function initCover(cover) {
   const steps = $$(".cover-step", cover);
   const clips = $$("video[data-scrub]", cover);
   const canvas = $("canvas[data-scrub-frames]", cover);
-  const frames = canvas ? (canvas.dataset.video ? videoSequence(canvas) : frameSequence(canvas)) : null;
+  const frames = canvas
+    ? canvas.dataset.seq ? seqSequence(canvas) : canvas.dataset.video ? videoSequence(canvas) : frameSequence(canvas)
+    : null;
+  // Con il motore "sequenza" l'immagine segue lo scorrimento senza ritardo, come il testo
+  const smoothing = canvas?.dataset.seq ? 1 : CONFIG.cover.smoothing;
   clips.forEach((v) => { v.muted = true; v.pause(); });
   let current = -1;
 
@@ -140,7 +147,7 @@ $$("[data-cover]").forEach(function initCover(cover) {
     // Inseguimento morbido dello scorrimento, uguale a 60, 120 o 144 Hz
     const dt = lastT ? Math.min(64, now - lastT) : 16.67;
     lastT = now;
-    p += (target - p) * (1 - Math.pow(1 - CONFIG.cover.smoothing, dt / 16.67));
+    p += (target - p) * (1 - Math.pow(1 - smoothing, dt / 16.67));
     if (Math.abs(target - p) < 0.00005) p = target;
     const v = p.toFixed(3);
     if (v !== lastVar) { cover.style.setProperty("--p", v); lastVar = v; }
@@ -348,6 +355,86 @@ function frameSequence(canvas) {
     }
   }
   return { draw, resize: () => { if (srcW) resize(); } };
+}
+
+// Copertina "sequenza" (preparata con tools/prepara_sequenza.py): da 90 a 300 fotogrammi a
+// movimento costante, un fotogramma chiave ogni 6. Scaricamento, decodifica e disegno avvengono
+// tutti nel worker (js/cover-worker.js), a cui si cede il canvas: qui si manda solo la posizione
+// dello scorrimento. Senza OffscreenCanvas o WebCodecs, o se qualcosa va storto, si torna ai
+// fotogrammi WebP su un canvas nuovo.
+// Tre varianti per copertina: seq (computer), seq-m (schermi piccoli in orizzontale) e seq-v
+// (ritaglio verticale per i telefoni); se lo schermo ruota si riparte con quella giusta.
+// Con ?misura nell'indirizzo il worker segnala ogni fotogramma disegnato (per tools/misura-copertina.mjs).
+function seqSequence(canvas) {
+  // data-seq="video/copertina/seq?v=1"
+  const [path, query = ""] = canvas.dataset.seq.split("?");
+  const variant = () => {
+    if (canvas.clientWidth < canvas.clientHeight * 0.8) return "-v";
+    return window.matchMedia("(max-width: 900px)").matches || navigator.connection?.saveData ? "-m" : "";
+  };
+  const file = (v, ext) => new URL(`${path}${v}.${ext}${query ? "?" + query : ""}`, location.href).href;
+
+  let worker = null, engine = null, current = null, lastP = 0, sentP = -1, started = false;
+  const size = () => ({ w: canvas.clientWidth, h: canvas.clientHeight, dpr: window.devicePixelRatio || 1 });
+  const api = {
+    draw(p) {
+      lastP = p;
+      if (engine) return engine.draw(p);
+      if (worker && p !== sentP) { sentP = p; worker.postMessage({ type: "p", p }); }
+    },
+    resize() {
+      if (engine) return engine.resize();
+      if (!worker) return;
+      if (variant() !== current) start();
+      else worker.postMessage({ type: "size", ...size() });
+    },
+  };
+
+  // Un canvas ceduto al worker non si può più usare qui: per ripartire lo si sostituisce con uno nuovo
+  function freshCanvas() {
+    const fresh = canvas.cloneNode(false);
+    canvas.replaceWith(fresh);
+    canvas = fresh;
+  }
+
+  function fallback() {
+    if (engine) return;
+    if (worker) worker.terminate();
+    worker = null;
+    freshCanvas();
+    canvas.dataset.engine = "fotogrammi";
+    engine = frameSequence(canvas);
+    engine.draw(lastP);
+  }
+
+  function start() {
+    if (worker) { worker.terminate(); freshCanvas(); }
+    current = variant();
+    const url = SCRIPT_TAG?.dataset.coverWorker || "js/cover-worker.js";
+    worker = new Worker(new URL(url, location.href));
+    worker.onmessage = ({ data: m }) => { if (m.type === "error") fallback(); };
+    worker.onerror = fallback;
+    canvas.dataset.engine = "sequenza";
+    const offscreen = canvas.transferControlToOffscreen();
+    worker.postMessage({
+      type: "init", canvas: offscreen, index: file(current, "json"), src: file(current, "h264"), p: lastP,
+      debug: params.has("misura"), budget: +params.get("budget") || 0, ...size(),
+    }, [offscreen]);
+    sentP = lastP;
+  }
+
+  if (!("transferControlToOffscreen" in canvas) || !("VideoDecoder" in window)) {
+    engine = frameSequence(canvas);
+    return api;
+  }
+
+  (async () => {
+    // Pagina preparata in anticipo dal browser: si aspetta che venga aperta davvero
+    if (document.prerendering) await new Promise((ok) => document.addEventListener("prerenderingchange", ok, { once: true }));
+    start();
+  })().catch(fallback);
+
+  return api;
 }
 
 // Copertina da video H.264 (preparato con tools/prepara_video.py), decodificato dalla scheda

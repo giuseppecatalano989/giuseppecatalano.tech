@@ -98,7 +98,7 @@
          Quando il video sarà pronto, sostituire il blocco .cover-placeholder con UNA delle due opzioni:
 
          A) Sequenza di fotogrammi (consigliata: fluida anche su iPhone)
-            <canvas class="cover-media" data-video="video/copertina/clip?v=2" data-scrub-frames="video/copertina/m_####.webp" data-count="949"></canvas>
+            <canvas class="cover-media" data-seq="video/copertina/seq?v=2" data-scrub-frames="video/copertina/m_####.webp" data-count="949"></canvas>
 
          B) Video unico (più semplice, meno fluido su alcuni smartphone)
             <video class="cover-media" data-scrub muted playsinline preload="auto" poster="img/copertina.jpg">
@@ -112,11 +112,13 @@
         <div class="cover-stage">
           <!-- Volo dall'alto fino in camera (Google Flow · Veo 3.1, 1080p), convertito in fotogrammi con tools/estrai-fotogrammi.html.
                Clip: F_home-0 (da lontano, invertita), F_home-1 (nella corte), F_home-2b (alla finestra), F_home-3b (dentro la camera).
-               f_####.webp per i computer (1600 px), m_####.webp per i telefoni (960 px).
+               Motore "sequenza" (data-seq): 300 fotogrammi a movimento costante, preparati con
+               tools/prepara_sequenza.py e disegnati da js/cover-worker.js. Gli m_####.webp con
+               data-count e data-map servono solo se il browser non ha OffscreenCanvas o WebCodecs.
                data-map distribuisce lo scorrimento in base al movimento, per una velocità uniforme.
                Quando si rigenerano i fotogrammi: aggiornare data-count e aumentare ?v= in entrambi gli indirizzi. -->
           <img class="cover-media" src="video/copertina/poster.webp?v=1" srcset="video/copertina/poster-m.webp?v=1 960w, video/copertina/poster.webp?v=1 1920w" sizes="100vw" alt="" fetchpriority="high">
-          <canvas class="cover-media" data-video="video/copertina/clip?v=2" data-scrub-frames="video/copertina/m_####.webp?v=7" data-count="764" data-map="video/copertina/mappa.json?v=7" aria-hidden="true"></canvas>
+          <canvas class="cover-media" data-seq="video/copertina/seq?v=2" data-scrub-frames="video/copertina/m_####.webp?v=7" data-count="764" data-map="video/copertina/mappa.json?v=7" aria-hidden="true"></canvas>
           <div class="cover-placeholder" aria-hidden="true" hidden>
             <div class="layer layer-sky"></div>
             <div class="layer layer-dusk"></div>
@@ -412,6 +414,6 @@
     </a>
   </div>
 
-  <script src="js/main.js?v=b300a4cf" data-worker="js/video-worker.js?v=5e038076"></script>
+  <script src="js/main.js?v=4a286ce1" data-worker="js/video-worker.js?v=5e038076" data-cover-worker="js/cover-worker.js?v=5dfec0c8"></script>
 </body>
 </html>
