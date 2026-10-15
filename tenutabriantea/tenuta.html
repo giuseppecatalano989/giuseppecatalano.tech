@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<!-- Pagina generata da build.py: modificare i sorgenti in src/ -->
+<html lang="it" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <!-- Progetto dimostrativo (tenuta immaginaria): fuori dai motori di ricerca -->
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La Tenuta · Tenuta Briantea</title>
+  <meta name="description" content="Una cascina lombarda a corte chiusa, quaranta ettari di prati e boschi di castagni, orto, arnie e dodici chilometri di sentieri nel verde della Brianza.">
+  <meta name="theme-color" content="#3E4530">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=7c38b715">
+</head>
+<body data-page="tenuta">
+
+  <a class="skip" href="#contenuto">Vai al contenuto</a>
+
+  <!-- ================= HEADER ================= -->
+  <header class="hd" data-header>
+    <div class="hd-side">
+      <button class="hd-menu" type="button" aria-expanded="false" aria-controls="indice" data-menu-toggle>
+        <span class="hd-menu-lines" aria-hidden="true"><i></i><i></i></span>
+        <span class="hd-menu-label">Menu</span>
+      </button>
+      <nav class="hd-nav" aria-label="Principale">
+        <a href="tenuta.html" data-nav="tenuta" aria-current="page">La Tenuta</a>
+        <a href="residenze.html" data-nav="residenze">Residenze</a>
+        <a href="osteria.html" data-nav="osteria">Osteria</a>
+      </nav>
+    </div>
+
+    <!-- Logo: il profilo del Resegone (l'orizzonte della tenuta) con il sole del miele,
+         il nome e una foglia di gelso, l'albero del viale e dei bachi da seta -->
+    <a href="index.html" class="hd-mark" aria-label="Tenuta Briantea, pagina iniziale">
+      <svg class="hd-mark-ridge" viewBox="0 0 120 22" aria-hidden="true">
+        <path d="M0 20.5H17L27 14.5 32 16.5 39 9.5 43 12 48.5 5 52 8.5 56 3 60 7.5 64.5 4.5 69 9 74 7.5 80 12.5 86 11 94 16 103 20.5H120" />
+        <circle cx="90" cy="6" r="2.4" />
+      </svg>
+      <span class="hd-mark-name">
+        <span class="hd-mark-pre">Tenuta</span>
+        <span class="hd-mark-main">Briantea</span>
+      </span>
+      <span class="hd-mark-sub">
+        <span>Brianza</span>
+        <svg class="hd-mark-leaf" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M8 1.2c1.6 1.5 4.2 2.4 5.6 4.6.9 1.5.8 3.6-.4 5.1-1.2 1.5-3 2.2-5.2 2.2s-4-.7-5.2-2.2C1.6 9.4 1.5 7.3 2.4 5.8 3.8 3.6 6.4 2.7 8 1.2Z" />
+          <path class="vein" d="M8 3v12.6M8 7.2 5.4 5.6M8 7.2l2.6-1.6M8 10.2 4.9 8.6M8 10.2l3.1-1.6" />
+        </svg>
+        <span>Lombardia</span>
+      </span>
+    </a>
+
+    <div class="hd-side hd-side--end">
+      <nav class="hd-nav" aria-label="Secondaria">
+        <a href="piscina.html" data-nav="piscina">Piscina</a>
+        <a href="matrimoni.html" data-nav="matrimoni">Matrimoni</a>
+        <a href="contatti.html" data-nav="contatti">Contatti</a>
+      </nav>
+      <a href="prenota.html" class="hd-book" data-nav="prenota">Prenota</a>
+    </div>
+  </header>
+
+  <!-- ================= INDICE (menu a tutto schermo) ================= -->
+  <div class="indice" id="indice" hidden data-menu>
+    <nav class="indice-nav" aria-label="Indice del sito">
+      <ol>
+        <li><a href="tenuta.html" data-nav="tenuta" aria-current="page"><span>I</span>La Tenuta</a></li>
+        <li><a href="residenze.html" data-nav="residenze"><span>II</span>Le Residenze</a></li>
+        <li><a href="osteria.html" data-nav="osteria"><span>III</span>L'Osteria</a></li>
+        <li><a href="piscina.html" data-nav="piscina"><span>IV</span>La Piscina</a></li>
+        <li><a href="matrimoni.html" data-nav="matrimoni"><span>V</span>Matrimoni &amp; Cerimonie</a></li>
+        <li><a href="prenota.html" data-nav="prenota"><span>VI</span>Prenota</a></li>
+        <li><a href="contatti.html" data-nav="contatti"><span>VII</span>Contatti</a></li>
+      </ol>
+    </nav>
+    <aside class="indice-side">
+      <p class="label">Oggi in tenuta</p>
+      <p class="indice-today" data-almanac-short>—</p>
+      <p class="label">Scriveteci</p>
+      <p><a href="contatti.html">WhatsApp</a><br><a href="mailto:info@tenutabriantea.it">info@tenutabriantea.it</a><br><a href="tel:+390000000000">+39 000 000 0000</a></p>
+    </aside>
+  </div>
+  <main id="contenuto">
+
+    <section class="page-hero page-hero--scroll" data-hero data-cover>
+      <div class="cover-sticky">
+        <img class="cover-media" src="video/tenuta/f_0001.webp?v=3" alt="La tenuta vista dall'alto: la cascina a corte, il viale di gelsi, il bosco, l'orto con le arnie e la piscina">
+        <canvas class="cover-media" data-scrub-frames="video/tenuta/f_####.webp?v=3" data-scrub-frames-mobile="video/tenuta/m_####.webp?v=3" data-count="191" data-map="video/tenuta/mappa.json?v=3" aria-hidden="true"></canvas>
+        <div class="page-hero-shade"></div>
+        <div class="page-hero-text">
+          <p class="page-hero-kicker"><span>I</span> La Tenuta</p>
+          <h1>Dove il silenzio ha ancora un <em>valore</em></h1>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap standfirst">
+      <p class="reveal">Una cascina lombarda a corte chiusa, quaranta ettari di prati e boschi, e un modo di vivere che qui non è mai passato di moda: piano.</p>
+    </div>
+
+    <!-- La cascina -->
+    <section class="section wrap">
+      <header class="chapter-head">
+        <span class="chapter-num">a</span>
+        <span class="chapter-name">La cascina</span>
+      </header>
+      <div class="grid12">
+        <figure class="story-fig-a">
+          <img class="media ph--arch ratio-3x4 curtain" src="img/corte-portico-sera.jpg" alt="La corte principale la sera, con il pozzo e il portico ad archi" loading="lazy">
+          <figcaption>fig. 1 — La corte all'ora blu, il pozzo e il portico</figcaption>
+        </figure>
+        <div class="story-text">
+          <h2 class="reveal">Pietra, castagno<br>e <em>calce</em></h2>
+          <p class="dropcap reveal">Tenuta Briantea nasce attorno a una cascina lombarda a corte chiusa: muri in pietra, portici ad archi, travi di castagno. Intorno, quaranta ettari di prati, boschi e filari di gelsi, gli alberi che per secoli hanno nutrito i bachi da seta della Brianza.</p>
+          <p class="reveal">Il restauro ha tenuto quello che c'era e tolto quello che disturbava. Gli arredi sono in legno, fatti da artigiani della zona; i pavimenti sono in cotto recuperato; la luce, la sera, è quella delle lampade basse e dei camini.</p>
+          <p class="signature reveal">Pian pianin, come si dice da queste parti.</p>
+        </div>
+        <figure class="story-fig-b">
+          <img class="media ratio-1x1 curtain" src="img/finestra-il-fienile.jpg" alt="Una finestra della cascina con le persiane verde salvia aperte e la luce calda della camera" loading="lazy">
+          <figcaption>fig. 2 — Pietra, mattoni e persiane verde salvia</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- L'orto e le arnie -->
+    <section class="section wrap">
+      <header class="chapter-head">
+        <span class="chapter-num">b</span>
+        <span class="chapter-name">L'orto e le arnie</span>
+      </header>
+      <div class="grid12 teaser--rev">
+        <figure class="teaser-fig-a">
+          <img class="media ratio-4x5 curtain" src="img/arnie.jpg" alt="Le sei arnie nel frutteto, con l'ala del fienile sullo sfondo" loading="lazy">
+          <figcaption>fig. 3 — L'apiario, a settembre</figcaption>
+        </figure>
+        <div class="teaser-text">
+          <h2 class="reveal">Quello che c'è<br>in tavola <em>cresce qui</em></h2>
+          <p class="reveal">Dietro l'osteria c'è un orto coltivato senza chimica, che segue le stagioni e decide il menù. Più in là, al limitare del frutteto, ci sono le arnie: da lì viene il miele di acacia, di castagno e millefiori che trovate a colazione.</p>
+          <p class="reveal">A settembre si fa la smielatura. Chi soggiorna in quei giorni può dare una mano, e assaggiare il miele appena estratto.</p>
+          <a href="osteria.html" class="link reveal">Dall'orto all'osteria</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- I sentieri -->
+    <section class="section wrap">
+      <header class="chapter-head">
+        <span class="chapter-num">c</span>
+        <span class="chapter-name">I sentieri</span>
+      </header>
+      <div class="two">
+        <h2 class="reveal">Dodici chilometri<br>di passi <em>lenti</em></h2>
+        <p class="reveal">Sentieri segnati che attraversano bosco, prato e frutteto. Nessuno è difficile, nessuno ha fretta di finire. Alla reception trovate le mappe disegnate a mano e, su richiesta, un cestino per il pranzo.</p>
+      </div>
+
+      <ol class="trails" data-trails>
+        <li class="trail" data-preview="Il Sentiero dei Castagni" data-img="img/sentiero-castagni.jpg">
+          <span class="trail-n">01</span>
+          <span class="trail-name">Il Sentiero dei Castagni</span>
+          <span class="trail-desc">Anello in ombra nel bosco, tra muschio e ricci</span>
+          <span class="trail-km">2,5 km</span>
+          <span class="trail-when">All'alba</span>
+        </li>
+        <li class="trail" data-preview="I Prati del Gelso" data-img="img/sentiero-gelsi.jpg">
+          <span class="trail-n">02</span>
+          <span class="trail-name">I Prati del Gelso</span>
+          <span class="trail-desc">Campi aperti e filari storici fino alla panchina sulle colline</span>
+          <span class="trail-km">4 km</span>
+          <span class="trail-when">Tutto il giorno</span>
+        </li>
+        <li class="trail" data-preview="Il Giro delle Arnie" data-img="img/sentiero-arnie.jpg">
+          <span class="trail-n">03</span>
+          <span class="trail-name">Il Giro delle Arnie</span>
+          <span class="trail-desc">Orto, frutteto e apiario, con assaggio di miele</span>
+          <span class="trail-km">1,8 km</span>
+          <span class="trail-when">In tarda mattinata</span>
+        </li>
+        <li class="trail" data-preview="La Via del Belvedere" data-img="img/sentiero-belvedere.jpg">
+          <span class="trail-n">04</span>
+          <span class="trail-name">La Via del Belvedere</span>
+          <span class="trail-desc">Salita dolce fino al punto più alto della tenuta</span>
+          <span class="trail-km">5,5 km</span>
+          <span class="trail-when">Al tramonto</span>
+        </li>
+      </ol>
+
+      <div class="trail-preview" aria-hidden="true" data-trail-preview>
+        <div class="trail-preview-media ratio-4x5"><img alt="" data-trail-preview-img><span class="trail-preview-label" data-trail-preview-label></span></div>
+      </div>
+
+      <figure class="map">
+        <img class="media ratio-16x9 curtain" src="img/mappa-tenuta.jpg" alt="Mappa illustrata ad acquerello della tenuta" loading="lazy">
+        <figcaption>fig. 4 — La mappa della tenuta. La versione disegnata a mano vi aspetta alla reception.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Un anno in tenuta -->
+    <section class="section wrap section--last">
+      <header class="chapter-head">
+        <span class="chapter-num">d</span>
+        <span class="chapter-name">Un anno in tenuta</span>
+      </header>
+      <div class="two">
+        <h2 class="reveal">Ogni mese<br>ha il suo <em>passo</em></h2>
+        <p class="reveal">La tenuta cambia con le stagioni, e con lei quello che si fa, si mangia e si guarda. Ecco cosa succede, mese per mese.</p>
+      </div>
+      <ol class="year-list" data-year>
+        <li data-m="1"><b>Gen</b>Cassœula davanti al camino</li>
+        <li data-m="2"><b>Feb</b>Si potano i gelsi</li>
+        <li data-m="3"><b>Mar</b>Il bosco si risveglia</li>
+        <li data-m="4"><b>Apr</b>Fiori di sambuco e pan de mej</li>
+        <li data-m="5"><b>Mag</b>Apre la piscina</li>
+        <li data-m="6"><b>Giu</b>Lucciole nei prati</li>
+        <li data-m="7"><b>Lug</b>Cene sotto il pergolato</li>
+        <li data-m="8"><b>Ago</b>San Lorenzo al Belvedere</li>
+        <li data-m="9"><b>Set</b>Si raccoglie il miele</li>
+        <li data-m="10"><b>Ott</b>Castagne e foglie rosse</li>
+        <li data-m="11"><b>Nov</b>Nebbie e prime cassœule</li>
+        <li data-m="12"><b>Dic</b>Fuochi accesi e torta de pan</li>
+      </ol>
+    </section>
+
+    <a href="residenze.html" class="next">
+      <span class="label">Capitolo successivo</span>
+      <span class="next-title">Le Residenze <i>→</i></span>
+    </a>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="ft">
+    <p class="ft-mark">Tenuta Briantea</p>
+    <div class="ft-grid">
+      <div>
+        <p class="label">Dove</p>
+        <p>Via della Tenuta, 1<br>20800 Brianza (MB)</p>
+        <p><a href="contatti.html">Come arrivare</a></p>
+      </div>
+      <div>
+        <p class="label">Contatti</p>
+        <p><a href="tel:+390000000000">+39 000 000 0000</a><br><a href="mailto:info@tenutabriantea.it">info@tenutabriantea.it</a><br><a href="contatti.html">WhatsApp</a></p>
+      </div>
+      <div>
+        <p class="label">La tenuta</p>
+        <ul class="ft-links">
+          <li><a href="tenuta.html">La Tenuta</a></li>
+          <li><a href="residenze.html">Residenze</a></li>
+          <li><a href="osteria.html">Osteria</a></li>
+          <li><a href="piscina.html">Piscina</a></li>
+          <li><a href="matrimoni.html">Matrimoni</a></li>
+          <li><a href="prenota.html">Prenota</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="label">Il motto di casa</p>
+        <p class="ft-motto">Pian pianin<br>se va luntan.</p>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© <span data-current-year>2026</span> Tenuta Briantea · P.IVA 00000000000</p>
+      <p><a href="#">Privacy</a> · <a href="#">Cookie</a></p>
+    </div>
+  </footer>
+
+  <!-- ================= BARRA DI PRENOTAZIONE =================
+       Funziona anche senza JavaScript: invia le date a prenota.html -->
+  <div class="bar" data-bar>
+    <form class="bar-form" action="prenota.html" method="get" aria-label="Verifica disponibilità">
+      <label class="bar-field">
+        <span>Arrivo</span>
+        <input type="date" name="arrivo" data-bar-in>
+      </label>
+      <label class="bar-field">
+        <span>Partenza</span>
+        <input type="date" name="partenza" data-bar-out>
+      </label>
+      <label class="bar-field bar-field--sm">
+        <span>Ospiti</span>
+        <select name="adulti">
+          <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+        </select>
+      </label>
+      <button type="submit" class="bar-go">Verifica disponibilità</button>
+    </form>
+    <a href="contatti.html" class="bar-wa" aria-label="Scriveteci su WhatsApp">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.7a10.7 10.7 0 0 1-5.5-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.7 10.7 0 1 1 16 26.7zm5.9-8c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8.9 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.2-.3-.3-.7-.5z"/></svg>
+      <span>WhatsApp</span>
+    </a>
+  </div>
+
+  <script src="js/main.js?v=9b10e512"></script>
+</body>
+</html>

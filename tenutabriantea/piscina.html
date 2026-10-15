@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<!-- Pagina generata da build.py: modificare i sorgenti in src/ -->
+<html lang="it" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <!-- Progetto dimostrativo (tenuta immaginaria): fuori dai motori di ricerca -->
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La Piscina · Tenuta Briantea</title>
+  <meta name="description" content="Una piscina a sfioro nel mezzo del prato della Tenuta Briantea, aperta da maggio a settembre. Lettini, chiosco con centrifughe dell'orto e silenzio.">
+  <meta name="theme-color" content="#3E4530">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=7c38b715">
+</head>
+<body data-page="piscina">
+
+  <a class="skip" href="#contenuto">Vai al contenuto</a>
+
+  <!-- ================= HEADER ================= -->
+  <header class="hd" data-header>
+    <div class="hd-side">
+      <button class="hd-menu" type="button" aria-expanded="false" aria-controls="indice" data-menu-toggle>
+        <span class="hd-menu-lines" aria-hidden="true"><i></i><i></i></span>
+        <span class="hd-menu-label">Menu</span>
+      </button>
+      <nav class="hd-nav" aria-label="Principale">
+        <a href="tenuta.html" data-nav="tenuta">La Tenuta</a>
+        <a href="residenze.html" data-nav="residenze">Residenze</a>
+        <a href="osteria.html" data-nav="osteria">Osteria</a>
+      </nav>
+    </div>
+
+    <!-- Logo: il profilo del Resegone (l'orizzonte della tenuta) con il sole del miele,
+         il nome e una foglia di gelso, l'albero del viale e dei bachi da seta -->
+    <a href="index.html" class="hd-mark" aria-label="Tenuta Briantea, pagina iniziale">
+      <svg class="hd-mark-ridge" viewBox="0 0 120 22" aria-hidden="true">
+        <path d="M0 20.5H17L27 14.5 32 16.5 39 9.5 43 12 48.5 5 52 8.5 56 3 60 7.5 64.5 4.5 69 9 74 7.5 80 12.5 86 11 94 16 103 20.5H120" />
+        <circle cx="90" cy="6" r="2.4" />
+      </svg>
+      <span class="hd-mark-name">
+        <span class="hd-mark-pre">Tenuta</span>
+        <span class="hd-mark-main">Briantea</span>
+      </span>
+      <span class="hd-mark-sub">
+        <span>Brianza</span>
+        <svg class="hd-mark-leaf" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M8 1.2c1.6 1.5 4.2 2.4 5.6 4.6.9 1.5.8 3.6-.4 5.1-1.2 1.5-3 2.2-5.2 2.2s-4-.7-5.2-2.2C1.6 9.4 1.5 7.3 2.4 5.8 3.8 3.6 6.4 2.7 8 1.2Z" />
+          <path class="vein" d="M8 3v12.6M8 7.2 5.4 5.6M8 7.2l2.6-1.6M8 10.2 4.9 8.6M8 10.2l3.1-1.6" />
+        </svg>
+        <span>Lombardia</span>
+      </span>
+    </a>
+
+    <div class="hd-side hd-side--end">
+      <nav class="hd-nav" aria-label="Secondaria">
+        <a href="piscina.html" data-nav="piscina" aria-current="page">Piscina</a>
+        <a href="matrimoni.html" data-nav="matrimoni">Matrimoni</a>
+        <a href="contatti.html" data-nav="contatti">Contatti</a>
+      </nav>
+      <a href="prenota.html" class="hd-book" data-nav="prenota">Prenota</a>
+    </div>
+  </header>
+
+  <!-- ================= INDICE (menu a tutto schermo) ================= -->
+  <div class="indice" id="indice" hidden data-menu>
+    <nav class="indice-nav" aria-label="Indice del sito">
+      <ol>
+        <li><a href="tenuta.html" data-nav="tenuta"><span>I</span>La Tenuta</a></li>
+        <li><a href="residenze.html" data-nav="residenze"><span>II</span>Le Residenze</a></li>
+        <li><a href="osteria.html" data-nav="osteria"><span>III</span>L'Osteria</a></li>
+        <li><a href="piscina.html" data-nav="piscina" aria-current="page"><span>IV</span>La Piscina</a></li>
+        <li><a href="matrimoni.html" data-nav="matrimoni"><span>V</span>Matrimoni &amp; Cerimonie</a></li>
+        <li><a href="prenota.html" data-nav="prenota"><span>VI</span>Prenota</a></li>
+        <li><a href="contatti.html" data-nav="contatti"><span>VII</span>Contatti</a></li>
+      </ol>
+    </nav>
+    <aside class="indice-side">
+      <p class="label">Oggi in tenuta</p>
+      <p class="indice-today" data-almanac-short>—</p>
+      <p class="label">Scriveteci</p>
+      <p><a href="contatti.html">WhatsApp</a><br><a href="mailto:info@tenutabriantea.it">info@tenutabriantea.it</a><br><a href="tel:+390000000000">+39 000 000 0000</a></p>
+    </aside>
+  </div>
+  <main id="contenuto">
+
+    <section class="page-hero page-hero--scroll" data-hero data-cover>
+      <div class="cover-sticky">
+        <img class="cover-media" src="video/piscina/f_0001.webp?v=2" alt="La piscina nel prato davanti alla cascina">
+        <canvas class="cover-media" data-scrub-frames="video/piscina/f_####.webp?v=2" data-scrub-frames-mobile="video/piscina/m_####.webp?v=2" data-count="191" data-map="video/piscina/mappa.json?v=2" aria-hidden="true"></canvas>
+        <div class="page-hero-shade"></div>
+        <div class="page-hero-text">
+          <p class="page-hero-kicker"><span>IV</span> La Piscina</p>
+          <h1>L'acqua, il prato, <em>nient'altro.</em></h1>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap standfirst">
+      <p class="reveal">Una vasca a sfioro nel mezzo del prato, lontana dagli edifici e dalle voci. Si arriva a piedi lungo il filare dei gelsi, e ci si dimentica dell'ora.</p>
+    </div>
+
+    <section class="section wrap">
+      <div class="wide">
+        <img class="media ratio-21x9 curtain" src="img/piscina-belvedere.jpg" alt="La piscina nel prato vista dal Belvedere, con la cascina e il Resegone sullo sfondo" loading="lazy">
+      </div>
+      <div class="two two--after">
+        <p class="reveal">Lettini in legno, ombrelloni in tela grezza, un piccolo chiosco con centrifughe dell'orto e, verso sera, un bicchiere di vino della collina. L'acqua è trattata a sale, senza odore di cloro.</p>
+        <dl class="specs specs--flush reveal">
+          <div><dt>Stagione</dt><dd>maggio – settembre</dd></div>
+          <div><dt>Orario</dt><dd>9:30 – 19:00</dd></div>
+          <div><dt>Vasca</dt><dd>16 × 6 m, a sfioro</dd></div>
+          <div><dt>Per gli ospiti</dt><dd>lettini e teli inclusi</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Una giornata -->
+    <section class="section wrap">
+      <header class="chapter-head">
+        <span class="chapter-num">✦</span>
+        <span class="chapter-name">Una giornata in piscina</span>
+      </header>
+      <div class="grid12">
+        <ol class="day col-a">
+          <li><time>9:30</time><div><b>Si apre</b><span>Teli piegati sui lettini, il prato ancora umido.</span></div></li>
+          <li><time>11:00</time><div><b>Centrifughe dell'orto</b><span>Mela, sedano e menta, oppure carota e zenzero.</span></div></li>
+          <li><time>13:00</time><div><b>Pranzo leggero dal chiosco</b><span>Insalate dell'orto, focacce, frutta di stagione.</span></div></li>
+          <li><time>16:30</time><div><b>La merenda</b><span>Una fetta di torta de pan e tè freddo al sambuco.</span></div></li>
+          <li><time>18:00</time><div><b>L'aperitivo</b><span>Un bicchiere di bianco e il sole che scende sulle colline.</span></div></li>
+          <li><time>19:00</time><div><b>Si chiude</b><span>E si va a cena, in osteria.</span></div></li>
+        </ol>
+        <figure class="col-b">
+          <img class="media ph--arch ratio-3x4 curtain" src="img/chiosco.jpg" alt="Il chiosco in legno accanto alla piscina, con le centrifughe dell'orto" loading="lazy">
+          <figcaption>fig. 1 — Il chiosco, nel pomeriggio</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Regole e ingresso -->
+    <section class="band band--moss">
+      <div class="wrap">
+        <div class="two two--top">
+          <div>
+            <p class="label">Regole della casa</p>
+            <ul class="plain-list reveal">
+              <li>Si parla a bassa voce</li>
+              <li>Niente musica dagli altoparlanti</li>
+              <li>I bambini sono benvenuti, accompagnati</li>
+              <li>Un lettino a testa, senza prenotarlo col telo</li>
+            </ul>
+          </div>
+          <div>
+            <p class="label">Per chi non soggiorna</p>
+            <h2 class="reveal">Una giornata<br>da <em>ospiti</em></h2>
+            <p class="reveal">Nei giorni feriali alcuni lettini sono disponibili anche per chi non soggiorna in tenuta, con pranzo in osteria. I posti sono pochi: scriveteci per verificare la disponibilità.</p>
+            <div class="actions reveal">
+              <a href="contatti.html?argomento=Accesso%20alla%20piscina" class="btn btn-honey">Chiedi un ingresso</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <a href="matrimoni.html" class="next">
+      <span class="label">Capitolo successivo</span>
+      <span class="next-title">Matrimoni &amp; Cerimonie <i>→</i></span>
+    </a>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="ft">
+    <p class="ft-mark">Tenuta Briantea</p>
+    <div class="ft-grid">
+      <div>
+        <p class="label">Dove</p>
+        <p>Via della Tenuta, 1<br>20800 Brianza (MB)</p>
+        <p><a href="contatti.html">Come arrivare</a></p>
+      </div>
+      <div>
+        <p class="label">Contatti</p>
+        <p><a href="tel:+390000000000">+39 000 000 0000</a><br><a href="mailto:info@tenutabriantea.it">info@tenutabriantea.it</a><br><a href="contatti.html">WhatsApp</a></p>
+      </div>
+      <div>
+        <p class="label">La tenuta</p>
+        <ul class="ft-links">
+          <li><a href="tenuta.html">La Tenuta</a></li>
+          <li><a href="residenze.html">Residenze</a></li>
+          <li><a href="osteria.html">Osteria</a></li>
+          <li><a href="piscina.html">Piscina</a></li>
+          <li><a href="matrimoni.html">Matrimoni</a></li>
+          <li><a href="prenota.html">Prenota</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="label">Il motto di casa</p>
+        <p class="ft-motto">Pian pianin<br>se va luntan.</p>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© <span data-current-year>2026</span> Tenuta Briantea · P.IVA 00000000000</p>
+      <p><a href="#">Privacy</a> · <a href="#">Cookie</a></p>
+    </div>
+  </footer>
+
+  <!-- ================= BARRA DI PRENOTAZIONE =================
+       Funziona anche senza JavaScript: invia le date a prenota.html -->
+  <div class="bar" data-bar>
+    <form class="bar-form" action="prenota.html" method="get" aria-label="Verifica disponibilità">
+      <label class="bar-field">
+        <span>Arrivo</span>
+        <input type="date" name="arrivo" data-bar-in>
+      </label>
+      <label class="bar-field">
+        <span>Partenza</span>
+        <input type="date" name="partenza" data-bar-out>
+      </label>
+      <label class="bar-field bar-field--sm">
+        <span>Ospiti</span>
+        <select name="adulti">
+          <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+        </select>
+      </label>
+      <button type="submit" class="bar-go">Verifica disponibilità</button>
+    </form>
+    <a href="contatti.html" class="bar-wa" aria-label="Scriveteci su WhatsApp">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.7a10.7 10.7 0 0 1-5.5-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.7 10.7 0 1 1 16 26.7zm5.9-8c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8.9 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.2-.3-.3-.7-.5z"/></svg>
+      <span>WhatsApp</span>
+    </a>
+  </div>
+
+  <script src="js/main.js?v=9b10e512"></script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<!-- Pagina generata da build.py: modificare i sorgenti in src/ -->
+<html lang="it" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <!-- Progetto dimostrativo (tenuta immaginaria): fuori dai motori di ricerca -->
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Le Residenze · Tenuta Briantea</title>
+  <meta name="description" content="Quattro residenze nella cascina storica della Tenuta Briantea: Il Fienile, La Bigattiera, La Corte del Gelso e Casa nel Bosco. Colazione con i prodotti della tenuta inclusa.">
+  <meta name="theme-color" content="#3E4530">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=7c38b715">
+</head>
+<body data-page="residenze">
+
+  <a class="skip" href="#contenuto">Vai al contenuto</a>
+
+  <!-- ================= HEADER ================= -->
+  <header class="hd" data-header>
+    <div class="hd-side">
+      <button class="hd-menu" type="button" aria-expanded="false" aria-controls="indice" data-menu-toggle>
+        <span class="hd-menu-lines" aria-hidden="true"><i></i><i></i></span>
+        <span class="hd-menu-label">Menu</span>
+      </button>
+      <nav class="hd-nav" aria-label="Principale">
+        <a href="tenuta.html" data-nav="tenuta">La Tenuta</a>
+        <a href="residenze.html" data-nav="residenze" aria-current="page">Residenze</a>
+        <a href="osteria.html" data-nav="osteria">Osteria</a>
+      </nav>
+    </div>
+
+    <!-- Logo: il profilo del Resegone (l'orizzonte della tenuta) con il sole del miele,
+         il nome e una foglia di gelso, l'albero del viale e dei bachi da seta -->
+    <a href="index.html" class="hd-mark" aria-label="Tenuta Briantea, pagina iniziale">
+      <svg class="hd-mark-ridge" viewBox="0 0 120 22" aria-hidden="true">
+        <path d="M0 20.5H17L27 14.5 32 16.5 39 9.5 43 12 48.5 5 52 8.5 56 3 60 7.5 64.5 4.5 69 9 74 7.5 80 12.5 86 11 94 16 103 20.5H120" />
+        <circle cx="90" cy="6" r="2.4" />
+      </svg>
+      <span class="hd-mark-name">
+        <span class="hd-mark-pre">Tenuta</span>
+        <span class="hd-mark-main">Briantea</span>
+      </span>
+      <span class="hd-mark-sub">
+        <span>Brianza</span>
+        <svg class="hd-mark-leaf" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M8 1.2c1.6 1.5 4.2 2.4 5.6 4.6.9 1.5.8 3.6-.4 5.1-1.2 1.5-3 2.2-5.2 2.2s-4-.7-5.2-2.2C1.6 9.4 1.5 7.3 2.4 5.8 3.8 3.6 6.4 2.7 8 1.2Z" />
+          <path class="vein" d="M8 3v12.6M8 7.2 5.4 5.6M8 7.2l2.6-1.6M8 10.2 4.9 8.6M8 10.2l3.1-1.6" />
+        </svg>
+        <span>Lombardia</span>
+      </span>
+    </a>
+
+    <div class="hd-side hd-side--end">
+      <nav class="hd-nav" aria-label="Secondaria">
+        <a href="piscina.html" data-nav="piscina">Piscina</a>
+        <a href="matrimoni.html" data-nav="matrimoni">Matrimoni</a>
+        <a href="contatti.html" data-nav="contatti">Contatti</a>
+      </nav>
+      <a href="prenota.html" class="hd-book" data-nav="prenota">Prenota</a>
+    </div>
+  </header>
+
+  <!-- ================= INDICE (menu a tutto schermo) ================= -->
+  <div class="indice" id="indice" hidden data-menu>
+    <nav class="indice-nav" aria-label="Indice del sito">
+      <ol>
+        <li><a href="tenuta.html" data-nav="tenuta"><span>I</span>La Tenuta</a></li>
+        <li><a href="residenze.html" data-nav="residenze" aria-current="page"><span>II</span>Le Residenze</a></li>
+        <li><a href="osteria.html" data-nav="osteria"><span>III</span>L'Osteria</a></li>
+        <li><a href="piscina.html" data-nav="piscina"><span>IV</span>La Piscina</a></li>
+        <li><a href="matrimoni.html" data-nav="matrimoni"><span>V</span>Matrimoni &amp; Cerimonie</a></li>
+        <li><a href="prenota.html" data-nav="prenota"><span>VI</span>Prenota</a></li>
+        <li><a href="contatti.html" data-nav="contatti"><span>VII</span>Contatti</a></li>
+      </ol>
+    </nav>
+    <aside class="indice-side">
+      <p class="label">Oggi in tenuta</p>
+      <p class="indice-today" data-almanac-short>—</p>
+      <p class="label">Scriveteci</p>
+      <p><a href="contatti.html">WhatsApp</a><br><a href="mailto:info@tenutabriantea.it">info@tenutabriantea.it</a><br><a href="tel:+390000000000">+39 000 000 0000</a></p>
+    </aside>
+  </div>
+  <main id="contenuto">
+
+    <section class="page-hero page-hero--scroll" data-hero data-cover>
+      <div class="cover-sticky">
+        <img class="cover-media" src="video/residenze/f_0001.webp?v=3" alt="La camera della residenza Il Fienile a luci soffuse">
+        <canvas class="cover-media" data-scrub-frames="video/residenze/f_####.webp?v=3" data-scrub-frames-mobile="video/residenze/m_####.webp?v=3" data-count="191" data-map="video/residenze/mappa.json?v=3" aria-hidden="true"></canvas>
+        <div class="page-hero-shade"></div>
+        <div class="page-hero-text">
+          <p class="page-hero-kicker"><span>II</span> Le Residenze</p>
+          <h1>Dormire nella cascina, svegliarsi nel <em>prato</em></h1>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap standfirst">
+      <p class="reveal">Quattro residenze ricavate negli edifici storici della corte. Lino, lana, legno grezzo e nessuna televisione: ogni stanza ha il suo affaccio e il suo silenzio.</p>
+    </div>
+
+    <section class="section wrap">
+
+      <article class="grid12 room-row" id="fienile">
+        <img class="media ph--arch ratio-4x5 curtain" src="img/camera-il-fienile.jpg" alt="Residenza Il Fienile: letto in lino, travi di castagno, lampade e candela" loading="lazy">
+        <div class="room-body">
+          <p class="room-n">Residenza nº 1</p>
+          <h2>Il Fienile</h2>
+          <p>Sotto le travi dell'antico fienile, un unico grande ambiente con il letto rivolto verso i prati. Al mattino il sole entra dalle finestre a est e arriva fino al cuscino. Per due, per non fare niente.</p>
+          <dl class="specs">
+            <div><dt>Ospiti</dt><dd>2</dd></div>
+            <div><dt>Superficie</dt><dd>35 m²</dd></div>
+            <div><dt>Letto</dt><dd>matrimoniale grande</dd></div>
+            <div><dt>Affaccio</dt><dd>i prati a est</dd></div>
+            <div><dt>A partire da</dt><dd>€ 140 / notte</dd></div>
+          </dl>
+          <ul class="tags">
+            <li>Travi a vista</li><li>Bagno in pietra</li><li>Doccia a pioggia</li><li>Scrittoio</li>
+          </ul>
+          <div class="actions">
+            <a href="prenota.html?residenza=Il%20Fienile" class="btn btn-honey">Verifica le date</a>
+            <a href="contatti.html?argomento=Informazioni%20sul%20soggiorno" class="link">Fate una domanda</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="grid12 room-row" id="bigattiera">
+        <img class="media ph--arch ratio-4x5 curtain" src="img/bigattiera.jpg" alt="Residenza La Bigattiera: la luce del mattino attraverso le gelosie in cotto" loading="lazy">
+        <div class="room-body">
+          <p class="room-n">Residenza nº 2</p>
+          <h2>La Bigattiera</h2>
+          <p>Qui un tempo si allevavano i bachi da seta. Oggi è la residenza più luminosa, con le finestre alte e i vecchi graticci di canna recuperati e appesi alle pareti. Un divano letto accoglie un terzo ospite.</p>
+          <dl class="specs">
+            <div><dt>Ospiti</dt><dd>2 + 1</dd></div>
+            <div><dt>Superficie</dt><dd>42 m²</dd></div>
+            <div><dt>Letto</dt><dd>matrimoniale e divano letto</dd></div>
+            <div><dt>Affaccio</dt><dd>il filare dei gelsi</dd></div>
+            <div><dt>A partire da</dt><dd>€ 165 / notte</dd></div>
+          </dl>
+          <ul class="tags">
+            <li>Finestre alte</li><li>Vasca freestanding</li><li>Angolo lettura</li>
+          </ul>
+          <div class="actions">
+            <a href="prenota.html?residenza=La%20Bigattiera" class="btn btn-honey">Verifica le date</a>
+            <a href="contatti.html?argomento=Informazioni%20sul%20soggiorno" class="link">Fate una domanda</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="grid12 room-row" id="corte-del-gelso">
+        <img class="media ph--arch ratio-4x5 curtain" src="img/corte-del-gelso.jpg" alt="Residenza La Corte del Gelso: il soggiorno con il camino" loading="lazy">
+        <div class="room-body">
+          <p class="room-n">Residenza nº 3</p>
+          <h2>La Corte del Gelso</h2>
+          <p>Due camere, un soggiorno con camino e un piccolo patio privato sulla corte interna. Pensata per le famiglie e per chi viaggia con gli amici, con un angolo cottura per le colazioni lente.</p>
+          <dl class="specs">
+            <div><dt>Ospiti</dt><dd>4</dd></div>
+            <div><dt>Superficie</dt><dd>60 m²</dd></div>
+            <div><dt>Letti</dt><dd>matrimoniale e due singoli</dd></div>
+            <div><dt>Affaccio</dt><dd>la corte</dd></div>
+            <div><dt>A partire da</dt><dd>€ 210 / notte</dd></div>
+          </dl>
+          <ul class="tags">
+            <li>Camino</li><li>Patio privato</li><li>Angolo cottura</li><li>Due bagni</li>
+          </ul>
+          <div class="actions">
+            <a href="prenota.html?residenza=La%20Corte%20del%20Gelso" class="btn btn-honey">Verifica le date</a>
+            <a href="contatti.html?argomento=Informazioni%20sul%20soggiorno" class="link">Fate una domanda</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="grid12 room-row" id="casa-nel-bosco">
+        <img class="media ph--arch ratio-4x5 curtain" src="img/casa-nel-bosco.jpg" alt="Residenza Casa nel Bosco al crepuscolo" loading="lazy">
+        <div class="room-body">
+          <p class="room-n">Residenza nº 4</p>
+          <h2>Casa nel Bosco</h2>
+          <p>La più appartata, al limitare del bosco, a cinque minuti a piedi dalla corte. Una terrazza in larice, una vasca davanti alla finestra, e la notte solo il verso della civetta.</p>
+          <dl class="specs">
+            <div><dt>Ospiti</dt><dd>2</dd></div>
+            <div><dt>Superficie</dt><dd>45 m²</dd></div>
+            <div><dt>Letto</dt><dd>matrimoniale grande</dd></div>
+            <div><dt>Affaccio</dt><dd>il bosco a nord</dd></div>
+            <div><dt>A partire da</dt><dd>€ 180 / notte</dd></div>
+          </dl>
+          <ul class="tags">
+            <li>Terrazza sul bosco</li><li>Vasca</li><li>Stufa a legna</li><li>Massima riservatezza</li>
+          </ul>
+          <div class="actions">
+            <a href="prenota.html?residenza=Casa%20nel%20Bosco" class="btn btn-honey">Verifica le date</a>
+            <a href="contatti.html?argomento=Informazioni%20sul%20soggiorno" class="link">Fate una domanda</a>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- Incluso nel soggiorno -->
+    <section class="band band--moss">
+      <div class="wrap">
+        <header class="chapter-head">
+          <span class="chapter-num">✦</span>
+          <span class="chapter-name">Incluso nel soggiorno</span>
+        </header>
+        <div class="trio">
+          <div class="reveal">
+            <span class="trio-n">i</span>
+            <h3>La colazione in corte</h3>
+            <p>Torte di casa, pane caldo, burro di malga, miele e confetture della tenuta. D'estate sotto il portico, d'inverno vicino al camino.</p>
+          </div>
+          <div class="reveal">
+            <span class="trio-n">ii</span>
+            <h3>La tenuta intera</h3>
+            <p>I sentieri con le mappe disegnate a mano, la piscina da maggio a settembre, le biciclette per girare tra i paesi della Brianza.</p>
+          </div>
+          <div class="reveal">
+            <span class="trio-n">iii</span>
+            <h3>Le piccole cose</h3>
+            <p>Lenzuola di lino, prodotti da bagno al miele, una bottiglia d'acqua della fonte e un parcheggio all'ombra dei gelsi.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buono a sapersi -->
+    <section class="section wrap section--last">
+      <header class="chapter-head">
+        <span class="chapter-num">✦</span>
+        <span class="chapter-name">Buono a sapersi</span>
+      </header>
+      <div class="facts">
+        <dl class="specs">
+          <div><dt>Arrivo</dt><dd>dalle 15:00 alle 19:00</dd></div>
+          <div><dt>Partenza</dt><dd>entro le 11:00</dd></div>
+          <div><dt>Soggiorno minimo</dt><dd>2 notti nel fine settimana</dd></div>
+          <div><dt>Cancellazione</dt><dd>gratuita fino a 7 giorni prima</dd></div>
+        </dl>
+        <dl class="specs">
+          <div><dt>Bambini</dt><dd>benvenuti, culle su richiesta</dd></div>
+          <div><dt>Animali</dt><dd>cani di piccola taglia, su richiesta</dd></div>
+          <div><dt>Wi-Fi</dt><dd>in corte e in osteria</dd></div>
+          <div><dt>Televisione</dt><dd>nessuna, di proposito</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <a href="osteria.html" class="next">
+      <span class="label">Capitolo successivo</span>
+      <span class="next-title">L'Osteria <i>→</i></span>
+    </a>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="ft">
+    <p class="ft-mark">Tenuta Briantea</p>
+    <div class="ft-grid">
+      <div>
+        <p class="label">Dove</p>
+        <p>Via della Tenuta, 1<br>20800 Brianza (MB)</p>
+        <p><a href="contatti.html">Come arrivare</a></p>
+      </div>
+      <div>
+        <p class="label">Contatti</p>
+        <p><a href="tel:+390000000000">+39 000 000 0000</a><br><a href="mailto:info@tenutabriantea.it">info@tenutabriantea.it</a><br><a href="contatti.html">WhatsApp</a></p>
+      </div>
+      <div>
+        <p class="label">La tenuta</p>
+        <ul class="ft-links">
+          <li><a href="tenuta.html">La Tenuta</a></li>
+          <li><a href="residenze.html">Residenze</a></li>
+          <li><a href="osteria.html">Osteria</a></li>
+          <li><a href="piscina.html">Piscina</a></li>
+          <li><a href="matrimoni.html">Matrimoni</a></li>
+          <li><a href="prenota.html">Prenota</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="label">Il motto di casa</p>
+        <p class="ft-motto">Pian pianin<br>se va luntan.</p>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© <span data-current-year>2026</span> Tenuta Briantea · P.IVA 00000000000</p>
+      <p><a href="#">Privacy</a> · <a href="#">Cookie</a></p>
+    </div>
+  </footer>
+
+  <!-- ================= BARRA DI PRENOTAZIONE =================
+       Funziona anche senza JavaScript: invia le date a prenota.html -->
+  <div class="bar" data-bar>
+    <form class="bar-form" action="prenota.html" method="get" aria-label="Verifica disponibilità">
+      <label class="bar-field">
+        <span>Arrivo</span>
+        <input type="date" name="arrivo" data-bar-in>
+      </label>
+      <label class="bar-field">
+        <span>Partenza</span>
+        <input type="date" name="partenza" data-bar-out>
+      </label>
+      <label class="bar-field bar-field--sm">
+        <span>Ospiti</span>
+        <select name="adulti">
+          <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+        </select>
+      </label>
+      <button type="submit" class="bar-go">Verifica disponibilità</button>
+    </form>
+    <a href="contatti.html" class="bar-wa" aria-label="Scriveteci su WhatsApp">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.7a10.7 10.7 0 0 1-5.5-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.7 10.7 0 1 1 16 26.7zm5.9-8c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8.9 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.2-.3-.3-.7-.5z"/></svg>
+      <span>WhatsApp</span>
+    </a>
+  </div>
+
+  <script src="js/main.js?v=9b10e512"></script>
+</body>
+</html>

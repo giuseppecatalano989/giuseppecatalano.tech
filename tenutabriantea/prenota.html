@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<!-- Pagina generata da build.py: modificare i sorgenti in src/ -->
+<html lang="it" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <!-- Progetto dimostrativo (tenuta immaginaria): fuori dai motori di ricerca -->
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prenota il soggiorno · Tenuta Briantea</title>
+  <meta name="description" content="Richiedete la disponibilità per un soggiorno alla Tenuta Briantea. Risposta entro 24 ore, colazione inclusa, cancellazione gratuita fino a 7 giorni prima.">
+  <meta name="theme-color" content="#3E4530">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=7c38b715">
+</head>
+<body data-page="prenota">
+
+  <a class="skip" href="#contenuto">Vai al contenuto</a>
+
+  <!-- ================= HEADER ================= -->
+  <header class="hd" data-header>
+    <div class="hd-side">
+      <button class="hd-menu" type="button" aria-expanded="false" aria-controls="indice" data-menu-toggle>
+        <span class="hd-menu-lines" aria-hidden="true"><i></i><i></i></span>
+        <span class="hd-menu-label">Menu</span>
+      </button>
+      <nav class="hd-nav" aria-label="Principale">
+        <a href="tenuta.html" data-nav="tenuta">La Tenuta</a>
+        <a href="residenze.html" data-nav="residenze">Residenze</a>
+        <a href="osteria.html" data-nav="osteria">Osteria</a>
+      </nav>
+    </div>
+
+    <!-- Logo: il profilo del Resegone (l'orizzonte della tenuta) con il sole del miele,
+         il nome e una foglia di gelso, l'albero del viale e dei bachi da seta -->
+    <a href="index.html" class="hd-mark" aria-label="Tenuta Briantea, pagina iniziale">
+      <svg class="hd-mark-ridge" viewBox="0 0 120 22" aria-hidden="true">
+        <path d="M0 20.5H17L27 14.5 32 16.5 39 9.5 43 12 48.5 5 52 8.5 56 3 60 7.5 64.5 4.5 69 9 74 7.5 80 12.5 86 11 94 16 103 20.5H120" />
+        <circle cx="90" cy="6" r="2.4" />
+      </svg>
+      <span class="hd-mark-name">
+        <span class="hd-mark-pre">Tenuta</span>
+        <span class="hd-mark-main">Briantea</span>
+      </span>
+      <span class="hd-mark-sub">
+        <span>Brianza</span>
+        <svg class="hd-mark-leaf" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M8 1.2c1.6 1.5 4.2 2.4 5.6 4.6.9 1.5.8 3.6-.4 5.1-1.2 1.5-3 2.2-5.2 2.2s-4-.7-5.2-2.2C1.6 9.4 1.5 7.3 2.4 5.8 3.8 3.6 6.4 2.7 8 1.2Z" />
+          <path class="vein" d="M8 3v12.6M8 7.2 5.4 5.6M8 7.2l2.6-1.6M8 10.2 4.9 8.6M8 10.2l3.1-1.6" />
+        </svg>
+        <span>Lombardia</span>
+      </span>
+    </a>
+
+    <div class="hd-side hd-side--end">
+      <nav class="hd-nav" aria-label="Secondaria">
+        <a href="piscina.html" data-nav="piscina">Piscina</a>
+        <a href="matrimoni.html" data-nav="matrimoni">Matrimoni</a>
+        <a href="contatti.html" data-nav="contatti">Contatti</a>
+      </nav>
+      <a href="prenota.html" class="hd-book" data-nav="prenota" aria-current="page">Prenota</a>
+    </div>
+  </header>
+
+  <!-- ================= INDICE (menu a tutto schermo) ================= -->
+  <div class="indice" id="indice" hidden data-menu>
+    <nav class="indice-nav" aria-label="Indice del sito">
+      <ol>
+        <li><a href="tenuta.html" data-nav="tenuta"><span>I</span>La Tenuta</a></li>
+        <li><a href="residenze.html" data-nav="residenze"><span>II</span>Le Residenze</a></li>
+        <li><a href="osteria.html" data-nav="osteria"><span>III</span>L'Osteria</a></li>
+        <li><a href="piscina.html" data-nav="piscina"><span>IV</span>La Piscina</a></li>
+        <li><a href="matrimoni.html" data-nav="matrimoni"><span>V</span>Matrimoni &amp; Cerimonie</a></li>
+        <li><a href="prenota.html" data-nav="prenota" aria-current="page"><span>VI</span>Prenota</a></li>
+        <li><a href="contatti.html" data-nav="contatti"><span>VII</span>Contatti</a></li>
+      </ol>
+    </nav>
+    <aside class="indice-side">
+      <p class="label">Oggi in tenuta</p>
+      <p class="indice-today" data-almanac-short>—</p>
+      <p class="label">Scriveteci</p>
+      <p><a href="contatti.html">WhatsApp</a><br><a href="mailto:info@tenutabriantea.it">info@tenutabriantea.it</a><br><a href="tel:+390000000000">+39 000 000 0000</a></p>
+    </aside>
+  </div>
+  <main id="contenuto">
+
+    <section class="page-hero page-hero--scroll page-hero--short" data-hero data-cover>
+      <div class="cover-sticky">
+        <img class="cover-media" src="video/prenota/f_0001.webp?v=2" alt="Due valigie sotto il portico, davanti alla corte">
+        <canvas class="cover-media" data-scrub-frames="video/prenota/f_####.webp?v=2" data-scrub-frames-mobile="video/prenota/m_####.webp?v=2" data-count="191" data-map="video/prenota/mappa.json?v=2" aria-hidden="true"></canvas>
+        <div class="page-hero-shade"></div>
+        <div class="page-hero-text">
+          <p class="page-hero-kicker"><span>VI</span> Prenota</p>
+          <h1>Il registro degli <em>ospiti</em></h1>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap section--last">
+      <div class="two two--top two--form">
+        <div class="side-sticky">
+          <h2 class="h-md reveal">Qualche giorno<br>di <em>pace</em></h2>
+          <p class="reveal">Indicateci le date e la residenza che preferite. Vi risponderemo entro 24 ore con la conferma della disponibilità e la proposta di soggiorno.</p>
+          <ul class="plain-list mt-m reveal">
+            <li>Tariffa migliore prenotando direttamente</li>
+            <li>Colazione con i prodotti della tenuta inclusa</li>
+            <li>Cancellazione gratuita fino a 7 giorni prima</li>
+            <li>Nessun pagamento richiesto ora</li>
+          </ul>
+          <div class="aside-note reveal">
+            <p class="label">Preferite parlarne?</p>
+            <p>Scriveteci su <a href="contatti.html?argomento=Informazioni%20sul%20soggiorno">WhatsApp</a> o chiamate il <a href="tel:+390000000000">+39 000 000 0000</a>.</p>
+          </div>
+        </div>
+
+        <form class="form registro" id="booking-form" novalidate>
+          <div class="field">
+            <label for="b-checkin">Arrivo</label>
+            <input type="date" id="b-checkin" name="arrivo" required>
+          </div>
+          <div class="field">
+            <label for="b-checkout">Partenza</label>
+            <input type="date" id="b-checkout" name="partenza" required>
+          </div>
+          <div class="field">
+            <label for="b-adults">Adulti</label>
+            <select id="b-adults" name="adulti">
+              <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="b-children">Bambini</label>
+            <select id="b-children" name="bambini">
+              <option selected>0</option><option>1</option><option>2</option><option>3</option>
+            </select>
+          </div>
+          <div class="field field--full">
+            <label for="b-room">Residenza</label>
+            <select id="b-room" name="residenza">
+              <option value="Nessuna preferenza">Nessuna preferenza</option>
+              <option>Il Fienile</option>
+              <option>La Bigattiera</option>
+              <option>La Corte del Gelso</option>
+              <option>Casa nel Bosco</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="b-name">Nome e cognome</label>
+            <input type="text" id="b-name" name="nome" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="b-phone">Telefono</label>
+            <input type="tel" id="b-phone" name="telefono" autocomplete="tel">
+          </div>
+          <div class="field field--full">
+            <label for="b-email">Email</label>
+            <input type="email" id="b-email" name="email" autocomplete="email" required>
+          </div>
+          <div class="field field--full">
+            <label for="b-notes">Note <span class="opt">(facoltativo)</span></label>
+            <textarea id="b-notes" name="note" rows="2" placeholder="Una cena in osteria, un anniversario, esigenze alimentari…"></textarea>
+          </div>
+          <label class="check field--full">
+            <input type="checkbox" name="privacy" required>
+            <span>Ho letto l'<a href="#">informativa sulla privacy</a> e acconsento al trattamento dei dati per rispondere alla richiesta.</span>
+          </label>
+          <p class="form-error field--full" role="alert"></p>
+          <button type="submit" class="btn btn-honey field--full">Invia la richiesta</button>
+
+          <div class="form-done" hidden>
+            <p class="form-done-mark" aria-hidden="true">✓</p>
+            <h2>Richiesta ricevuta</h2>
+            <p>Vi scriveremo entro 24 ore per confermare la disponibilità. Grazie.</p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="ft">
+    <p class="ft-mark">Tenuta Briantea</p>
+    <div class="ft-grid">
+      <div>
+        <p class="label">Dove</p>
+        <p>Via della Tenuta, 1<br>20800 Brianza (MB)</p>
+        <p><a href="contatti.html">Come arrivare</a></p>
+      </div>
+      <div>
+        <p class="label">Contatti</p>
+        <p><a href="tel:+390000000000">+39 000 000 0000</a><br><a href="mailto:info@tenutabriantea.it">info@tenutabriantea.it</a><br><a href="contatti.html">WhatsApp</a></p>
+      </div>
+      <div>
+        <p class="label">La tenuta</p>
+        <ul class="ft-links">
+          <li><a href="tenuta.html">La Tenuta</a></li>
+          <li><a href="residenze.html">Residenze</a></li>
+          <li><a href="osteria.html">Osteria</a></li>
+          <li><a href="piscina.html">Piscina</a></li>
+          <li><a href="matrimoni.html">Matrimoni</a></li>
+          <li><a href="prenota.html">Prenota</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="label">Il motto di casa</p>
+        <p class="ft-motto">Pian pianin<br>se va luntan.</p>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© <span data-current-year>2026</span> Tenuta Briantea · P.IVA 00000000000</p>
+      <p><a href="#">Privacy</a> · <a href="#">Cookie</a></p>
+    </div>
+  </footer>
+
+  <script src="js/main.js?v=9b10e512"></script>
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<!-- Pagina generata da build.py: modificare i sorgenti in src/ -->
+<html lang="it" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <!-- Progetto dimostrativo (tenuta immaginaria): fuori dai motori di ricerca -->
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tenuta Briantea · Cascina, osteria e residenze nel verde della Brianza</title>
+  <meta name="description" content="Quaranta ettari di boschi e prati in Brianza. Residenze nella cascina, osteria di cucina brianzola, piscina nel prato, matrimoni e cerimonie.">
+  <meta name="theme-color" content="#3E4530">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=7c38b715">
+</head>
+<body data-page="home">
+
+  <a class="skip" href="#contenuto">Vai al contenuto</a>
+
+  <!-- ================= HEADER ================= -->
+  <header class="hd" data-header>
+    <div class="hd-side">
+      <button class="hd-menu" type="button" aria-expanded="false" aria-controls="indice" data-menu-toggle>
+        <span class="hd-menu-lines" aria-hidden="true"><i></i><i></i></span>
+        <span class="hd-menu-label">Menu</span>
+      </button>
+      <nav class="hd-nav" aria-label="Principale">
+        <a href="tenuta.html" data-nav="tenuta">La Tenuta</a>
+        <a href="residenze.html" data-nav="residenze">Residenze</a>
+        <a href="osteria.html" data-nav="osteria">Osteria</a>
+      </nav>
+    </div>
+
+    <!-- Logo: il profilo del Resegone (l'orizzonte della tenuta) con il sole del miele,
+         il nome e una foglia di gelso, l'albero del viale e dei bachi da seta -->
+    <a href="index.html" class="hd-mark" aria-label="Tenuta Briantea, pagina iniziale">
+      <svg class="hd-mark-ridge" viewBox="0 0 120 22" aria-hidden="true">
+        <path d="M0 20.5H17L27 14.5 32 16.5 39 9.5 43 12 48.5 5 52 8.5 56 3 60 7.5 64.5 4.5 69 9 74 7.5 80 12.5 86 11 94 16 103 20.5H120" />
+        <circle cx="90" cy="6" r="2.4" />
+      </svg>
+      <span class="hd-mark-name">
+        <span class="hd-mark-pre">Tenuta</span>
+        <span class="hd-mark-main">Briantea</span>
+      </span>
+      <span class="hd-mark-sub">
+        <span>Brianza</span>
+        <svg class="hd-mark-leaf" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M8 1.2c1.6 1.5 4.2 2.4 5.6 4.6.9 1.5.8 3.6-.4 5.1-1.2 1.5-3 2.2-5.2 2.2s-4-.7-5.2-2.2C1.6 9.4 1.5 7.3 2.4 5.8 3.8 3.6 6.4 2.7 8 1.2Z" />
+          <path class="vein" d="M8 3v12.6M8 7.2 5.4 5.6M8 7.2l2.6-1.6M8 10.2 4.9 8.6M8 10.2l3.1-1.6" />
+        </svg>
+        <span>Lombardia</span>
+      </span>
+    </a>
+
+    <div class="hd-side hd-side--end">
+      <nav class="hd-nav" aria-label="Secondaria">
+        <a href="piscina.html" data-nav="piscina">Piscina</a>
+        <a href="matrimoni.html" data-nav="matrimoni">Matrimoni</a>
+        <a href="contatti.html" data-nav="contatti">Contatti</a>
+      </nav>
+      <a href="prenota.html" class="hd-book" data-nav="prenota">Prenota</a>
+    </div>
+  </header>
+
+  <!-- ================= INDICE (menu a tutto schermo) ================= -->
+  <div class="indice" id="indice" hidden data-menu>
+    <nav class="indice-nav" aria-label="Indice del sito">
+      <ol>
+        <li><a href="tenuta.html" data-nav="tenuta"><span>I</span>La Tenuta</a></li>
+        <li><a href="residenze.html" data-nav="residenze"><span>II</span>Le Residenze</a></li>
+        <li><a href="osteria.html" data-nav="osteria"><span>III</span>L'Osteria</a></li>
+        <li><a href="piscina.html" data-nav="piscina"><span>IV</span>La Piscina</a></li>
+        <li><a href="matrimoni.html" data-nav="matrimoni"><span>V</span>Matrimoni &amp; Cerimonie</a></li>
+        <li><a href="prenota.html" data-nav="prenota"><span>VI</span>Prenota</a></li>
+        <li><a href="contatti.html" data-nav="contatti"><span>VII</span>Contatti</a></li>
+      </ol>
+    </nav>
+    <aside class="indice-side">
+      <p class="label">Oggi in tenuta</p>
+      <p class="indice-today" data-almanac-short>—</p>
+      <p class="label">Scriveteci</p>
+      <p><a href="contatti.html">WhatsApp</a><br><a href="mailto:info@tenutabriantea.it">info@tenutabriantea.it</a><br><a href="tel:+390000000000">+39 000 000 0000</a></p>
+    </aside>
+  </div>
+  <main id="contenuto">
+
+    <!-- ================= COPERTINA SCROLL-DRIVEN =================
+         Scorrendo, la copertina resta ferma e il video avanza fotogramma per fotogramma.
+         Quando il video sarà pronto, sostituire il blocco .cover-placeholder con UNA delle due opzioni:
+
+         A) Sequenza di fotogrammi (consigliata: fluida anche su iPhone)
+            <canvas class="cover-media" data-scrub-frames="video/copertina/f_####.webp" data-count="949"></canvas>
+
+         B) Video unico (più semplice, meno fluido su alcuni smartphone)
+            <video class="cover-media" data-scrub muted playsinline preload="auto" poster="img/copertina.jpg">
+              <source src="video/copertina.mp4" type="video/mp4">
+            </video>
+
+         Istruzioni per preparare i file in README.md.
+    -->
+    <section class="cover" data-cover aria-label="Copertina">
+      <div class="cover-sticky">
+        <div class="cover-stage">
+          <!-- Volo dall'alto fino in camera (Google Flow · Veo 3.1, 1080p), convertito in fotogrammi con tools/estrai-fotogrammi.html.
+               Clip: F_home-0 (da lontano, invertita), F_home-1 (nella corte), F_home-2b (alla finestra), F_home-3b (dentro la camera).
+               f_####.webp per i computer (1600 px), m_####.webp per i telefoni (960 px).
+               data-map distribuisce lo scorrimento in base al movimento, per una velocità uniforme.
+               Quando si rigenerano i fotogrammi: aggiornare data-count e aumentare ?v= in entrambi gli indirizzi. -->
+          <img class="cover-media" src="video/copertina/f_0001.webp?v=7" alt="" fetchpriority="high">
+          <canvas class="cover-media" data-scrub-frames="video/copertina/f_####.webp?v=7" data-scrub-frames-mobile="video/copertina/m_####.webp?v=7" data-count="764" data-map="video/copertina/mappa.json?v=7" aria-hidden="true"></canvas>
+          <div class="cover-placeholder" aria-hidden="true" hidden>
+            <div class="layer layer-sky"></div>
+            <div class="layer layer-dusk"></div>
+            <div class="layer layer-sun"></div>
+            <div class="layer" style="--depth:.25">
+              <svg viewBox="0 0 2400 600" preserveAspectRatio="none"><path fill="#9AA383" d="M0 380 C 180 300 320 340 470 300 S 760 230 930 290 1240 250 1400 300 1700 260 1900 300 2200 250 2400 290 V600 H0Z"/></svg>
+            </div>
+            <div class="layer" style="--depth:.45">
+              <svg viewBox="0 0 2400 600" preserveAspectRatio="none"><path fill="#7C8763" d="M0 430 C 220 360 380 420 560 380 S 880 320 1060 390 1360 350 1600 400 1900 340 2100 390 2250 380 2400 360 V600 H0Z"/></svg>
+            </div>
+            <div class="layer layer-mist"></div>
+            <div class="layer" style="--depth:.75">
+              <svg viewBox="0 0 2400 600" preserveAspectRatio="none"><path fill="#58623F" d="M0 490 C 260 430 420 470 640 450 S 1000 410 1200 460 1460 470 1600 440 1900 420 2150 470 2300 460 2400 450 V600 H0Z"/></svg>
+            </div>
+            <div class="layer" style="--depth:1">
+              <svg viewBox="0 0 2400 600" preserveAspectRatio="none"><path fill="#3E4530" d="M0 540 C 300 510 520 545 800 525 S 1300 505 1600 535 1900 515 2150 540 2300 530 2400 525 V600 H0Z"/></svg>
+            </div>
+          </div>
+          <div class="cover-shade"></div>
+        </div>
+
+        <!-- Didascalie che compaiono durante lo scorrimento (data-from / data-to: 0–1) -->
+        <div class="cover-steps">
+          <div class="cover-step is-active" data-from="0" data-to="0.22">
+            <p class="cover-kicker">Benvegnù</p>
+            <h1 class="cover-title">Quaranta ettari di Brianza da attraversare <em>piano.</em></h1>
+          </div>
+          <div class="cover-step" data-from="0.22" data-to="0.62" aria-hidden="true">
+            <p class="cover-kicker">All'ora blu</p>
+            <p class="cover-title">La corte si accende,<br>il pozzo, il <em>portico.</em></p>
+          </div>
+          <div class="cover-step" data-from="0.62" data-to="1.01" aria-hidden="true">
+            <p class="cover-kicker">Pian pianin</p>
+            <p class="cover-title">Fino alla vostra camera,<br>a luce <em>bassa.</em></p>
+          </div>
+        </div>
+
+        <div class="cover-foot">
+          <span class="cover-coords">45°42′ N · 9°16′ E</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MANIFESTO ================= -->
+    <section class="manifesto">
+      <p class="manifesto-lead reveal">Una cascina lombarda, boschi di castagni, un'osteria che cucina come una volta.</p>
+      <p class="manifesto-line reveal">A quaranta minuti da Milano.<br>A un secolo di distanza.</p>
+    </section>
+
+    <!-- ================= LUNARIO ================= -->
+    <section class="wrap" aria-label="Oggi in tenuta">
+      <div class="lunario-inner">
+        <div class="lunario-cell">
+          <span class="label">Oggi in tenuta</span>
+          <strong data-al="date">—</strong>
+          <span data-al="season">—</span>
+        </div>
+        <div class="lunario-cell">
+          <span class="label">Il cielo</span>
+          <strong data-al="weather">—</strong>
+          <span data-al="weather-note">Brianza</span>
+        </div>
+        <div class="lunario-cell">
+          <span class="label">Alba · Tramonto</span>
+          <strong data-al="sun">—</strong>
+          <span data-al="daylight">—</span>
+        </div>
+        <div class="lunario-cell">
+          <span class="label">La luna</span>
+          <strong><svg class="moon" viewBox="0 0 24 24" aria-hidden="true" data-al="moon-icon"></svg><span data-al="moon">—</span></strong>
+          <span data-al="moon-note">—</span>
+        </div>
+        <div class="lunario-cell">
+          <span class="label">In osteria</span>
+          <strong data-al="dish">—</strong>
+          <a href="osteria.html" class="link">La carta di stagione</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= I · LA TENUTA ================= -->
+    <section class="section wrap">
+      <header class="chapter-head">
+        <span class="chapter-num">I</span>
+        <span class="chapter-name">La Tenuta</span>
+      </header>
+      <div class="grid12">
+        <figure class="teaser-fig-a">
+          <img class="media ph--arch ratio-3x4 curtain" src="img/corte-portico-sera.jpg" alt="La corte della cascina la sera, con il pozzo e il portico ad archi illuminato" loading="lazy">
+        </figure>
+        <div class="teaser-text">
+          <h2 class="reveal">Dove il silenzio ha ancora un <em>valore</em></h2>
+          <p class="reveal">Una cascina a corte chiusa, filari di gelsi, boschi di castagni e dodici chilometri di sentieri. Qui non c'è traffico e non c'è fretta: c'è il fruscio delle foglie e la nebbia che al mattino si alza lenta dai prati.</p>
+          <a href="tenuta.html" class="link reveal">Scoprite la tenuta</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= II · LE RESIDENZE ================= -->
+    <section class="section wrap">
+      <header class="chapter-head">
+        <span class="chapter-num">II</span>
+        <span class="chapter-name">Le Residenze</span>
+      </header>
+      <div class="two">
+        <h2 class="reveal">Dormire nella cascina, svegliarsi nel <em>prato</em></h2>
+        <div>
+          <p class="reveal">Quattro residenze negli edifici storici della corte. Lino, lana, legno grezzo, nessuna televisione.</p>
+          <a href="residenze.html" class="link reveal">Tutte le residenze</a>
+        </div>
+      </div>
+      <div class="portico">
+        <a href="residenze.html#fienile" class="portico-item">
+          <img class="media ph--arch ratio-3x4 curtain" src="img/camera-il-fienile.jpg" alt="La camera della residenza Il Fienile, con travi di castagno e luci soffuse" loading="lazy">
+          <h3>Il Fienile</h3>
+          <p>Per due, da € 140</p>
+        </a>
+        <a href="residenze.html#bigattiera" class="portico-item">
+          <img class="media ph--arch ratio-3x4 curtain" src="img/bigattiera.jpg" alt="La Bigattiera: la luce filtra dalle gelosie in cotto" loading="lazy">
+          <h3>La Bigattiera</h3>
+          <p>Per due o tre, da € 165</p>
+        </a>
+        <a href="residenze.html#corte-del-gelso" class="portico-item">
+          <img class="media ph--arch ratio-3x4 curtain" src="img/corte-del-gelso.jpg" alt="La Corte del Gelso: il soggiorno con il camino aperto sulla corte" loading="lazy">
+          <h3>La Corte del Gelso</h3>
+          <p>Per quattro, da € 210</p>
+        </a>
+        <a href="residenze.html#casa-nel-bosco" class="portico-item">
+          <img class="media ph--arch ratio-3x4 curtain" src="img/casa-nel-bosco.jpg" alt="Casa nel Bosco al crepuscolo, al limitare del castagneto" loading="lazy">
+          <h3>Casa nel Bosco</h3>
+          <p>Per due, da € 180</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- ================= III · L'OSTERIA ================= -->
+    <section class="band band--walnut">
+      <div class="wrap">
+        <header class="chapter-head">
+          <span class="chapter-num">III</span>
+          <span class="chapter-name">L'Osteria</span>
+        </header>
+        <div class="grid12 teaser--rev">
+          <figure class="teaser-fig-a">
+            <img class="media ratio-4x5 curtain" src="img/osteria-tavola.jpg" alt="Un tavolo apparecchiato nella sala dell'osteria, davanti al camino acceso" loading="lazy">
+          </figure>
+          <div class="teaser-text">
+            <h2 class="reveal">A tavola,<br><em>pian pianin.</em></h2>
+            <p class="reveal">Le ricette della Brianza, con i nomi in dialetto come li scriveva la nonna. Verdure dell'orto, miele delle nostre arnie, carni e farine dei vicini.</p>
+            <div class="teaser-today reveal">
+              <span class="label">Oggi in carta</span>
+              <strong data-al="dish">—</strong>
+            </div>
+            <a href="osteria.html" class="link reveal">La carta e gli orari</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= IV · LA PISCINA ================= -->
+    <section class="section wrap">
+      <header class="chapter-head">
+        <span class="chapter-num">IV</span>
+        <span class="chapter-name">La Piscina</span>
+      </header>
+      <div class="wide">
+        <img class="media ratio-21x9 curtain" src="img/piscina.jpg" alt="La piscina nel prato davanti alla cascina, nel pomeriggio" loading="lazy">
+        <h2 class="wide-title reveal">L'acqua, il prato,<br><em>nient'altro.</em></h2>
+      </div>
+      <div class="two two--after two--flush">
+        <p class="reveal">Una vasca a sfioro nel mezzo del prato, lontana dalle voci. Aperta da maggio a settembre.</p>
+        <div><a href="piscina.html" class="link reveal">Una giornata in piscina</a></div>
+      </div>
+    </section>
+
+    <!-- ================= V · MATRIMONI ================= -->
+    <section class="band band--wedding">
+      <div class="wrap">
+        <header class="chapter-head">
+          <span class="chapter-num">V</span>
+          <span class="chapter-name">Matrimoni &amp; Cerimonie</span>
+        </header>
+        <div class="grid12">
+          <div class="nozze-text">
+            <h2 class="reveal">Un sì detto sotto i <em>gelsi.</em></h2>
+            <p class="reveal">Una sola coppia per giorno, la tenuta tutta per voi. Il rito nel prato, la cena nella corte illuminata dalle candele, la colazione con gli ospiti la mattina dopo.</p>
+            <div class="actions reveal">
+              <a href="matrimoni.html#richiesta" class="btn btn-honey">Prenota un sopralluogo</a>
+              <a href="matrimoni.html" class="link">Spazi e servizi</a>
+            </div>
+          </div>
+          <figure class="nozze-fig">
+            <img class="media ph--arch ratio-3x4 curtain" src="img/rito-prato-gelsi.jpg" alt="Il rito nel Prato dei Gelsi: sedie in legno e un arco di fiori tra i gelsi" loading="lazy">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= UN ANNO IN TENUTA ================= -->
+    <section class="section wrap" aria-label="Un anno in tenuta">
+      <header class="chapter-head">
+        <span class="chapter-num">✦</span>
+        <span class="chapter-name">Un anno in tenuta</span>
+      </header>
+      <ol class="year-list" data-year>
+        <li data-m="1"><b>Gen</b>Cassœula davanti al camino</li>
+        <li data-m="2"><b>Feb</b>Si potano i gelsi</li>
+        <li data-m="3"><b>Mar</b>Il bosco si risveglia</li>
+        <li data-m="4"><b>Apr</b>Fiori di sambuco e pan de mej</li>
+        <li data-m="5"><b>Mag</b>Apre la piscina</li>
+        <li data-m="6"><b>Giu</b>Lucciole nei prati</li>
+        <li data-m="7"><b>Lug</b>Cene sotto il pergolato</li>
+        <li data-m="8"><b>Ago</b>San Lorenzo al Belvedere</li>
+        <li data-m="9"><b>Set</b>Si raccoglie il miele</li>
+        <li data-m="10"><b>Ott</b>Castagne e foglie rosse</li>
+        <li data-m="11"><b>Nov</b>Nebbie e prime cassœule</li>
+        <li data-m="12"><b>Dic</b>Fuochi accesi e torta de pan</li>
+      </ol>
+    </section>
+
+    <!-- ================= INVITO ================= -->
+    <section class="band band--moss invite">
+      <div class="wrap">
+        <h2 class="reveal">Qualche giorno<br>di <em>pace?</em></h2>
+        <p class="reveal">Indicateci le date: vi risponderemo entro 24 ore con la disponibilità. Oppure scriveteci, per qualsiasi domanda.</p>
+        <div class="actions reveal">
+          <a href="prenota.html" class="btn btn-honey">Verifica la disponibilità</a>
+          <a href="contatti.html" class="btn btn-line">Scriveteci su WhatsApp</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="ft">
+    <p class="ft-mark">Tenuta Briantea</p>
+    <div class="ft-grid">
+      <div>
+        <p class="label">Dove</p>
+        <p>Via della Tenuta, 1<br>20800 Brianza (MB)</p>
+        <p><a href="contatti.html">Come arrivare</a></p>
+      </div>
+      <div>
+        <p class="label">Contatti</p>
+        <p><a href="tel:+390000000000">+39 000 000 0000</a><br><a href="mailto:info@tenutabriantea.it">info@tenutabriantea.it</a><br><a href="contatti.html">WhatsApp</a></p>
+      </div>
+      <div>
+        <p class="label">La tenuta</p>
+        <ul class="ft-links">
+          <li><a href="tenuta.html">La Tenuta</a></li>
+          <li><a href="residenze.html">Residenze</a></li>
+          <li><a href="osteria.html">Osteria</a></li>
+          <li><a href="piscina.html">Piscina</a></li>
+          <li><a href="matrimoni.html">Matrimoni</a></li>
+          <li><a href="prenota.html">Prenota</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="label">Il motto di casa</p>
+        <p class="ft-motto">Pian pianin<br>se va luntan.</p>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© <span data-current-year>2026</span> Tenuta Briantea · P.IVA 00000000000</p>
+      <p><a href="#">Privacy</a> · <a href="#">Cookie</a></p>
+    </div>
+  </footer>
+
+  <!-- ================= BARRA DI PRENOTAZIONE =================
+       Funziona anche senza JavaScript: invia le date a prenota.html -->
+  <div class="bar" data-bar>
+    <form class="bar-form" action="prenota.html" method="get" aria-label="Verifica disponibilità">
+      <label class="bar-field">
+        <span>Arrivo</span>
+        <input type="date" name="arrivo" data-bar-in>
+      </label>
+      <label class="bar-field">
+        <span>Partenza</span>
+        <input type="date" name="partenza" data-bar-out>
+      </label>
+      <label class="bar-field bar-field--sm">
+        <span>Ospiti</span>
+        <select name="adulti">
+          <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+        </select>
+      </label>
+      <button type="submit" class="bar-go">Verifica disponibilità</button>
+    </form>
+    <a href="contatti.html" class="bar-wa" aria-label="Scriveteci su WhatsApp">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.7a10.7 10.7 0 0 1-5.5-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.7 10.7 0 1 1 16 26.7zm5.9-8c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8.9 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.2-.3-.3-.7-.5z"/></svg>
+      <span>WhatsApp</span>
+    </a>
+  </div>
+
+  <script src="js/main.js?v=9b10e512"></script>
+</body>
+</html>
