@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=9089acdb">
+  <link rel="stylesheet" href="css/style.css?v=fdc4d137">
   <!-- Navigazione istantanea (Chrome, Edge): la pagina sotto il mouse si prepara in anticipo -->
   <script type="speculationrules">
   {
@@ -93,16 +93,18 @@
   </div>
   <main id="contenuto">
 
-    <section class="page-hero page-hero--scroll page-hero--walnut" data-hero data-cover>
-      <div class="cover-sticky">
-        <img class="cover-media" src="video/osteria/poster.webp?v=1" srcset="video/osteria/poster-m.webp?v=1 960w, video/osteria/poster.webp?v=1 1920w" sizes="100vw" alt="La sala dell'osteria con il grande camino acceso" fetchpriority="high">
-        <canvas class="cover-media" data-seq="video/osteria/seq?v=2" data-scrub-frames="video/osteria/m_####.webp?v=3" data-count="191" data-map="video/osteria/mappa.json?v=3" aria-hidden="true"></canvas>
-        <div class="page-hero-shade"></div>
-        <div class="page-hero-text">
-          <p class="page-hero-kicker"><span>III</span> L'Osteria</p>
-          <h1>A tavola, <em>pian pianin.</em></h1>
-        </div>
+    <section class="page-hero page-hero--walnut" data-hero>
+      <!-- Cinemagraph: tools/prepara_cinemagraph.py scrive il loop (video/loop) e la foto, che è il suo primo fotogramma -->
+      <img class="page-hero-media" src="img/copertine/osteria-1200.webp?v=2" srcset="img/copertine/osteria-1200.webp?v=2 1200w, img/copertine/osteria-2400.webp?v=2 2400w" sizes="100vw" style="object-position: 63% 50%" alt="La sala dell'osteria con il grande camino acceso" fetchpriority="high">
+      <video class="page-hero-media page-hero-loop" data-loop="video/loop/osteria" muted playsinline loop preload="none" disablepictureinpicture aria-hidden="true" tabindex="-1" style="object-position: 63% 50%"></video>
+      <div class="page-hero-shade"></div>
+      <div class="page-hero-text">
+        <p class="page-hero-kicker"><span>III</span> L'Osteria</p>
+        <h1>A tavola, <em>pian pianin.</em></h1>
       </div>
+      <button type="button" class="loop-toggle" data-loop-toggle hidden aria-pressed="false">
+        <span class="loop-toggle-icon" aria-hidden="true"></span><span class="loop-toggle-label">Ferma l'animazione</span>
+      </button>
     </section>
 
     <div class="wrap standfirst">
@@ -136,72 +138,69 @@
     <section class="band band--walnut" id="carta">
       <div class="wrap">
         <div class="carta" aria-labelledby="carta-title">
-          <div class="carta-head">
+          <header class="carta-head">
+            <p class="carta-casa">Osteria della Tenuta Briantea</p>
             <h2 id="carta-title">La carta</h2>
-            <p>Cucina brianzola · cambia con le stagioni</p>
-            <p class="carta-legend"><span class="badge">di stagione</span> = in carta questo mese</p>
-          </div>
+            <span class="carta-fregio" aria-hidden="true"><i></i></span>
+            <p class="carta-sub">Cucina brianzola · <span data-carta-mese>di stagione</span></p>
+          </header>
 
           <!-- Per ogni piatto, data-mesi indica i mesi in cui è in carta (1 = gennaio). "all" = tutto l'anno.
                Tenere allineata la lista DISHES in js/main.js, usata per il "piatto del giorno" in home. -->
           <div class="carta-cols">
             <div>
-              <h3 class="label">Per cominciare</h3>
+              <h3 class="carta-portata">Per cominciare</h3>
               <div class="piatto" data-mesi="all">
-                <p class="piatto-dial">Mondeghili</p>
+                <p class="piatto-riga"><span class="piatto-dial">Mondeghili</span><span class="piatto-price">9</span></p>
                 <p class="piatto-it">Polpette di bollito, dorate nel burro, con salsa verde</p>
-                <span class="piatto-price">9</span>
               </div>
               <div class="piatto" data-mesi="10,11,12,1,2,3">
-                <p class="piatto-dial">Busecca</p>
+                <p class="piatto-riga"><span class="piatto-dial">Busecca</span><span class="piatto-price">13</span></p>
                 <p class="piatto-it">Trippa in brodo con fagioli borlotti, salvia e grana</p>
-                <span class="piatto-price">13</span>
               </div>
               <div class="piatto" data-mesi="all">
-                <p class="piatto-dial">Risòtt giald cont la luganega</p>
+                <p class="piatto-riga"><span class="piatto-dial">Risòtt giald cont la luganega</span><span class="piatto-price">15</span></p>
                 <p class="piatto-it">Risotto allo zafferano con la luganega di Monza</p>
-                <span class="piatto-price">15</span>
               </div>
             </div>
             <div>
-              <h3 class="label">Dal camino</h3>
+              <h3 class="carta-portata">Dal camino</h3>
               <div class="piatto" data-mesi="11,12,1,2">
-                <p class="piatto-dial">Cassœula</p>
+                <p class="piatto-riga"><span class="piatto-dial">Cassœula</span><span class="piatto-price">20</span></p>
                 <p class="piatto-it">Verza e tagli poveri di maiale, cotti a lungo, con polenta</p>
-                <span class="piatto-price">20</span>
               </div>
               <div class="piatto" data-mesi="all">
-                <p class="piatto-dial">Rostìn negàa</p>
+                <p class="piatto-riga"><span class="piatto-dial">Rostìn negàa</span><span class="piatto-price">22</span></p>
                 <p class="piatto-it">Nodino di vitello "annegato" nel vino bianco e rosmarino</p>
-                <span class="piatto-price">22</span>
               </div>
               <div class="piatto" data-mesi="10,11,12,1,2,3,4">
-                <p class="piatto-dial">Brasàa cont la polenta</p>
+                <p class="piatto-riga"><span class="piatto-dial">Brasàa cont la polenta</span><span class="piatto-price">19</span></p>
                 <p class="piatto-it">Manzo brasato al rosso, polenta macinata a pietra</p>
-                <span class="piatto-price">19</span>
               </div>
             </div>
             <div>
-              <h3 class="label">Per finire</h3>
+              <h3 class="carta-portata">Per finire</h3>
               <div class="piatto" data-mesi="all">
-                <p class="piatto-dial">Torta de pan</p>
+                <p class="piatto-riga"><span class="piatto-dial">Torta de pan</span><span class="piatto-price">6</span></p>
                 <p class="piatto-it">La torta paesana: pane raffermo, latte, cacao, amaretti, uvetta</p>
-                <span class="piatto-price">6</span>
               </div>
               <div class="piatto" data-mesi="4,5">
-                <p class="piatto-dial">Pan de mej</p>
+                <p class="piatto-riga"><span class="piatto-dial">Pan de mej</span><span class="piatto-price">7</span></p>
                 <p class="piatto-it">Pan di miglio con fiori di sambuco e panna fresca</p>
-                <span class="piatto-price">7</span>
               </div>
               <div class="piatto" data-mesi="9,10,11">
-                <p class="piatto-dial">Castegn e mièl</p>
+                <p class="piatto-riga"><span class="piatto-dial">Castegn e mièl</span><span class="piatto-price">7</span></p>
                 <p class="piatto-it">Castagne del bosco, miele della tenuta, gelato al fiordilatte</p>
-                <span class="piatto-price">7</span>
               </div>
             </div>
           </div>
 
-          <p class="carta-note">Segnalateci allergie e intolleranze: il menù si adatta, la tradizione no.</p>
+          <footer class="carta-piede">
+            <p><span class="badge">di stagione</span> in carta questo mese · i piatti più chiari tornano con la loro stagione</p>
+            <p>Pane di casa e grissini sempre in tavola · vini della Brianza al calice, chiedete all'oste</p>
+            <p class="carta-note">Segnalateci allergie e intolleranze: il menù si adatta, la tradizione no.</p>
+            <button type="button" class="carta-stampa link" data-carta-stampa>Stampa la carta</button>
+          </footer>
         </div>
       </div>
     </section>
@@ -320,6 +319,6 @@
     </a>
   </div>
 
-  <script src="js/main.js?v=4a286ce1" data-worker="js/video-worker.js?v=5e038076" data-cover-worker="js/cover-worker.js?v=5dfec0c8"></script>
+  <script src="js/main.js?v=d28b4b46" data-worker="js/video-worker.js?v=5e038076" data-cover-worker="js/cover-worker.js?v=5dfec0c8"></script>
 </body>
 </html>

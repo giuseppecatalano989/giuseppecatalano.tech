@@ -563,8 +563,8 @@ body.menu-open { overflow: hidden; }
 /* Movimento ridotto: copertina statica, alta una schermata */
 .cover.is-static { height: auto; }
 .cover.is-static .cover-step:not(:first-child) { display: none; }
-.cover.is-static 
-/* Video in loop (cinemagraph) nelle copertine delle pagine interne */
+
+/* Foto e cinemagraph nelle copertine delle pagine interne */
 .page-hero > video, .page-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
 /* =========================================================
@@ -572,9 +572,9 @@ body.menu-open { overflow: hidden; }
    ========================================================= */
 .page-hero {
   position: relative;
-  height: 82vh;
-  height: 82svh;
-  min-height: 520px;
+  height: 92vh;
+  height: 92svh;   /* quasi uno schermo: si intravede l'inizio del contenuto */
+  min-height: 540px;
   overflow: hidden;
   color: var(--on-dark);
   background: var(--moss);
@@ -605,6 +605,44 @@ body.menu-open { overflow: hidden; }
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
     radial-gradient(ellipse at 65% 25%, rgba(234, 215, 172, .55), transparent 60%),
     linear-gradient(170deg, #8E9677 0%, #5B6447 60%, #46342A 100%);
+}
+/* Cinemagraph: il video si posa sulla foto e compare solo quando sta già girando */
+.page-hero-loop { opacity: 0; transition: opacity 1.2s ease; pointer-events: none; }
+.page-hero-loop.is-playing { opacity: 1; }
+.loop-toggle {
+  position: absolute;
+  right: var(--gutter);
+  bottom: clamp(18px, 3vw, 32px);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: .6em;
+  padding: .55em .9em .5em .75em;
+  border: 1px solid rgba(239, 230, 212, .35);
+  border-radius: 999px;
+  background: rgba(20, 16, 10, .28);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: var(--on-dark);
+  font: 600 .66rem/1 var(--text);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .3s, border-color .3s;
+}
+.loop-toggle:hover { background: rgba(20, 16, 10, .5); border-color: rgba(239, 230, 212, .7); }
+.loop-toggle:focus-visible { outline: 2px solid var(--honey-bright); outline-offset: 3px; }
+.loop-toggle-icon { width: 9px; height: 10px; border-inline: 3px solid currentColor; box-sizing: border-box; }
+.loop-toggle.is-paused .loop-toggle-icon {
+  border: 0;
+  width: 0; height: 0;
+  border-left: 9px solid currentColor;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+@media (max-width: 600px) {
+  .loop-toggle-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .loop-toggle { padding: .75em; }
 }
 .page-hero-shade {
   position: absolute;
@@ -896,10 +934,65 @@ body.menu-open { overflow: hidden; }
    ========================================================= */
 .room-row { padding-block: clamp(50px, 7vw, 100px); border-top: 1px solid var(--line); }
 .room-row:first-of-type { border-top: 0; padding-top: 0; }
-.room-row :is(.ph, .media) { grid-column: 1 / 6; }
+.room-row :is(.ph, .media, .room-media) { grid-column: 1 / 6; }
 .room-row .room-body { grid-column: 7 / 12; }
-.room-row:nth-of-type(even) :is(.ph, .media) { grid-column: 8 / 13; grid-row: 1; }
+.room-row:nth-of-type(even) :is(.ph, .media, .room-media) { grid-column: 8 / 13; grid-row: 1; }
 .room-row:nth-of-type(even) .room-body { grid-column: 2 / 7; grid-row: 1; }
+.room-media { margin: 0; }
+.room-open { display: block; cursor: zoom-in; }
+.galleria { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0 0; padding: 0; }
+.galleria a { position: relative; display: block; overflow: hidden; cursor: zoom-in; background: var(--paper-deep); }
+.galleria img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; transition: transform .8s var(--ease), opacity .4s; }
+.galleria a:hover img { transform: scale(1.06); }
+.galleria a:focus-visible { outline: 2px solid var(--honey); outline-offset: 2px; }
+
+/* Lightbox */
+html.lb-open { overflow: hidden; }
+.lb {
+  width: 100vw; height: 100dvh; max-width: none; max-height: none;
+  margin: 0; padding: 0; border: 0;
+  background: rgba(22, 17, 13, .96);
+  color: var(--on-dark);
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+.lb::backdrop { background: rgba(22, 17, 13, .6); }
+.lb[open] { display: grid; place-items: center; animation: lb-in .35s var(--ease); }
+@keyframes lb-in { from { opacity: 0; } }
+.lb-fig { margin: 0; display: grid; justify-items: center; gap: 14px; padding: 64px clamp(16px, 7vw, 110px) 28px; }
+.lb-img {
+  max-width: 100%; max-height: calc(100dvh - 150px); width: auto; height: auto;
+  object-fit: contain; opacity: 0; transition: opacity .35s ease;
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .8);
+  user-select: none; -webkit-user-drag: none;
+}
+.lb.is-ready .lb-img { opacity: 1; }
+.lb-cap { font-style: italic; color: var(--on-dark-soft); text-align: center; }
+.lb-count { position: absolute; top: 22px; left: 50%; transform: translateX(-50%); margin: 0; font-size: .78rem; letter-spacing: .2em; color: var(--on-dark-soft); font-variant-numeric: tabular-nums; }
+.lb-btn {
+  position: absolute;
+  width: 52px; height: 52px;
+  display: grid; place-items: center;
+  border: 1px solid rgba(239, 230, 212, .28); border-radius: 50%;
+  background: rgba(22, 17, 13, .35); color: var(--on-dark);
+  font: 300 1.9rem/1 var(--display);
+  cursor: pointer;
+  transition: background .3s, border-color .3s;
+}
+.lb-btn:hover { background: rgba(239, 230, 212, .12); border-color: rgba(239, 230, 212, .6); }
+.lb-btn:focus-visible { outline: 2px solid var(--honey-bright); outline-offset: 3px; }
+.lb-close { top: 12px; right: 12px; }
+.lb-prev { left: clamp(8px, 2vw, 28px); top: 50%; transform: translateY(-50%); }
+.lb-next { right: clamp(8px, 2vw, 28px); top: 50%; transform: translateY(-50%); }
+@media (max-width: 600px) {
+  .lb-prev, .lb-next { top: auto; bottom: 14px; transform: none; }
+  .lb-fig { padding-bottom: 84px; }
+  .lb-img { max-height: calc(100dvh - 190px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lb[open] { animation: none; }
+  .lb-img, .galleria img { transition: none; }
+}
 .room-n { font-family: var(--display); font-style: italic; color: var(--honey); margin-bottom: .2em; }
 .room-body h2 { font-size: clamp(2.4rem, 4.4vw, 4rem); color: var(--walnut); margin-bottom: .4em; }
 .room-body > p:not(.room-n) { color: var(--ink-soft); }
@@ -952,59 +1045,118 @@ body.menu-open { overflow: hidden; }
 .figs-offset .f1 { grid-column: 1 / 8; }
 .figs-offset .f2 { grid-column: 9 / 13; align-self: end; }
 
+/* La carta: impaginata come un cartoncino stampato (grana della carta, doppio filetto,
+   portate centrate, puntini guida fino al prezzo, cifre in stile antico). */
 .carta {
   position: relative;
   max-width: 1180px;
   margin: 0 auto;
-  padding: clamp(36px, 5.5vw, 80px) clamp(24px, 5vw, 80px);
-  background: var(--paper-light);
+  padding: clamp(48px, 6.5vw, 96px) clamp(28px, 6vw, 96px) clamp(40px, 5vw, 72px);
   color: var(--ink);
-  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, .6);
+  background:
+    radial-gradient(120% 90% at 50% 40%, transparent 55%, rgba(120, 88, 50, .10)),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .32 0 0 0 0 .2 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+    #F7F1E4;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset, 0 50px 90px -40px rgba(0, 0, 0, .7), 0 2px 6px rgba(0, 0, 0, .25);
+  font-variant-numeric: oldstyle-nums proportional-nums;
 }
-.carta::before { content: ""; position: absolute; inset: 12px; border: 1px solid var(--line); pointer-events: none; }
-.carta-head { text-align: center; margin-bottom: clamp(36px, 5vw, 60px); }
+.carta::before, .carta::after { content: ""; position: absolute; pointer-events: none; }
+.carta::before { inset: clamp(10px, 1.4vw, 16px); border: 1px solid rgba(47, 34, 25, .34); }
+.carta::after { inset: calc(clamp(10px, 1.4vw, 16px) + 5px); border: .5px solid rgba(47, 34, 25, .22); }
+
+.carta-head { text-align: center; margin-bottom: clamp(40px, 5.5vw, 68px); }
+.carta-casa {
+  margin: 0 0 1.1em;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--ink-soft) !important;
+}
 .carta-head h2 {
-  font-size: clamp(2.6rem, 5vw, 3.8rem);
+  font-size: clamp(2.8rem, 5.6vw, 4.4rem);
   font-style: italic;
+  font-weight: 400;
   font-variation-settings: "SOFT" 100;
+  line-height: 1;
   color: var(--walnut);
   margin: 0;
 }
-.carta-head p { margin: .3em 0 0; color: var(--ink-soft) !important; font-style: italic; }
-.carta-head .carta-legend { font-size: .9rem; margin-top: 1em; }
-.carta-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(28px, 4vw, 56px); }
-.carta-cols .label { color: var(--honey) !important; padding-bottom: .9em; border-bottom: 1px solid var(--line); margin-bottom: 1.4em; }
-.piatto { display: grid; grid-template-columns: 1fr auto; column-gap: 1rem; margin-bottom: 1.6rem; transition: opacity .4s; }
-.piatto-dial { margin: 0; font-family: var(--display); font-size: 1.4rem; line-height: 1.15; color: var(--walnut); }
-.piatto-it { grid-column: 1; margin: .25em 0 0; font-style: italic; font-size: .95rem; line-height: 1.4; color: var(--ink-soft) !important; }
-.piatto-price { grid-column: 2; grid-row: 1; font-family: var(--display); font-size: 1.2rem; color: var(--honey); }
-.piatto-price::before { content: "€ "; font-size: .8em; }
+/* Fregio: due filetti e una losanga, come nei menù tipografici */
+.carta-fregio {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  width: min(220px, 60%);
+  margin: 1.1rem auto .9rem;
+  color: var(--honey);
+}
+.carta-fregio::before, .carta-fregio::after { content: ""; height: 1px; background: currentColor; opacity: .7; }
+.carta-fregio i { width: 7px; height: 7px; border: 1px solid currentColor; transform: rotate(45deg); }
+.carta-sub { margin: 0; font-style: italic; font-size: 1.05rem; color: var(--ink-soft) !important; }
+
+.carta-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(32px, 4.5vw, 64px); }
+.carta-portata {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: .9em;
+  margin: 0 0 1.8em;
+  font-family: var(--text);
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--honey);
+}
+.carta-portata::before, .carta-portata::after { content: ""; height: 1px; background: var(--line-strong); }
+.piatto { margin-bottom: 1.7rem; transition: opacity .4s; }
+.piatto-riga { display: flex; align-items: baseline; align-items: last baseline; margin: 0; }
+.piatto-riga::after {          /* puntini guida tra il nome e il prezzo */
+  content: "";
+  order: 1;
+  flex: 1 1 1.5em;
+  min-width: 1.5em;
+  margin: 0 .45em;
+  border-bottom: 1.5px dotted rgba(47, 34, 25, .38);
+  transform: translateY(-.28em);
+}
+.piatto-dial { font-family: var(--display); font-size: 1.36rem; line-height: 1.2; color: var(--walnut); }
+.piatto-price { order: 2; font-family: var(--text); font-size: 1.3rem; color: var(--walnut); }
+.piatto-it { margin: .3em 0 0; font-style: italic; font-size: .96rem; line-height: 1.42; color: var(--ink-soft) !important; text-wrap: pretty; }
 .badge, .piatto.in-season .piatto-dial::after {
   display: inline-block;
-  vertical-align: middle;
-  margin-left: .5em;
-  padding: .25em .6em .2em;
+  vertical-align: .25em;
+  margin-left: .55em;
+  padding: .3em .6em .22em;
   font-family: var(--text);
   font-style: normal;
-  font-size: .6rem;
+  font-size: .56rem;
   font-weight: 600;
+  line-height: 1;
   letter-spacing: .16em;
   text-transform: uppercase;
-  background: var(--honey-pale);
-  color: var(--walnut);
+  border: 1px solid var(--honey);
+  color: var(--honey);
 }
 .piatto.in-season .piatto-dial::after { content: "di stagione"; }
-.badge { margin: 0 .3em 0 0; }
-.piatto.off-season { opacity: .45; }
+.badge { margin: 0 .35em 0 0; }
+.piatto.off-season { opacity: .42; }
 .piatto.off-season .piatto-it::after { content: " — torna in stagione"; }
-.carta-note {
-  margin: 1.2rem 0 0;
-  padding-top: 1.4rem;
+
+.carta-piede {
+  margin-top: clamp(16px, 2vw, 28px);
+  padding-top: 1.6rem;
   border-top: 1px solid var(--line);
   text-align: center;
-  font-style: italic;
-  color: var(--ink-soft) !important;
+  font-size: .92rem;
+  color: var(--ink-soft);
 }
+.carta-piede p { margin: 0 0 .55em; color: var(--ink-soft) !important; }
+.carta-note { font-style: italic; }
+.carta-stampa { margin-top: 1.2rem; border: 0; background-color: transparent; color: var(--walnut); cursor: pointer; font-family: var(--text); }
+.no-js .carta-stampa { display: none; }
 
 /* =========================================================
    LA PISCINA
@@ -1340,6 +1492,7 @@ img.curtain {
   .lunario-cell:nth-child(n+4) { border-top: 1px solid var(--line); }
   .trail { grid-template-columns: 3rem 1.2fr 1.4fr 5rem; }
   .trail-when { display: none; }
+  .carta-cols { grid-template-columns: 1fr; max-width: 600px; margin-inline: auto; row-gap: 12px; }
 }
 
 @media (min-width: 1181px) {
@@ -1361,7 +1514,7 @@ img.curtain {
   .story-text { padding-top: 0; }
   .figs-offset .f2 { grid-column: 6 / 13 !important; margin-top: clamp(28px, 6vw, 48px); }
   .nozze-fig { grid-column: 4 / 13 !important; }
-  .room-row :is(.ph, .media) { grid-column: 1 / 11 !important; }
+  .room-row :is(.ph, .media, .room-media) { grid-column: 1 / 11 !important; }
 
   .two, .evento, .facts { grid-template-columns: 1fr; }
   .standfirst p { grid-column: 1 / -1; }
@@ -1370,7 +1523,6 @@ img.curtain {
   .trail-desc { grid-column: 2 / -1; grid-row: 2; }
   .trail-km { grid-column: 3; grid-row: 1; }
   .year-list { grid-template-columns: repeat(3, 1fr); }
-  .carta-cols { grid-template-columns: 1fr; }
   .side-sticky { position: static; }
   .ft-grid { grid-template-columns: 1fr 1fr; }
 
@@ -1474,25 +1626,10 @@ video.cover-media { opacity: 0; }
 video.cover-media:first-of-type, video.cover-media.is-current { opacity: 1; }
 .cover-stage:has(video.is-current) video.cover-media:not(.is-current) { opacity: 0; }
 
-/* =========================================================
-   COPERTINE SCROLL-DRIVEN DELLE PAGINE INTERNE
-   La sezione è più alta dello schermo: mentre si scorre, la parte
-   .cover-sticky resta ferma e la clip avanza fotogramma per fotogramma.
-   ========================================================= */
-.page-hero--scroll { height: 220vh; min-height: 0; overflow: visible; }
-.page-hero--scroll.page-hero--short { height: 180vh; }
-.page-hero--scroll .cover-sticky { min-height: 520px; }
-.page-hero--scroll.is-static { height: 82svh; }
-.page-hero--scroll.page-hero--short.is-static { height: 62svh; }
 /* Il canvas delle copertine su un livello proprio della scheda grafica: lo scorrimento
    della pagina non lo ridisegna (la vecchia grana animata è stata tolta: con i video
    a 1080p non serve più e costava un ricalcolo a ogni fotogramma) */
 canvas.cover-media { will-change: contents; transform: translateZ(0); }
-.page-hero:has(.cover-media) .page-hero-shade {
-  background:
-    linear-gradient(180deg, rgba(30, 34, 22, .45) 0%, rgba(30, 34, 22, 0) 24%),
-    linear-gradient(0deg, rgba(28, 24, 16, .78) 0%, rgba(28, 24, 16, .35) 38%, rgba(28, 24, 16, 0) 62%);
-}
 
 /* Barra di prenotazione sui telefoni stretti: WhatsApp solo con l'icona, così il testo del pulsante non viene tagliato */
 @media (max-width: 480px) {
@@ -1518,4 +1655,18 @@ canvas.cover-media { will-change: contents; transform: translateZ(0); }
 @keyframes pagina-entra { from { opacity: 0; transform: translateY(10px); } }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}
+
+/* ---------- Stampa: dalla pagina dell'osteria esce solo la carta, su un foglio A4 ---------- */
+@media print {
+  @page { size: A4 landscape; margin: 10mm; }
+  body[data-page="osteria"] > :not(main),
+  body[data-page="osteria"] main > :not(#carta) { display: none !important; }
+  body[data-page="osteria"] { background: #fff; }
+  #carta { padding: 0 !important; background: none !important; }
+  #carta .wrap { padding: 0; max-width: none; }
+  .carta { box-shadow: none; max-width: none; padding: 14mm 16mm 10mm; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .carta-cols { grid-template-columns: repeat(3, 1fr) !important; }
+  .carta-stampa { display: none; }
+  .piatto { break-inside: avoid; }
 }

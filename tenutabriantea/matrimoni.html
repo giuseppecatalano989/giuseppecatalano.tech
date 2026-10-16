@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=9089acdb">
+  <link rel="stylesheet" href="css/style.css?v=fdc4d137">
   <!-- Navigazione istantanea (Chrome, Edge): la pagina sotto il mouse si prepara in anticipo -->
   <script type="speculationrules">
   {
@@ -93,16 +93,18 @@
   </div>
   <main id="contenuto">
 
-    <section class="page-hero page-hero--scroll page-hero--wedding" data-hero data-cover>
-      <div class="cover-sticky">
-        <img class="cover-media" src="video/matrimoni/poster.webp?v=1" srcset="video/matrimoni/poster-m.webp?v=1 960w, video/matrimoni/poster.webp?v=1 1920w" sizes="100vw" alt="La corte apparecchiata per una cena di nozze, con candele e lucine sotto il portico" fetchpriority="high">
-        <canvas class="cover-media" data-seq="video/matrimoni/seq?v=2" data-scrub-frames="video/matrimoni/m_####.webp?v=2" data-count="191" data-map="video/matrimoni/mappa.json?v=2" aria-hidden="true"></canvas>
-        <div class="page-hero-shade"></div>
-        <div class="page-hero-text">
-          <p class="page-hero-kicker"><span>V</span> Matrimoni &amp; Cerimonie</p>
-          <h1>Un sì detto sotto i <em>gelsi.</em></h1>
-        </div>
+    <section class="page-hero page-hero--wedding" data-hero>
+      <!-- Cinemagraph: tools/prepara_cinemagraph.py scrive il loop (video/loop) e la foto, che è il suo primo fotogramma -->
+      <img class="page-hero-media" src="img/copertine/matrimoni-1200.webp?v=2" srcset="img/copertine/matrimoni-1200.webp?v=2 1200w, img/copertine/matrimoni-2400.webp?v=2 2400w" sizes="100vw" style="object-position: 40% 50%" alt="La corte apparecchiata per una cena di nozze, con candele e lucine sotto il portico" fetchpriority="high">
+      <video class="page-hero-media page-hero-loop" data-loop="video/loop/matrimoni" muted playsinline loop preload="none" disablepictureinpicture aria-hidden="true" tabindex="-1" style="object-position: 40% 50%"></video>
+      <div class="page-hero-shade"></div>
+      <div class="page-hero-text">
+        <p class="page-hero-kicker"><span>V</span> Matrimoni &amp; Cerimonie</p>
+        <h1>Un sì detto sotto i <em>gelsi.</em></h1>
       </div>
+      <button type="button" class="loop-toggle" data-loop-toggle hidden aria-pressed="false">
+        <span class="loop-toggle-icon" aria-hidden="true"></span><span class="loop-toggle-label">Ferma l'animazione</span>
+      </button>
     </section>
 
     <div class="wrap standfirst">
@@ -342,6 +344,6 @@
     </a>
   </div>
 
-  <script src="js/main.js?v=4a286ce1" data-worker="js/video-worker.js?v=5e038076" data-cover-worker="js/cover-worker.js?v=5dfec0c8"></script>
+  <script src="js/main.js?v=d28b4b46" data-worker="js/video-worker.js?v=5e038076" data-cover-worker="js/cover-worker.js?v=5dfec0c8"></script>
 </body>
 </html>

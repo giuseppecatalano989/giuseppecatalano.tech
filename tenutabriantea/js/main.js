@@ -614,10 +614,15 @@ function videoEngine(canvas, info, config, src, light, onError) {
     preview.classList.add("is-on");
   }
 
-  $$(".trail", list).forEach((li) => {
-    if (li.dataset.img) new Image().src = li.dataset.img;  // precarica: l'anteprima appare subito
-    li.addEventListener("pointerenter", () => show(li));
-  });
+  const trails = $$(".trail", list);
+  trails.forEach((li) => li.addEventListener("pointerenter", () => show(li)));
+  // Precarica le foto quando la tabella si avvicina, non all'apertura: l'anteprima appare subito
+  // e chi non arriva fin lì non scarica 1,5 MB per niente
+  new IntersectionObserver((entries, io) => {
+    if (!entries[0].isIntersecting || getComputedStyle(preview).display === "none") return;
+    trails.forEach((li) => { if (li.dataset.img) new Image().src = li.dataset.img; });
+    io.disconnect();
+  }, { rootMargin: "600px 0px" }).observe(list);
   list.addEventListener("pointerleave", () => preview.classList.remove("is-on"));
 })();
 
@@ -638,6 +643,11 @@ $$(".piatto").forEach((p) => {
   if (!mesi || mesi === "all") return;
   p.classList.add(mesi.split(",").map(Number).includes(month) ? "in-season" : "off-season");
 });
+$$("[data-carta-mese]").forEach((el) => {
+  const mese = new Date().toLocaleDateString("it-IT", { month: "long", year: "numeric", timeZone: "Europe/Rome" });
+  el.textContent = `carta di ${mese}`;
+});
+$$("[data-carta-stampa]").forEach((b) => b.addEventListener("click", () => window.print()));
 
 /* =========================================================
    LUNARIO — oggi in tenuta
@@ -934,6 +944,153 @@ function linkDates(inEl, outEl) {
     }, { threshold: 0.05 });
     $$(".invite, .evento, .next, .ft").forEach((el) => io.observe(el));
   }
+})();
+
+/* ---------- Cinemagraph delle copertine (osteria, piscina, matrimoni) ----------
+   Il video si carica solo quando la copertina è in vista, parte sopra la foto (che è il suo primo
+   fotogramma, quindi lo stacco non si vede) e si ferma appena esce dallo schermo. Niente video con
+   "riduci movimento" o con il risparmio dati; il pulsante lo ferma per tutto il sito (WCAG 2.2.2). */
+(function initLoops() {
+  const video = $("[data-loop]");
+  if (!video || reduceMotion || navigator.connection?.saveData) return;
+  const KEY = "tb-animazioni";
+  const read = () => { try { return localStorage.getItem(KEY) !== "ferme"; } catch { return true; } };
+  const write = (on) => { try { on ? localStorage.removeItem(KEY) : localStorage.setItem(KEY, "ferme"); } catch {} };
+  const toggle = $("[data-loop-toggle]");
+  const label = toggle && $(".loop-toggle-label", toggle);
+  let enabled = read(), visible = false, loaded = false;
+
+  const load = () => {
+    if (loaded) return;
+    loaded = true;
+    const wide = Math.max(innerWidth, innerHeight) * Math.min(devicePixelRatio || 1, 2) > 1500;
+    video.src = `${video.dataset.loop}-${wide ? 1920 : 1280}.mp4`;
+  };
+  const sync = () => {
+    if (enabled && visible) {
+      load();
+      video.play().catch(() => {});
+    } else if (loaded) {
+      video.pause();
+    }
+    if (toggle) {
+      toggle.setAttribute("aria-pressed", String(!enabled));
+      label.textContent = enabled ? "Ferma l'animazione" : "Riavvia l'animazione";
+      toggle.classList.toggle("is-paused", !enabled);
+    }
+  };
+  // Si mostra solo quando i fotogrammi scorrono davvero: se il browser non sa decodificare il video,
+  // resta la foto (che è identica al primo fotogramma)
+  const reveal = () => {
+    if (video.currentTime > 0.05) {
+      video.classList.add("is-playing");
+      video.removeEventListener("timeupdate", reveal);
+    }
+  };
+  video.addEventListener("timeupdate", reveal);
+  // Alcuni WebKit, a fine giro, emettono "pause" invece di ricominciare: se si ferma da solo mentre
+  // dovrebbe girare, riparte (al massimo una volta al secondo)
+  let lastRetry = 0;
+  video.addEventListener("pause", () => {
+    if (!enabled || !visible || document.hidden || performance.now() - lastRetry < 1000) return;
+    lastRetry = performance.now();
+    video.play().catch(() => {});
+  });
+  if (toggle) {
+    toggle.hidden = false;
+    toggle.addEventListener("click", () => { enabled = !enabled; write(enabled); sync(); });
+  }
+  // La copertina è in vista all'apertura: si parte subito, senza aspettare il primo giro dell'observer
+  const r = video.getBoundingClientRect();
+  visible = r.bottom > 0 && r.top < innerHeight;
+  sync();
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; sync(); }, { threshold: 0.15 }).observe(video);
+  document.addEventListener("visibilitychange", () => { if (document.hidden) video.pause(); else sync(); });
+})();
+
+/* ---------- Galleria delle residenze: lightbox ----------
+   Ogni .room-media raccoglie i suoi link (la foto grande e le miniature) in una sequenza.
+   Senza JavaScript i link aprono semplicemente la foto. */
+(function initGallery() {
+  const groups = $$("[data-galleria]");
+  if (!groups.length) return;
+
+  let dialog, img, cap, count, slides = [], index = 0, opener = null;
+
+  const build = () => {
+    dialog = document.createElement("dialog");
+    dialog.className = "lb";
+    dialog.setAttribute("aria-label", "Galleria fotografica");
+    dialog.innerHTML = `
+      <figure class="lb-fig"><img class="lb-img" alt=""><figcaption class="lb-cap"></figcaption></figure>
+      <p class="lb-count" aria-live="polite"></p>
+      <button type="button" class="lb-btn lb-close" aria-label="Chiudi la galleria">×</button>
+      <button type="button" class="lb-btn lb-prev" aria-label="Foto precedente">‹</button>
+      <button type="button" class="lb-btn lb-next" aria-label="Foto successiva">›</button>`;
+    document.body.append(dialog);
+    img = $(".lb-img", dialog);
+    cap = $(".lb-cap", dialog);
+    count = $(".lb-count", dialog);
+    $(".lb-close", dialog).addEventListener("click", () => dialog.close());
+    $(".lb-prev", dialog).addEventListener("click", () => show(index - 1));
+    $(".lb-next", dialog).addEventListener("click", () => show(index + 1));
+    dialog.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") show(index - 1);
+      if (e.key === "ArrowRight") show(index + 1);
+    });
+    // Clic sullo sfondo: chiude
+    dialog.addEventListener("click", (e) => { if (e.target === dialog) dialog.close(); });
+    // Scorrimento col dito
+    let x0 = null;
+    dialog.addEventListener("pointerdown", (e) => { x0 = e.clientX; });
+    dialog.addEventListener("pointerup", (e) => {
+      if (x0 === null) return;
+      const dx = e.clientX - x0;
+      x0 = null;
+      if (Math.abs(dx) > 50) show(index + (dx < 0 ? 1 : -1));
+    });
+    dialog.addEventListener("close", () => {
+      document.documentElement.classList.remove("lb-open");
+      opener?.focus({ preventScroll: true });
+    });
+  };
+
+  const preload = (i) => { const s = slides[(i + slides.length) % slides.length]; if (s) new Image().src = s.src; };
+
+  const show = (i) => {
+    index = (i + slides.length) % slides.length;
+    const s = slides[index];
+    dialog.classList.remove("is-ready");
+    const next = new Image();
+    next.onload = next.onerror = () => {
+      img.src = s.src;
+      img.alt = s.alt;
+      requestAnimationFrame(() => dialog.classList.add("is-ready"));
+    };
+    next.src = s.src;
+    cap.textContent = s.cap;
+    count.textContent = `${index + 1} / ${slides.length}`;
+    preload(index + 1);
+    preload(index - 1);
+  };
+
+  groups.forEach((group) => {
+    const links = $$("a[href]", group);
+    const room = group.dataset.galleria;
+    links.forEach((a, i) => a.addEventListener("click", (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+      e.preventDefault();
+      if (!dialog) build();
+      slides = links.map((l) => {
+        const im = $("img", l);
+        return { src: l.getAttribute("href"), alt: im?.alt || "", cap: [room, l.dataset.didascalia].filter(Boolean).join(" · ") };
+      });
+      opener = a;
+      show(i);
+      document.documentElement.classList.add("lb-open");
+      dialog.showModal();
+    }));
+  });
 })();
 
 /* ---------- Anno nel footer ---------- */
