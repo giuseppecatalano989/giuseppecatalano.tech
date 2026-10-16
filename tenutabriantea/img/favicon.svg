@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Favicon: il profilo delle montagne e il sole del logo, su noce -->
+  <rect width="64" height="64" rx="14" fill="#2F2219"/>
+  <path d="M6 44H15L21 39.5 24 41 28.5 35.5 31 37.5 34.5 32 37 35 39.5 30.5 42 34 45 31.5 48 35.5 51.5 34.5 58 44" fill="none" stroke="#EAD7AC" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="47" cy="21" r="4" fill="#D3A24D"/>
+</svg>

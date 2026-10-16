@@ -9,11 +9,12 @@
   <title>La Tenuta · Tenuta Briantea</title>
   <meta name="description" content="Una cascina lombarda a corte chiusa, quaranta ettari di prati e boschi di castagni, orto, arnie e dodici chilometri di sentieri nel verde della Brianza.">
   <meta name="theme-color" content="#3E4530">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=fdc4d137">
+  <link rel="stylesheet" href="css/style.css?v=3c613892">
   <!-- Navigazione istantanea (Chrome, Edge): la pagina sotto il mouse si prepara in anticipo -->
   <script type="speculationrules">
   {
@@ -94,13 +95,17 @@
   <main id="contenuto">
 
     <section class="page-hero" data-hero>
-      <!-- Foto di copertina: tools/prepara_foto_copertine.py (2400 e 1200 px) -->
-      <img class="page-hero-media" src="img/copertine/tenuta-1200.webp?v=1" srcset="img/copertine/tenuta-1200.webp?v=1 1200w, img/copertine/tenuta-2400.webp?v=1 2400w" sizes="100vw" style="object-position: 48% 50%" alt="La tenuta vista dall'alto: la cascina a corte, il viale di gelsi, il bosco, l'orto con le arnie e la piscina" fetchpriority="high">
+      <!-- Cinemagraph: tools/prepara_cinemagraph.py scrive il loop (video/loop) e la foto, che è il suo primo fotogramma -->
+      <img class="page-hero-media" src="img/copertine/tenuta-1200.webp?v=2" srcset="img/copertine/tenuta-1200.webp?v=2 1200w, img/copertine/tenuta-2400.webp?v=2 2400w" sizes="100vw" style="object-position: 48% 50%" alt="La tenuta vista dall'alto: la cascina a corte, il viale di gelsi, il bosco, l'orto con le arnie e la piscina" fetchpriority="high">
+      <video class="page-hero-media page-hero-loop" data-loop="video/loop/tenuta" muted playsinline loop preload="none" disablepictureinpicture aria-hidden="true" tabindex="-1" style="object-position: 48% 50%"></video>
       <div class="page-hero-shade"></div>
       <div class="page-hero-text">
         <p class="page-hero-kicker"><span>I</span> La Tenuta</p>
         <h1>Dove il silenzio ha ancora un <em>valore</em></h1>
       </div>
+      <button type="button" class="loop-toggle" data-loop-toggle hidden aria-pressed="false">
+        <span class="loop-toggle-icon" aria-hidden="true"></span><span class="loop-toggle-label">Ferma l'animazione</span>
+      </button>
     </section>
 
     <div class="wrap standfirst">
@@ -304,6 +309,6 @@
     </a>
   </div>
 
-  <script src="js/main.js?v=d28b4b46" data-worker="js/video-worker.js?v=5e038076" data-cover-worker="js/cover-worker.js?v=5dfec0c8"></script>
+  <script src="js/main.js?v=97d34764" data-worker="js/video-worker.js?v=5e038076" data-cover-worker="js/cover-worker.js?v=5dfec0c8"></script>
 </body>
 </html>

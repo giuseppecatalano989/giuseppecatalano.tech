@@ -854,7 +854,7 @@ body.menu-open { overflow: hidden; }
 }
 .trail-desc { font-style: italic; color: var(--ink-soft); }
 .trail-km { font-family: var(--display); font-size: 1.15rem; color: var(--walnut); }
-.trail-when { justify-self: end; font-size: .7rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); }
+.trail-when { justify-self: end; text-align: right; font-size: .7rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); }
 .trail:hover .trail-name { transform: translateX(14px); color: var(--honey); font-style: italic; }
 
 /* Anteprima dei sentieri: colonna a destra della tabella; scorre all'altezza della riga

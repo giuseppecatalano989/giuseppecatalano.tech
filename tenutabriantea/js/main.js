@@ -964,7 +964,8 @@ function linkDates(inEl, outEl) {
     if (loaded) return;
     loaded = true;
     const wide = Math.max(innerWidth, innerHeight) * Math.min(devicePixelRatio || 1, 2) > 1500;
-    video.src = `${video.dataset.loop}-${wide ? 1920 : 1280}.mp4`;
+    const [base, query] = video.dataset.loop.split("?");   // "video/loop/piscina?v=2": ?v= cambia a ogni rifacimento
+    video.src = `${base}-${wide ? 1920 : 1280}.mp4${query ? "?" + query : ""}`;
   };
   const sync = () => {
     if (enabled && visible) {
