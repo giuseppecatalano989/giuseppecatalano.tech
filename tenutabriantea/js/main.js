@@ -416,8 +416,13 @@ function seqSequence(canvas) {
     worker.onerror = fallback;
     canvas.dataset.engine = "sequenza";
     const offscreen = canvas.transferControlToOffscreen();
+    // Sui computer anche il flusso leggero, per gli scorrimenti veloci. Inerzia: più lunga con il
+    // mouse (trasforma gli scatti della rotella in una scivolata), appena accennata al tatto, dove il
+    // dito e lo scorrimento del telefono sono già morbidi (?inerzia=0 la toglie, per le misure)
+    const low = current === "" ? { index: file("-m", "json"), src: file("-m", "h264") } : null;
+    const tau = params.has("inerzia") ? +params.get("inerzia") : finePointer ? 0.09 : 0.035;
     worker.postMessage({
-      type: "init", canvas: offscreen, index: file(current, "json"), src: file(current, "h264"), p: lastP,
+      type: "init", canvas: offscreen, index: file(current, "json"), src: file(current, "h264"), low, tau, p: lastP,
       debug: params.has("misura"), budget: +params.get("budget") || 0, ...size(),
     }, [offscreen]);
     sentP = lastP;
