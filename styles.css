@@ -185,7 +185,7 @@ main { padding: 0 var(--gutter); }
 @keyframes draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 /* ---------- TAV 02 · Dettagli ---------- */
-.details { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--ink); }
+.details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--ink); }
 .detail { padding: clamp(22px, 3vw, 40px); background: color-mix(in srgb, var(--paper) 70%, transparent); }
 .detail + .detail { border-left: 1px solid var(--ink); }
 .detail-head { display: flex; align-items: center; gap: 14px; margin-bottom: 26px; }
@@ -223,7 +223,7 @@ main { padding: 0 var(--gutter); }
 
 /* ---------- TAV 04 · Elenco progetti ---------- */
 .register { border-top: 2px solid var(--ink); }
-.reg-head, .reg-row { display: grid; grid-template-columns: var(--reg-num, 56px) minmax(0, 1.45fr) minmax(0, 1.45fr) 150px 40px; align-items: center; gap: 16px; }
+.reg-head, .reg-row { display: grid; grid-template-columns: var(--reg-num, 56px) minmax(0, 1.9fr) minmax(0, 1fr) 150px 40px; align-items: center; gap: 16px; }
 .reg-head { padding: 12px 0; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); border-bottom: 1px solid var(--ink); }
 .reg-row { position: relative; padding: 26px 0; border-bottom: 1px solid var(--ink); text-decoration: none; overflow: hidden; isolation: isolate; transition: color .35s; }
 .reg-row::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--ink); transform: scaleY(0); transform-origin: bottom; transition: transform .45s cubic-bezier(.7, 0, .2, 1); }
@@ -231,7 +231,7 @@ main { padding: 0 var(--gutter); }
 .reg-row:hover, .reg-row:focus-visible { color: var(--on-ink); }
 .reg-row:hover .reg-type, .reg-row:hover .reg-state, .reg-row:focus-visible .reg-type { color: color-mix(in srgb, var(--on-ink) 75%, transparent); }
 .reg-n { font-family: var(--mono); font-size: 13px; color: var(--red); }
-.reg-name { font-family: var(--display); font-weight: 800; font-stretch: 70%; font-size: clamp(36px, 5.4vw, 76px); line-height: .9; text-transform: uppercase; transition: transform .45s cubic-bezier(.7, 0, .2, 1); }
+.reg-name { white-space: nowrap; font-family: var(--display); font-weight: 800; font-stretch: 70%; font-size: clamp(36px, 5.4vw, 76px); line-height: .9; text-transform: uppercase; transition: transform .45s cubic-bezier(.7, 0, .2, 1); }
 .reg-row:hover .reg-name { transform: translateX(14px); }
 .reg-type { color: var(--ink-2); font-size: 16px; transition: color .3s; }
 .reg-state { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); display: flex; align-items: center; gap: 8px; transition: color .3s; }
@@ -265,6 +265,12 @@ main { padding: 0 var(--gutter); }
 .pv-progress i:nth-child(2) { background: #f2a65a; } .pv-progress i:nth-child(3) { background: #b594f6; }
 .pv-family { background: #e9f3ec; color: #29352f; }
 .pv-family b { color: #176854; }
+.pv-tenuta { color: #f6efe1; overflow: hidden; }
+.pv-tenuta img { inset: 0; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+.pv-tenuta::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(rgba(20, 15, 10, .05) 20%, rgba(20, 15, 10, .88) 88%); }
+.pv-tenuta small { opacity: .92; margin-top: 2px; text-shadow: 0 1px 6px rgba(0, 0, 0, .5); }
+.pv-tenuta { isolation: isolate; }
+.pv-tenuta b { font-family: var(--serif); font-weight: 400; font-size: 27px; line-height: 1; text-shadow: 0 1px 8px rgba(0, 0, 0, .5); }
 @media (hover: none), (pointer: coarse) { .previews { display: none; } }
 
 /* ---------- TAV 05 · Contatti ---------- */
@@ -313,6 +319,14 @@ main { padding: 0 var(--gutter); }
 }
 
 /* ---------- Responsive ---------- */
+@media (max-width: 1180px) and (min-width: 901px) {
+  .details { grid-template-columns: 1fr 1fr; }
+  .detail:nth-child(3) { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--ink);
+    display: grid; grid-template-columns: 1fr 1fr; column-gap: clamp(22px, 3vw, 40px); align-items: start; }
+  .detail:nth-child(3) .detail-head { grid-column: 1 / -1; }
+  .detail:nth-child(3) .schema { grid-column: 1; grid-row: 2 / span 3; }
+  .detail:nth-child(3) > :is(h3, p, ul) { grid-column: 2; }
+}
 @media (max-width: 1080px) {
   .cartiglio { display: none; }
   .hero-note-1 { position: static; margin-top: 18px; transform: rotate(-2deg); }
@@ -329,6 +343,7 @@ main { padding: 0 var(--gutter); }
   .reg-type, .reg-state { grid-column: 2; }
   .reg-go { grid-row: 1; grid-column: 3; }
   .reg-n { grid-row: 1; }
+  .reg-name { white-space: normal; }
 }
 @media (max-width: 640px) {
   .sheet-frame, .ruler { inset: 6px; }
@@ -346,5 +361,6 @@ main { padding: 0 var(--gutter); }
   .quota { grid-template-columns: 1fr; gap: 26px; margin-top: 64px; padding-bottom: 0; }
   .q-nodes { display: none; }
   .btn { flex: 1 1 100%; justify-content: center; }
+  .reg-name { font-size: 31px; }
 
 }
