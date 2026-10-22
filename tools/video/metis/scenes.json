@@ -26,7 +26,7 @@
    "seg": [
     [
      "risultato:calcola_piano+2.4",
-     "risultato:simula_variante+1.8",
+     "risultato:simula_variante+2.0",
      1
     ]
    ]
@@ -35,9 +35,9 @@
    "id": "registro",
    "seg": [
     [
-     "risultato:simula_variante+1.8",
-     "risultato:genera_registro_decisioni+2.2",
-     0.8
+     "risultato:simula_variante+2.0",
+     "risultato:genera_registro_decisioni+0.9",
+     0.65
     ]
    ]
   },
@@ -45,7 +45,7 @@
    "id": "documenti",
    "seg": [
     [
-     "risultato:genera_registro_decisioni+2.2",
+     "risultato:genera_registro_decisioni+0.9",
      "risultato:scrivi_report+2.2",
      1
     ]
