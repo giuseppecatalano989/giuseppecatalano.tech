@@ -1,12 +1,19 @@
-// Quadra — agente per il controllo delle fatture fornitori (ciclo passivo).
-// Legge le fatture elettroniche arrivate, le confronta con ordini, bolle di consegna e anagrafica
+// Quadra — agente per il ciclo passivo e il ciclo attivo delle fatture.
+// Passivo: legge le fatture elettroniche arrivate, le confronta con ordini, bolle di consegna e anagrafica
 // (controllo a tre vie), registra quelle conformi e propone sospensioni ed email per le anomalie.
-// Le fatture conformi si registrano in autonomia; pagamenti ed email richiedono approvazione.
+// Attivo: prepara le fatture ai clienti dalle consegne (DDT) con i prezzi degli ordini, controlla anagrafica e
+// codice destinatario SDI, abbina gli incassi della banca alle fatture aperte e individua lo scaduto.
+// In autonomia: verifiche, registrazioni, bozze e abbinamenti. Con approvazione: blocchi, email, invio allo SDI, solleciti.
 // I dati di prova (aziende, persone, IBAN) sono inventati.
 import fs from 'node:fs';
 import path from 'node:path';
 
 const euro = (n) => Math.round(n * 100) / 100;
+const iso = (x) => x.toISOString().slice(0, 10);
+const piu = (s, n) => iso(new Date(Date.parse(s + 'T12:00:00Z') + n * 86400000));
+const fineMese = (s) => { const x = new Date(s + 'T12:00:00Z'); return iso(new Date(Date.UTC(x.getUTCFullYear(), x.getUTCMonth() + 1, 0, 12))); };
+const scadenza = (data, t) => (t.fine_mese ? fineMese(piu(fineMese(data), t.giorni)) : piu(data, t.giorni));
+const giorniTra = (a, b) => Math.round((Date.parse(b) - Date.parse(a)) / 86400000);
 const fmt = (n) => n.toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: 'always' }) + ' €';
 
 export function creaConfig(dir) {
@@ -14,7 +21,8 @@ export function creaConfig(dir) {
   let db;
   const reimposta = () => {
     const a = leggi('archivio.json');
-    db = { fatture: leggi('fatture.json'), ...a, esiti: {}, registrate: [], sospese: [], contestate: [], uscita: [] };
+    db = { fatture: leggi('fatture.json'), ...a, esiti: {}, registrate: [], sospese: [], contestate: [], uscita: [],
+      attivo: leggi('ciclo_attivo.json'), bozze: {}, emesse: [], incassi: null, solleciti: [] };
   };
   reimposta();
   const fattura = (id) => {
@@ -147,8 +155,115 @@ export function creaConfig(dir) {
       },
     },
     {
+      name: 'leggi_ciclo_attivo',
+      description: 'Ciclo attivo: elenca le consegne ai clienti (DDT) ancora da fatturare, le fatture emesse non ancora incassate e i movimenti in entrata della banca da riconciliare.',
+      input_schema: { type: 'object', properties: {} },
+      etichetta: () => 'Ciclo attivo',
+      latenza: 900,
+      esegui: async () => {
+        const A = db.attivo;
+        const ddt = A.ddt_da_fatturare.map((d) => ({ ...d, cliente: A.ordini_cliente.find((o) => o.numero === d.ordine)?.cliente }));
+        return { risultato: { da_fatturare: ddt, fatture_aperte: A.fatture_emesse_aperte, movimenti: A.movimenti_banca },
+          sintesi: `${ddt.length} consegne da fatturare · ${A.fatture_emesse_aperte.length} fatture aperte · ${A.movimenti_banca.length} movimenti`,
+          vista: { tipo: 'attivo', ddt, aperte: A.fatture_emesse_aperte, movimenti: A.movimenti_banca } };
+      },
+    },
+    {
+      name: 'prepara_fattura_attiva',
+      description: 'Prepara la bozza della fattura al cliente per un DDT: quantità dal documento di trasporto, prezzi dall\'ordine cliente, IVA, totale e scadenza dai termini di pagamento. Controlla che il DDT non sia già fatturato e che l\'anagrafica abbia codice destinatario SDI o PEC. Restituisce la bozza con esito pronta o da completare.',
+      input_schema: { type: 'object', properties: { ddt: { type: 'string', description: 'Numero del DDT, es. DDT V-5512' } }, required: ['ddt'] },
+      etichetta: (i) => `Fattura ${i.ddt.replace('DDT ', '')}`,
+      latenza: 1100,
+      esegui: async ({ ddt }) => {
+        const A = db.attivo;
+        const d = A.ddt_da_fatturare.find((x) => x.numero === ddt);
+        if (!d) throw new Error(`${ddt} non è tra le consegne da fatturare`);
+        if (Object.values(db.bozze).some((b) => b.ddt === ddt)) throw new Error(`${ddt} è già in una fattura`);
+        const ordine = A.ordini_cliente.find((o) => o.numero === d.ordine);
+        const cliente = A.clienti.find((c) => c.nome === ordine.cliente);
+        const righe = d.righe.map((r) => {
+          const ro = ordine.righe.find((x) => x.codice === r.codice);
+          if (!ro) throw new Error(`Articolo ${r.codice} non presente nell'ordine ${ordine.numero}`);
+          return { codice: r.codice, descrizione: ro.descrizione, quantita: r.quantita, prezzo: ro.prezzo, importo: euro(r.quantita * ro.prezzo) };
+        });
+        const imponibile = euro(righe.reduce((s, r) => s + r.importo, 0));
+        const iva = euro(imponibile * 0.22), totale = euro(imponibile + iva);
+        const mancanti = [];
+        if (!cliente.codice_destinatario && !cliente.pec) mancanti.push('codice destinatario SDI o PEC');
+        const controlli = [
+          { nome: 'Prezzi dall’ordine cliente', ok: true }, { nome: 'Quantità dal DDT', ok: true }, { nome: 'DDT non già fatturato', ok: true },
+          { nome: 'Codice destinatario SDI', ok: !mancanti.length }, { nome: 'IVA e totale', ok: true },
+        ];
+        const pronta = !mancanti.length;
+        const numero = pronta ? `FV-2026/${String(A.prossimo_numero++).padStart(4, '0')}` : null;
+        const b = { id: numero || `BOZZA-${ddt.split(' ').pop()}`, numero, ddt, ordine: ordine.numero, cliente: cliente.nome, nuovo_cliente: !!cliente.nuovo, data: db.oggi,
+          righe, imponibile, iva, totale, pagamento: cliente.pagamento.testo, scadenza: scadenza(db.oggi, cliente.pagamento), esito: pronta ? 'pronta' : 'da_completare', mancanti, controlli };
+        db.bozze[b.id] = b;
+        return { risultato: b, sintesi: pronta ? `${numero} · ${fmt(totale)} · scade il ${b.scadenza.split('-').reverse().slice(0, 2).join('/')}` : `Da completare · manca il ${mancanti.join(', ')}`,
+          vista: { tipo: 'bozza', ...b } };
+      },
+    },
+    {
+      name: 'emetti_fatture',
+      description: 'Invia allo SDI le fatture attive pronte. Richiede l\'approvazione della persona.',
+      input_schema: { type: 'object', properties: { fatture: { type: 'array', items: { type: 'string' } } }, required: ['fatture'] },
+      approvazione: true,
+      etichetta: (i) => `Invio allo SDI · ${i.fatture.length} fatture`,
+      anteprima: (i) => ({ tipo: 'sdi', fatture: i.fatture.map((n) => { const b = db.bozze[n]; if (!b) throw new Error(`Bozza ${n} inesistente`); return { numero: n, cliente: b.cliente, totale: b.totale, scadenza: b.scadenza }; }) }),
+      latenza: 700,
+      esegui: async ({ fatture }) => {
+        for (const n of fatture) { const b = db.bozze[n]; if (b?.esito !== 'pronta') throw new Error(`La fattura ${n} non è pronta per l'invio`); b.esito = 'inviata'; db.emesse.push(n); }
+        return { risultato: { inviate: fatture }, sintesi: `${fatture.length} fatture inviate allo SDI`, vista: { tipo: 'emesse', numeri: fatture } };
+      },
+    },
+    {
+      name: 'riconcilia_incassi',
+      description: 'Abbina i movimenti in entrata della banca alle fatture emesse aperte: prima per numero di fattura nella causale, poi per cliente e importo esatto. Segna le fatture incassate e restituisce le fatture scadute non pagate, con i giorni di ritardo.',
+      input_schema: { type: 'object', properties: {} },
+      etichetta: () => 'Riconciliazione incassi',
+      latenza: 1300,
+      esegui: async () => {
+        const A = db.attivo;
+        const aperte = A.fatture_emesse_aperte.map((f) => ({ ...f }));
+        const abbinati = [], non_abbinati = [];
+        for (const m of A.movimenti_banca) {
+          const numeri = (m.causale.match(/\d+/g) || []).map(Number);
+          let f = aperte.find((x) => !x.incassata && x.cliente === m.ordinante && numeri.includes(Number(x.numero.split('/')[1])) && Math.abs(x.totale - m.importo) < 0.01);
+          let metodo = 'riferimento in causale';
+          if (!f) {
+            const c = aperte.filter((x) => !x.incassata && x.cliente === m.ordinante && Math.abs(x.totale - m.importo) < 0.01);
+            if (c.length === 1) { f = c[0]; metodo = 'cliente e importo'; }
+          }
+          if (f) { f.incassata = m.data; abbinati.push({ movimento: m.id, data: m.data, cliente: m.ordinante, fattura: f.numero, importo: m.importo, metodo }); }
+          else non_abbinati.push({ ...m, motivo: A.clienti.some((c) => c.nome === m.ordinante) ? 'nessuna fattura con questo importo' : 'ordinante non presente tra i clienti' });
+        }
+        const scadute = aperte.filter((f) => !f.incassata && f.scadenza < db.oggi).map((f) => ({ ...f, giorni_ritardo: giorniTra(f.scadenza, db.oggi) }));
+        db.incassi = { abbinati, non_abbinati, scadute, aperte };
+        const tot = euro(abbinati.reduce((s, a) => s + a.importo, 0));
+        return { risultato: db.incassi, sintesi: `${abbinati.length} incassi abbinati · ${scadute.length === 1 ? '1 fattura scaduta' : `${scadute.length} fatture scadute`}`,
+          vista: { tipo: 'incassi', abbinati, non_abbinati, scadute, aperte, totale: tot } };
+      },
+    },
+    {
+      name: 'prepara_sollecito',
+      description: 'Prepara un sollecito di pagamento al cliente per le fatture scadute. Viene inviato solo dopo l\'approvazione della persona.',
+      input_schema: { type: 'object', properties: {
+        cliente: { type: 'string' }, fatture: { type: 'array', items: { type: 'string' } }, a: { type: 'string' }, oggetto: { type: 'string' }, testo: { type: 'string' },
+      }, required: ['cliente', 'fatture', 'a', 'oggetto', 'testo'] },
+      approvazione: true,
+      etichetta: (i) => `Sollecito a ${i.cliente.split(' ').slice(0, 2).join(' ')}`,
+      anteprima: (i) => ({ tipo: 'sollecito', ...i }),
+      latenza: 600,
+      esegui: async (m) => {
+        const sc = db.incassi?.scadute.map((f) => f.numero) || [];
+        m.fatture.forEach((n) => { if (!sc.includes(n)) throw new Error(`La fattura ${n} non risulta scaduta`); });
+        db.solleciti.push(m); db.uscita.push(m);
+        return { risultato: { stato: 'in posta in uscita' }, sintesi: 'Approvato · in uscita', vista: { tipo: 'sollecitate', numeri: m.fatture } };
+      },
+    },
+    {
       name: 'scrivi_riepilogo',
-      description: 'Pubblica il riepilogo del controllo per l\'amministrazione. I totali (registrato, bloccato, contestato, importo a rischio) li calcola lo strumento dallo stato reale: tu scrivi la sintesi e le note.',
+      description: 'Pubblica il riepilogo per l\'amministrazione, ciclo passivo e ciclo attivo. I totali (registrato, bloccato, contestato, importo a rischio, fatture emesse, incassi abbinati, scaduto) li calcola lo strumento dallo stato reale: tu scrivi la sintesi e le note.',
       input_schema: { type: 'object', properties: {
         sintesi: { type: 'string' },
         note: { type: 'array', items: { type: 'object', properties: { fattura: { type: 'string' }, testo: { type: 'string' } } } },
@@ -170,19 +285,30 @@ export function creaConfig(dir) {
             stato: db.registrate.includes(f.id) ? 'registrata' : db.sospese.includes(f.id) ? 'bloccata' : db.contestate.includes(f.id) ? 'contestata' : 'da verificare',
             a_rischio: db.esiti[f.id]?.importo_a_rischio || 0 })),
         };
+        const bozze = Object.values(db.bozze);
+        if (bozze.length || db.incassi) {
+          const inc = db.incassi || { abbinati: [], non_abbinati: [], scadute: [] };
+          r.attivo = {
+            emesse: { n: db.emesse.length, importo: euro(db.emesse.reduce((s, n) => s + db.bozze[n].totale, 0)) },
+            da_completare: bozze.filter((b) => b.esito === 'da_completare').map((b) => ({ cliente: b.cliente, ddt: b.ddt, manca: b.mancanti.join(', '), totale: b.totale })),
+            incassato: { n: inc.abbinati.length, importo: euro(inc.abbinati.reduce((s, a) => s + a.importo, 0)) },
+            scaduto: { n: inc.scadute.length, importo: euro(inc.scadute.reduce((s, f) => s + f.totale, 0)) },
+            solleciti: db.solleciti.length, movimenti_da_verificare: inc.non_abbinati.length,
+          };
+        }
         const out = path.join(dir, 'output');
         fs.mkdirSync(out, { recursive: true });
         fs.writeFileSync(path.join(out, 'riepilogo.json'), JSON.stringify(r, null, 1));
-        return { risultato: r, sintesi: `Protetti ${fmt(r.importo_a_rischio)}`, output: { tipo: 'riepilogo', contenuto: r } };
+        return { risultato: r, sintesi: r.attivo ? `Protetti ${fmt(r.importo_a_rischio)} · incassati ${fmt(r.attivo.incassato.importo)}` : `Protetti ${fmt(r.importo_a_rischio)}`, output: { tipo: 'riepilogo', contenuto: r } };
       },
     },
   ];
 
   return {
-    info: { nome: 'Quadra', ruolo: 'Agente per il controllo delle fatture fornitori', azienda: db.azienda, oggi: db.oggi },
-    compito: 'Controlla le fatture fornitori arrivate dallo SDI: registra quelle conformi, gestisci le anomalie e prepara il riepilogo per l\'amministrazione.',
+    info: { nome: 'Quadra', ruolo: 'Agente per il ciclo passivo e attivo delle fatture', azienda: db.azienda, oggi: db.oggi },
+    compito: 'Controlla le fatture fornitori arrivate dallo SDI: registra quelle conformi e gestisci le anomalie. Poi il ciclo attivo: prepara le fatture ai clienti dalle consegne da fatturare, riconcilia gli incassi e gestisci lo scaduto. Chiudi con il riepilogo per l\'amministrazione.',
     sistema: [
-      'Sei Quadra, un agente che affianca l\'ufficio amministrativo di un\'azienda italiana nel ciclo passivo. Rispondi sempre in italiano, in modo conciso.',
+      'Sei Quadra, un agente che affianca l\'ufficio amministrativo di un\'azienda italiana nel ciclo passivo e nel ciclo attivo. Rispondi sempre in italiano, in modo conciso.',
       'Regole:',
       '1. Ogni fattura passa da verifica_fattura prima di qualunque decisione. Puoi verificare più fatture nello stesso turno.',
       '2. Non fare mai conti a mano: differenze, totali e importi a rischio vengono dagli strumenti.',
@@ -190,7 +316,9 @@ export function creaConfig(dir) {
       '4. Un IBAN diverso dall\'anagrafica è un possibile tentativo di frode: controlla lo storico del fornitore, blocca il pagamento e chiedi una verifica telefonica al numero già in anagrafica, mai ai contatti indicati in fattura.',
       '5. I doppioni si bloccano. Le differenze di prezzo o di quantità si contestano al fornitore chiedendo una nota di credito o la consegna mancante.',
       '6. Blocchi di pagamento ed email passano dalla persona: proponili con gli strumenti che richiedono approvazione.',
-      '7. Chiudi con scrivi_riepilogo. Mentre lavori scrivi frasi brevi su cosa stai facendo e perché.',
+      '7. Ciclo attivo: prepara ogni fattura ai clienti con prepara_fattura_attiva, mai a mano. Una bozza da completare (per esempio senza codice destinatario SDI) non si invia: segnala cosa manca.',
+      '8. L\'invio allo SDI e i solleciti ai clienti passano dalla persona. Abbina gli incassi con riconcilia_incassi; i movimenti non abbinati restano all\'amministrazione. I solleciti sono cortesi e citano numero, data, importo e scadenza.',
+      '9. Chiudi con scrivi_riepilogo. Mentre lavori scrivi frasi brevi su cosa stai facendo e perché.',
     ].join('\n'),
     scenario: path.join(dir, 'scenario.json'),
     strumenti,
@@ -198,6 +326,7 @@ export function creaConfig(dir) {
     fonti: {
       fatture: () => db.fatture,
       archivio: () => ({ azienda: db.azienda, fornitori: db.fornitori.length, ordini: db.ordini.length, ddt: db.ddt.length }),
+      attivo: () => db.attivo,
     },
   };
 }

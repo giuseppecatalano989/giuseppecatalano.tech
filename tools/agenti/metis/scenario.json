@@ -1,12 +1,12 @@
 {
  "_nota": "Scenario dimostrativo: le decisioni dell'agente sono scritte nello stesso formato prodotto dalla modalità --registra. Gli strumenti vengono eseguiti davvero sui dati di prova. Per sostituirlo con una sessione reale: node core/server.js metis --registra (serve ANTHROPIC_API_KEY).",
- "compito": "Pianifica l'apertura della nuova sede di Monza: costruisci il piano a step con tutti i fornitori e il team, verifica la data di apertura, prepara chi fa cosa, lo schema dei SAL, il report per il cliente e le richieste ai fornitori.",
+ "compito": "Pianifica l'apertura della nuova sede di Monza: costruisci il piano a step con tutti i fornitori e il team, tenendo conto anche delle email del progetto e delle call registrate; verifica la data di apertura, aggiorna il registro di decisioni e azioni, prepara chi fa cosa, lo schema dei SAL, il report per il cliente e le richieste ai fornitori.",
  "turni": [
   {
    "content": [
     {
      "type": "text",
-     "text": "Leggo il brief, le offerte dei fornitori e le attività del team."
+     "text": "Leggo brief, offerte dei fornitori, attività del team, le email del progetto e le call registrate su Granola e Notion."
     },
     {
      "type": "tool_use",
@@ -25,6 +25,18 @@
      "id": "toolu_m03",
      "name": "leggi_attivita_team",
      "input": {}
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_m01b",
+     "name": "leggi_email_progetto",
+     "input": {}
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_m01c",
+     "name": "leggi_call_registrate",
+     "input": {}
     }
    ]
   },
@@ -32,7 +44,7 @@
    "content": [
     {
      "type": "text",
-     "text": "Incastro 17 step di sette parti secondo i prerequisiti: cablaggio a pareti chiuse, arredi a impianti finiti e non prima del 14 dicembre, team libero dal 16 novembre, trasloco nel fine settimana. Calcolo il piano sul calendario reale."
+     "text": "Dalle comunicazioni: il cliente conferma che l'11 gennaio è vincolante, FibraUno vuole la prenotazione del sopralluogo entro domani, Vigilanza Lombarda chiede l'elenco per i badge entro il 4 dicembre. Incastro 17 step di sette parti secondo i prerequisiti: cablaggio a pareti chiuse, arredi a impianti finiti e non prima del 14 dicembre, team libero dal 16 novembre, trasloco nel fine settimana. Calcolo il piano sul calendario reale."
     },
     {
      "type": "tool_use",
@@ -208,7 +220,7 @@
    "content": [
     {
      "type": "text",
-     "text": "L'apertura slitterebbe al 18 gennaio: gli arredi finiscono il 23 dicembre e Wi-Fi e postazioni finiscono dopo la chiusura natalizia. Nelle fonti ci sono due margini: Arredo Ufficio Seregno può consegnare per zone, e il Wi-Fi si può progettare con un rilievo predittivo sulla planimetria, senza aspettare i mobili. Simulo la variante."
+     "text": "L'apertura slitterebbe al 18 gennaio: gli arredi finiscono il 23 dicembre e Wi-Fi e postazioni finiscono dopo la chiusura natalizia. Le call indicano due margini: nella call del 20 ottobre su Granola, Arredo Ufficio Seregno propone due lotti, 5 giorni per l'open space e 3 per gli uffici; nella riunione del team del 16 ottobre su Notion, Andrea propone il rilievo Wi-Fi predittivo su planimetria. Simulo la variante."
     },
     {
      "type": "tool_use",
@@ -277,7 +289,116 @@
    "content": [
     {
      "type": "text",
-     "text": "Con la variante l'apertura torna all'11 gennaio, ma senza margine: il percorso critico ora passa dagli arredi. Genero la matrice di chi fa cosa e lo schema dei SAL sul nuovo piano."
+     "text": "Con la variante l'apertura torna all'11 gennaio, senza margine: il percorso critico ora passa dagli arredi. Aggiorno il registro di decisioni, azioni e rischi con quanto emerso da email e call."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_m06r",
+     "name": "genera_registro_decisioni",
+     "input": {
+      "voci": [
+       {
+        "tipo": "decisione",
+        "testo": "Apertura della nuova sede lunedì 11 gennaio, data vincolante",
+        "stato": "confermata",
+        "fonti": [
+         "C-01",
+         "E-01"
+        ]
+       },
+       {
+        "tipo": "decisione",
+        "testo": "Arredi in due lotti: open space dal 14 dicembre, uffici a seguire",
+        "stato": "da confermare per iscritto",
+        "fonti": [
+         "C-03",
+         "E-02"
+        ]
+       },
+       {
+        "tipo": "decisione",
+        "testo": "Rilievo Wi-Fi predittivo su planimetria, verifica sul campo al collaudo",
+        "stato": "proposta",
+        "fonti": [
+         "C-02"
+        ]
+       },
+       {
+        "tipo": "azione",
+        "testo": "Prenotare il sopralluogo FibraUno per il 2 novembre",
+        "chi": "Giuseppe",
+        "entro": "2026-10-23",
+        "fonti": [
+         "E-03"
+        ]
+       },
+       {
+        "tipo": "azione",
+        "testo": "Confermare per iscritto la consegna degli arredi in due lotti",
+        "chi": "Giuseppe",
+        "entro": "2026-10-30",
+        "fonti": [
+         "E-02",
+         "C-03"
+        ]
+       },
+       {
+        "tipo": "azione",
+        "testo": "Report di pianificazione al cliente, poi aggiornamento ogni due settimane",
+        "chi": "Giuseppe",
+        "entro": "2026-10-30",
+        "fonti": [
+         "E-01",
+         "C-01"
+        ]
+       },
+       {
+        "tipo": "azione",
+        "testo": "Nominativi della squadra CablaNet alla proprietà per l'accesso al cantiere",
+        "chi": "Giuseppe",
+        "entro": "2026-11-20",
+        "fonti": [
+         "E-04"
+        ]
+       },
+       {
+        "tipo": "azione",
+        "testo": "Elenco dei 60 dipendenti con fasce orarie per i badge",
+        "chi": "Ottavia Logistica",
+        "entro": "2026-12-04",
+        "fonti": [
+         "E-05",
+         "C-01"
+        ]
+       },
+       {
+        "tipo": "rischio",
+        "testo": "Montaggio arredi a ridosso della chiusura natalizia: nessun margine sull'apertura",
+        "livello": "alto",
+        "fonti": [
+         "C-02",
+         "C-03"
+        ]
+       },
+       {
+        "tipo": "rischio",
+        "testo": "Fibra attiva 25 giorni lavorativi dopo il sopralluogo: la telefonia dipende dalla linea",
+        "livello": "medio",
+        "fonti": [
+         "E-03",
+         "C-02"
+        ]
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Genero la matrice di chi fa cosa e lo schema dei SAL sul nuovo piano."
     },
     {
      "type": "tool_use",
@@ -324,8 +445,9 @@
        }
       ],
       "decisioni": [
-       "Approvare la consegna degli arredi in due lotti: open space entro il 18 dicembre, uffici entro il 23.",
-       "Approvare il rilievo Wi-Fi predittivo su planimetria, con verifica sul campo al collaudo."
+       "Approvare la consegna degli arredi in due lotti, concordata nella call del 20 ottobre: open space entro il 18 dicembre, uffici entro il 23.",
+       "Approvare il rilievo Wi-Fi predittivo su planimetria, proposto dal team il 16 ottobre, con verifica sul campo al collaudo.",
+       "Inviare entro il 4 dicembre l'elenco dei dipendenti per i badge, come richiesto da Vigilanza Lombarda."
       ]
      }
     }
@@ -335,7 +457,7 @@
    "content": [
     {
      "type": "text",
-     "text": "Propongo due email, che partono solo con la tua approvazione: la consegna in due lotti va confermata dal fornitore, e il sopralluogo della fibra va prenotato oggi per rispettare i 10 giorni di preavviso."
+     "text": "Propongo due email, che partono solo con la tua approvazione: la conferma scritta dei due lotti chiesta da Arredo Ufficio Seregno e la prenotazione del sopralluogo FibraUno, che scade domani."
     },
     {
      "type": "tool_use",
@@ -344,7 +466,7 @@
      "input": {
       "a": "Arredo Ufficio Seregno",
       "oggetto": "Nuova sede di Monza — consegna degli arredi in due lotti",
-      "testo": "Buongiorno,\nper rispettare l'apertura dell'11 gennaio vorremmo usare la consegna per zone prevista dalla vostra offerta: lotto 1, open space, con montaggio dal 14 al 18 dicembre; lotto 2, uffici, dal 21 al 23 dicembre.\nCi confermate per iscritto entro il 30 ottobre?\nGrazie,\nGiuseppe"
+      "testo": "Buongiorno Paolo,\ncome concordato nella call del 20 ottobre, confermiamo la consegna degli arredi in due lotti: lotto 1, open space, con montaggio dal 14 al 18 dicembre; lotto 2, uffici, dal 21 al 23 dicembre.\nVi chiediamo conferma scritta entro il 30 ottobre.\nGrazie,\nGiuseppe"
      }
     },
     {
@@ -354,7 +476,7 @@
      "input": {
       "a": "FibraUno",
       "oggetto": "Prenotazione del sopralluogo — nuova sede di Monza",
-      "testo": "Buongiorno,\nvi chiediamo di prenotare il sopralluogo tecnico per lunedì 2 novembre, giorno di consegna dei locali, così da avere la linea attiva entro il 7 dicembre.\nCi indicate l'orario?\nGrazie,\nGiuseppe"
+      "testo": "Buongiorno,\ncome indicato nella vostra email del 20 ottobre, prenotiamo il sopralluogo tecnico per lunedì 2 novembre, giorno di consegna dei locali, così da avere la linea attiva entro il 7 dicembre.\nCi indicate l'orario?\nGrazie,\nGiuseppe"
      }
     }
    ]
@@ -363,7 +485,7 @@
    "content": [
     {
      "type": "text",
-     "text": "Fatto. Piano in 18 step con apertura l'11 gennaio, matrice di chi fa cosa, schema dei SAL per 116.800 € e report per il cliente. Le due richieste ai fornitori sono in uscita: senza la conferma degli arredi il piano non regge."
+     "text": "Fatto. Piano in 18 step con apertura l'11 gennaio, registro con 3 decisioni, 5 azioni e 2 rischi da 6 email e 3 call, matrice di chi fa cosa, schema dei SAL per 116.800 € e report per il cliente. Le due email ai fornitori sono in uscita: senza la conferma degli arredi il piano non regge."
     }
    ]
   }

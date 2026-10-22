@@ -1,58 +1,293 @@
 {
  "_nota": "Scenario dimostrativo: le decisioni dell'agente sono scritte nello stesso formato prodotto dalla modalità --registra. Gli strumenti vengono eseguiti davvero sui dati di prova. Per sostituirlo con una sessione reale: node core/server.js quadra --registra (serve ANTHROPIC_API_KEY).",
- "compito": "Controlla le fatture fornitori arrivate dallo SDI: registra quelle conformi, gestisci le anomalie e prepara il riepilogo per l'amministrazione.",
+ "compito": "Controlla le fatture fornitori arrivate dallo SDI: registra quelle conformi e gestisci le anomalie. Poi il ciclo attivo: prepara le fatture ai clienti dalle consegne da fatturare, riconcilia gli incassi e gestisci lo scaduto. Chiudi con il riepilogo per l'amministrazione.",
  "turni": [
   {
    "content": [
-    { "type": "text", "text": "Leggo le fatture elettroniche arrivate dallo SDI." },
-    { "type": "tool_use", "id": "toolu_q01", "name": "leggi_fatture_in_arrivo", "input": {} }
+    {
+     "type": "text",
+     "text": "Leggo le fatture elettroniche arrivate dallo SDI."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q01",
+     "name": "leggi_fatture_in_arrivo",
+     "input": {}
+    }
    ]
   },
   {
    "content": [
-    { "type": "text", "text": "Sono 6 fatture da 5 fornitori. Le confronto tutte con ordini, bolle di consegna e anagrafica." },
-    { "type": "tool_use", "id": "toolu_q02", "name": "verifica_fattura", "input": { "id": "FT-MN-2318" } },
-    { "type": "tool_use", "id": "toolu_q03", "name": "verifica_fattura", "input": { "id": "FT-TA-0981" } },
-    { "type": "tool_use", "id": "toolu_q04", "name": "verifica_fattura", "input": { "id": "FT-PF-7731" } },
-    { "type": "tool_use", "id": "toolu_q05", "name": "verifica_fattura", "input": { "id": "FT-MN-2291" } },
-    { "type": "tool_use", "id": "toolu_q06", "name": "verifica_fattura", "input": { "id": "FT-EB-5520" } },
-    { "type": "tool_use", "id": "toolu_q07", "name": "verifica_fattura", "input": { "id": "FT-IS-0412" } }
+    {
+     "type": "text",
+     "text": "Sono 6 fatture da 5 fornitori. Le confronto tutte con ordini, bolle di consegna e anagrafica."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q02",
+     "name": "verifica_fattura",
+     "input": {
+      "id": "FT-MN-2318"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q03",
+     "name": "verifica_fattura",
+     "input": {
+      "id": "FT-TA-0981"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q04",
+     "name": "verifica_fattura",
+     "input": {
+      "id": "FT-PF-7731"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q05",
+     "name": "verifica_fattura",
+     "input": {
+      "id": "FT-MN-2291"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q06",
+     "name": "verifica_fattura",
+     "input": {
+      "id": "FT-EB-5520"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q07",
+     "name": "verifica_fattura",
+     "input": {
+      "id": "FT-IS-0412"
+     }
+    }
    ]
   },
   {
    "content": [
-    { "type": "text", "text": "Due fatture sono conformi e le registro. Le altre quattro no: Plastiform applica 2,45 € al pezzo invece dei 2,30 € dell'ordine, Elettrica Brianza fattura 20 sensori non ancora consegnati, la 2291 di Metalnova è già stata registrata il 2 ottobre. Imballaggi Seveso indica un IBAN diverso dall'anagrafica: controllo lo storico dei pagamenti." },
-    { "type": "tool_use", "id": "toolu_q08", "name": "registra_fattura", "input": { "id": "FT-MN-2318" } },
-    { "type": "tool_use", "id": "toolu_q09", "name": "registra_fattura", "input": { "id": "FT-TA-0981" } },
-    { "type": "tool_use", "id": "toolu_q10", "name": "storico_fornitore", "input": { "fornitore": "Imballaggi Seveso S.r.l." } }
+    {
+     "type": "text",
+     "text": "Due fatture sono conformi e le registro. Le altre quattro no: Plastiform applica 2,45 € al pezzo invece dei 2,30 € dell'ordine, Elettrica Brianza fattura 20 sensori non ancora consegnati, la 2291 di Metalnova è già stata registrata il 2 ottobre. Imballaggi Seveso indica un IBAN diverso dall'anagrafica: controllo lo storico dei pagamenti."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q08",
+     "name": "registra_fattura",
+     "input": {
+      "id": "FT-MN-2318"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q09",
+     "name": "registra_fattura",
+     "input": {
+      "id": "FT-TA-0981"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q10",
+     "name": "storico_fornitore",
+     "input": {
+      "fornitore": "Imballaggi Seveso S.r.l."
+     }
+    }
    ]
   },
   {
    "content": [
-    { "type": "text", "text": "In 14 pagamenti l'IBAN non è mai cambiato e non c'è nessuna comunicazione di variazione: lo tratto come un possibile tentativo di frode. Propongo di bloccare due pagamenti e di contestare le differenze ai fornitori." },
-    { "type": "tool_use", "id": "toolu_q11", "name": "sospendi_pagamento", "input": { "fatture": [
-     { "id": "FT-IS-0412", "motivo": "IBAN diverso da quello in anagrafica, nessuna variazione comunicata: verificare per telefono al numero già noto." },
-     { "id": "FT-MN-2291", "motivo": "Doppione della fattura 2291 registrata il 02/10." }
-    ] } },
-    { "type": "tool_use", "id": "toolu_q12", "name": "prepara_email", "input": { "fattura": "FT-PF-7731", "a": "Paolo Villa (Plastiform)", "oggetto": "Fattura 7731 — prezzo diverso dall'ordine OA-1109", "testo": "Buongiorno Paolo,\nnella fattura 7731 i tappi TP-32 sono indicati a 2,45 € al pezzo, mentre l'ordine OA-1109 riporta 2,30 €. Sui 4.000 pezzi la differenza è di 600,00 € più IVA.\nVi chiediamo una nota di credito per la differenza; nel frattempo la fattura resta in sospeso.\nGrazie,\nAmministrazione Lariana Componenti" } },
-    { "type": "tool_use", "id": "toolu_q13", "name": "prepara_email", "input": { "fattura": "FT-EB-5520", "a": "Roberta Fumagalli (Elettrica Brianza)", "oggetto": "Fattura 5520 — 20 sensori non ancora consegnati", "testo": "Buongiorno Roberta,\nla fattura 5520 riporta 120 sensori SN-IR, ma con il DDT 3310 ne abbiamo ricevuti 100.\nCi indicate quando arriveranno i 20 mancanti, oppure ci inviate una nota di credito di 290,00 € più IVA?\nGrazie,\nAmministrazione Lariana Componenti" } }
+    {
+     "type": "text",
+     "text": "In 14 pagamenti l'IBAN non è mai cambiato e non c'è nessuna comunicazione di variazione: lo tratto come un possibile tentativo di frode. Propongo di bloccare due pagamenti e di contestare le differenze ai fornitori."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q11",
+     "name": "sospendi_pagamento",
+     "input": {
+      "fatture": [
+       {
+        "id": "FT-IS-0412",
+        "motivo": "IBAN diverso da quello in anagrafica, nessuna variazione comunicata: verificare per telefono al numero già noto."
+       },
+       {
+        "id": "FT-MN-2291",
+        "motivo": "Doppione della fattura 2291 registrata il 02/10."
+       }
+      ]
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q12",
+     "name": "prepara_email",
+     "input": {
+      "fattura": "FT-PF-7731",
+      "a": "Paolo Villa (Plastiform)",
+      "oggetto": "Fattura 7731 — prezzo diverso dall'ordine OA-1109",
+      "testo": "Buongiorno Paolo,\nnella fattura 7731 i tappi TP-32 sono indicati a 2,45 € al pezzo, mentre l'ordine OA-1109 riporta 2,30 €. Sui 4.000 pezzi la differenza è di 600,00 € più IVA.\nVi chiediamo una nota di credito per la differenza; nel frattempo la fattura resta in sospeso.\nGrazie,\nAmministrazione Lariana Componenti"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q13",
+     "name": "prepara_email",
+     "input": {
+      "fattura": "FT-EB-5520",
+      "a": "Roberta Fumagalli (Elettrica Brianza)",
+      "oggetto": "Fattura 5520 — 20 sensori non ancora consegnati",
+      "testo": "Buongiorno Roberta,\nla fattura 5520 riporta 120 sensori SN-IR, ma con il DDT 3310 ne abbiamo ricevuti 100.\nCi indicate quando arriveranno i 20 mancanti, oppure ci inviate una nota di credito di 290,00 € più IVA?\nGrazie,\nAmministrazione Lariana Componenti"
+     }
+    }
    ]
   },
   {
    "content": [
-    { "type": "text", "text": "Preparo il riepilogo per l'amministrazione." },
-    { "type": "tool_use", "id": "toolu_q14", "name": "scrivi_riepilogo", "input": {
-     "sintesi": "Su 6 fatture ricevute, 2 sono conformi e registrate. Due pagamenti sono bloccati: un doppione e un IBAN cambiato senza preavviso, da verificare per telefono. Due fatture sono contestate ai fornitori per differenze di prezzo e di quantità.",
-     "note": [
-      { "fattura": "FT-IS-0412", "testo": "Possibile frode: non pagare finché il fornitore non conferma l'IBAN al telefono, al numero già in anagrafica." },
-      { "fattura": "FT-PF-7731", "testo": "In attesa di nota di credito per 732,00 € IVA compresa." },
-      { "fattura": "FT-EB-5520", "testo": "Pagare dopo la consegna dei 20 sensori o con nota di credito." }
-     ] } }
+    {
+     "type": "text",
+     "text": "Ciclo passivo sistemato. Passo al ciclo attivo: consegne da fatturare, fatture emesse ancora aperte e movimenti in entrata della banca."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q20",
+     "name": "leggi_ciclo_attivo",
+     "input": {}
+    }
    ]
   },
   {
    "content": [
-    { "type": "text", "text": "Fatto. Registrate 2 fatture, bloccati 2 pagamenti e inviate 2 contestazioni: quasi 4.000 € non escono più dalla cassa per errore." }
+    {
+     "type": "text",
+     "text": "Ci sono tre consegne da fatturare. Preparo le fatture dai DDT, con i prezzi degli ordini cliente e le scadenze dei termini di pagamento."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q21",
+     "name": "prepara_fattura_attiva",
+     "input": {
+      "ddt": "DDT V-5512"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q22",
+     "name": "prepara_fattura_attiva",
+     "input": {
+      "ddt": "DDT V-5530"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q23",
+     "name": "prepara_fattura_attiva",
+     "input": {
+      "ddt": "DDT V-5541"
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Due fatture sono pronte. Automazioni Corti è un cliente nuovo e in anagrafica manca il codice destinatario SDI: la fattura resta in bozza finché il commerciale non lo recupera. Ora abbino gli incassi della banca alle fatture aperte."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q24",
+     "name": "riconcilia_incassi",
+     "input": {}
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Tre incassi abbinati, due per riferimento in causale e uno per cliente e importo. Il rimborso assicurativo non è di un cliente e lo lascio all'amministrazione. Carpenterie Orobiche ha pagato la 395 ma non la 389, scaduta da 22 giorni. Propongo l'invio allo SDI delle due fatture pronte e un sollecito cortese."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q25",
+     "name": "emetti_fatture",
+     "input": {
+      "fatture": [
+       "FV-2026/0418",
+       "FV-2026/0419"
+      ]
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q26",
+     "name": "prepara_sollecito",
+     "input": {
+      "cliente": "Carpenterie Orobiche S.r.l.",
+      "fatture": [
+       "FV-2026/0389"
+      ],
+      "a": "Silvia Bonomi (Carpenterie Orobiche)",
+      "oggetto": "Fattura FV-2026/0389 — promemoria di pagamento",
+      "testo": "Buongiorno Silvia,\nvi ringraziamo per il pagamento della fattura 395. Risulta invece ancora aperta la fattura FV-2026/0389 del 31 agosto, di 2.684,00 €, scaduta il 30 settembre.\nVi chiediamo di verificare e di indicarci la data prevista per il pagamento; se è già stato disposto, potete ignorare questo messaggio.\nCordiali saluti,\nAmministrazione Lariana Componenti"
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Preparo il riepilogo per l'amministrazione, ciclo passivo e attivo."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_q14",
+     "name": "scrivi_riepilogo",
+     "input": {
+      "sintesi": "Ciclo passivo: su 6 fatture ricevute, 2 sono conformi e registrate, 2 pagamenti sono bloccati (un doppione e un IBAN cambiato senza preavviso) e 2 fatture sono contestate per differenze di prezzo e di quantità. Ciclo attivo: 2 fatture inviate allo SDI, 1 in bozza per un dato anagrafico mancante, 3 incassi abbinati e 1 fattura scaduta sollecitata.",
+      "note": [
+       {
+        "fattura": "FT-IS-0412",
+        "testo": "Possibile frode: non pagare finché il fornitore non conferma l'IBAN al telefono, al numero già in anagrafica."
+       },
+       {
+        "fattura": "FT-PF-7731",
+        "testo": "In attesa di nota di credito per 732,00 € IVA compresa."
+       },
+       {
+        "fattura": "FT-EB-5520",
+        "testo": "Pagare dopo la consegna dei 20 sensori o con nota di credito."
+       },
+       {
+        "fattura": "DDT V-5541",
+        "testo": "Automazioni Corti: recuperare il codice destinatario SDI o la PEC, poi la fattura è pronta da inviare."
+       },
+       {
+        "fattura": "MOV-2",
+        "testo": "Rimborso assicurativo di 640,00 €: da registrare fuori dal ciclo clienti."
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Fatto. Ciclo passivo: registrate 2 fatture, bloccati 2 pagamenti e contestate 2 fatture, per quasi 4.000 € protetti. Ciclo attivo: 2 fatture inviate allo SDI per 8.527,80 €, 10.370,00 € di incassi abbinati e un sollecito per 2.684,00 € scaduti. Resta da completare l'anagrafica di Automazioni Corti."
+    }
    ]
   }
  ]

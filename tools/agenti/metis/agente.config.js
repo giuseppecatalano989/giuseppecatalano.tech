@@ -1,5 +1,6 @@
 // Metis — agente di pianificazione per il project manager.
-// Legge il brief del progetto, le offerte dei fornitori e le attività del team, costruisce il piano a step
+// Legge il brief del progetto, le offerte dei fornitori, le attività del team, le email del progetto e le call
+// registrate (Granola, Notion); costruisce il piano a step
 // con dipendenze e calendario (festivi, chiusure), trova il percorso critico, simula varianti per
 // rispettare la data, genera la matrice di chi fa cosa, lo schema dei SAL e il report per il cliente,
 // e prepara le richieste ai fornitori, che partono solo dopo l'approvazione.
@@ -26,7 +27,7 @@ const lavorativiTra = (a, b) => { let n = 0, x = a; while (x < b) { x = piu(x, 1
 export function creaConfig(dir) {
   const leggi = (f) => JSON.parse(fs.readFileSync(path.join(dir, 'dati', f), 'utf8'));
   let db;
-  const reimposta = () => { db = { brief: leggi('brief.json'), fornitori: leggi('fornitori.json'), team: leggi('team.json'), piano: null, base: null, uscita: [] }; };
+  const reimposta = () => { db = { brief: leggi('brief.json'), fornitori: leggi('fornitori.json'), team: leggi('team.json'), posta: leggi('email.json'), call: leggi('call.json').call, piano: null, base: null, uscita: [] }; };
   reimposta();
   const nomeDi = (chi) => db.brief.parti.find((p) => p.chi === chi)?.nome || chi;
 
@@ -105,6 +106,25 @@ export function creaConfig(dir) {
       esegui: async () => ({ risultato: db.team, sintesi: `${db.team.attivita.length} attività · team libero dal 16 nov`, vista: { fonte: 'team' } }),
     },
     {
+      name: 'leggi_email_progetto',
+      description: 'Legge le email della cartella del progetto (cliente e fornitori): conferme, richieste, scadenze, variazioni.',
+      input_schema: { type: 'object', properties: {} },
+      etichetta: () => 'Email del progetto',
+      latenza: 900,
+      esegui: async () => {
+        const e = db.posta.email;
+        return { risultato: db.posta, sintesi: `${e.length} email · ${new Set(e.map((m) => m.azienda)).size} mittenti`, vista: { fonte: 'email', email: e, casella: db.posta.casella } };
+      },
+    },
+    {
+      name: 'leggi_call_registrate',
+      description: 'Legge le call registrate del progetto da Granola e le note di riunione di Notion: sintesi, decisioni, azioni, rischi ed estratti della trascrizione.',
+      input_schema: { type: 'object', properties: {} },
+      etichetta: () => 'Call registrate',
+      latenza: 1000,
+      esegui: async () => ({ risultato: db.call, sintesi: `${db.call.length} call · ${[...new Set(db.call.map((c) => c.fonte))].join(' e ')}`, vista: { fonte: 'call', call: db.call } }),
+    },
+    {
       name: 'calcola_piano',
       description: 'Costruisce il piano a step: date di inizio e fine di ogni attività sul calendario lavorativo (festivi, chiusura natalizia 24/12–6/1), rispettando dipendenze e vincoli «non prima del». Trova il percorso critico e confronta l\'apertura con la data vincolante. Usalo sempre invece di calcolare le date a mano.',
       input_schema: { type: 'object', properties: {
@@ -143,6 +163,26 @@ export function creaConfig(dir) {
         if (adotta) db.piano = { nome, attivita: att, ...p };
         return { risultato: { ...perModello(p), adottata: !!adotta, rispetto_a: { apertura: prima.apertura, in_tempo: prima.in_tempo } }, sintesi: sintesiPiano(p),
           vista: { tipo: 'gantt', nome, ...p, prima: Object.fromEntries(prima.attivita.map((a) => [a.id, { inizio: a.inizio, fine: a.fine }])) } };
+      },
+    },
+    {
+      name: 'genera_registro_decisioni',
+      description: 'Pubblica il registro di progetto con decisioni, azioni (responsabile e scadenza) e rischi emersi da email e call. Ogni voce deve citare la fonte (id dell\'email o della call).',
+      input_schema: { type: 'object', properties: {
+        voci: { type: 'array', items: { type: 'object', properties: {
+          tipo: { type: 'string', enum: ['decisione', 'azione', 'rischio'] }, testo: { type: 'string' }, chi: { type: 'string' }, entro: { type: 'string' },
+          stato: { type: 'string' }, livello: { type: 'string', enum: ['alto', 'medio', 'basso'] }, fonti: { type: 'array', items: { type: 'string' } } }, required: ['tipo', 'testo', 'fonti'] } },
+      }, required: ['voci'] },
+      etichetta: () => 'Registro decisioni e azioni',
+      latenza: 1000,
+      esegui: async ({ voci }) => {
+        const tutte = [...db.posta.email.map((m) => ({ id: m.id, tipo: 'email', titolo: m.oggetto, data: m.data, da: m.azienda })), ...db.call.map((c) => ({ id: c.id, tipo: c.fonte, titolo: c.titolo, data: c.data }))];
+        const righe = voci.map((v) => {
+          const f = v.fonti.map((id) => { const x = tutte.find((t) => t.id === id); if (!x) throw new Error(`Fonte ${id} inesistente`); return x; });
+          return { ...v, fonti: f };
+        });
+        const conta = (t) => righe.filter((r) => r.tipo === t).length;
+        return { risultato: { pubblicato: true, voci: righe.length }, sintesi: `${conta('decisione')} decisioni · ${conta('azione')} azioni · ${conta('rischio')} rischi`, output: { tipo: 'registro', contenuto: { voci: righe } } };
       },
     },
     {
@@ -219,21 +259,22 @@ export function creaConfig(dir) {
 
   return {
     info: { nome: 'Metis', ruolo: 'Agente di pianificazione per il project manager', progetto: db.brief.progetto, cliente: db.brief.cliente, oggi: db.brief.oggi, apertura: db.brief.apertura.data, chiusura: CHIUSURA, festivi: [...FESTIVI] },
-    compito: 'Pianifica l\'apertura della nuova sede di Monza: costruisci il piano a step con tutti i fornitori e il team, verifica la data di apertura, prepara chi fa cosa, lo schema dei SAL, il report per il cliente e le richieste ai fornitori.',
+    compito: 'Pianifica l\'apertura della nuova sede di Monza: costruisci il piano a step con tutti i fornitori e il team, tenendo conto anche delle email del progetto e delle call registrate; verifica la data di apertura, aggiorna il registro di decisioni e azioni, prepara chi fa cosa, lo schema dei SAL, il report per il cliente e le richieste ai fornitori.',
     sistema: [
       'Sei Metis, un agente che affianca un project manager italiano nella pianificazione. Scrivi in italiano, in modo conciso e professionale.',
       'Regole:',
-      '1. Leggi brief, offerte dei fornitori e attività del team prima di pianificare. Puoi chiamare più strumenti nello stesso turno.',
+      '1. Prima di pianificare leggi brief, offerte dei fornitori, attività del team, email del progetto e call registrate (Granola, Notion). Puoi chiamare più strumenti nello stesso turno.',
+      '   Email e call contano quanto le offerte: conferme, scadenze, proposte dei fornitori e decisioni prese in riunione vanno nel piano e nel registro.',
       '2. Costruisci le attività con le dipendenze che risultano dalle fonti (prerequisiti, «a pareti chiuse», «a impianti finiti», disponibilità). Non calcolare mai le date a mano: usa calcola_piano e simula_variante.',
       '3. Se l\'apertura non rispetta la data vincolante, cerca nelle fonti margini reali (lavorazioni in parallelo, consegne per zone, alternative tecniche indicate) e simula le varianti. Adotta solo una variante che rispetta la data.',
       '4. Distingui i fatti dalle ipotesi: una variante che cambia il lavoro di un fornitore va confermata da lui.',
-      '5. Poi genera chi fa cosa, lo schema dei SAL e il report per il cliente.',
+      '5. Pubblica il registro di decisioni, azioni e rischi citando l\'email o la call di origine; poi genera chi fa cosa, lo schema dei SAL e il report per il cliente.',
       '6. Le email ai fornitori e al cliente passano dall\'approvazione del PM: proponile con prepara_email.',
       '7. Mentre lavori scrivi frasi brevi su cosa stai facendo e perché.',
     ].join('\n'),
     scenario: path.join(dir, 'scenario.json'),
     strumenti,
     reimposta,
-    fonti: { brief: () => db.brief, fornitori: () => db.fornitori, team: () => db.team },
+    fonti: { brief: () => db.brief, fornitori: () => db.fornitori, team: () => db.team, email: () => db.posta, call: () => db.call },
   };
 }

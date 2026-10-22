@@ -1,0 +1,23 @@
+{
+ "casella": "Outlook · cartella «Progetto Monza»",
+ "email": [
+  { "id": "E-01", "data": "2026-10-14", "ora": "09:12", "da": "Marta Ferrario", "azienda": "Ottavia Logistica", "chi": "cliente",
+    "oggetto": "Nuova sede: conferma della data di trasferimento",
+    "testo": "Buongiorno Giuseppe,\nvi confermo che il trasferimento deve avvenire entro l'11 gennaio: il contratto della vecchia sede scade il 10 e non è prorogabile. Vi chiediamo il report di pianificazione entro fine ottobre e poi un aggiornamento ogni due settimane.\nGrazie,\nMarta Ferrario · Facility manager" },
+  { "id": "E-02", "data": "2026-10-19", "ora": "16:40", "da": "Paolo Cattaneo", "azienda": "Arredo Ufficio Seregno", "chi": "arredi",
+    "oggetto": "Ordine arredi: tempi di produzione e consegna per zone",
+    "testo": "Buongiorno,\nconfermiamo la produzione in 7 settimane dall'ordine del 26 ottobre, con consegna dal 14 dicembre. Come anticipato, possiamo consegnare per zone senza costi aggiuntivi: ne parliamo nella call di domani. Per organizzare i trasporti ci serve la conferma scritta entro il 30 ottobre.\nCordiali saluti,\nPaolo Cattaneo" },
+  { "id": "E-03", "data": "2026-10-20", "ora": "11:05", "da": "Ufficio attivazioni", "azienda": "FibraUno", "chi": "fibrauno",
+    "oggetto": "Sopralluogo tecnico per l'attivazione della fibra",
+    "testo": "Gentile cliente,\nil sopralluogo va prenotato con almeno 10 giorni di anticipo. Per eseguirlo lunedì 2 novembre, giorno di consegna dei locali, la prenotazione deve arrivare entro il 23 ottobre. L'attivazione richiede 25 giorni lavorativi dal sopralluogo.\nFibraUno · Attivazioni business" },
+  { "id": "E-04", "data": "2026-10-21", "ora": "08:47", "da": "Stefano Riva", "azienda": "CablaNet", "chi": "cablanet",
+    "oggetto": "Cablaggio: tempi e accesso al cantiere",
+    "testo": "Ciao Giuseppe,\nconfermo 8 giorni lavorativi per i 130 punti rete, a pareti chiuse, e 2 giorni per la certificazione. Per entrare in cantiere la proprietà vuole i nominativi della squadra: te li mando, ma vanno comunicati entro il 20 novembre.\nStefano" },
+  { "id": "E-05", "data": "2026-10-21", "ora": "14:30", "da": "Laura Galli", "azienda": "Vigilanza Lombarda", "chi": "vigilanza",
+    "oggetto": "Badge per i dipendenti della nuova sede",
+    "testo": "Buongiorno,\nper programmare i badge ci serve dal cliente l'elenco dei 60 dipendenti con le fasce orarie di accesso entro il 4 dicembre.\nLaura Galli · Vigilanza Lombarda" },
+  { "id": "E-06", "data": "2026-10-22", "ora": "08:15", "da": "Davide Sironi", "azienda": "Edil Brianza", "chi": "edil",
+    "oggetto": "Consegna dei locali lunedì 2 novembre",
+    "testo": "Buongiorno,\nla proprietà conferma la consegna dei locali lunedì 2 novembre alle 9, con verbale. Partiamo con le opere edili lo stesso giorno.\nDavide Sironi · Edil Brianza" }
+ ]
+}

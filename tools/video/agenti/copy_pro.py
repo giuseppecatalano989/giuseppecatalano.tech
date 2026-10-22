@@ -17,19 +17,22 @@ BYLINE = 'Agente AI progettato da Giuseppe Catalano · Demo con dati di esempio'
 TESTI = {
     'metis': {
         'tag': 'Agente AI per la pianificazione dei progetti',
-        'stmt': ['Dal brief al piano esecutivo,', 'in pochi minuti.'],
+        'stmt': ['Fornitori, email e call,', 'in un unico piano.'],
         'outro': ['Progetti complessi,', 'sotto controllo.'],
         'scene': {
-            'legge': dict(card=['Analisi delle fonti', 'Brief, offerte dei fornitori e capacità del team, in un’unica base dati.'],
+            'legge': dict(card=['Analisi delle fonti', 'Brief, offerte, team, email del progetto e call da Granola e Notion.'],
                           eyebrow='Analisi delle fonti', l1='Tutte le informazioni,', l2='in un’unica vista.',
-                          points=['Offerte e prerequisiti dei fornitori', 'Capacità del team interno', 'Vincoli contrattuali'],
-                          stat=(' parti', 'coinvolte nel progetto')),
+                          points=['Offerte e capacità del team', 'Email di cliente e fornitori', 'Call da Granola e Notion'],
+                          stat=(' email', 'e 3 call registrate', 6)),
             'piano': dict(card=['Pianificazione', 'Dipendenze, festività e chiusure, calcolate da un motore deterministico.'],
                           eyebrow='Pianificazione', l1='Percorso critico e scadenze,', l2='calcolati, non stimati.',
                           points=['Percorso critico', 'Festività e chiusure aziendali', 'Verifica della data vincolante'],
                           stat=(' giorni', 'di ritardo individuati in anticipo')),
             'variante': dict(eyebrow='Analisi what-if', l1='Scenari alternativi,', l2='confrontati in tempo reale.',
                              points=['Consegne per lotti', 'Attività in parallelo', 'Data contrattuale rispettata']),
+            'registro': dict(eyebrow='Registro di progetto', l1='Decisioni, azioni e rischi,', l2='con la fonte di ogni voce.',
+                             points=['Email e call collegate', 'Responsabili e scadenze', 'Rischi prioritizzati'],
+                             stat=(' azioni', 'con responsabile e scadenza', 5)),
             'documenti': dict(card=['Documentazione', 'Matrice RACI, piano dei SAL e report per il committente.'],
                               eyebrow='Documentazione di progetto', l1='RACI, SAL e report,', l2='allineati al piano.',
                               points=['Matrice delle responsabilità', 'Piano dei SAL e flussi mensili', 'Rischi e decisioni'],
@@ -39,13 +42,13 @@ TESTI = {
                             points=['Conferma della consegna in due lotti', 'Pianificazione del sopralluogo'],
                             stat=(' email', 'approvate dal project manager')),
             'finale': dict(eyebrow='Risultato', l1='Apertura confermata', l2='nella data contrattuale.',
-                           points=['18 attività, 7 parti coordinate', 'Documentazione pronta per il cliente']),
+                           points=['18 attività, 7 parti coordinate', '6 email e 3 call nel registro']),
         },
     },
     'quadra': {
-        'tag': 'Agente AI per il controllo delle fatture passive',
-        'stmt': ['Controllo delle fatture,', 'automatico e verificabile.'],
-        'outro': ['Ogni fattura verificata,', 'prima del pagamento.'],
+        'tag': 'Agente AI per il ciclo passivo e attivo',
+        'stmt': ['Fatture passive e attive,', 'sotto controllo.'],
+        'outro': ['Ogni fattura verificata,', 'ogni incasso seguito.'],
         'scene': {
             'verifica': dict(card=['Controllo a tre vie', 'Ogni fattura confrontata con ordine d’acquisto e documento di trasporto.'],
                              eyebrow='controllo a tre vie', l1='Ordine, DDT e fattura,', l2='riconciliati in automatico.',
@@ -60,8 +63,18 @@ TESTI = {
                             eyebrow='governance', l1='Blocchi e contestazioni,', l2='solo con la tua approvazione.',
                             points=['Pagamenti sospesi', 'Contestazioni ai fornitori pronte'],
                             stat=(' azioni', 'approvate dall’amministrazione')),
-            'riepilogo': dict(eyebrow='risultato', l1='Contabilità corretta,', l2='pagamenti protetti.',
-                              points=['Fatture conformi registrate', 'Report per l’amministrazione'],
+            'attivo': dict(card=['Ciclo attivo', 'Fatture ai clienti dalle consegne, con prezzi d’ordine e controlli per lo SDI.'],
+                           eyebrow='fatturazione attiva', l1='Dalla consegna alla fattura,', l2='con i controlli già eseguiti.',
+                           points=['Prezzi dall’ordine cliente', 'Quantità dal DDT', 'Codice destinatario SDI'],
+                           stat=(' fatture', 'pronte per lo SDI', 2)),
+            'incassi': dict(eyebrow='riconciliazione incassi', l1='Incassi abbinati,', l2='scaduto in evidenza.',
+                            points=['Abbinamento per causale', 'Abbinamento per importo', 'Giorni di ritardo'],
+                            stat=(' €', 'di incassi riconciliati', 10370)),
+            'approva2': dict(eyebrow='invio e solleciti', l1='SDI e solleciti,', l2='solo con la tua approvazione.',
+                             points=['Due fatture allo SDI', 'Un sollecito al cliente'],
+                             stat=(' azioni', 'approvate dall’amministrazione', 2)),
+            'riepilogo': dict(eyebrow='risultato', l1='Due cicli,', l2='un unico riepilogo.',
+                              points=['Fornitori: anomalie intercettate', 'Clienti: incassi riconciliati'],
                               stat=(' €', 'di importi anomali intercettati')),
         },
     },
@@ -178,6 +191,8 @@ def applica(agente, d):
         if 'stat' in v:
             nuovo = re.sub(r"(stat: \[[\d.]+, \d+, \d+, '[^']*', )'[^']*', '[^']*'\]",
                            lambda mm: mm.group(1) + js(v['stat'][0]) + ', ' + js(v['stat'][1]) + ']', nuovo)
+            if len(v['stat']) > 2:
+                nuovo = re.sub(r"stat: \[([\d.]+), \d+,", lambda mm: f"stat: [{mm.group(1)}, {v['stat'][2]},", nuovo)
         s = s.replace(blocco, nuovo)
     if 'Revisione professionale' not in s:
         s = s.replace('</style>', CSS + '</style>', 1)

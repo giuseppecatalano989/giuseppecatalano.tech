@@ -5,8 +5,7 @@ const feed = $('feed');
 const breve = (s) => new Date(s + 'T12:00:00').toLocaleDateString('it-IT', { day: 'numeric', month: 'short' });
 const euro = (n) => n.toLocaleString('it-IT', { maximumFractionDigits: 0, useGrouping: 'always' }) + ' €';
 const COLORI = { proprietario: '#0F2E33', edil: '#B5651D', cablanet: '#2E6FD8', fibrauno: '#7B4B94', arredi: '#8A9A3B', vigilanza: '#5B7076', traslochi: '#C2432C', team: '#1F7F7A', cliente: '#0F2E33' };
-const ICONE = { leggi_brief: 'brief', leggi_offerte_fornitori: 'forn', leggi_attivita_team: 'team' };
-const FONTI = { leggi_brief: 'brief', leggi_offerte_fornitori: 'fornitori', leggi_attivita_team: 'team' };
+const FONTI = { leggi_brief: 'brief', leggi_offerte_fornitori: 'fornitori', leggi_attivita_team: 'team', leggi_email_progetto: 'email', leggi_call_registrate: 'call' };
 
 let info, testo = null, gruppo = null, parti = [];
 const righe = new Map();
@@ -56,6 +55,29 @@ function gantt(v) {
   $('target').textContent = v.in_tempo ? `Apertura ${breve(v.apertura)} · in tempo` : `Apertura ${breve(v.apertura)} · obiettivo ${breve(info.apertura)}`;
 }
 
+/* ---------- Email e call ---------- */
+const com = { email: null, call: null, casella: '' };
+function comunicazioni() {
+  const e = com.email, c = com.call;
+  $('p-com').innerHTML = `<div class="comgrid">
+    <section><h4>Email del progetto <small>${esc(com.casella)}</small></h4>${e ? e.map((m, i) => `<div class="mail" style="animation-delay:${i * 70}ms">
+      <div class="mh"><i style="background:${COLORI[m.chi] || '#5B7076'}">${esc(m.azienda[0])}</i><b>${esc(m.azienda)}</b><span>${breve(m.data)} · ${m.ora}</span></div>
+      <div class="ms">${esc(m.oggetto)}</div><p>${esc(m.testo.split('\n').slice(1, 2).join(' '))}</p></div>`).join('') : '<div class="attesa">In lettura…</div>'}</section>
+    <section><h4>Call registrate <small>Granola · Notion</small></h4>${c ? c.map((k, i) => `<div class="call" style="animation-delay:${i * 90}ms">
+      <div class="ch"><span class="src ${k.fonte.toLowerCase()}">${k.fonte}</span><b>${esc(k.titolo)}</b><span>${breve(k.data)} · ${k.durata_min} min</span></div>
+      <ul>${k.decisioni.map((d) => `<li>${esc(d)}</li>`).join('')}</ul>
+      <blockquote>«${esc(k.estratto[0].testo)}»<cite>${esc(k.estratto[0].chi)}</cite></blockquote></div>`).join('') : '<div class="attesa">In lettura…</div>'}</section></div>`;
+}
+function registro(r) {
+  const fonti = (f) => f.map((x) => `<span class="fs ${x.tipo === 'email' ? 'em' : x.tipo.toLowerCase()}">${x.id} · ${x.tipo === 'email' ? 'email' : x.tipo}</span>`).join('');
+  const per = (t) => r.voci.filter((v) => v.tipo === t);
+  $('p-reg').innerHTML = `<div class="reg">
+    <h4>Decisioni</h4>${per('decisione').map((v) => `<div class="rv dec"><b>${esc(v.testo)}</b><span class="st">${esc(v.stato || '')}</span><div class="f">${fonti(v.fonti)}</div></div>`).join('')}
+    <h4>Azioni</h4><table class="az"><thead><tr><th>Azione</th><th>Responsabile</th><th>Entro</th><th>Fonte</th></tr></thead><tbody>
+      ${per('azione').map((v) => `<tr><td>${esc(v.testo)}</td><td>${esc(v.chi || '')}</td><td>${v.entro ? breve(v.entro) : ''}</td><td>${fonti(v.fonti)}</td></tr>`).join('')}</tbody></table>
+    <h4>Rischi</h4>${per('rischio').map((v) => `<div class="risk ${v.livello}"><i></i><div><b>${esc(v.testo)}</b><div class="f">${fonti(v.fonti)}</div></div></div>`).join('')}</div>`;
+}
+
 /* ---------- Documenti ---------- */
 function raci(c) {
   const sig = { Esegue: ['E', 'r-e'], Consultato: ['C', 'r-c'], Informato: ['I', 'r-i'] };
@@ -94,7 +116,7 @@ function carta(ev) {
 
 const agente = collegaAgente({
   avvio: () => {
-    feed.innerHTML = ''; righe.clear();
+    feed.innerHTML = ''; righe.clear(); com.email = null; com.call = null;
     document.querySelectorAll('#fonti li').forEach((li) => { li.className = ''; li.querySelector('[data-n]').textContent = ''; });
     document.querySelectorAll('.tabs button').forEach((b) => { if (b.dataset.tab !== 'piano') b.disabled = true; });
     scheda('piano');
@@ -120,11 +142,17 @@ const agente = collegaAgente({
     const r = righe.get(ev.id);
     const v = ev.vista;
     if (r) { r.classList.add(v?.tipo === 'gantt' && !v.in_tempo ? 'ko' : 'ok'); r.querySelector('.spin').outerHTML = `<span class="res">${esc(ev.sintesi)}</span>`; }
-    if (v?.fonte) { const li = document.querySelector(`#fonti li[data-fonte="${v.fonte}"]`); li.classList.remove('leggendo'); li.classList.add('letta'); li.querySelector('[data-n]').textContent = '✓'; }
+    if (v?.fonte) {
+      const li = document.querySelector(`#fonti li[data-fonte="${v.fonte}"]`); li.classList.remove('leggendo'); li.classList.add('letta');
+      li.querySelector('[data-n]').textContent = v.email ? v.email.length : v.call ? v.call.length : '✓';
+      if (v.email) { com.email = v.email; com.casella = v.casella; comunicazioni(); scheda('com'); }
+      if (v.call) { com.call = v.call; comunicazioni(); scheda('com'); }
+    }
     if (v?.tipo === 'gantt') { scheda('piano'); gantt(v); }
     giu();
   },
   output: (ev) => {
+    if (ev.tipo === 'registro') { registro(ev.contenuto); scheda('reg'); }
     if (ev.tipo === 'raci') { raci(ev.contenuto); scheda('raci'); }
     if (ev.tipo === 'sal') { sal(ev.contenuto); scheda('sal'); }
     if (ev.tipo === 'report') { report(ev.contenuto); scheda('report'); }

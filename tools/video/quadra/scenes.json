@@ -1,10 +1,85 @@
 {
  "_note": "seg = tratti della ripresa [inizio, fine, velocità]; inizio e fine sono secondi o segni di marks.json (vedi agenti/extract.js)",
  "scenes": [
-  { "id": "verifica", "seg": [["click-0.6", "risultato:verifica_fattura#3+1.9", 1.1]] },
-  { "id": "anomalie", "seg": [["risultato:verifica_fattura#3+1.9", "risultato:verifica_fattura#6+1.4", 1.1]] },
-  { "id": "frode", "seg": [["risultato:verifica_fattura#6+1.4", "approvazione:sospendi_pagamento-0.1", 1.15]] },
-  { "id": "approva", "seg": [["approvazione:sospendi_pagamento-0.1", "risultato:prepara_email#2+0.4", 1.2]] },
-  { "id": "riepilogo", "seg": [["risultato:prepara_email#2+0.4", "stop", 0.9]] }
+  {
+   "id": "verifica",
+   "seg": [
+    [
+     "click-0.6",
+     "risultato:verifica_fattura#3+1.9",
+     1.1
+    ]
+   ]
+  },
+  {
+   "id": "anomalie",
+   "seg": [
+    [
+     "risultato:verifica_fattura#3+1.9",
+     "risultato:verifica_fattura#6+1.4",
+     1.1
+    ]
+   ]
+  },
+  {
+   "id": "frode",
+   "seg": [
+    [
+     "risultato:verifica_fattura#6+1.4",
+     "approvazione:sospendi_pagamento-0.1",
+     1.15
+    ]
+   ]
+  },
+  {
+   "id": "approva",
+   "seg": [
+    [
+     "approvazione:sospendi_pagamento-0.1",
+     "risultato:prepara_email#2+0.4",
+     1.25
+    ]
+   ]
+  },
+  {
+   "id": "attivo",
+   "seg": [
+    [
+     "risultato:prepara_email#2+0.4",
+     "risultato:prepara_fattura_attiva#3+2.4",
+     1.15
+    ]
+   ]
+  },
+  {
+   "id": "incassi",
+   "seg": [
+    [
+     "risultato:prepara_fattura_attiva#3+2.4",
+     "approvazione:emetti_fatture-0.1",
+     1.1
+    ]
+   ]
+  },
+  {
+   "id": "approva2",
+   "seg": [
+    [
+     "approvazione:emetti_fatture-0.1",
+     "risultato:prepara_sollecito+0.4",
+     1.25
+    ]
+   ]
+  },
+  {
+   "id": "riepilogo",
+   "seg": [
+    [
+     "risultato:prepara_sollecito+0.4",
+     "stop",
+     0.95
+    ]
+   ]
+  }
  ]
 }

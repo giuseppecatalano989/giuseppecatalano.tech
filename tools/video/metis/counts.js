@@ -1,1 +1,1 @@
-const COUNTS = {"legge":158,"piano":189,"variante":184,"documenti":200,"approva":208,"finale":189};
+const COUNTS = {"legge":286,"piano":135,"variante":192,"documenti":174,"approva":202,"finale":211,"registro":163};

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Metis — Agente AI per la pianificazione dei progetti</title>
-<meta name="description" content="Metis è un agente AI per project manager: analizza brief, offerte dei fornitori e capacità del team, costruisce il piano esecutivo sul calendario reale, individua il percorso critico, simula scenari alternativi e genera matrice RACI, piano dei SAL e report per il committente.">
+<meta name="description" content="Metis è un agente AI per project manager: analizza brief, offerte dei fornitori, capacità del team, email del progetto e call registrate su Granola o Notion, costruisce il piano esecutivo sul calendario reale, individua il percorso critico, simula scenari alternativi e genera registro delle decisioni, matrice RACI, piano dei SAL e report per il committente.">
 <meta property="og:title" content="Metis — Agente AI per la pianificazione dei progetti">
 <meta property="og:description" content="Pianificazione multi-fornitore, dal brief al piano esecutivo.">
 <meta name="theme-color" content="#0F2E33">
@@ -27,8 +27,8 @@
   <section class="hero">
     <div class="hero-copy">
       <p class="kicker">Agente AI · Project management</p>
-      <h1>Pianificazione multi-fornitore,<br><span>dal brief al piano esecutivo.</span></h1>
-      <p class="lead">Metis affianca il project manager nei progetti che coinvolgono più fornitori. Analizza brief, offerte e capacità del team, costruisce il piano esecutivo sul calendario reale e individua il percorso critico. Dallo stesso piano genera matrice delle responsabilità, piano dei SAL, report per il committente e comunicazioni ai fornitori.</p>
+      <h1>Pianificazione multi&#8209;fornitore,<br><span>dal brief al piano esecutivo.</span></h1>
+      <p class="lead">Metis affianca il project manager nei progetti che coinvolgono più fornitori. Analizza brief, offerte, capacità del team, email del progetto e call registrate su Granola o Notion, costruisce il piano esecutivo sul calendario reale e individua il percorso critico. Dallo stesso piano genera registro delle decisioni, matrice delle responsabilità, piano dei SAL, report per il committente e comunicazioni ai fornitori.</p>
       <div class="cta">
         <button type="button" class="btn btn-play" data-demo hidden>
           <span class="play-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
@@ -68,31 +68,35 @@
     <div class="benefit-grid">
       <article class="benefit"><span class="ix">01</span><h3>Date affidabili</h3><p>Le scadenze sono calcolate da un motore deterministico che considera dipendenze, festività e chiusure aziendali. Nessuna stima approssimativa.</p></article>
       <article class="benefit"><span class="ix">02</span><h3>Rischi visibili in anticipo</h3><p>Percorso critico e ritardi emergono in fase di pianificazione, quando è ancora possibile intervenire con varianti, lavorazioni in parallelo e consegne alternative.</p></article>
-      <article class="benefit"><span class="ix">03</span><h3>Documentazione sempre allineata</h3><p>Matrice RACI, piano dei SAL, flussi di pagamento e report per il committente derivano dallo stesso piano e si aggiornano con esso.</p></article>
+      <article class="benefit"><span class="ix">03</span><h3>Nessuna informazione dispersa</h3><p>Email e call del progetto confluiscono in un registro di decisioni, azioni e rischi, con responsabile, scadenza e fonte di ogni voce.</p></article>
+      <article class="benefit"><span class="ix">04</span><h3>Documentazione sempre allineata</h3><p>Matrice RACI, piano dei SAL, flussi di pagamento e report per il committente derivano dallo stesso piano e si aggiornano con esso.</p></article>
     </div>
   </section>
 
   <section class="steps">
     <h2>Come funziona</h2>
     <ol>
-      <li><b>Analisi</b><p>Acquisisce brief e vincoli contrattuali, offerte dei fornitori con prerequisiti e disponibilità, attività e calendario del team interno.</p></li>
+      <li><b>Analisi</b><p>Acquisisce brief e vincoli contrattuali, offerte dei fornitori, calendario del team, email del progetto e call registrate su Granola o Notion.</p></li>
       <li><b>Pianificazione</b><p>Costruisce il piano a step con le dipendenze reali, lo calcola su festività e chiusure e individua il percorso critico che determina la data di fine.</p></li>
       <li><b>Simulazione</b><p>Se la data contrattuale è a rischio, ricerca nelle offerte i margini disponibili, come consegne per lotti o attività in parallelo, e confronta gli scenari.</p></li>
-      <li><b>Documentazione e coordinamento</b><p>Genera matrice delle responsabilità, piano dei SAL e report per il committente, e prepara le comunicazioni ai fornitori da sottoporre al PM.</p></li>
+      <li><b>Documentazione e coordinamento</b><p>Genera registro delle decisioni, matrice delle responsabilità, piano dei SAL e report per il committente, e prepara le comunicazioni ai fornitori da sottoporre al PM.</p></li>
     </ol>
   </section>
 
   <section class="tools">
     <div class="sec-head">
-      <h2>Nove funzioni, un unico piano di progetto</h2>
+      <h2>Dodici funzioni, un unico piano di progetto</h2>
       <p>L’agente orchestra le funzioni in autonomia. Le date sono sempre prodotte dal motore di pianificazione, mai stimate dal modello; le comunicazioni esterne richiedono l’approvazione del project manager.</p>
     </div>
     <ul class="tool-list">
       <li><code>leggi_brief</code><span>Obiettivi, scadenze, vincoli e parti coinvolte</span></li>
       <li><code>leggi_offerte_fornitori</code><span>Lavorazioni, prerequisiti e tappe di SAL</span></li>
       <li><code>leggi_attivita_team</code><span>Attività e capacità del team interno</span></li>
+      <li><code>leggi_email_progetto</code><span>Email di cliente e fornitori</span></li>
+      <li><code>leggi_call_registrate</code><span>Call da Granola e note di riunione Notion</span></li>
       <li><code>calcola_piano</code><span>Calendario, dipendenze e percorso critico</span></li>
       <li><code>simula_variante</code><span>Analisi what-if e confronto tra scenari</span></li>
+      <li><code>genera_registro_decisioni</code><span>Decisioni, azioni e rischi con la fonte</span></li>
       <li><code>genera_chi_fa_cosa</code><span>Matrice delle responsabilità (RACI)</span></li>
       <li><code>genera_schema_sal</code><span>Tappe, importi e flussi mensili</span></li>
       <li><code>scrivi_report</code><span>Report di pianificazione per il committente</span></li>
@@ -106,7 +110,8 @@
       <p>Le regole operative che l’agente applica in ogni sessione.</p>
     </div>
     <ul class="rule-list">
-      <li>Il piano si basa esclusivamente su fonti verificate: brief, offerte e calendario del team.</li>
+      <li>Il piano si basa esclusivamente su fonti verificate: brief, offerte, calendario del team, email e call del progetto.</li>
+      <li>Ogni voce del registro cita l’email o la call da cui proviene.</li>
       <li>Le dipendenze derivano dalle offerte, le date dal motore di calcolo.</li>
       <li>Una variante viene adottata solo se rispetta la data contrattuale.</li>
       <li>Nessuna comunicazione ai fornitori senza l’approvazione del project manager.</li>
@@ -130,7 +135,8 @@
           <li>Brief, capitolati e vincoli contrattuali</li>
           <li>Offerte e cronoprogrammi dei fornitori</li>
           <li>Calendari e disponibilità del team</li>
-          <li>Festività e chiusure aziendali</li>
+          <li>Email del progetto: Outlook, Gmail</li>
+          <li>Call e note di riunione: Granola, Notion</li>
         </ul>
       </div>
     </div>
@@ -139,7 +145,7 @@
   <section class="stack">
     <div class="stack-in">
       <h2>Tecnologia</h2>
-      <p>Metis è costruito su Claude di Anthropic tramite API, con un’architettura ad agente e strumenti dedicati. Il motore di pianificazione è codice deterministico: giorni lavorativi, festività, chiusure, vincoli di inizio e finestre di trasloco nel fine settimana. L’interfaccia mostra ogni passaggio in tempo reale e le approvazioni sospendono l’agente fino alla decisione del project manager.</p>
+      <p>Metis è costruito su Claude di Anthropic tramite API, con un’architettura ad agente e strumenti dedicati. Il motore di pianificazione è codice deterministico: giorni lavorativi, festività, chiusure, vincoli di inizio e finestre di trasloco nel fine settimana. Email e call vengono lette dalla casella del progetto e dagli strumenti di registrazione delle riunioni, come Granola e Notion; nella demo sono simulate. L’interfaccia mostra ogni passaggio in tempo reale e le approvazioni sospendono l’agente fino alla decisione del project manager.</p>
       <p>La demo riguarda l’apertura della nuova sede di un’azienda fittizia, con fornitori e importi di esempio. Le decisioni dell’agente provengono da una sessione registrata; calcoli, documenti e report vengono eseguiti realmente.</p>
     </div>
   </section>

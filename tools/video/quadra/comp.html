@@ -140,13 +140,13 @@
 
   <div class="center" id="intro"><div>
     <div class="mark" id="introMark"><img src="../../agenti/quadra/app/logo.svg" alt=""><b>Quadra</b></div>
-    <div class="tagline" id="introTag">Agente AI per il controllo delle fatture passive</div>
+    <div class="tagline" id="introTag">Agente AI per il ciclo passivo e attivo</div>
   </div></div>
-  <div class="trio" id="trio"><div class="stmt"><div class="line"><span class="outro-l1 w" id="st1">Controllo delle fatture,</span></div><div class="line"><span class="outro-l2 w" id="st2">automatico e verificabile.</span></div></div></div>
+  <div class="trio" id="trio"><div class="stmt"><div class="line"><span class="outro-l1 w" id="st1">Fatture passive e attive,</span></div><div class="line"><span class="outro-l2 w" id="st2">sotto controllo.</span></div></div></div>
 
   <div class="center" id="outro"><div>
     <div class="line"><span class="outro-l1 w" id="o1">Ogni fattura verificata,</span></div>
-    <div class="line hl" id="o2line"><span class="outro-l2 w" id="o2">prima del pagamento.</span></div>
+    <div class="line hl" id="o2line"><span class="outro-l2 w" id="o2">ogni incasso seguito.</span></div>
     <div class="outro-mark" id="outroMark"><img src="../../agenti/quadra/app/logo.svg" alt=""><b>Quadra</b></div>
     <div class="byline" id="byline">Agente AI progettato da Giuseppe Catalano · Demo con dati di esempio</div>
   </div></div>
@@ -174,13 +174,23 @@ const SCENES = [
     eyebrow: 'rilevamento anomalie', l1: 'Ogni scostamento', l2: 'individuato e documentato.',
     points: ['Prezzo superiore all’ordine', 'Merce non consegnata', 'Fattura già registrata'], focus: [34, 76, [[1.6, 1.3]]] },
   { id: 'frode', eyebrow: 'prevenzione frodi', l1: 'IBAN modificato?', l2: 'Pagamento sospeso.',
-    points: ['Confronto con lo storico pagamenti', 'Blocco preventivo', 'Verifica con il fornitore'], focus: [86, 62, [[2.0, 1.3]]] },
+    points: ['Confronto con lo storico pagamenti', 'Blocco preventivo', 'Verifica con il fornitore'], focus: [86, 62, [[2.6, 1.3]]] },
   { id: 'approva', card: ['Governance', 'Blocchi e contestazioni eseguiti solo dopo la tua approvazione.', 'c'],
     eyebrow: 'governance', l1: 'Blocchi e contestazioni,', l2: 'solo con la tua approvazione.',
     points: ['Pagamenti sospesi', 'Contestazioni ai fornitori pronte'],
     stat: [5.0, 3, 0, '', ' azioni', 'approvate dall’amministrazione'], focus: [86, 70, [[2.4, 1.32]]] },
-  { id: 'riepilogo', eyebrow: 'risultato', l1: 'Contabilità corretta,', l2: 'pagamenti protetti.',
-    points: ['Fatture conformi registrate', 'Report per l’amministrazione'],
+  { id: 'attivo', card: ['Ciclo attivo', 'Fatture ai clienti dalle consegne, con prezzi d’ordine e controlli per lo SDI.', 'a'],
+    eyebrow: 'fatturazione attiva', l1: 'Dalla consegna alla fattura,', l2: 'con i controlli già eseguiti.',
+    points: ['Prezzi dall’ordine cliente', 'Quantità dal DDT', 'Codice destinatario SDI'],
+    stat: [5.4, 2, 0, '', ' fatture', 'pronte per lo SDI'], focus: [34, 66, [[3.2, 1.26]]] },
+  { id: 'incassi', eyebrow: 'riconciliazione incassi', l1: 'Incassi abbinati,', l2: 'scaduto in evidenza.',
+    points: ['Abbinamento per causale', 'Abbinamento per importo', 'Giorni di ritardo'],
+    stat: [3.2, 10370, 0, '', ' €', 'di incassi riconciliati'], focus: [34, 62, [[3.0, 1.22]]] },
+  { id: 'approva2', eyebrow: 'invio e solleciti', l1: 'SDI e solleciti,', l2: 'solo con la tua approvazione.',
+    points: ['Due fatture allo SDI', 'Un sollecito al cliente'],
+    stat: [4.6, 2, 0, '', ' azioni', 'approvate dall’amministrazione'], focus: [86, 62, [[2.6, 1.3]]] },
+  { id: 'riepilogo', eyebrow: 'risultato', l1: 'Due cicli,', l2: 'un unico riepilogo.',
+    points: ['Fornitori: anomalie intercettate', 'Clienti: incassi riconciliati'],
     stat: [2.4, 3977, 0, '', ' €', 'di importi anomali intercettati'], focus: [34, 78, [[2.6, 1.28]]] },
 ];
 

@@ -6,8 +6,8 @@
    "seg": [
     [
      "click-0.6",
-     "risultato:leggi_attivita_team+0.9",
-     1
+     "risultato:leggi_call_registrate+5.0",
+     1.25
     ]
    ]
   },
@@ -15,7 +15,7 @@
    "id": "piano",
    "seg": [
     [
-     "risultato:leggi_attivita_team+0.9",
+     "risultato:leggi_call_registrate+5.0",
      "risultato:calcola_piano+2.4",
      1
     ]
@@ -26,8 +26,18 @@
    "seg": [
     [
      "risultato:calcola_piano+2.4",
-     "risultato:simula_variante+2.6",
+     "risultato:simula_variante+1.8",
      1
+    ]
+   ]
+  },
+  {
+   "id": "registro",
+   "seg": [
+    [
+     "risultato:simula_variante+1.8",
+     "risultato:genera_registro_decisioni+2.2",
+     0.8
     ]
    ]
   },
@@ -35,7 +45,7 @@
    "id": "documenti",
    "seg": [
     [
-     "risultato:simula_variante+2.6",
+     "risultato:genera_registro_decisioni+2.2",
      "risultato:scrivi_report+2.2",
      1
     ]

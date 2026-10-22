@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quadra — Agente AI per il controllo delle fatture passive</title>
-<meta name="description" content="Quadra è un agente AI per il ciclo passivo: riconcilia ogni fattura elettronica con ordine d’acquisto e documenti di trasporto, registra le fatture conformi, intercetta duplicati e IBAN difformi e prepara le contestazioni, eseguite solo dopo approvazione.">
-<meta property="og:title" content="Quadra — Agente AI per il controllo delle fatture passive">
-<meta property="og:description" content="Controllo delle fatture passive, prima di ogni pagamento.">
+<title>Quadra — Agente AI per il ciclo passivo e attivo</title>
+<meta name="description" content="Quadra è un agente AI per il ciclo passivo e attivo: riconcilia le fatture dei fornitori con ordini e documenti di trasporto, intercetta duplicati e IBAN difformi, prepara le fatture ai clienti dalle consegne, abbina gli incassi e gestisce lo scaduto. Invii, blocchi e solleciti partono solo dopo approvazione.">
+<meta property="og:title" content="Quadra — Agente AI per il ciclo passivo e attivo">
+<meta property="og:description" content="Fatture passive e attive, sotto controllo.">
 <meta name="theme-color" content="#16233F">
 <link rel="icon" href="../assets/quadra.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,9 +26,9 @@
 
   <section class="hero">
     <div class="hero-copy">
-      <p class="kicker">Agente AI · Contabilità fornitori</p>
-      <h1>Controllo delle fatture passive,<br><span>prima di ogni pagamento.</span></h1>
-      <p class="lead">Quadra automatizza il controllo del ciclo passivo. Riconcilia ogni fattura elettronica con ordine d’acquisto e documenti di trasporto, registra le fatture conformi e intercetta scostamenti, duplicati e variazioni di IBAN prima che diventino un costo. Blocchi e contestazioni vengono proposti all’amministrazione e partono solo dopo approvazione.</p>
+      <p class="kicker">Agente AI · Amministrazione e finanza</p>
+      <h1>Ciclo passivo e attivo,<br><span>sotto controllo.</span></h1>
+      <p class="lead">Quadra automatizza il controllo delle fatture in entrata e in uscita. Nel ciclo passivo riconcilia ogni fattura elettronica con ordine d’acquisto e documenti di trasporto e intercetta scostamenti, duplicati e variazioni di IBAN prima del pagamento. Nel ciclo attivo prepara le fatture ai clienti dalle consegne, verifica i dati per lo SDI, abbina gli incassi della banca e individua lo scaduto. Invii, blocchi, contestazioni e solleciti partono solo dopo approvazione.</p>
       <div class="cta">
         <button type="button" class="btn btn-play" data-demo hidden>
           <span class="play-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
@@ -39,7 +39,7 @@
 
     <!-- Il controllo che Quadra fa davvero, su quattro fatture della demo -->
     <figure class="check" aria-labelledby="check-cap">
-      <figcaption id="check-cap">Seleziona una fattura e consulta l’esito del controllo a tre vie.</figcaption>
+      <figcaption id="check-cap">Ciclo passivo: seleziona una fattura e consulta l’esito del controllo a tre vie.</figcaption>
       <div class="picker" role="tablist" id="picker"></div>
       <div class="sheet" id="sheet" role="tabpanel" aria-live="polite"></div>
     </figure>
@@ -48,22 +48,23 @@
   <section class="benefits">
     <div class="sec-head">
       <h2>Perché Quadra</h2>
-      <p>Nel ciclo passivo gli errori costano due volte: quando si paga il dovuto in più e quando si dedica tempo a recuperarlo. Quadra sposta il controllo prima del pagamento.</p>
+      <p>Nel ciclo passivo gli errori costano quando si paga più del dovuto; nel ciclo attivo quando si fattura tardi o si incassa in ritardo. Quadra presidia entrambi.</p>
     </div>
     <div class="benefit-grid">
       <article class="benefit"><span class="ix">01</span><h3>Meno errori di pagamento</h3><p>Prezzi, quantità e totali vengono verificati riga per riga contro ordine e consegne. Le differenze emergono prima della scadenza, non dopo.</p></article>
       <article class="benefit"><span class="ix">02</span><h3>Protezione dalle frodi</h3><p>Una variazione di IBAN rispetto all’anagrafica sospende il pagamento e attiva la verifica con il fornitore tramite i recapiti già registrati.</p></article>
-      <article class="benefit"><span class="ix">03</span><h3>Il team si concentra sulle eccezioni</h3><p>Le fatture conformi vengono registrate in automatico. L’amministrazione interviene solo dove serve una decisione.</p></article>
+      <article class="benefit"><span class="ix">03</span><h3>Fatturazione puntuale</h3><p>Le fatture ai clienti nascono dalle consegne, con i prezzi degli ordini e i controlli anagrafici per lo SDI già eseguiti.</p></article>
+      <article class="benefit"><span class="ix">04</span><h3>Incassi sotto controllo</h3><p>I movimenti della banca vengono abbinati alle fatture aperte e lo scaduto emerge con i giorni di ritardo, pronto per il sollecito.</p></article>
     </div>
   </section>
 
   <section class="steps">
     <h2>Come funziona</h2>
     <ol>
-      <li><b>Acquisizione</b><p>Riceve le fatture elettroniche dallo SDI non ancora registrate.</p></li>
-      <li><b>Riconciliazione</b><p>Confronta righe e prezzi con l’ordine, quantità con i documenti di trasporto, verifica duplicati, IBAN in anagrafica, IVA e totale.</p></li>
-      <li><b>Registrazione</b><p>Registra in contabilità e nello scadenzario le fatture conformi. È l’unica operazione eseguita senza approvazione.</p></li>
-      <li><b>Gestione delle eccezioni</b><p>Per le fatture non conformi prepara il blocco del pagamento o la contestazione al fornitore, con importi calcolati, da sottoporre all’amministrazione.</p></li>
+      <li><b>Acquisizione</b><p>Riceve le fatture dei fornitori dallo SDI, le consegne ai clienti da fatturare e i movimenti in entrata della banca.</p></li>
+      <li><b>Riconciliazione</b><p>Passivo: ordine, documenti di trasporto, duplicati, IBAN, IVA e totale. Attivo: consegne e ordini cliente, incassi e fatture aperte.</p></li>
+      <li><b>Registrazione ed emissione</b><p>Registra le fatture passive conformi e prepara le fatture attive complete, con importi e scadenze calcolati.</p></li>
+      <li><b>Gestione delle eccezioni</b><p>Prepara blocchi di pagamento, contestazioni ai fornitori, invii allo SDI e solleciti ai clienti, da sottoporre all’amministrazione.</p></li>
     </ol>
   </section>
 
@@ -80,6 +81,9 @@
           <li><code>verifica_fattura</code><span>Controllo a tre vie</span></li>
           <li><code>storico_fornitore</code><span>Pagamenti e IBAN utilizzati</span></li>
           <li><code>registra_fattura</code><span>Solo fatture conformi</span></li>
+          <li><code>leggi_ciclo_attivo</code><span>Consegne, fatture aperte, banca</span></li>
+          <li><code>prepara_fattura_attiva</code><span>Bozze dai DDT, con controlli SDI</span></li>
+          <li><code>riconcilia_incassi</code><span>Abbinamento incassi e scaduto</span></li>
           <li><code>scrivi_riepilogo</code><span>Report con totali calcolati</span></li>
         </ul>
       </div>
@@ -88,6 +92,8 @@
         <ul>
           <li><code>sospendi_pagamento</code><span>Duplicati, IBAN difformi</span></li>
           <li><code>prepara_email</code><span>Contestazioni ai fornitori</span></li>
+          <li><code>emetti_fatture</code><span>Invio delle fatture allo SDI</span></li>
+          <li><code>prepara_sollecito</code><span>Solleciti ai clienti</span></li>
         </ul>
       </div>
     </div>
@@ -103,6 +109,8 @@
       <li>Differenze e totali calcolati dal motore di controllo, mai stimati.</li>
       <li>IBAN difforme dall’anagrafica: pagamento sospeso e verifica tramite i recapiti già registrati, mai quelli indicati in fattura.</li>
       <li>Duplicati bloccati; scostamenti contestati con richiesta di nota di credito o di consegna.</li>
+      <li>Una fattura attiva con dati anagrafici incompleti non viene inviata allo SDI.</li>
+      <li>Solleciti cortesi, con numero, data, importo e scadenza, sempre approvati.</li>
     </ul>
   </section>
 
@@ -111,7 +119,7 @@
       <div>
         <h3>A chi si rivolge</h3>
         <ul>
-          <li>Uffici amministrativi e contabilità fornitori</li>
+          <li>Uffici amministrativi, contabilità fornitori e clienti</li>
           <li>CFO e controller</li>
           <li>Aziende manifatturiere e distributive</li>
           <li>Centri servizi amministrativi</li>
@@ -121,9 +129,9 @@
         <h3>Su quali dati lavora</h3>
         <ul>
           <li>Fatture elettroniche dallo SDI</li>
-          <li>Ordini d’acquisto</li>
-          <li>Documenti di trasporto</li>
-          <li>Anagrafica fornitori e storico pagamenti</li>
+          <li>Ordini d’acquisto e ordini cliente</li>
+          <li>Documenti di trasporto in entrata e in uscita</li>
+          <li>Anagrafiche, scadenzario e movimenti bancari</li>
         </ul>
       </div>
     </div>
@@ -132,14 +140,14 @@
   <section class="stack">
     <div class="stack-in">
       <h2>Tecnologia</h2>
-      <p>Quadra è costruito su Claude di Anthropic tramite API, con un’architettura ad agente e strumenti dedicati. Il controllo a tre vie è codice deterministico: gli importi non dipendono dall’interpretazione del modello. L’interfaccia mostra ogni passaggio in tempo reale e le approvazioni sospendono l’agente fino alla decisione dell’amministrazione.</p>
-      <p>La demo usa un’azienda, fornitori, IBAN e fatture di esempio. Le decisioni dell’agente provengono da una sessione registrata; verifiche, registrazioni e report vengono eseguiti realmente.</p>
+      <p>Quadra è costruito su Claude di Anthropic tramite API, con un’architettura ad agente e strumenti dedicati. Controlli, fatture, scadenze e abbinamenti degli incassi sono codice deterministico: gli importi non dipendono dall’interpretazione del modello. L’interfaccia mostra ogni passaggio in tempo reale e le approvazioni sospendono l’agente fino alla decisione dell’amministrazione.</p>
+      <p>La demo usa un’azienda, fornitori, clienti, IBAN, fatture e movimenti bancari di esempio. Le decisioni dell’agente provengono da una sessione registrata; verifiche, fatture, abbinamenti e report vengono eseguiti realmente.</p>
     </div>
   </section>
 
   <section class="final">
     <img src="../assets/quadra.svg" alt="" width="84" height="84">
-    <h2>Ogni fattura verificata.<br><span>Ogni pagamento sotto controllo.</span></h2>
+    <h2>Ogni fattura verificata.<br><span>Ogni incasso seguito.</span></h2>
     <p class="contact-soft">Vuoi valutare un agente come Quadra sui tuoi processi? <a href="../#tav-05">Parliamone</a>.</p>
   </section>
 </main>

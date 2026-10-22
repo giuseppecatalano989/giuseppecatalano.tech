@@ -19,9 +19,10 @@ button { font: inherit; cursor: pointer; }
 
 .top { height: 60px; display: flex; align-items: center; gap: 32px; padding: 0 22px; background: var(--bianco); border-bottom: 1px solid var(--riga); }
 .brand { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; }
-.tabs { display: flex; gap: 22px; color: var(--grafite); font-weight: 500; }
-.tabs span { padding: 18px 0; border-bottom: 2px solid transparent; }
-.tabs .on { color: var(--inchiostro); border-bottom-color: var(--inchiostro); }
+.tabs { display: flex; gap: 22px; color: var(--grafite); font-weight: 500; align-self: stretch; }
+.tabs button { padding: 0; border: 0; background: none; color: inherit; font-weight: 500; border-bottom: 2px solid transparent; }
+.tabs button:disabled { opacity: .45; cursor: default; }
+.tabs .on { color: var(--inchiostro); border-bottom-color: var(--inchiostro); font-weight: 600; }
 .top-r { margin-left: auto; display: flex; align-items: center; gap: 16px; }
 .org { font-weight: 600; }
 .mode { font-size: 12px; color: var(--grafite); padding-left: 16px; border-left: 1px solid var(--riga); }
@@ -139,3 +140,17 @@ mark { background: linear-gradient(transparent 12%, var(--pennarello) 12%, var(-
 .approve.no header { background: var(--anomalia-chiaro); color: var(--anomalia); }
 .approve.fatto .actions, .approve.no .actions { display: none; }
 .riepilogo { display: block; margin-top: 16px; font-family: var(--mono); font-size: 12px; color: var(--grafite); }
+
+/* Ciclo attivo */
+.left[hidden] { display: none; }
+.left.full { grid-template-rows: minmax(0, 1fr); }
+.three tfoot td { padding: 8px 14px; text-align: right; font-family: var(--mono); font-size: 13px; color: var(--grafite); border-top: 1px solid var(--riga); background: #F8F9FC; }
+.three tfoot td:first-child { text-align: left; font-family: inherit; }
+.three tfoot tr.tt td { color: var(--inchiostro); font-weight: 600; font-size: 14px; }
+.three tfoot small { font-family: var(--mono); font-weight: 400; color: var(--grafite); font-size: 11.5px; margin-left: 6px; }
+.pill { display: inline-block; font-family: inherit; font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: #EEF1F6; color: var(--grafite); }
+.pill.ok { background: var(--conforme-chiaro); color: var(--conforme); }
+.pill.ko { background: var(--anomalia-chiaro); color: var(--anomalia); }
+.inc .three td:last-child small { display: block; font-family: var(--mono); font-size: 11px; color: var(--grafite); margin-top: 2px; }
+.inc .three td { vertical-align: top; }
+#riep .sum h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; }

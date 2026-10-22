@@ -25,6 +25,8 @@
       <li data-fonte="brief"><i class="ic ic-brief"></i><span>Brief del progetto</span><em data-n></em></li>
       <li data-fonte="fornitori"><i class="ic ic-forn"></i><span>Offerte dei fornitori</span><em data-n></em></li>
       <li data-fonte="team"><i class="ic ic-team"></i><span>Attività del team</span><em data-n></em></li>
+      <li data-fonte="email"><i class="ic ic-mail"></i><span>Email del progetto</span><em data-n></em></li>
+      <li data-fonte="call"><i class="ic ic-call"></i><span>Call · Granola, Notion</span><em data-n></em></li>
     </ul>
     <h2>Parti</h2>
     <ul class="parti" id="parti"></ul>
@@ -33,13 +35,17 @@
   <section class="work">
     <nav class="tabs" role="tablist">
       <button role="tab" data-tab="piano" aria-selected="true">Piano</button>
+      <button role="tab" data-tab="com" disabled>Email e call</button>
+      <button role="tab" data-tab="reg" disabled>Decisioni e azioni</button>
       <button role="tab" data-tab="raci" disabled>Chi fa cosa</button>
       <button role="tab" data-tab="sal" disabled>Schema SAL</button>
       <button role="tab" data-tab="report" disabled>Report</button>
     </nav>
     <div class="panel" data-panel="piano" id="p-piano">
-      <div class="empty">Metis costruirà qui il piano a step: fornitori, team, dipendenze e calendario reale.</div>
+      <div class="empty">Metis costruirà qui il piano a step: fornitori, team, email, call, dipendenze e calendario reale.</div>
     </div>
+    <div class="panel" data-panel="com" id="p-com" hidden></div>
+    <div class="panel" data-panel="reg" id="p-reg" hidden></div>
     <div class="panel" data-panel="raci" id="p-raci" hidden></div>
     <div class="panel" data-panel="sal" id="p-sal" hidden></div>
     <div class="panel" data-panel="report" id="p-report" hidden></div>

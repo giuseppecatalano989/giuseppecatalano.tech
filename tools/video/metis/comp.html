@@ -152,7 +152,7 @@
     <div class="mark" id="introMark"><img src="../../agenti/metis/app/logo.svg" alt=""><b>Metis</b></div>
     <div class="tagline" id="introTag">Agente AI per la pianificazione dei progetti</div>
   </div></div>
-  <div class="trio" id="trio"><div class="stmt"><div class="line"><span class="outro-l1 w" id="st1">Dal brief al piano esecutivo,</span></div><div class="line"><span class="outro-l2 w" id="st2">in pochi minuti.</span></div></div></div>
+  <div class="trio" id="trio"><div class="stmt"><div class="line"><span class="outro-l1 w" id="st1">Fornitori, email e call,</span></div><div class="line"><span class="outro-l2 w" id="st2">in un unico piano.</span></div></div></div>
 
   <div class="center" id="outro"><div>
     <div class="line"><span class="outro-l1 w" id="o1">Progetti complessi,</span></div>
@@ -176,16 +176,19 @@ const CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
 
 /* ---------- Scene ---------- */
 const SCENES = [
-  { id: 'legge', card: ['Analisi delle fonti', 'Brief, offerte dei fornitori e capacità del team, in un’unica base dati.', 'a'],
+  { id: 'legge', card: ['Analisi delle fonti', 'Brief, offerte, team, email del progetto e call da Granola e Notion.', 'a'],
     eyebrow: 'Analisi delle fonti', l1: 'Tutte le informazioni,', l2: 'in un’unica vista.',
-    points: ['Offerte e prerequisiti dei fornitori', 'Capacità del team interno', 'Vincoli contrattuali'],
-    stat: [2.8, 7, 0, '', ' parti', 'coinvolte nel progetto'], focus: [86, 22, [[2.6, 1.22]]] },
+    points: ['Offerte e capacità del team', 'Email di cliente e fornitori', 'Call da Granola e Notion'],
+    stat: [5.6, 6, 0, '', ' email', 'e 3 call registrate'], focus: [45, 42, [[5.0, 1.2]]] },
   { id: 'piano', card: ['Pianificazione', 'Dipendenze, festività e chiusure, calcolate da un motore deterministico.', 'b'],
     eyebrow: 'Pianificazione', l1: 'Percorso critico e scadenze,', l2: 'calcolati, non stimati.',
     points: ['Percorso critico', 'Festività e chiusure aziendali', 'Verifica della data vincolante'],
     stat: [4.4, 7, 0, '', ' giorni', 'di ritardo individuati in anticipo'], focus: [44, 52, [[3.6, 1.24]]] },
   { id: 'variante', eyebrow: 'Analisi what-if', l1: 'Scenari alternativi,', l2: 'confrontati in tempo reale.',
     points: ['Consegne per lotti', 'Attività in parallelo', 'Data contrattuale rispettata'], focus: [44, 55, [[1.2, 1.24]]] },
+  { id: 'registro', eyebrow: 'Registro di progetto', l1: 'Decisioni, azioni e rischi,', l2: 'con la fonte di ogni voce.',
+    points: ['Email e call collegate', 'Responsabili e scadenze', 'Rischi prioritizzati'],
+    stat: [3.0, 5, 0, '', ' azioni', 'con responsabile e scadenza'], focus: [44, 40, [[1.8, 1.22]]] },
   { id: 'documenti', card: ['Documentazione', 'Matrice RACI, piano dei SAL e report per il committente.', 'a'],
     eyebrow: 'Documentazione di progetto', l1: 'RACI, SAL e report,', l2: 'allineati al piano.',
     points: ['Matrice delle responsabilità', 'Piano dei SAL e flussi mensili', 'Rischi e decisioni'],
@@ -195,7 +198,7 @@ const SCENES = [
     points: ['Conferma della consegna in due lotti', 'Pianificazione del sopralluogo'],
     stat: [4.4, 2, 0, '', ' email', 'approvate dal project manager'], focus: [86, 55, [[2.2, 1.3]]] },
   { id: 'finale', eyebrow: 'Risultato', l1: 'Apertura confermata', l2: 'nella data contrattuale.',
-    points: ['18 attività, 7 parti coordinate', 'Documentazione pronta per il cliente'], focus: [44, 55, [[3.4, 1.22]]] },
+    points: ['18 attività, 7 parti coordinate', '6 email e 3 call nel registro'], focus: [44, 55, [[3.4, 1.22]]] },
 ];
 
 /* ---------- Tempi ---------- */

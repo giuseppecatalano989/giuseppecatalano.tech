@@ -37,14 +37,17 @@ per il video, rifare la ripresa (vedi `tools/video/LEGGIMI.md`).
 
 ## Agenti
 
-- **Metis** — pianificazione per il project manager: legge brief, offerte dei fornitori e attività del team;
-  costruisce il piano a step con dipendenze e calendario reale (festivi, chiusure, vincoli «non prima del»,
-  trasloco nel fine settimana) e trova il percorso critico; simula varianti; genera chi fa cosa, schema dei SAL
-  e report; prepara le email ai fornitori, che partono solo dopo l'approvazione. Le date le calcola sempre il
-  motore deterministico in `agente.config.js`, mai il modello. Vetrina: `/metis/`.
-- **Quadra** — ciclo passivo: legge le fatture elettroniche arrivate dallo SDI, fa il controllo a tre vie
-  (ordine, bolle di consegna, fattura) più doppioni, IBAN e conti; registra in autonomia le fatture conformi;
-  propone blocchi di pagamento ed email di contestazione, con approvazione. Vetrina: `/quadra/`.
+- **Metis** — pianificazione per il project manager: legge brief, offerte dei fornitori, attività del team, email del
+  progetto e call registrate (Granola, Notion, simulate); costruisce il piano a step con dipendenze e calendario reale
+  (festivi, chiusure, vincoli «non prima del», trasloco nel fine settimana) e trova il percorso critico; simula varianti;
+  pubblica il registro di decisioni, azioni e rischi con la fonte di ogni voce; genera chi fa cosa, schema dei SAL e
+  report; prepara le email ai fornitori, che partono solo dopo l'approvazione. Le date le calcola sempre il motore
+  deterministico in `agente.config.js`, mai il modello. Vetrina: `/metis/`.
+- **Quadra** — ciclo passivo e attivo. Passivo: fatture elettroniche dallo SDI con controllo a tre vie (ordine, bolle,
+  fattura) più doppioni, IBAN e conti; registra le conformi; propone blocchi e contestazioni. Attivo: prepara le fatture
+  ai clienti dai DDT con i prezzi degli ordini e il controllo del codice destinatario SDI, abbina gli incassi della banca
+  alle fatture aperte (per causale, poi per cliente e importo) e trova lo scaduto; invio allo SDI e solleciti con
+  approvazione. Vetrina: `/quadra/`.
 - **Comitas** — clienti e social per un e-commerce o un'attività di servizi: legge email, chat, DM e commenti
   pubblici su Instagram e Facebook; recupera ordini, tracciamento, storico (anche tra canali diversi) e base di
   conoscenza; risponde da solo alle richieste informative, in privato o in pubblico; nasconde lo spam; propone

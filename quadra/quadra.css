@@ -138,7 +138,7 @@ h1 { font-size: clamp(36px, 3.7vw, 52px); }
 .kicker { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--blu); margin-bottom: 22px; }
 .kicker::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--blu); }
 .benefits { border-top: 1px solid var(--riga); }
-.benefit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.benefit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; }
 .benefit { background: var(--bianco); border: 1px solid var(--riga); border-radius: 18px; padding: 26px 26px 28px; }
 .benefit .ix { font-family: var(--mono); font-size: 13px; color: var(--blu); }
 .benefit h3 { font-size: 21px; font-weight: 800; letter-spacing: -.015em; line-height: 1.25; margin: 14px 0 8px; }

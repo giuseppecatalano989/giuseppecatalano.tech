@@ -1,0 +1,32 @@
+{
+ "prossimo_numero": 418,
+ "clienti": [
+  { "nome": "Officine Valsassina S.r.l.", "piva": "02781350136", "codice_destinatario": "M5UXCR1", "pagamento": { "testo": "60 gg data fattura fine mese", "giorni": 60, "fine_mese": true }, "referente": "Amministrazione, amministrazione@officinevalsassina.example" },
+  { "nome": "Tecnoidraulica Lecchese S.p.A.", "piva": "03319840130", "codice_destinatario": "KRRH6B9", "pagamento": { "testo": "30 gg data fattura", "giorni": 30 }, "referente": "Ufficio acquisti, acquisti@tecnoidraulica.example" },
+  { "nome": "Automazioni Corti S.r.l.", "piva": "04128890963", "codice_destinatario": "", "pec": "", "nuovo": true, "pagamento": { "testo": "30 gg data fattura fine mese", "giorni": 30, "fine_mese": true }, "referente": "Matteo Corti, m.corti@automazionicorti.example" },
+  { "nome": "Carpenterie Orobiche S.r.l.", "piva": "03871220164", "codice_destinatario": "T9K4ZHO", "pagamento": { "testo": "30 gg data fattura", "giorni": 30 }, "referente": "Silvia Bonomi, amministrazione, s.bonomi@carpenterieorobiche.example" }
+ ],
+ "ordini_cliente": [
+  { "numero": "OV-2201", "cliente": "Officine Valsassina S.r.l.", "righe": [ { "codice": "FL-50", "descrizione": "Flangia in acciaio DN50", "prezzo": 6.20 }, { "codice": "RD-20", "descrizione": "Raccordo filettato 3/4\"", "prezzo": 1.15 } ] },
+  { "numero": "OV-2204", "cliente": "Tecnoidraulica Lecchese S.p.A.", "righe": [ { "codice": "VL-12", "descrizione": "Valvola a sfera 1/2\"", "prezzo": 22.40 } ] },
+  { "numero": "OV-2207", "cliente": "Automazioni Corti S.r.l.", "righe": [ { "codice": "SP-08", "descrizione": "Supporto in alluminio 80 mm", "prezzo": 4.75 } ] }
+ ],
+ "ddt_da_fatturare": [
+  { "numero": "DDT V-5512", "ordine": "OV-2201", "data": "2026-10-15", "righe": [ { "codice": "FL-50", "quantita": 400 }, { "codice": "RD-20", "quantita": 1000 } ] },
+  { "numero": "DDT V-5530", "ordine": "OV-2204", "data": "2026-10-19", "righe": [ { "codice": "VL-12", "quantita": 150 } ] },
+  { "numero": "DDT V-5541", "ordine": "OV-2207", "data": "2026-10-21", "righe": [ { "codice": "SP-08", "quantita": 300 } ] }
+ ],
+ "fatture_emesse_aperte": [
+  { "numero": "FV-2026/0371", "cliente": "Officine Valsassina S.r.l.", "data": "2026-08-12", "totale": 3172.00, "scadenza": "2026-10-15" },
+  { "numero": "FV-2026/0380", "cliente": "Tecnoidraulica Lecchese S.p.A.", "data": "2026-09-20", "totale": 5246.00, "scadenza": "2026-10-20" },
+  { "numero": "FV-2026/0389", "cliente": "Carpenterie Orobiche S.r.l.", "data": "2026-08-31", "totale": 2684.00, "scadenza": "2026-09-30" },
+  { "numero": "FV-2026/0395", "cliente": "Carpenterie Orobiche S.r.l.", "data": "2026-09-15", "totale": 1952.00, "scadenza": "2026-10-15" },
+  { "numero": "FV-2026/0402", "cliente": "Officine Valsassina S.r.l.", "data": "2026-09-30", "totale": 1830.00, "scadenza": "2026-11-30" }
+ ],
+ "movimenti_banca": [
+  { "id": "MOV-1", "data": "2026-10-15", "ordinante": "Officine Valsassina S.r.l.", "importo": 3172.00, "causale": "Saldo fatt. 371" },
+  { "id": "MOV-2", "data": "2026-10-19", "ordinante": "Assicurazioni Lario S.p.A.", "importo": 640.00, "causale": "Rimborso sinistro polizza 88/2026" },
+  { "id": "MOV-3", "data": "2026-10-20", "ordinante": "Tecnoidraulica Lecchese S.p.A.", "importo": 5246.00, "causale": "Pagamento fornitura settembre" },
+  { "id": "MOV-4", "data": "2026-10-21", "ordinante": "Carpenterie Orobiche S.r.l.", "importo": 1952.00, "causale": "Fattura 395" }
+ ]
+}

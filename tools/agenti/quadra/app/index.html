@@ -3,23 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quadra — Fatture fornitori</title>
+<title>Quadra — Ciclo passivo e attivo</title>
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="app.css">
 </head>
 <body>
 <header class="top">
   <div class="brand"><img src="logo.svg" alt="" width="30" height="30"><b>Quadra</b></div>
-  <nav class="tabs" aria-label="Sezioni"><span class="on">Fatture passive</span><span>Scadenzario</span><span>Fornitori</span></nav>
+  <nav class="tabs" aria-label="Sezioni" id="viste">
+    <button type="button" data-vista="passivo" class="on">Ciclo passivo</button>
+    <button type="button" data-vista="attivo">Ciclo attivo</button>
+    <button type="button" data-vista="riepilogo" disabled>Riepilogo</button>
+  </nav>
   <div class="top-r">
     <span class="org" id="azienda">Lariana Componenti S.r.l.</span>
     <span class="mode" id="mode" hidden>Dati dimostrativi</span>
-    <button class="run" id="run" type="button">Controlla le fatture</button>
+    <button class="run" id="run" type="button">Avvia il controllo</button>
   </div>
 </header>
 
 <main class="grid">
-  <section class="left">
+  <section class="left" data-vista="passivo">
     <div class="panel inbox">
       <header class="ph"><h2>Fatture in arrivo dallo SDI</h2><span class="tot" id="tot"></span></header>
       <table class="inv" id="inv">
@@ -30,6 +34,23 @@
     <div class="panel detail" id="detail">
       <div class="placeholder" id="placeholder">Il controllo a tre vie di ogni fattura comparirà qui: ordine, merce consegnata e fattura a confronto.</div>
     </div>
+  </section>
+
+  <section class="left" data-vista="attivo" hidden>
+    <div class="panel inbox">
+      <header class="ph"><h2>Consegne da fatturare</h2><span class="tot" id="tot-a"></span></header>
+      <table class="inv" id="ddt">
+        <thead><tr><th>Cliente</th><th>DDT</th><th>Ordine</th><th class="n">Totale</th><th>Stato</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="panel detail" id="detail-a">
+      <div class="placeholder">Le fatture ai clienti e la riconciliazione degli incassi compariranno qui.</div>
+    </div>
+  </section>
+
+  <section class="left full" data-vista="riepilogo" hidden>
+    <div class="panel detail" id="riep"></div>
   </section>
 
   <aside class="log">

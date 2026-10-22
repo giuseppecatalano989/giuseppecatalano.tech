@@ -1,1 +1,1 @@
-const COUNTS = {"verifica":245,"anomalie":157,"frode":225,"approva":258,"riepilogo":190};
+const COUNTS = {"verifica":238,"anomalie":157,"frode":224,"approva":246,"riepilogo":222,"attivo":281,"incassi":181,"approva2":174};

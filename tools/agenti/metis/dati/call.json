@@ -1,0 +1,23 @@
+{
+ "call": [
+  { "id": "C-01", "fonte": "Granola", "data": "2026-10-13", "durata_min": 42, "titolo": "Kick-off con Ottavia Logistica",
+    "partecipanti": ["Giuseppe (PM)", "Marta Ferrario (Ottavia Logistica)", "Roberto Villa (Ottavia Logistica, IT)"],
+    "sintesi": "Avvio del progetto della nuova sede di Monza: 60 persone, apertura entro l'11 gennaio, trasloco nel fine settimana precedente.",
+    "decisioni": ["Apertura della nuova sede lunedì 11 gennaio, data vincolante", "Trasloco nel fine settimana, a sede collaudata", "Report di pianificazione e schema dei SAL condivisi con il cliente"],
+    "azioni": [ { "chi": "Giuseppe", "cosa": "Piano di progetto e schema dei SAL", "entro": "2026-10-30" }, { "chi": "Ottavia Logistica", "cosa": "Elenco dei dipendenti per i badge", "entro": "2026-12-04" } ],
+    "estratto": [ { "chi": "Marta Ferrario", "testo": "Il 10 gennaio riconsegniamo le chiavi della vecchia sede: l'11 dobbiamo essere operativi." }, { "chi": "Giuseppe", "testo": "Allora il trasloco va fatto il fine settimana prima, a collaudo chiuso." } ] },
+  { "id": "C-02", "fonte": "Notion", "data": "2026-10-16", "durata_min": 35, "titolo": "Allineamento del team IT",
+    "partecipanti": ["Giuseppe (PM)", "Andrea (sistemi)", "Elena (postazioni)", "Luca (rete e telefonia)"],
+    "sintesi": "Note di riunione generate da Notion AI. Disponibilità del team e sequenza delle attività di rete, Wi-Fi e postazioni.",
+    "decisioni": ["Preparazione delle 60 postazioni in laboratorio dal 16 novembre"],
+    "azioni": [ { "chi": "Andrea", "cosa": "Verificare il rilievo Wi-Fi predittivo su planimetria", "entro": "2026-10-23" } ],
+    "rischi": ["Il rilievo Wi-Fi classico richiede gli arredi montati: con la consegna dal 14 dicembre si finisce a ridosso della chiusura natalizia"],
+    "estratto": [ { "chi": "Andrea", "testo": "Se facciamo il rilievo predittivo sulla planimetria non dobbiamo aspettare i mobili per posizionare gli access point." }, { "chi": "Luca", "testo": "La telefonia parte solo con la fibra attiva." } ] },
+  { "id": "C-03", "fonte": "Granola", "data": "2026-10-20", "durata_min": 18, "titolo": "Call con Arredo Ufficio Seregno",
+    "partecipanti": ["Giuseppe (PM)", "Paolo Cattaneo (Arredo Ufficio Seregno)"],
+    "sintesi": "Tempi di consegna e montaggio degli arredi e possibilità di consegna per zone.",
+    "decisioni": ["Possibile consegna in due lotti: open space dal 14 dicembre in 5 giorni lavorativi, uffici a seguire in 3 giorni"],
+    "azioni": [ { "chi": "Giuseppe", "cosa": "Confermare per iscritto la consegna in due lotti", "entro": "2026-10-30" } ],
+    "estratto": [ { "chi": "Paolo Cattaneo", "testo": "L'open space lo montiamo in cinque giorni, gli uffici in tre. Se ci date il via, partiamo dall'open space il 14." } ] }
+ ]
+}
