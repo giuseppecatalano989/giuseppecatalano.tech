@@ -1,6 +1,6 @@
 // Monta il video finale di un agente: fotogrammi (out16, out45) + musica, più le locandine.
 // Uso: node agenti/monta.js <agente> <cartella-vetrina> [secondo-locandina]
-//   es. node agenti/monta.js vedetta ../../vedetta 10
+//   es. node agenti/monta.js metis ../../metis 12
 // Scrive <vetrina>/video/presentazione-16x9.mp4/.jpg e presentazione-4x5.mp4/.jpg
 const { execFileSync } = require('child_process');
 const path = require('path');

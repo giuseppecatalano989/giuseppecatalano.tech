@@ -11,7 +11,7 @@ import { eseguiAgente } from './agente.js';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const args = process.argv.slice(2);
-const nome = args.find((a) => !a.startsWith('--') && !/^\d/.test(a)) || 'vedetta';
+const nome = args.find((a) => !a.startsWith('--') && !/^\d/.test(a)) || 'metis';
 const modalita = args.includes('--live') ? 'live' : args.includes('--registra') ? 'registra' : 'demo';
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : d; };
 const PORTA = Number(opt('--porta', process.env.PORT || 4300));

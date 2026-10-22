@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Metis — L'agente AI che pianifica i progetti con il PM</title>
+<meta name="description" content="Metis è un agente AI per il project manager: legge brief, offerte dei fornitori e attività del team, costruisce il piano a step con dipendenze e calendario reale, trova il percorso critico, simula varianti e genera chi fa cosa, schema dei SAL e report.">
+<meta property="og:title" content="Metis — L'agente AI che pianifica i progetti con il PM">
+<meta property="og:description" content="Incastra, calcola, coordina. Tu approvi.">
+<meta name="theme-color" content="#0F2E33">
+<link rel="icon" href="../assets/metis.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="metis.css">
+</head>
+<body>
+
+<header class="bar">
+  <a class="back-tondo" href="../#tav-04" aria-label="Torna al portfolio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+  <a class="logo" href="#top"><img src="../assets/metis.svg" alt="" width="32" height="32"> Metis</a>
+  <span aria-hidden="true"></span>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>Tanti fornitori, un solo piano.<br><span>E la data si rispetta.</span></h1>
+      <p class="lead">Metis è un agente AI che affianca il project manager. Legge brief, offerte dei fornitori e attività del team, incastra le lavorazioni in un piano a step sul calendario vero e trova dove si perde tempo. Poi prepara chi fa cosa, lo schema dei SAL, il report per il cliente e le richieste ai fornitori.</p>
+      <div class="cta">
+        <button type="button" class="btn btn-play" data-demo hidden>
+          <span class="play-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+          Guarda la demo
+        </button>
+      </div>
+    </div>
+
+    <!-- Lo stesso calcolo dell'agente, sul tratto finale del piano della demo -->
+    <figure class="sim" aria-labelledby="sim-cap">
+      <figcaption id="sim-cap">
+        <b>Apertura della nuova sede: lunedì 11 gennaio.</b>
+        <span>Sposta la consegna degli arredi e guarda dove cade l’apertura.</span>
+      </figcaption>
+      <div class="track" id="track">
+        <div class="freeze" id="freeze"><small>Chiusura natalizia</small></div>
+        <div class="deadline" id="deadline"><small>11 gen</small></div>
+        <div id="rows"></div>
+        <div class="axis" id="axis"></div>
+      </div>
+      <div class="controls">
+        <label class="slider">
+          <span>Arredi disponibili dal <output id="data-out">14 dic</output></span>
+          <input type="range" id="data" min="0" max="10" value="4">
+        </label>
+        <label class="toggle"><input type="checkbox" id="lotti"> <span>Consegna in due lotti e Wi-Fi su planimetria</span></label>
+      </div>
+      <p class="verdict" id="verdict" aria-live="polite"></p>
+    </figure>
+  </section>
+
+  <section class="steps">
+    <h2>Come lavora</h2>
+    <ol>
+      <li><b>Legge</b><p>Brief, vincoli, offerte dei fornitori con prerequisiti e disponibilità, attività e calendario del team.</p></li>
+      <li><b>Incastra</b><p>Costruisce il piano a step con le dipendenze reali e lo calcola su festivi e chiusure. Trova il percorso critico, cioè la sequenza che decide la data di fine.</p></li>
+      <li><b>Simula</b><p>Se la data non regge, cerca nelle offerte i margini veri, come lavorazioni in parallelo o consegne per zone, e confronta le varianti.</p></li>
+      <li><b>Documenta e coordina</b><p>Genera chi fa cosa, lo schema dei SAL e il report per il cliente. Le richieste ai fornitori partono solo con il tuo ok.</p></li>
+    </ol>
+  </section>
+
+  <section class="tools">
+    <div class="sec-head">
+      <h2>Nove strumenti, un’unica regia</h2>
+      <p>L’agente decide quali strumenti usare e in che ordine. Le date non le stima mai lui: le calcola il motore di pianificazione. Le email ai fornitori passano da te.</p>
+    </div>
+    <ul class="tool-list">
+      <li><code>leggi_brief</code><span>Obiettivo, data, vincoli, parti</span></li>
+      <li><code>leggi_offerte_fornitori</code><span>Lavorazioni, prerequisiti, SAL</span></li>
+      <li><code>leggi_attivita_team</code><span>Attività e disponibilità interne</span></li>
+      <li><code>calcola_piano</code><span>Calendario, dipendenze, percorso critico</span></li>
+      <li><code>simula_variante</code><span>Scenari a confronto</span></li>
+      <li><code>genera_chi_fa_cosa</code><span>Matrice delle responsabilità</span></li>
+      <li><code>genera_schema_sal</code><span>Tappe, importi, pagamenti per mese</span></li>
+      <li><code>scrivi_report</code><span>Report di pianificazione per il cliente</span></li>
+      <li class="key"><code>prepara_email</code><span>Richieste a fornitori e cliente</span><em>Con approvazione</em></li>
+    </ul>
+  </section>
+
+  <section class="rules">
+    <div class="sec-head">
+      <h2>Le regole che segue</h2>
+      <p>Sono le istruzioni con cui lavora l’agente.</p>
+    </div>
+    <ul class="rule-list">
+      <li>Prima di pianificare legge tutte le fonti.</li>
+      <li>Le dipendenze vengono dalle offerte, le date dal calcolo.</li>
+      <li>Adotta una variante solo se rispetta la data vincolante.</li>
+      <li>Una variante che cambia il lavoro di un fornitore va confermata da lui.</li>
+    </ul>
+  </section>
+
+  <section class="stack">
+    <div class="stack-in">
+      <h2>Come è costruito</h2>
+      <p>Metis usa Claude di Anthropic attraverso le API. Gli strumenti sono funzioni che l’agente può chiamare, e il motore di pianificazione è codice deterministico: giorni lavorativi, festivi, chiusure, vincoli «non prima del» e fine settimana per il trasloco. Ogni passaggio arriva all’interfaccia in tempo reale, e le approvazioni fermano l’agente finché non decidi.</p>
+      <p>La demo pianifica l’apertura della sede di un’azienda inventata, con fornitori e importi inventati. Le decisioni dell’agente vengono da una sessione salvata; calcoli, documenti e report sono eseguiti davvero.</p>
+    </div>
+  </section>
+
+  <section class="final">
+    <img src="../assets/metis.svg" alt="" width="84" height="84">
+    <h2>Meno tempo a incastrare date.<br><span>Più tempo per guidare il progetto.</span></h2>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>Metis è un progetto di <a href="../">Giuseppe Catalano</a>, progettato da lui e costruito con l’intelligenza artificiale.</p>
+  <a class="back-pill" href="../#tav-04">
+    <span class="back-tondo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span>
+    Torna ai progetti
+  </a>
+</footer>
+
+<dialog class="demo-modal" id="demo-modal" aria-label="Video di presentazione di Metis">
+  <button type="button" class="demo-close" data-close aria-label="Chiudi il video">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <div class="demo-frame">
+    <video id="demo-video" controls playsinline preload="none"
+      data-wide="video/presentazione-16x9.mp4" data-wide-poster="video/presentazione-16x9.jpg"
+      data-tall="video/presentazione-4x5.mp4" data-tall-poster="video/presentazione-4x5.jpg"></video>
+  </div>
+</dialog>
+
+<script src="metis.js"></script>
+</body>
+</html>

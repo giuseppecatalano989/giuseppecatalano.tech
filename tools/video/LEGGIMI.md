@@ -26,7 +26,7 @@ Musica usata per Filo: «Chill (Loopable)» di Pro Sensory (Alex McCulloch), Ope
 - `comp.html` + `render.js`: concept "porta del frigo", come nella vetrina. Biglietti e post-it attaccati con le calamite che si staccano a ogni scena, frasi scritte a mano (Caveat), lista con le spunte, numeri sul post-it, telefono dritto fissato con il nastro (`node render.js 16 out16`, `node render.js 45 out45`).
 - Musica: «Happy Clappy Loop» di OwlishMedia, OpenGameArt (https://opengameart.org/content/happy-clappy-loop), licenza CC0; ripetuta per tutta la durata, con dissolvenza finale.
 
-## Agenti (`agenti/`, `vedetta/`, …)
+## Agenti (`agenti/`, `metis/`, …)
 Gli agenti AI (codice in `tools/agenti`) hanno una pipeline comune, che funziona sia su Windows con Edge sia su Linux con Chromium
 (variabili facoltative `BROWSER` e `FFMPEG`).
 1. `node agenti/registra.js <agente>`: avvia l'agente in modalità demo, preme il pulsante, approva le azioni con un cursore visibile,
@@ -39,16 +39,21 @@ Gli agenti AI (codice in `tools/agenti`) hanno una pipeline comune, che funziona
 4. `node agenti/render.js <agente> 16 out16` e `node agenti/render.js <agente> 45 out45`.
 5. `node agenti/monta.js <agente> ../../<vetrina> [secondo-locandina]`: video finali e locandine nella cartella della vetrina.
 
-### Vedetta (`vedetta/`)
-- Concept "la vedetta": crepuscolo color petrolio, un fascio di luce che spazza lentamente la scena, cerchi di radar dietro la finestra,
-  copertine a sipario che sale, zoom sul punto chiave di ogni scena (cascata dei ritardi, report, approvazioni).
-- Dati del progetto dimostrativo inventati (Ottavia Logistica, Portale Clienti 2.0, PayBridge e le persone del team).
+### Metis (`metis/`)
+- Concept "la regia": crepuscolo color petrolio, un fascio di luce che spazza lentamente la scena, cerchi di radar dietro la finestra,
+  copertine a sipario che sale, zoom sul punto chiave di ogni scena (piano, variante, SAL, approvazioni). La ripresa si chiude
+  tornando sulla scheda del piano definitivo.
+- Dati dimostrativi inventati (Ottavia Logistica, la nuova sede di Monza, i fornitori e gli importi).
 
 ### Quadra (`quadra/`)
 - Concept "il registro": carta a quadretti chiara, inchiostro blu notte, il tratto di evidenziatore giallo sotto la seconda riga dei titoli,
   copertine che scorrono come una passata di evidenziatore.
 - Dati dimostrativi inventati (Lariana Componenti, i fornitori, gli IBAN).
 
-### Sportello (`sportello/`)
+### Comitas (`comitas/`)
 - Concept "la conversazione": fondo glicine, fumetti che salgono lentamente sullo sfondo, copertine che si aprono a cerchio come un messaggio.
-- Dati dimostrativi inventati (Casa Ortensia, i clienti, gli ordini).
+- Dati dimostrativi inventati (Casa Ortensia, i clienti, i profili social, gli ordini).
+
+### Minerva (`minerva/`)
+- Concept "l'archivio": pietra chiara, oliva e bronzo, schede d'archivio che salgono sullo sfondo, copertine che si aprono dal basso.
+- Dati dimostrativi inventati (Brianza Digital Services, i clienti, i colleghi, le pagine di Confluence e Notion).

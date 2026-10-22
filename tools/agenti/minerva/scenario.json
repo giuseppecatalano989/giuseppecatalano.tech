@@ -1,0 +1,279 @@
+{
+ "_nota": "Scenario dimostrativo: le decisioni dell'agente sono scritte nello stesso formato prodotto dalla modalità --registra. Gli strumenti vengono eseguiti davvero sui dati di prova. Per sostituirlo con una sessione reale: node core/server.js minerva --registra (serve ANTHROPIC_API_KEY).",
+ "compito": "Gestisci la coda del service desk: per ogni richiesta trova la soluzione nella knowledge base, scrivi la nota privata con le fonti, assegna il ticket al tecnico giusto e rispondi al richiedente in automatico o con una bozza da approvare.",
+ "turni": [
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Leggo la coda del service desk."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n01",
+     "name": "leggi_coda",
+     "input": {}
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Cinque richieste: quattro clienti dal portale e un collega via email. Cerco le soluzioni nella knowledge base, su Confluence e su Notion, e controllo lo stato dei servizi."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n02",
+     "name": "cerca_knowledge_base",
+     "input": {
+      "domanda": "VPN errore 809 da casa Windows 11",
+      "ticket": "SD-2041"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n03",
+     "name": "cerca_knowledge_base",
+     "input": {
+      "domanda": "nuova collega inizia lunedì PC e account",
+      "ticket": "SD-2042"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n04",
+     "name": "cerca_knowledge_base",
+     "input": {
+      "domanda": "Outlook disconnesso email non arrivano",
+      "ticket": "SD-2043"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n05",
+     "name": "cerca_knowledge_base",
+     "input": {
+      "domanda": "accesso amministratore server credenziali",
+      "ticket": "SD-2044"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n06",
+     "name": "cerca_knowledge_base",
+     "input": {
+      "domanda": "stampante multifunzione pagine bianche toner",
+      "ticket": "SD-2045"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n07",
+     "name": "stato_servizi",
+     "input": {}
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "VPN e onboarding hanno una procedura precisa, con confidenza alta. Outlook coincide con un incidente Microsoft aperto, l'accesso amministratore è regolato da una pagina di sicurezza e per la stampante c'è solo una procedura che non c'entra. Leggo le pagine e la matrice di chi fa cosa."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n08",
+     "name": "leggi_pagina",
+     "input": {
+      "id": "CF-101",
+      "ticket": "SD-2041"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n09",
+     "name": "leggi_pagina",
+     "input": {
+      "id": "NT-07",
+      "ticket": "SD-2042"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n10",
+     "name": "leggi_pagina",
+     "input": {
+      "id": "CF-120",
+      "ticket": "SD-2044"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n11",
+     "name": "leggi_pagina",
+     "input": {
+      "id": "NT-12"
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Scrivo le note private per i tecnici, con le fonti, e assegno ogni ticket secondo la matrice."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n12",
+     "name": "nota_privata_e_assegna",
+     "input": {
+      "ticket": "SD-2041",
+      "assegnatario": "Luca Riva",
+      "categoria": "Rete e VPN",
+      "fonti": [
+       "CF-101"
+      ],
+      "nota": "Errore 809: il router di casa blocca L2TP/IPsec. Procedura CF-101 inviata al cliente (profilo VPN-SSL). Da chiudere se conferma."
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n13",
+     "name": "nota_privata_e_assegna",
+     "input": {
+      "ticket": "SD-2042",
+      "assegnatario": "Elena Conti",
+      "categoria": "Onboarding",
+      "fonti": [
+       "NT-07"
+      ],
+      "nota": "Nuova collega Giulia Mauri, commerciale, dal 26/10. Inviata la procedura NT-07: il modulo va compilato entro oggi per rispettare i 2 giorni lavorativi."
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n14",
+     "name": "nota_privata_e_assegna",
+     "input": {
+      "ticket": "SD-2043",
+      "assegnatario": "Andrea Galli",
+      "categoria": "Posta e Microsoft 365",
+      "fonti": [
+       "CF-114"
+      ],
+      "incidente": "INC-88",
+      "nota": "Sintomi compatibili con INC-88 (Exchange Online degradato dalle 8:35). Come da CF-114 non ricreare i profili. Soluzione temporanea: Outlook sul web. Aggiornare il cliente dopo le 10:30."
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n15",
+     "name": "nota_privata_e_assegna",
+     "input": {
+      "ticket": "SD-2044",
+      "assegnatario": "Paolo Neri",
+      "categoria": "Sicurezza e accessi",
+      "fonti": [
+       "CF-120"
+      ],
+      "nota": "Richiesta di credenziali da amministratore: non vanno comunicate (CF-120). Serve il modulo firmato dal responsabile IT del cliente, poi sessione assistita e registrata."
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n16",
+     "name": "nota_privata_e_assegna",
+     "input": {
+      "ticket": "SD-2045",
+      "assegnatario": "Marco Sala",
+      "categoria": "Postazioni e stampanti",
+      "fonti": [],
+      "nota": "Nessuna procedura adatta in knowledge base: CF-131 riguarda la coda bloccata. Pagine bianche dopo il cambio toner: probabile sigillo del toner non rimosso o tamburo. Il giovedì Marco è dai clienti di Monza e Desio: valutare il passaggio da Pirovano Assicurazioni."
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Invio subito le risposte su VPN e onboarding. Per Outlook e per l'accesso amministratore preparo due bozze da approvare. Alla stampante non rispondo: serve un tecnico."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n17",
+     "name": "invia_risposta",
+     "input": {
+      "ticket": "SD-2041",
+      "fonti": [
+       "CF-101"
+      ],
+      "testo": "Buongiorno Silvia,\nl'errore 809 dipende dal router di casa, che blocca il tipo di VPN usato in ufficio. Per collegarsi:\n1. apra il client VPN aziendale;\n2. scelga il profilo «VPN-SSL» invece di «VPN-Ufficio»;\n3. acceda con le solite credenziali e il codice dell'app.\nSe l'errore resta, riavvii il router e riprovi. Mi conferma se funziona?"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n18",
+     "name": "invia_risposta",
+     "input": {
+      "ticket": "SD-2042",
+      "fonti": [
+       "NT-07"
+      ],
+      "testo": "Ciao Roberto,\ncompila oggi il modulo «Nuovo dipendente» sul portale interno, con nome, reparto e data di inizio di Giulia: servono 2 giorni lavorativi. Indica se le serve telefono o secondo monitor. Il PC configurato lo ritiri dall'ufficio IT venerdì."
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n19",
+     "name": "prepara_bozza",
+     "input": {
+      "ticket": "SD-2043",
+      "fonti": [
+       "CF-114"
+      ],
+      "testo": "Buongiorno Marco,\nil problema non dipende dai vostri PC: da stamattina Microsoft ha un disservizio su Exchange Online che rallenta e disconnette Outlook in Europa occidentale.\nNel frattempo potete leggere e inviare la posta da Outlook sul web, su outlook.office.com, con le solite credenziali. Vi aggiorniamo appena Microsoft risolve."
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n20",
+     "name": "prepara_bozza",
+     "input": {
+      "ticket": "SD-2044",
+      "fonti": [
+       "CF-120"
+      ],
+      "testo": "Buongiorno Davide,\nper sicurezza le credenziali da amministratore non vengono mai comunicate via ticket. Le inviamo il modulo di autorizzazione: appena il vostro responsabile IT lo firma, il nostro team Sicurezza fissa una sessione assistita e installiamo insieme l'aggiornamento del fornitore."
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Approvate. Chiudo con il riepilogo per il responsabile del service desk."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_n21",
+     "name": "scrivi_riepilogo",
+     "input": {
+      "sintesi": "Coda gestita: due risposte automatiche con procedura verificata, due bozze approvate (un incidente Microsoft in corso e una richiesta di accesso privilegiato) e un intervento in sede assegnato a Marco. Ogni ticket ha la sua nota privata con le fonti."
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Fatto. Cinque ticket assegnati con nota privata e fonti, quattro richiedenti hanno già la risposta. Per la stampante di Pirovano serve Marco, in sede."
+    }
+   ]
+  }
+ ]
+}

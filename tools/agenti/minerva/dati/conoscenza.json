@@ -1,0 +1,180 @@
+{
+ "azienda": "Brianza Digital Services",
+ "oggi": "2026-10-22",
+ "pagine": [
+  {
+   "id": "CF-101",
+   "fonte": "Confluence",
+   "spazio": "Help Desk",
+   "titolo": "VPN: errore 809 su Windows 11",
+   "aggiornata": "2026-09-12",
+   "autore": "Luca Riva",
+   "parole": [
+    "vpn",
+    "809",
+    "errore",
+    "casa",
+    "connette",
+    "windows",
+    "remoto",
+    "connessione"
+   ],
+   "self_service": true,
+   "testo": "L'errore 809 compare quando il router di casa blocca il protocollo L2TP/IPsec. Soluzione: usare il profilo VPN-SSL, che passa dalla porta 443.",
+   "passi": [
+    "Aprire il client VPN aziendale.",
+    "Scegliere il profilo «VPN-SSL» al posto di «VPN-Ufficio».",
+    "Accedere con le solite credenziali e il codice dell'app di autenticazione.",
+    "Se l'errore resta, riavviare il router di casa e riprovare."
+   ]
+  },
+  {
+   "id": "CF-114",
+   "fonte": "Confluence",
+   "spazio": "Help Desk",
+   "titolo": "Outlook disconnesso o posta che non arriva",
+   "aggiornata": "2026-06-30",
+   "autore": "Andrea Galli",
+   "parole": [
+    "outlook",
+    "disconnesso",
+    "posta",
+    "email",
+    "arrivano",
+    "exchange",
+    "microsoft"
+   ],
+   "self_service": false,
+   "testo": "Prima di intervenire sui PC controllare lo stato dei servizi Microsoft 365: se c'è un incidente aperto, non ricreare profili. Comunicare ai clienti la soluzione temporanea (Outlook sul web) e gli aggiornamenti dell'incidente.",
+   "passi": [
+    "Controllare lo stato dei servizi Microsoft 365.",
+    "Se c'è un incidente: indicare Outlook sul web come soluzione temporanea.",
+    "Se non c'è incidente: verificare connessione e ricreare il profilo di Outlook."
+   ]
+  },
+  {
+   "id": "CF-120",
+   "fonte": "Confluence",
+   "spazio": "Sicurezza",
+   "titolo": "Richieste di accesso privilegiato",
+   "aggiornata": "2026-03-04",
+   "autore": "Paolo Neri",
+   "parole": [
+    "amministratore",
+    "accesso",
+    "credenziali",
+    "privilegiato",
+    "admin",
+    "server",
+    "password"
+   ],
+   "self_service": false,
+   "testo": "Le credenziali da amministratore non si comunicano mai via ticket o email. Serve il modulo di autorizzazione firmato dal responsabile IT del cliente. L'intervento lo esegue il team Sicurezza, in sessione assistita e registrata.",
+   "passi": [
+    "Inviare al cliente il modulo di autorizzazione all'accesso privilegiato.",
+    "A modulo firmato, il team Sicurezza fissa una sessione assistita.",
+    "L'aggiornamento viene installato in sessione registrata, senza consegnare credenziali."
+   ]
+  },
+  {
+   "id": "CF-131",
+   "fonte": "Confluence",
+   "spazio": "Help Desk",
+   "titolo": "Stampanti: coda di stampa bloccata",
+   "aggiornata": "2025-11-18",
+   "autore": "Marco Sala",
+   "parole": [
+    "stampante",
+    "coda",
+    "bloccata",
+    "spooler"
+   ],
+   "self_service": true,
+   "testo": "Se i documenti restano in coda: riavviare lo spooler di stampa sul PC e spegnere e riaccendere la stampante.",
+   "passi": [
+    "Riavviare il servizio Spooler di stampa.",
+    "Spegnere e riaccendere la stampante."
+   ]
+  },
+  {
+   "id": "NT-07",
+   "fonte": "Notion",
+   "spazio": "Manuale del team",
+   "titolo": "Onboarding: PC e account per un nuovo dipendente",
+   "aggiornata": "2026-10-01",
+   "autore": "Elena Conti",
+   "parole": [
+    "onboarding",
+    "nuovo",
+    "nuova",
+    "dipendente",
+    "collega",
+    "assunto",
+    "pc",
+    "account",
+    "inizia"
+   ],
+   "self_service": true,
+   "testo": "La richiesta si fa dal modulo «Nuovo dipendente» sul portale interno, almeno 2 giorni lavorativi prima dell'arrivo. In magazzino ci sono sempre portatili pronti da configurare. Account e casella vengono creati entro un giorno lavorativo.",
+   "passi": [
+    "Compilare il modulo «Nuovo dipendente» sul portale interno, con nome, reparto e data di inizio.",
+    "Indicare se servono telefono o secondo monitor.",
+    "Il PC configurato si ritira dall'ufficio IT il giorno prima dell'arrivo."
+   ]
+  },
+  {
+   "id": "NT-12",
+   "fonte": "Notion",
+   "spazio": "Manuale del team",
+   "titolo": "Chi fa cosa nel supporto",
+   "aggiornata": "2026-09-28",
+   "autore": "Elena Conti",
+   "parole": [
+    "chi",
+    "assegnazione",
+    "tecnico",
+    "team",
+    "competenze"
+   ],
+   "self_service": false,
+   "testo": "Assegnazione dei ticket per competenza.",
+   "matrice": [
+    {
+     "categoria": "rete e vpn",
+     "tecnico": "Luca Riva"
+    },
+    {
+     "categoria": "posta e microsoft 365",
+     "tecnico": "Andrea Galli"
+    },
+    {
+     "categoria": "sicurezza e accessi",
+     "tecnico": "Paolo Neri"
+    },
+    {
+     "categoria": "postazioni, stampanti e interventi in sede",
+     "tecnico": "Marco Sala",
+     "nota": "Il giovedì è in sede dai clienti di Monza e Desio."
+    },
+    {
+     "categoria": "onboarding e acquisti",
+     "tecnico": "Elena Conti"
+    }
+   ]
+  }
+ ],
+ "stato_servizi": [
+  {
+   "id": "INC-88",
+   "servizio": "Microsoft 365 · Exchange Online",
+   "stato": "Degradato",
+   "dal": "2026-10-22T08:35",
+   "descrizione": "Ritardi e disconnessioni di Outlook per i tenant in Europa occidentale. Outlook sul web funziona. Prossimo aggiornamento alle 10:30."
+  },
+  {
+   "id": "OK",
+   "servizio": "Rete e VPN aziendale",
+   "stato": "Operativo"
+  }
+ ]
+}

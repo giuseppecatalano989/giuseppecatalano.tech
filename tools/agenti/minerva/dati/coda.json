@@ -1,0 +1,12 @@
+[
+ { "id": "SD-2041", "canale": "portale", "ora": "08:05", "priorita": "media", "richiedente": "Silvia Brambilla", "azienda": "Studio Legale Brambilla", "tipo": "cliente",
+   "oggetto": "VPN non si connette da casa", "testo": "Buongiorno, da casa la VPN non si connette più: compare l'errore 809. In ufficio funziona. Uso un portatile con Windows 11." },
+ { "id": "SD-2042", "canale": "email", "ora": "08:22", "priorita": "media", "richiedente": "Roberto Sala", "azienda": "Brianza Digital Services · Commerciale", "tipo": "collega",
+   "oggetto": "PC e account per una nuova collega", "testo": "Ciao, lunedì 26 inizia Giulia Mauri in commerciale. Come faccio a farle avere PC e account per il primo giorno?" },
+ { "id": "SD-2043", "canale": "portale", "ora": "08:51", "priorita": "alta", "richiedente": "Marco Ferri", "azienda": "Ferri Trasporti", "tipo": "cliente",
+   "oggetto": "Outlook disconnesso, non arrivano email", "testo": "Da stamattina Outlook dice «Disconnesso» e non ci arrivano email, su tutti i PC dell'ufficio. È urgente, lavoriamo con gli ordini via email." },
+ { "id": "SD-2044", "canale": "portale", "ora": "09:10", "priorita": "media", "richiedente": "Davide Colombo", "azienda": "Colombo Arredamenti", "tipo": "cliente",
+   "oggetto": "Accesso amministratore al server del gestionale", "testo": "Ci serve l'accesso da amministratore al server del gestionale per installare un aggiornamento del fornitore. Potete darci le credenziali?" },
+ { "id": "SD-2045", "canale": "portale", "ora": "09:26", "priorita": "bassa", "richiedente": "Laura Pirovano", "azienda": "Pirovano Assicurazioni", "tipo": "cliente",
+   "oggetto": "Stampante del terzo piano: pagine bianche", "testo": "La multifunzione del terzo piano stampa pagine completamente bianche. Il toner è stato cambiato la settimana scorsa." }
+]

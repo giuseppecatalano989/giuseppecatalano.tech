@@ -1,0 +1,1 @@
+const COUNTS = {"ascolta":293,"persona":170,"risponde":187,"approva":254,"riepilogo":205};

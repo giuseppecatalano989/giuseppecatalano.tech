@@ -13,9 +13,10 @@ from scipy.io import wavfile
 SR = 44100
 VARIANTI = {
     # bpm, nota base (MIDI), giro di accordi (gradi in semitoni dalla base: triadi minori/maggiori)
-    'vedetta':  dict(bpm=100, base=57, giro=[(0, 'm'), (-4, 'M'), (3, 'M'), (-2, 'M')], seme=7),    # La minore: Am F C G
+    'metis':    dict(bpm=100, base=57, giro=[(0, 'm'), (-4, 'M'), (3, 'M'), (-2, 'M')], seme=7),    # La minore: Am F C G
+    'comitas':  dict(bpm=96, base=62, giro=[(0, 'M'), (7, 'M'), (-3, 'm'), (5, 'M')], seme=23),     # Re maggiore: D A Bm G
+    'minerva':  dict(bpm=92, base=55, giro=[(0, 'M'), (-5, 'M'), (-3, 'm'), (2, 'M')], seme=31),    # Sol maggiore: G D Em A
     'quadra':   dict(bpm=104, base=60, giro=[(0, 'M'), (-3, 'm'), (5, 'M'), (7, 'M')], seme=11),   # Do maggiore: C Am F G
-    'sportello': dict(bpm=96, base=62, giro=[(0, 'M'), (7, 'M'), (-3, 'm'), (5, 'M')], seme=23),   # Re maggiore: D A Bm G
 }
 
 

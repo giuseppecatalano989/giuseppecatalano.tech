@@ -17,9 +17,9 @@ vengono eseguiti davvero. Ogni agente ha un'interfaccia web locale che mostra il
 
 ```
 npm install
-node core/server.js vedetta            # modalità demo (predefinita), http://localhost:4300
-node core/server.js vedetta --live     # decisioni dalle API di Claude
-node core/server.js vedetta --registra # come --live, e salva la sessione in scenario.json
+node core/server.js metis            # modalità demo (predefinita), http://localhost:4300
+node core/server.js metis --live     # decisioni dalle API di Claude
+node core/server.js metis --registra # come --live, e salva la sessione in scenario.json
 ```
 
 Per `--live` e `--registra` serve la variabile `ANTHROPIC_API_KEY` (e facoltativamente `AGENT_MODEL`,
@@ -37,15 +37,24 @@ per il video, rifare la ripresa (vedi `tools/video/LEGGIMI.md`).
 
 ## Agenti
 
-- **Vedetta** — project management: legge email, ticket, note delle riunioni e piano; calcola l'effetto
-  a cascata dei ritardi; scrive lo stato avanzamento; propone aggiornamenti ai ticket ed email, che esegue
-  solo dopo l'approvazione. Vetrina: `/vedetta/`.
+- **Metis** — pianificazione per il project manager: legge brief, offerte dei fornitori e attività del team;
+  costruisce il piano a step con dipendenze e calendario reale (festivi, chiusure, vincoli «non prima del»,
+  trasloco nel fine settimana) e trova il percorso critico; simula varianti; genera chi fa cosa, schema dei SAL
+  e report; prepara le email ai fornitori, che partono solo dopo l'approvazione. Le date le calcola sempre il
+  motore deterministico in `agente.config.js`, mai il modello. Vetrina: `/metis/`.
 - **Quadra** — ciclo passivo: legge le fatture elettroniche arrivate dallo SDI, fa il controllo a tre vie
   (ordine, bolle di consegna, fattura) più doppioni, IBAN e conti; registra in autonomia le fatture conformi;
   propone blocchi di pagamento ed email di contestazione, con approvazione. Vetrina: `/quadra/`.
-- **Sportello** — assistenza clienti di un negozio online: legge email e chat, recupera ordini, tracciamento,
-  storico e base di conoscenza; risponde da solo alle richieste informative; propone sostituzioni e modifiche
-  agli ordini (con approvazione); passa a una persona i casi delicati con riepilogo e proposta. Vetrina: `/sportello/`.
+- **Comitas** — clienti e social per un e-commerce o un'attività di servizi: legge email, chat, DM e commenti
+  pubblici su Instagram e Facebook; recupera ordini, tracciamento, storico (anche tra canali diversi) e base di
+  conoscenza; risponde da solo alle richieste informative, in privato o in pubblico; nasconde lo spam; propone
+  sostituzioni, modifiche agli ordini e risposte pubbliche ai reclami (con approvazione); passa a una persona i
+  casi delicati con tutti i messaggi collegati. Vetrina: `/comitas/`.
+- **Minerva** — service desk su knowledge base: legge la coda di ticket ed email, lo stato dei servizi e le pagine
+  di Confluence e Notion (simulate); scrive una nota privata con le fonti e assegna il ticket secondo la matrice di
+  chi fa cosa; risponde in automatico solo con procedura verificata, altrimenti prepara una bozza da approvare.
+  Il blocco è nello strumento `invia_risposta`: rifiuta l'invio su ticket legati a un incidente, di sicurezza o
+  senza una fonte con confidenza alta. Vetrina: `/minerva/`.
 
 Ogni agente ha un livello di autonomia deciso strumento per strumento: gli strumenti con `approvazione: true`
 fermano il ciclo finché qualcuno non approva dall'interfaccia.

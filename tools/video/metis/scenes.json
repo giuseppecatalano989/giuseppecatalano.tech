@@ -1,0 +1,65 @@
+{
+ "_note": "seg = tratti della ripresa [inizio, fine, velocità]; inizio e fine sono secondi o segni di marks.json (vedi agenti/extract.js)",
+ "scenes": [
+  {
+   "id": "legge",
+   "seg": [
+    [
+     "click-0.6",
+     "risultato:leggi_attivita_team+0.9",
+     1
+    ]
+   ]
+  },
+  {
+   "id": "piano",
+   "seg": [
+    [
+     "risultato:leggi_attivita_team+0.9",
+     "risultato:calcola_piano+2.4",
+     1
+    ]
+   ]
+  },
+  {
+   "id": "variante",
+   "seg": [
+    [
+     "risultato:calcola_piano+2.4",
+     "risultato:simula_variante+2.6",
+     1
+    ]
+   ]
+  },
+  {
+   "id": "documenti",
+   "seg": [
+    [
+     "risultato:simula_variante+2.6",
+     "risultato:scrivi_report+2.2",
+     1
+    ]
+   ]
+  },
+  {
+   "id": "approva",
+   "seg": [
+    [
+     "risultato:scrivi_report+2.2",
+     "risultato:prepara_email#2+0.6",
+     1.15
+    ]
+   ]
+  },
+  {
+   "id": "finale",
+   "seg": [
+    [
+     "risultato:prepara_email#2+0.6",
+     "stop",
+     1.15
+    ]
+   ]
+  }
+ ]
+}

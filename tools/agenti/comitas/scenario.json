@@ -1,0 +1,232 @@
+{
+ "_nota": "Scenario dimostrativo: le decisioni dell'agente sono scritte nello stesso formato prodotto dalla modalità --registra. Gli strumenti vengono eseguiti davvero sui dati di prova. Per sostituirlo con una sessione reale: node core/server.js comitas --registra (serve ANTHROPIC_API_KEY).",
+ "compito": "Gestisci messaggi e commenti arrivati stamattina su tutti i canali: rispondi, modera, risolvi o passa a un operatore, e chiudi con il riepilogo per il team.",
+ "turni": [
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Leggo messaggi e commenti arrivati stamattina su tutti i canali."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c01",
+     "name": "leggi_messaggi",
+     "input": {}
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Sono 8, su cinque canali: tre richieste private, una domanda e un complimento pubblici, uno spam, un commento negativo su Facebook e un cliente al terzo sollecito via email. Recupero i dati di ogni caso."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c02",
+     "name": "cerca_ordine",
+     "input": {
+      "numero": "CO-48213"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c03",
+     "name": "cerca_ordine",
+     "input": {
+      "numero": "CO-47950"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c04",
+     "name": "cerca_conoscenza",
+     "input": {
+      "domanda": "lenzuola lino angoli materasso 140x200 altezza",
+      "messaggio": "MSG-503"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c05",
+     "name": "storico_cliente",
+     "input": {
+      "email": "giorgio.ferraris@example.it"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c06",
+     "name": "cerca_ordine",
+     "input": {
+      "numero": "CO-48390"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c07",
+     "name": "cerca_conoscenza",
+     "input": {
+      "domanda": "commenti social spam reclamo pubblico",
+      "messaggio": "MSG-507"
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Il commento negativo su Facebook è dello stesso Giorgio che ha scritto due volte senza ricevere risposta: è un unico caso, lo passo a Marta. Il commento sui guadagni facili è spam e lo nascondo. Poi controllo il pacco di Chiara e la politica sui difetti."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c08",
+     "name": "passa_a_operatore",
+     "input": {
+      "messaggi": [
+       "MSG-504",
+       "MSG-506"
+      ],
+      "operatore": "Marta Rossi",
+      "priorita": "alta",
+      "riepilogo": "Tavolino Tasso (ordine CO-47331) arrivato l'8/10 con una gamba rotta. Il cliente ha scritto il 9 e il 15 ottobre senza risposta; oggi ha scritto via email e ha lasciato un commento negativo pubblico su Facebook. Cliente fedele: 6 ordini, 642 € spesi.",
+      "proposta": "Chiamarlo oggi: scuse per i ritardi, rimborso completo di 89 € con ritiro gratuito, oppure sostituzione con spedizione prioritaria, e un buono di 15 €. Sotto il commento su Facebook basta una risposta che lo inviti in privato."
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c09",
+     "name": "nascondi_commento",
+     "input": {
+      "messaggio": "MSG-507",
+      "motivo": "Spam: offerta di guadagno con invito in DM, profilo creato da pochi giorni."
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c10",
+     "name": "traccia_spedizione",
+     "input": {
+      "tracking": "LMP3381920"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c11",
+     "name": "cerca_conoscenza",
+     "input": {
+      "domanda": "prodotto difettoso macchia sostituzione rimborso",
+      "messaggio": "MSG-502"
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Rispondo subito alla consegna in ritardo, alla domanda sulle misure e al complimento. Sostituzione del piumone, cambio di indirizzo e risposta pubblica a Giorgio li propongo a te."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c12",
+     "name": "invia_risposta",
+     "input": {
+      "messaggio": "MSG-501",
+      "testo": "Ciao Chiara! Il tuo pacco è partito il 17/10 ed è fermo all'hub di Bologna di Corriere Lampo per i volumi elevati di questi giorni. La consegna è stata riprogrammata per domani, 23 ottobre. Puoi seguirlo con il codice LMP3381920. Scusa per l'attesa!"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c13",
+     "name": "rispondi_commento",
+     "input": {
+      "messaggio": "MSG-503",
+      "testo": "Ciao Laura! Sì 💚 Le lenzuola con angoli 140x200 hanno angoli profondi 32 cm: vanno bene per materassi alti fino a 30 cm."
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c14",
+     "name": "rispondi_commento",
+     "input": {
+      "messaggio": "MSG-508",
+      "testo": "Che bello leggerlo, Anna! Grazie per averlo condiviso 💚"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c15",
+     "name": "avvia_sostituzione",
+     "input": {
+      "ordine": "CO-47950",
+      "tipo": "sostituzione",
+      "motivo": "Macchia di fabbrica su un lato, foto allegata dal cliente; consegnato il 17/10, entro i 30 giorni."
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c16",
+     "name": "aggiorna_indirizzo",
+     "input": {
+      "ordine": "CO-48390",
+      "indirizzo": "Via Manzoni 14, 22100 Como"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c17",
+     "name": "proponi_risposta_pubblica",
+     "input": {
+      "messaggio": "MSG-506",
+      "testo": "Giorgio, ha ragione e ci scusiamo: non avremmo dovuto farla aspettare. Marta del nostro servizio clienti la chiamerà oggi stesso per risolvere."
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Approvati. Confermo a Davide e a Sofia, poi chiudo il turno."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c18",
+     "name": "invia_risposta",
+     "input": {
+      "messaggio": "MSG-502",
+      "testo": "Buongiorno Davide, ci dispiace per il piumone. Le inviamo subito un piumone nuovo e il corriere passerà a ritirare quello difettoso, senza costi per lei. Riceverà a breve l'email con la data del ritiro."
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c19",
+     "name": "invia_risposta",
+     "input": {
+      "messaggio": "MSG-505",
+      "testo": "Ciao Sofia, fatto! L'ordine CO-48390 verrà consegnato in via Manzoni 14, a Como. Il pacco non era ancora partito 😊"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_c20",
+     "name": "scrivi_riepilogo",
+     "input": {
+      "sintesi": "Gestiti tutti gli 8 messaggi della mattina su cinque canali: tre risposte in autonomia, tre azioni approvate da te, uno spam nascosto e un caso delicato, presente su email e Facebook, passato a Marta con priorità alta."
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Fatto. Tutti i clienti hanno una risposta e lo spam è nascosto. Il caso di Giorgio è da Marta, con il riepilogo e una proposta: va chiamato oggi."
+    }
+   ]
+  }
+ ]
+}

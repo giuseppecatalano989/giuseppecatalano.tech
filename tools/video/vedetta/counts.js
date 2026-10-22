@@ -1,1 +1,0 @@
-const COUNTS = {"raccoglie":198,"calcola":288,"scrive":133,"approva":260,"report":238};

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comitas — L'agente AI per clienti e social</title>
+<meta name="description" content="Comitas è un agente AI per clienti e social: legge email, chat, messaggi privati e commenti, recupera ordini, tracciamenti e politiche, risponde con dati verificati, nasconde lo spam, chiede l'approvazione per rimborsi, modifiche e risposte pubbliche delicate e passa a una persona i casi difficili.">
+<meta property="og:title" content="Comitas — L'agente AI per clienti e social">
+<meta property="og:description" content="Ascolta, risponde, modera. Nessun cliente lasciato in attesa.">
+<meta name="theme-color" content="#24183A">
+<link rel="icon" href="../assets/comitas.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="comitas.css">
+</head>
+<body>
+
+<header class="bar">
+  <a class="back-tondo" href="../#tav-04" aria-label="Torna al portfolio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+  <a class="logo" href="#top"><img src="../assets/comitas.svg" alt="" width="32" height="32"> Comitas</a>
+  <span aria-hidden="true"></span>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>Email, chat, DM, commenti.<br><span>Ognuno con la risposta giusta.</span></h1>
+      <p class="lead">Comitas è un agente AI per chi ha clienti da seguire: un e-commerce, uno studio, un’agenzia, un’attività di servizi. Legge email, chat, messaggi privati e commenti su Instagram e Facebook, recupera ordini, tracciamenti e politiche e risponde con dati verificati. Nasconde lo spam, chiede a te rimborsi, modifiche e risposte pubbliche ai reclami, e passa a una persona i clienti più insoddisfatti, anche quando scrivono su più canali.</p>
+      <div class="cta">
+        <button type="button" class="btn btn-play" data-demo hidden>
+          <span class="play-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+          Guarda la demo
+        </button>
+      </div>
+    </div>
+
+    <!-- Lo smistamento che fa l'agente sugli otto messaggi della demo -->
+    <figure class="triage" aria-labelledby="tri-cap">
+      <figcaption id="tri-cap"><b>Otto messaggi da quattro canali.</b> <span>Chi decide cosa?</span></figcaption>
+      <div class="incoming" id="incoming"></div>
+      <button type="button" class="sort" id="sort">Smista come Comitas</button>
+      <div class="cols">
+        <div class="col" data-col="auto"><h3>Risponde da solo</h3><div class="drop"></div></div>
+        <div class="col" data-col="ok"><h3>Ti chiede l’ok</h3><div class="drop"></div></div>
+        <div class="col" data-col="nasconde"><h3>Nasconde</h3><div class="drop"></div></div>
+        <div class="col" data-col="umano"><h3>Passa a una persona</h3><div class="drop"></div></div>
+      </div>
+    </figure>
+  </section>
+
+  <section class="steps">
+    <h2>Come lavora</h2>
+    <ol>
+      <li><b>Ascolta</b><p>Raccoglie in una sola coda email, chat, messaggi privati e commenti pubblici, e capisce che tipo di richiesta è ognuno.</p></li>
+      <li><b>Verifica</b><p>Recupera i dati di ogni caso: ordine, tracciamento, base di conoscenza, storico. Riconosce lo stesso cliente quando scrive su canali diversi.</p></li>
+      <li><b>Risponde e modera</b><p>Alle domande e ai complimenti risponde subito, in privato o in pubblico, con il tono giusto per ogni canale. Lo spam lo nasconde.</p></li>
+      <li><b>Chiede o passa</b><p>Rimborsi, modifiche e risposte pubbliche ai reclami aspettano il tuo ok. I clienti molto insoddisfatti vanno a una persona, con tutti i loro messaggi in un solo caso.</p></li>
+    </ol>
+  </section>
+
+  <section class="tools">
+    <div class="sec-head">
+      <h2>Tredici strumenti, tre livelli di autonomia</h2>
+      <p>Cosa può fare l’agente da solo è deciso in fase di progetto, strumento per strumento.</p>
+    </div>
+    <div class="levels">
+      <div class="lv"><h3>Da solo</h3><ul>
+        <li><code>leggi_messaggi</code></li><li><code>cerca_ordine</code></li><li><code>traccia_spedizione</code></li>
+        <li><code>cerca_conoscenza</code></li><li><code>storico_cliente</code><small>lo stesso cliente su email e social</small></li>
+        <li><code>invia_risposta</code><small>email, chat e DM: risposte informative o conferme</small></li>
+        <li><code>rispondi_commento</code><small>domande e complimenti in pubblico</small></li>
+        <li><code>nascondi_commento</code><small>spam, truffe, profili falsi</small></li><li><code>scrivi_riepilogo</code></li></ul></div>
+      <div class="lv ok"><h3>Con la tua approvazione</h3><ul>
+        <li><code>avvia_sostituzione</code><small>sostituzioni e rimborsi</small></li><li><code>aggiorna_indirizzo</code><small>modifiche agli ordini</small></li>
+        <li><code>proponi_risposta_pubblica</code><small>reclami nei commenti</small></li></ul></div>
+      <div class="lv umano"><h3>Con una persona</h3><ul>
+        <li><code>passa_a_operatore</code><small>tutti i messaggi del caso, riepilogo e proposta di soluzione</small></li></ul></div>
+    </div>
+  </section>
+
+  <section class="rules">
+    <div class="sec-head">
+      <h2>Le regole che segue</h2>
+      <p>Sono le istruzioni con cui lavora l’agente.</p>
+    </div>
+    <ul class="rule-list">
+      <li>Prima di rispondere recupera i dati. Date, misure e politiche non le inventa.</li>
+      <li>Alle domande informative risponde da solo, citando i dati verificati.</li>
+      <li>In pubblico niente dati personali: i reclami si spostano in privato.</li>
+      <li>Quello che costa denaro, cambia un ordine o risponde a un reclamo in pubblico passa da te.</li>
+      <li>Ai clienti molto insoddisfatti non risponde lui: li affida a una persona.</li>
+    </ul>
+  </section>
+
+  <section class="stack">
+    <div class="stack-in">
+      <h2>Come è costruito</h2>
+      <p>Comitas usa Claude di Anthropic attraverso le API, con gli strumenti definiti come funzioni collegate a ordini, corriere, storico, base di conoscenza e account social. I limiti più importanti sono nel codice degli strumenti, non solo nelle istruzioni: una risposta privata non può finire per sbaglio sotto un post pubblico. Ogni passaggio arriva all’interfaccia in tempo reale, e le approvazioni fermano l’agente finché non decidi.</p>
+      <p>La demo usa un negozio di casa e arredo, clienti, profili e ordini inventati. Le decisioni dell’agente vengono da una sessione salvata; strumenti, risposte e riepilogo sono eseguiti davvero.</p>
+    </div>
+  </section>
+
+  <section class="final">
+    <img src="../assets/comitas.svg" alt="" width="84" height="84">
+    <h2>Nessun cliente in attesa.<br><span>Su nessun canale.</span></h2>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>Comitas è un progetto di <a href="../">Giuseppe Catalano</a>, progettato da lui e costruito con l’intelligenza artificiale.</p>
+  <a class="back-pill" href="../#tav-04">
+    <span class="back-tondo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span>
+    Torna ai progetti
+  </a>
+</footer>
+
+<dialog class="demo-modal" id="demo-modal" aria-label="Video di presentazione di Comitas">
+  <button type="button" class="demo-close" data-close aria-label="Chiudi il video">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <div class="demo-frame">
+    <video id="demo-video" controls playsinline preload="none"
+      data-wide="video/presentazione-16x9.mp4" data-wide-poster="video/presentazione-16x9.jpg"
+      data-tall="video/presentazione-4x5.mp4" data-tall-poster="video/presentazione-4x5.jpg"></video>
+  </div>
+</dialog>
+
+<script src="comitas.js"></script>
+</body>
+</html>

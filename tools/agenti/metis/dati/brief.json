@@ -1,0 +1,25 @@
+{
+ "progetto": "Nuova sede di Monza",
+ "cliente": "Ottavia Logistica",
+ "pm": "Giuseppe",
+ "oggi": "2026-10-22",
+ "obiettivo": "Trasferire 60 persone nella nuova sede di Monza, operativa con rete, Wi-Fi, postazioni, telefonia e controllo accessi.",
+ "apertura": { "data": "2027-01-11", "vincolante": true, "nota": "Il contratto d'affitto della vecchia sede scade il 10 gennaio: l'apertura non può slittare." },
+ "vincoli": [
+  "I locali vengono consegnati dal proprietario lunedì 2 novembre.",
+  "Chiusura natalizia di tutti i fornitori e del team: dal 24 dicembre al 6 gennaio.",
+  "Il trasloco si fa nel fine settimana, a sede collaudata.",
+  "Festivi: 8 dicembre, 25 e 26 dicembre, 1 e 6 gennaio."
+ ],
+ "parti": [
+  { "chi": "proprietario", "nome": "Proprietà dell'immobile" },
+  { "chi": "edil", "nome": "Edil Brianza", "ruolo": "Opere edili, cartongessi, impianto elettrico" },
+  { "chi": "cablanet", "nome": "CablaNet", "ruolo": "Cablaggio strutturato e certificazione" },
+  { "chi": "fibrauno", "nome": "FibraUno", "ruolo": "Connettività in fibra" },
+  { "chi": "arredi", "nome": "Arredo Ufficio Seregno", "ruolo": "Fornitura e montaggio arredi" },
+  { "chi": "vigilanza", "nome": "Vigilanza Lombarda", "ruolo": "Controllo accessi e allarme" },
+  { "chi": "traslochi", "nome": "Traslochi Rapidi", "ruolo": "Trasloco" },
+  { "chi": "team", "nome": "Team IT interno", "ruolo": "Rete attiva, Wi-Fi, postazioni, telefonia, collaudo" },
+  { "chi": "cliente", "nome": "Ottavia Logistica" }
+ ]
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comitas — Clienti e social</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><img src="logo.svg" alt="" width="30" height="30"><b>Comitas</b></div>
+  <span class="shop" id="negozio">Casa Ortensia · Clienti e social</span>
+  <div class="canali" aria-label="Canali collegati"><span>Email</span><span>Chat</span><span>Instagram</span><span>Facebook</span></div>
+  <div class="top-r">
+    <span class="team" id="team"></span>
+    <span class="mode" id="mode" hidden>Dati dimostrativi</span>
+    <button class="run" id="run" type="button">Gestisci messaggi e commenti</button>
+  </div>
+</header>
+
+<main class="grid">
+  <aside class="inbox">
+    <h2>In arrivo <em id="aperti"></em></h2>
+    <ul id="lista"></ul>
+  </aside>
+
+  <section class="conv" id="conv">
+    <div class="vuoto">Comitas legge email, chat, DM e commenti, recupera i dati e risponde. Quello che costa denaro, cambia un ordine o risponde in pubblico a un reclamo aspetta la tua approvazione.</div>
+  </section>
+
+  <aside class="log">
+    <h2>Giornale dell'agente</h2>
+    <div class="feed" id="feed"></div>
+  </aside>
+</main>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -3,14 +3,14 @@
 // (ripresa.mp4, 30 fps a tempi reali)
 // più i "segni" (marks.json): il momento di ogni evento dell'agente, usato da scenes.json.
 //
-// Uso: node agenti/registra.js <agente>        es. node agenti/registra.js vedetta
+// Uso: node agenti/registra.js <agente>        es. node agenti/registra.js metis
 // Variabili facoltative: BROWSER (percorso di Edge o Chrome), FFMPEG (percorso di ffmpeg)
 const puppeteer = require('puppeteer-core');
 const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
-const agente = process.argv[2] || 'vedetta';
+const agente = process.argv[2] || 'metis';
 const PORTA = 4310;
 const W = 1440, H = 900;
 const OUT = path.join(__dirname, '..', 'captures', agente);
@@ -99,6 +99,14 @@ let server;
     await pausa(150);
   }
   await pausa(1500);
+
+  // Se l'app ha la scheda del piano (Metis), si chiude tornando sul piano definitivo
+  if (await page.$('.tabs button[data-tab="piano"]')) {
+    await vai('.tabs button[data-tab="piano"]');
+    await page.click('.tabs button[data-tab="piano"]');
+    marks.push({ t: +((Date.now() - t0) / 1000).toFixed(2), type: 'piano_finale' });
+    await pausa(3200);
+  }
 
   // Scorre il report con calma
   const rep = await page.$('#rep');

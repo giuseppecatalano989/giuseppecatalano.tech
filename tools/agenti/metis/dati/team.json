@@ -1,0 +1,13 @@
+{
+ "team": "Team IT interno",
+ "persone": ["Giuseppe (PM)", "Andrea (sistemi)", "Elena (postazioni)", "Luca (rete e telefonia)"],
+ "disponibilita": "Il team è impegnato su un altro progetto fino al 13 novembre: le attività di laboratorio possono partire dal 16 novembre.",
+ "attivita": [
+  { "nome": "Rack, firewall e switch", "durata": 3, "prerequisiti": "Impianto elettrico finito e cablaggio certificato" },
+  { "nome": "Wi-Fi: rilievo e access point", "durata": 3, "prerequisiti": "Rete attiva installata. Il rilievo classico si fa con gli arredi montati; un rilievo predittivo su planimetria non richiede gli arredi." },
+  { "nome": "Preparazione 60 postazioni in laboratorio", "durata": 10, "prerequisiti": "Nessuno, ma non prima del 16 novembre" },
+  { "nome": "Installazione postazioni", "durata": 3, "prerequisiti": "Rete attiva, arredi montati nella zona, postazioni preparate" },
+  { "nome": "Telefonia VoIP", "durata": 2, "prerequisiti": "Fibra attiva e rete attiva" },
+  { "nome": "Collaudo generale", "durata": 2, "prerequisiti": "Tutto installato" }
+ ]
+}

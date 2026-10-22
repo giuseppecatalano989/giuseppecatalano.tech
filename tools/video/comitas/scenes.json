@@ -1,0 +1,55 @@
+{
+ "_note": "seg = tratti della ripresa [inizio, fine, velocità]; inizio e fine sono secondi o segni di marks.json (vedi agenti/extract.js)",
+ "scenes": [
+  {
+   "id": "ascolta",
+   "seg": [
+    [
+     "click-0.6",
+     "risultato:cerca_conoscenza#2+0.9",
+     1.15
+    ]
+   ]
+  },
+  {
+   "id": "persona",
+   "seg": [
+    [
+     "risultato:cerca_conoscenza#2+0.9",
+     "risultato:nascondi_commento+1.4",
+     1
+    ]
+   ]
+  },
+  {
+   "id": "risponde",
+   "seg": [
+    [
+     "risultato:nascondi_commento+1.4",
+     "approvazione:avvia_sostituzione+0.6",
+     1
+    ]
+   ]
+  },
+  {
+   "id": "approva",
+   "seg": [
+    [
+     "approvazione:avvia_sostituzione+0.6",
+     "risultato:proponi_risposta_pubblica+0.6",
+     1.15
+    ]
+   ]
+  },
+  {
+   "id": "riepilogo",
+   "seg": [
+    [
+     "risultato:proponi_risposta_pubblica+0.6",
+     "stop",
+     1.1
+    ]
+   ]
+  }
+ ]
+}

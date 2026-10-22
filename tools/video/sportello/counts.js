@@ -1,1 +1,0 @@
-const COUNTS = {"ascolta":269,"persona":177,"risponde":120,"approva":172,"riepilogo":182};

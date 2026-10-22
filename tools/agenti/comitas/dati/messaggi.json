@@ -1,0 +1,18 @@
+[
+ { "id": "MSG-501", "canale": "chat", "pubblico": false, "ora": "08:12", "cliente": "Chiara Bassi", "email": "chiara.bassi@example.it",
+   "testo": "Ciao, il mio ordine CO-48213 doveva arrivare ieri ma non si è visto nessuno. Dov'è finito?" },
+ { "id": "MSG-502", "canale": "email", "pubblico": false, "ora": "08:40", "cliente": "Davide Moretti", "email": "d.moretti@example.it", "oggetto": "Piumone macchiato",
+   "testo": "Buongiorno, il piumone matrimoniale arrivato sabato (ordine CO-47950) ha una macchia scura su un lato, sembra di fabbrica. Allego la foto. Come possiamo fare?", "allegati": ["foto-piumone.jpg"] },
+ { "id": "MSG-503", "canale": "instagram", "pubblico": true, "ora": "09:05", "cliente": "Laura Pozzi", "profilo": "@laura.pozzi", "email": "laura.pozzi@example.it",
+   "post": "Le nuove lenzuola in lino Ortensia, in sei colori", "testo": "Vanno bene per un materasso 140x200 alto 25 cm? 😍" },
+ { "id": "MSG-504", "canale": "email", "pubblico": false, "ora": "09:20", "cliente": "Giorgio Ferraris", "email": "giorgio.ferraris@example.it", "oggetto": "TERZA VOLTA che scrivo",
+   "testo": "È la terza volta che vi scrivo. Il tavolino Tasso è arrivato due settimane fa con una gamba rotta e nessuno mi ha mai risposto. Se entro oggi non risolvete lascio una recensione e non compro più da voi." },
+ { "id": "MSG-505", "canale": "instagram_dm", "pubblico": false, "ora": "09:31", "cliente": "Sofia Galli", "profilo": "@sofi.galli", "email": "sofia.galli@example.it",
+   "testo": "Ciao! Nell'ordine CO-48390 di stamattina ho sbagliato il civico: è via Manzoni 14, non 41. Si può correggere?" },
+ { "id": "MSG-506", "canale": "facebook", "pubblico": true, "ora": "09:44", "cliente": "Giorgio F.", "profilo": "Giorgio F.",
+   "post": "Il tavolino Tasso in rovere massello", "testo": "Ordinato un mese fa, arrivato rotto e nessuno risponde. Servizio pessimo, non comprate qui." },
+ { "id": "MSG-507", "canale": "instagram", "pubblico": true, "ora": "09:52", "cliente": "@soldi.facili.2026", "profilo": "@soldi.facili.2026",
+   "post": "Le nuove lenzuola in lino Ortensia, in sei colori", "testo": "🔥 Guadagna 500€ al giorno da casa! Scrivimi in DM per sapere come 🔥" },
+ { "id": "MSG-508", "canale": "instagram", "pubblico": true, "ora": "10:03", "cliente": "Anna Villa", "profilo": "@annavilla.home",
+   "post": "Il plaid in lana merino, color salvia", "testo": "Arrivato ieri, è ancora più bello dal vivo! 💚" }
+]

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Metis — Nuova sede di Monza</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><img src="logo.svg" alt="" width="30" height="30"><b>Metis</b></div>
+  <div class="proj"><span id="progetto">Nuova sede di Monza</span><small id="cliente">Ottavia Logistica</small></div>
+  <div class="target" id="target"></div>
+  <div class="top-r">
+    <span class="mode" id="mode" hidden>Dati dimostrativi</span>
+    <button class="run" id="run" type="button">Pianifica il progetto</button>
+  </div>
+</header>
+
+<main class="grid">
+  <aside class="side">
+    <h2>Fonti</h2>
+    <ul id="fonti">
+      <li data-fonte="brief"><i class="ic ic-brief"></i><span>Brief del progetto</span><em data-n></em></li>
+      <li data-fonte="fornitori"><i class="ic ic-forn"></i><span>Offerte dei fornitori</span><em data-n></em></li>
+      <li data-fonte="team"><i class="ic ic-team"></i><span>Attività del team</span><em data-n></em></li>
+    </ul>
+    <h2>Parti</h2>
+    <ul class="parti" id="parti"></ul>
+  </aside>
+
+  <section class="work">
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="piano" aria-selected="true">Piano</button>
+      <button role="tab" data-tab="raci" disabled>Chi fa cosa</button>
+      <button role="tab" data-tab="sal" disabled>Schema SAL</button>
+      <button role="tab" data-tab="report" disabled>Report</button>
+    </nav>
+    <div class="panel" data-panel="piano" id="p-piano">
+      <div class="empty">Metis costruirà qui il piano a step: fornitori, team, dipendenze e calendario reale.</div>
+    </div>
+    <div class="panel" data-panel="raci" id="p-raci" hidden></div>
+    <div class="panel" data-panel="sal" id="p-sal" hidden></div>
+    <div class="panel" data-panel="report" id="p-report" hidden></div>
+  </section>
+
+  <aside class="log">
+    <h2>Giornale dell'agente</h2>
+    <div class="feed" id="feed"></div>
+  </aside>
+</main>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

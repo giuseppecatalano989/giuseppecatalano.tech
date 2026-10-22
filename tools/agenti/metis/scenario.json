@@ -1,0 +1,371 @@
+{
+ "_nota": "Scenario dimostrativo: le decisioni dell'agente sono scritte nello stesso formato prodotto dalla modalità --registra. Gli strumenti vengono eseguiti davvero sui dati di prova. Per sostituirlo con una sessione reale: node core/server.js metis --registra (serve ANTHROPIC_API_KEY).",
+ "compito": "Pianifica l'apertura della nuova sede di Monza: costruisci il piano a step con tutti i fornitori e il team, verifica la data di apertura, prepara chi fa cosa, lo schema dei SAL, il report per il cliente e le richieste ai fornitori.",
+ "turni": [
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Leggo il brief, le offerte dei fornitori e le attività del team."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_m01",
+     "name": "leggi_brief",
+     "input": {}
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_m02",
+     "name": "leggi_offerte_fornitori",
+     "input": {}
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_m03",
+     "name": "leggi_attivita_team",
+     "input": {}
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Incastro 17 step di sette parti secondo i prerequisiti: cablaggio a pareti chiuse, arredi a impianti finiti e non prima del 14 dicembre, team libero dal 16 novembre, trasloco nel fine settimana. Calcolo il piano sul calendario reale."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_m04",
+     "name": "calcola_piano",
+     "input": {
+      "attivita": [
+       {
+        "id": "A01",
+        "nome": "Consegna dei locali",
+        "chi": "proprietario",
+        "milestone": true,
+        "non_prima_del": "2026-11-02"
+       },
+       {
+        "id": "A02",
+        "nome": "Opere edili e cartongessi",
+        "chi": "edil",
+        "durata": 15,
+        "dipende_da": [
+         "A01"
+        ]
+       },
+       {
+        "id": "A03",
+        "nome": "Impianto elettrico e illuminazione",
+        "chi": "edil",
+        "durata": 10,
+        "dipende_da": [
+         "A02"
+        ]
+       },
+       {
+        "id": "A04",
+        "nome": "Cablaggio rete dati",
+        "chi": "cablanet",
+        "durata": 8,
+        "dipende_da": [
+         "A02"
+        ]
+       },
+       {
+        "id": "A05",
+        "nome": "Certificazione cablaggio",
+        "chi": "cablanet",
+        "durata": 2,
+        "dipende_da": [
+         "A04"
+        ]
+       },
+       {
+        "id": "A06",
+        "nome": "Sopralluogo fibra",
+        "chi": "fibrauno",
+        "durata": 1,
+        "dipende_da": [
+         "A01"
+        ]
+       },
+       {
+        "id": "A07",
+        "nome": "Attivazione fibra",
+        "chi": "fibrauno",
+        "durata": 25,
+        "dipende_da": [
+         "A06"
+        ]
+       },
+       {
+        "id": "A08",
+        "nome": "Rack, firewall e switch",
+        "chi": "team",
+        "durata": 3,
+        "dipende_da": [
+         "A03",
+         "A05"
+        ]
+       },
+       {
+        "id": "A09",
+        "nome": "Consegna e montaggio arredi",
+        "chi": "arredi",
+        "durata": 8,
+        "dipende_da": [
+         "A03",
+         "A04"
+        ],
+        "non_prima_del": "2026-12-14"
+       },
+       {
+        "id": "A10",
+        "nome": "Wi-Fi: rilievo e access point",
+        "chi": "team",
+        "durata": 3,
+        "dipende_da": [
+         "A08",
+         "A09"
+        ]
+       },
+       {
+        "id": "A11",
+        "nome": "Preparazione postazioni in laboratorio",
+        "chi": "team",
+        "durata": 10,
+        "non_prima_del": "2026-11-16"
+       },
+       {
+        "id": "A12",
+        "nome": "Installazione postazioni",
+        "chi": "team",
+        "durata": 3,
+        "dipende_da": [
+         "A08",
+         "A09",
+         "A11"
+        ]
+       },
+       {
+        "id": "A13",
+        "nome": "Controllo accessi e allarme",
+        "chi": "vigilanza",
+        "durata": 4,
+        "dipende_da": [
+         "A03"
+        ]
+       },
+       {
+        "id": "A14",
+        "nome": "Telefonia VoIP",
+        "chi": "team",
+        "durata": 2,
+        "dipende_da": [
+         "A07",
+         "A08"
+        ]
+       },
+       {
+        "id": "A15",
+        "nome": "Collaudo generale",
+        "chi": "team",
+        "durata": 2,
+        "dipende_da": [
+         "A10",
+         "A12",
+         "A13",
+         "A14"
+        ]
+       },
+       {
+        "id": "A16",
+        "nome": "Trasloco",
+        "chi": "traslochi",
+        "tipo": "weekend",
+        "dipende_da": [
+         "A15"
+        ]
+       },
+       {
+        "id": "A17",
+        "nome": "Apertura della sede",
+        "chi": "cliente",
+        "milestone": true,
+        "dipende_da": [
+         "A16"
+        ]
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "L'apertura slitterebbe al 18 gennaio: gli arredi finiscono il 23 dicembre e Wi-Fi e postazioni finiscono dopo la chiusura natalizia. Nelle fonti ci sono due margini: Arredo Ufficio Seregno può consegnare per zone, e il Wi-Fi si può progettare con un rilievo predittivo sulla planimetria, senza aspettare i mobili. Simulo la variante."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_m05",
+     "name": "simula_variante",
+     "input": {
+      "nome": "Arredi in due lotti e Wi-Fi predittivo",
+      "adotta": true,
+      "rimuovi": [
+       "A09"
+      ],
+      "modifiche": [
+       {
+        "id": "A10",
+        "nome": "Wi-Fi: rilievo predittivo e access point",
+        "dipende_da": [
+         "A08"
+        ]
+       },
+       {
+        "id": "A12",
+        "dipende_da": [
+         "A08",
+         "A09a",
+         "A11"
+        ]
+       },
+       {
+        "id": "A15",
+        "dipende_da": [
+         "A09b",
+         "A10",
+         "A12",
+         "A13",
+         "A14"
+        ]
+       }
+      ],
+      "nuove": [
+       {
+        "id": "A09a",
+        "nome": "Consegna e montaggio arredi — open space",
+        "chi": "arredi",
+        "durata": 5,
+        "dipende_da": [
+         "A03",
+         "A04"
+        ],
+        "non_prima_del": "2026-12-14"
+       },
+       {
+        "id": "A09b",
+        "nome": "Consegna e montaggio arredi — uffici",
+        "chi": "arredi",
+        "durata": 3,
+        "dipende_da": [
+         "A09a"
+        ]
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Con la variante l'apertura torna all'11 gennaio, ma senza margine: il percorso critico ora passa dagli arredi. Genero la matrice di chi fa cosa e lo schema dei SAL sul nuovo piano."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_m06",
+     "name": "genera_chi_fa_cosa",
+     "input": {}
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_m07",
+     "name": "genera_schema_sal",
+     "input": {}
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Scrivo il report di pianificazione per il cliente."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_m08",
+     "name": "scrivi_report",
+     "input": {
+      "titolo": "Nuova sede di Monza — Piano di progetto",
+      "sintesi": "Il piano coordina sette parti in 18 step, dalla consegna dei locali del 2 novembre all'apertura dell'11 gennaio. Con la sequenza standard l'apertura slitterebbe al 18 gennaio; consegnando gli arredi in due lotti e progettando il Wi-Fi su planimetria si rispetta la data, senza margine.",
+      "rischi": [
+       {
+        "livello": "alto",
+        "titolo": "Nessun margine sugli arredi",
+        "azione": "Conferma scritta della consegna in due lotti entro il 30 ottobre e verifica settimanale della produzione."
+       },
+       {
+        "livello": "medio",
+        "titolo": "Attivazione della fibra in 25 giorni lavorativi",
+        "azione": "Sopralluogo prenotato per il 2 novembre; se la linea tarda, connessione 5G di emergenza da valutare."
+       },
+       {
+        "livello": "medio",
+        "titolo": "Collaudo a ridosso della chiusura natalizia",
+        "azione": "Collaudo concentrato il 7 e 8 gennaio, con i fornitori reperibili."
+       }
+      ],
+      "decisioni": [
+       "Approvare la consegna degli arredi in due lotti: open space entro il 18 dicembre, uffici entro il 23.",
+       "Approvare il rilievo Wi-Fi predittivo su planimetria, con verifica sul campo al collaudo."
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Propongo due email, che partono solo con la tua approvazione: la consegna in due lotti va confermata dal fornitore, e il sopralluogo della fibra va prenotato oggi per rispettare i 10 giorni di preavviso."
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_m09",
+     "name": "prepara_email",
+     "input": {
+      "a": "Arredo Ufficio Seregno",
+      "oggetto": "Nuova sede di Monza — consegna degli arredi in due lotti",
+      "testo": "Buongiorno,\nper rispettare l'apertura dell'11 gennaio vorremmo usare la consegna per zone prevista dalla vostra offerta: lotto 1, open space, con montaggio dal 14 al 18 dicembre; lotto 2, uffici, dal 21 al 23 dicembre.\nCi confermate per iscritto entro il 30 ottobre?\nGrazie,\nGiuseppe"
+     }
+    },
+    {
+     "type": "tool_use",
+     "id": "toolu_m10",
+     "name": "prepara_email",
+     "input": {
+      "a": "FibraUno",
+      "oggetto": "Prenotazione del sopralluogo — nuova sede di Monza",
+      "testo": "Buongiorno,\nvi chiediamo di prenotare il sopralluogo tecnico per lunedì 2 novembre, giorno di consegna dei locali, così da avere la linea attiva entro il 7 dicembre.\nCi indicate l'orario?\nGrazie,\nGiuseppe"
+     }
+    }
+   ]
+  },
+  {
+   "content": [
+    {
+     "type": "text",
+     "text": "Fatto. Piano in 18 step con apertura l'11 gennaio, matrice di chi fa cosa, schema dei SAL per 116.800 € e report per il cliente. Le due richieste ai fornitori sono in uscita: senza la conferma degli arredi il piano non regge."
+    }
+   ]
+  }
+ ]
+}

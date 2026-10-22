@@ -1,0 +1,131 @@
+@font-face { font-family: 'Public Sans'; font-weight: 400; src: url('/fonts/public-sans/files/public-sans-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Public Sans'; font-weight: 500; src: url('/fonts/public-sans/files/public-sans-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Public Sans'; font-weight: 600; src: url('/fonts/public-sans/files/public-sans-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Public Sans'; font-weight: 700; src: url('/fonts/public-sans/files/public-sans-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Public Sans'; font-weight: 800; src: url('/fonts/public-sans/files/public-sans-latin-800-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Plex Mono'; font-weight: 400; src: url('/fonts/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Plex Mono'; font-weight: 500; src: url('/fonts/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2') format('woff2'); }
+
+/* La biblioteca: pietra chiara, inchiostro verde scuro, oliva per ciò che è verificato, bronzo per la sapienza, giallo per le note private */
+:root {
+  --pietra: #EEF0EA; --bianco: #FFFFFF; --inchiostro: #1C241E; --grigio: #626B62; --riga: #DADFD5;
+  --oliva: #4E6B2F; --oliva-chiaro: #E4ECD6; --bronzo: #A8742A; --bronzo-chiaro: #F5EAD7;
+  --nota: #FFF4C7; --nota-bordo: #E8C95A; --blu: #2E5FB8; --blu-chiaro: #E5EDFA; --rosso: #B5432E; --rosso-chiaro: #F7E3DE;
+  --mono: 'Plex Mono', ui-monospace, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { font-family: 'Public Sans', system-ui, sans-serif; background: var(--pietra); color: var(--inchiostro); font-size: 14px; line-height: 1.5; overflow: hidden; -webkit-font-smoothing: antialiased; }
+button { font: inherit; cursor: pointer; }
+
+.top { height: 60px; display: flex; align-items: center; gap: 22px; padding: 0 22px; background: var(--inchiostro); color: #E8ECE4; }
+.brand { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
+.org { color: #AEB8A8; font-weight: 500; padding-left: 22px; border-left: 1px solid rgba(255,255,255,.14); }
+.conn { display: flex; gap: 6px; }
+.conn span { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.08); color: #D7DDD2; }
+.conn span::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #8FD06A; }
+.top-r { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+.mode { font-size: 12px; color: #AEB8A8; }
+.run { height: 38px; padding: 0 18px; border-radius: 9px; border: 0; background: #C9A05A; color: var(--inchiostro); font-weight: 800; }
+.run:disabled { opacity: .55; cursor: default; }
+.run:focus-visible, .btn:focus-visible { outline: 3px solid var(--oliva); outline-offset: 2px; }
+
+.grid { display: grid; grid-template-columns: 360px minmax(0, 1fr) 400px; height: calc(100% - 60px); }
+h2 { font-size: 13px; font-weight: 700; color: var(--grigio); padding: 16px 18px 8px; }
+h2 em { font-style: normal; color: var(--oliva); margin-left: 4px; }
+
+/* Coda */
+.queue { background: var(--bianco); border-right: 1px solid var(--riga); overflow: hidden; }
+#coda { list-style: none; }
+#coda li { display: grid; grid-template-columns: 1fr auto; gap: 3px 10px; padding: 12px 18px; border-bottom: 1px solid var(--riga); transition: background .3s; }
+#coda li.attivo { background: var(--oliva-chiaro); box-shadow: inset 3px 0 0 var(--oliva); }
+#coda .id { font-family: var(--mono); font-size: 12px; color: var(--grigio); }
+#coda .pr { justify-self: end; font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; color: var(--grigio); }
+#coda .pr::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #B8C0B4; }
+#coda .pr.alta { color: var(--rosso); } #coda .pr.alta::before { background: var(--rosso); }
+#coda .pr.media::before { background: var(--bronzo); }
+#coda b { grid-column: 1 / -1; font-size: 14px; font-weight: 700; }
+#coda .who { grid-column: 1 / -1; font-size: 12.5px; color: var(--grigio); }
+#coda .st { display: flex; align-items: center; gap: 8px; grid-column: 1 / -1; margin-top: 3px; }
+.badge { font-size: 11.5px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: #EEF0EA; color: var(--grigio); }
+.badge.analisi { background: var(--bronzo-chiaro); color: var(--bronzo); }
+.badge.assegnato { background: #EEF0EA; color: var(--inchiostro); }
+.badge.auto { background: var(--oliva-chiaro); color: var(--oliva); }
+.badge.bozza { background: var(--nota); color: #8A6A0E; }
+.badge.approvata { background: var(--blu-chiaro); color: var(--blu); }
+.ass { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--grigio); }
+.ass i { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: 10px; font-weight: 800; color: #fff; background: var(--oliva); }
+
+/* Dettaglio del ticket */
+.det { position: relative; overflow: hidden; }
+.vuoto { margin: 18vh auto 0; max-width: 50ch; text-align: center; color: var(--grigio); font-size: 15px; padding: 0 30px; }
+.tk { position: absolute; inset: 0; overflow-y: auto; padding: 18px 24px 30px; display: flex; flex-direction: column; gap: 12px; animation: entra .3s ease-out; }
+@keyframes entra { from { opacity: 0; transform: translateY(8px); } }
+.tk > header { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.tk > header .id { font-family: var(--mono); color: var(--grigio); }
+.tk > header b { font-size: 17px; font-weight: 800; letter-spacing: -.01em; }
+.tk > header small { width: 100%; color: var(--grigio); font-size: 13px; }
+.req { background: var(--bianco); border: 1px solid var(--riga); border-radius: 14px; padding: 12px 16px; font-size: 15px; max-width: 760px; }
+.inc { display: flex; gap: 12px; align-items: baseline; padding: 10px 14px; border-radius: 12px; background: var(--rosso-chiaro); color: var(--rosso); font-size: 13.5px; animation: entra .3s ease-out; }
+.inc b { white-space: nowrap; }
+.sec { font-size: 12px; font-weight: 700; color: var(--grigio); margin-top: 2px; }
+.kb { display: grid; gap: 8px; }
+.res { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; background: var(--bianco); border: 1px solid var(--riga); border-radius: 12px; padding: 10px 14px; animation: entra .3s ease-out; }
+.src { font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px; color: #fff; }
+.src.Confluence { background: #2E5FB8; } .src.Notion { background: #1C241E; }
+.res b { font-weight: 700; font-size: 14px; } .res small { display: block; color: var(--grigio); font-size: 12px; }
+.conf { display: grid; justify-items: end; gap: 4px; font-size: 11.5px; font-weight: 700; }
+.conf i { display: block; width: 74px; height: 6px; border-radius: 3px; background: #E4E7E0; overflow: hidden; }
+.conf i u { display: block; height: 100%; border-radius: 3px; }
+.conf.alta { color: var(--oliva); } .conf.alta u { width: 100%; background: var(--oliva); }
+.conf.media { color: var(--bronzo); } .conf.media u { width: 60%; background: var(--bronzo); }
+.conf.bassa { color: var(--grigio); } .conf.bassa u { width: 25%; background: #B8C0B4; }
+.pg { background: var(--bianco); border: 1px solid var(--riga); border-left: 4px solid var(--oliva); border-radius: 12px; padding: 12px 16px; font-size: 13.5px; animation: entra .3s ease-out; }
+.pg h4 { font-size: 14px; margin-bottom: 4px; } .pg h4 span { font-weight: 500; color: var(--grigio); font-size: 12px; margin-left: 6px; }
+.pg ol { padding-left: 20px; margin-top: 6px; display: grid; gap: 2px; }
+.nota { background: var(--nota); border: 1px solid var(--nota-bordo); border-radius: 12px; padding: 12px 16px; font-size: 13.5px; animation: entra .3s ease-out; }
+.nota header { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 800; color: #8A6A0E; margin-bottom: 6px; }
+.nota header .ass { margin-left: auto; color: var(--inchiostro); }
+.nota .f { margin-top: 6px; display: flex; gap: 6px; flex-wrap: wrap; }
+.nota .f code { font-family: var(--mono); font-size: 11.5px; padding: 1px 7px; border-radius: 6px; background: rgba(255,255,255,.7); }
+.reply { align-self: flex-end; max-width: 78%; background: var(--blu); color: #fff; border-radius: 16px 16px 4px 16px; padding: 12px 16px; font-size: 14px; white-space: pre-line; animation: entra .4s ease-out; }
+.reply small { display: block; font-size: 12px; font-weight: 700; opacity: .85; margin-bottom: 4px; white-space: normal; }
+.reply.auto { background: var(--oliva); }
+
+/* Riepilogo */
+.sum { position: absolute; inset: 0; padding: 22px 24px; animation: entra .5s ease-out; overflow-y: auto; }
+.sum h3 { font-size: 20px; font-weight: 800; letter-spacing: -.01em; }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0; }
+.kpi { background: var(--bianco); border: 1px solid var(--riga); border-radius: 14px; padding: 14px 16px; }
+.kpi b { display: block; font-size: 32px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+.kpi span { font-size: 12.5px; color: var(--grigio); }
+.kpi.a b { color: var(--oliva); } .kpi.b b { color: var(--blu); } .kpi.c b { color: var(--bronzo); }
+.sum p { font-size: 15px; max-width: 74ch; }
+.sum ul { list-style: none; margin-top: 14px; display: grid; gap: 6px; font-size: 13.5px; }
+.sum li { display: grid; grid-template-columns: 90px 1fr auto; gap: 12px; padding: 8px 12px; border-radius: 10px; background: var(--bianco); border: 1px solid var(--riga); }
+.sum li code { font-family: var(--mono); color: var(--grigio); }
+
+/* Giornale */
+.log { border-left: 1px solid var(--riga); background: var(--bianco); display: flex; flex-direction: column; min-height: 0; }
+.feed { flex: 1; overflow-y: auto; padding: 4px 18px 100px; scroll-behavior: smooth; }
+.say { font-size: 14px; line-height: 1.55; margin: 12px 0 8px; }
+.say.scrive::after { content: ''; display: inline-block; width: 7px; height: 15px; margin-left: 3px; vertical-align: -2px; background: var(--oliva); animation: cursore 1s steps(2) infinite; }
+@keyframes cursore { 50% { opacity: 0; } }
+.tool { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 9px; background: var(--pietra); margin-top: 4px; font-size: 13px; animation: entra .25s ease-out; }
+.tool .lbl { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tool .res2 { margin-left: auto; color: var(--grigio); white-space: nowrap; font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; max-width: 58%; }
+.tool .spin { margin-left: auto; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--riga); border-top-color: var(--oliva); animation: gira .8s linear infinite; flex: none; }
+@keyframes gira { to { transform: rotate(360deg); } }
+.tool.ok .res2::before { content: '✓ '; color: var(--oliva); font-weight: 800; }
+.approve { margin-top: 8px; border-radius: 12px; border: 1.5px solid #C9A05A; overflow: hidden; animation: entra .3s ease-out; }
+.approve header { padding: 8px 14px; background: var(--nota); color: #8A6A0E; font-size: 12.5px; font-weight: 700; }
+.approve .body { padding: 12px 14px 2px; font-size: 13px; }
+.approve .meta { color: var(--grigio); margin-bottom: 4px; } .approve .meta b { color: var(--inchiostro); }
+.approve pre { font: inherit; white-space: pre-wrap; color: #2F3A31; max-height: 140px; overflow: hidden; }
+.approve .actions { display: flex; gap: 8px; padding: 10px 14px 12px; }
+.btn { height: 34px; padding: 0 14px; border-radius: 9px; border: 1px solid var(--riga); background: #fff; color: var(--inchiostro); font-weight: 700; }
+.btn.yes { background: var(--oliva); border-color: var(--oliva); color: #fff; }
+.approve.fatto { border-color: var(--riga); } .approve.fatto header { background: var(--oliva-chiaro); color: var(--oliva); }
+.approve.no header { background: var(--rosso-chiaro); color: var(--rosso); }
+.approve.fatto .actions, .approve.no .actions { display: none; }
+.riepilogo { display: block; margin-top: 16px; font-family: var(--mono); font-size: 12px; color: var(--grigio); }
