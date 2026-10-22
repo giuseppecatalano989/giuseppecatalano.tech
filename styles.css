@@ -373,19 +373,24 @@ main { padding: 0 var(--gutter); }
 @media (max-width: 640px) {
   .sheet-frame, .ruler { inset: 6px; }
   .ruler { display: none; }
-  .topbar { top: 6px; left: 6px; right: 6px; padding: 12px 16px; }
-  .topbar { gap: 12px; }
-  .topbar nav a:not(:nth-child(3)) { display: none; }
-  .topbar nav a b { display: none; }
+  /* Su telefono la barra va su due righe: nome e tema sopra, tutte le tavole sotto */
+  .topbar { top: 6px; left: 6px; right: 6px; padding: 10px 14px 0; flex-wrap: wrap; row-gap: 0; column-gap: 12px; }
+  .topbar nav { order: 3; flex: 1 0 100%; justify-content: space-between; gap: 6px; margin: 8px -14px 0; padding: 9px 14px; border-top: 1px solid var(--grid-2); font-size: 11px; letter-spacing: .03em; }
+  .topbar nav a { white-space: nowrap; }
+  .topbar nav a b { margin-right: 3px; }
+  .theme-switch button { padding-top: 5px; padding-bottom: 5px; }
   .mark em, .mark span { display: none; }
   .hero { min-height: auto; }
   .hero-grid { margin-top: 36px; }
   main { padding: 0 20px; }
-  .tav { padding-top: 110px; }
+  .tav { padding-top: 130px; }
   .tav-label span:last-child { display: none; }
   .quota { grid-template-columns: 1fr; gap: 26px; margin-top: 64px; padding-bottom: 0; }
   .q-nodes { display: none; }
   .btn { flex: 1 1 100%; justify-content: center; }
   .reg-name { font-size: 31px; }
+}
+@media (max-width: 380px) {
+  .topbar nav a b { display: none; }
 
 }
