@@ -108,6 +108,21 @@
   .outro-mark img { width: 64px; height: 64px; border-radius: 16px; }
   .outro-mark b { font-weight: 700; font-size: 56px; letter-spacing: -.04em; }
   .byline { margin-top: 34px; font-size: 28px; font-weight: 500; color: var(--grafite); }
+
+  /* Revisione professionale: frase di posizionamento e copertine numerate */
+  #trio .line { display: block; width: max-content; margin-left: auto; margin-right: auto; padding: 10px 24px 34px; }
+  .stmt .outro-l1, .stmt .outro-l2 { font-size: 92px; }
+  .f45 .stmt .outro-l1, .f45 .stmt .outro-l2 { font-size: 60px; }
+  .card .n { font-size: 26px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; opacity: 0; margin-bottom: 6px; }
+  .card .t { font-size: 124px !important; letter-spacing: -.045em !important; }
+  .f45 .card .t { font-size: 80px !important; }
+  .card .s { max-width: 1300px; margin-left: auto; margin-right: auto; font-size: 38px !important; }
+  .f45 .card .s { max-width: 900px; font-size: 30px !important; }
+  .outro-l1, .outro-l2 { font-size: 100px !important; }
+  .f45 .outro-l1, .f45 .outro-l2 { font-size: 62px !important; }
+  .byline { font-size: 24px !important; }
+  .f45 .byline { font-size: 20px !important; padding: 0 40px; }
+  .f45 .tagline { padding: 0 60px; }
 </style>
 </head>
 <body>
@@ -128,15 +143,15 @@
 
   <div class="center" id="intro"><div>
     <div class="mark" id="introMark"><img src="../../agenti/comitas/app/logo.svg" alt=""><b>Comitas</b></div>
-    <div class="tagline" id="introTag">L’agente che segue clienti e social</div>
+    <div class="tagline" id="introTag">Agente AI per customer care e social media</div>
   </div></div>
-  <div class="trio" id="trio"><div class="wd" id="wd0">Ascolta<em>.</em></div><div class="wd" id="wd1">Risponde<em>.</em></div><div class="wd" id="wd2">Modera<em>.</em></div></div>
+  <div class="trio" id="trio"><div class="stmt"><div class="line"><span class="outro-l1 w" id="st1">Email, chat e social,</span></div><div class="line"><span class="outro-l2 w" id="st2">gestiti da un unico agente.</span></div></div></div>
 
   <div class="center" id="outro"><div>
-    <div class="line"><span class="outro-l1 w" id="o1">Ogni cliente,</span></div>
-    <div class="line hl" id="o2line"><span class="outro-l2 w" id="o2">una risposta.</span></div>
+    <div class="line"><span class="outro-l1 w" id="o1">Ogni canale presidiato,</span></div>
+    <div class="line hl" id="o2line"><span class="outro-l2 w" id="o2">ogni cliente seguito.</span></div>
     <div class="outro-mark" id="outroMark"><img src="../../agenti/comitas/app/logo.svg" alt=""><b>Comitas</b></div>
-    <div class="byline" id="byline">Un agente AI progettato da Giuseppe Catalano</div>
+    <div class="byline" id="byline">Agente AI progettato da Giuseppe Catalano · Demo con dati di esempio</div>
   </div></div>
 
   <div class="vignette"></div>
@@ -154,27 +169,27 @@ const CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
 
 /* ---------- Scene ---------- */
 const SCENES = [
-  { id: 'ascolta', card: ['Ascolta.', 'Email, chat, DM e commenti, in un unico posto.', 'a'],
-    eyebrow: 'tutti i canali', l1: 'Ogni canale,', l2: 'una sola casella.',
-    points: ['Email e chat', 'DM e commenti social', 'Storico tra i canali'],
-    stat: [4.2, 8, 0, '', ' messaggi', 'su cinque canali'], focus: [47, 42, [[4.0, 1.24]]] },
-  { id: 'persona', eyebrow: 'casi delicati', l1: 'Lo stesso cliente,', l2: 'su due canali.',
-    points: ['Email e Facebook collegati', 'A Marta, con una proposta', 'Spam nascosto'], focus: [48, 60, [[1.4, 1.28]]] },
-  { id: 'risponde', card: ['Risponde.', 'In privato e in pubblico, con dati veri.', 'b'],
-    eyebrow: 'risposte', l1: 'Risposte immediate,', l2: 'mai inventate.',
-    points: ['Tracciamento aggiornato', 'Risposte pubbliche ai commenti'],
-    stat: [3.4, 3, 0, '', ' risposte', 'inviate in autonomia'], focus: [50, 50, [[1.8, 1.26]]] },
-  { id: 'approva', card: ['Chiede.', 'Rimborsi, modifiche, reclami pubblici? Decidi tu.', 'c'],
-    eyebrow: 'approvazioni', l1: 'Costa denaro o è pubblico?', l2: 'Decidi tu.',
-    points: ['Sostituzione con ritiro', 'Cambio di indirizzo', 'Risposta al reclamo'],
-    stat: [5.6, 3, 0, '', ' azioni', 'approvate con un clic'], focus: [86, 60, [[2.4, 1.3]]] },
-  { id: 'riepilogo', eyebrow: 'risultato', l1: 'Otto messaggi,', l2: 'nessuno in attesa.',
-    points: ['Riepilogo per il team'],
+  { id: 'ascolta', card: ['Inbox unificata', 'Email, chat, messaggi diretti e commenti in un’unica coda di lavoro.', 'a'],
+    eyebrow: 'inbox unificata', l1: 'Tutti i canali,', l2: 'in un’unica coda.',
+    points: ['Email e live chat', 'DM e commenti social', 'Storico cliente tra i canali'],
+    stat: [4.2, 8, 0, '', ' messaggi', 'da cinque canali'], focus: [47, 42, [[4.0, 1.24]]] },
+  { id: 'persona', eyebrow: 'riconoscimento del cliente', l1: 'Più canali, un cliente,', l2: 'un unico caso.',
+    points: ['Email e Facebook collegati', 'Escalation a un operatore', 'Spam rimosso'], focus: [48, 60, [[1.4, 1.28]]] },
+  { id: 'risponde', card: ['Risposte verificate', 'Basate su ordini, tracking e policy aziendali.', 'b'],
+    eyebrow: 'risposte verificate', l1: 'Risposte immediate,', l2: 'basate su dati reali.',
+    points: ['Tracking aggiornato', 'Risposte pubbliche ai commenti'],
+    stat: [3.4, 3, 0, '', ' risposte', 'gestite in autonomia'], focus: [50, 50, [[1.8, 1.26]]] },
+  { id: 'approva', card: ['Approvazioni', 'Rimborsi, modifiche e risposte pubbliche validati dal team.', 'c'],
+    eyebrow: 'tutela del brand', l1: 'Rimborsi e risposte pubbliche', l2: 'approvati dal team.',
+    points: ['Sostituzione con ritiro', 'Modifica dell’indirizzo', 'Risposta pubblica al reclamo'],
+    stat: [5.6, 3, 0, '', ' azioni', 'approvate dal team'], focus: [86, 60, [[2.4, 1.3]]] },
+  { id: 'riepilogo', eyebrow: 'risultato', l1: 'Otto richieste,', l2: 'zero in attesa.',
+    points: ['Report per il team'],
     stat: [2.4, 8, 0, '', ' su 8', 'messaggi gestiti'], focus: [47, 40, [[2.6, 1.22]]] },
 ];
 
 /* ---------- Tempi ---------- */
-const INTRO = 3.6, TRIO = 2.2, CARD = 1.6, OUTRO_DUR = 6;
+const INTRO = 4.0, TRIO = 3.4, CARD = 2.2, OUTRO_DUR = 6.5;
 let t = INTRO + TRIO;
 SCENES.forEach(s => {
   if (s.card) { s.cardStart = t; t += CARD; }
@@ -206,6 +221,7 @@ const BUB = FMT === '16'
 $('bubbles').innerHTML = BUB.map(([x, y, w, h, s], i) => `<div class="bub ${s}" id="bub${i}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px"></div>`).join('');
 
 /* ---------- Costruzione ---------- */
+let NCARD = 0;
 const words = (txt, cls) => txt.split(' ').map(w => `<span class="w ${cls}">${w}&nbsp;</span>`).join('');
 const fmtNum = (v, dec) => v.toLocaleString('it-IT', { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: 'always' });
 SCENES.forEach((s, i) => {
@@ -233,7 +249,7 @@ SCENES.forEach((s, i) => {
   if (s.card) {
     const cd = document.createElement('div');
     cd.className = 'card tone-' + s.card[2]; cd.id = 'card' + i;
-    cd.innerHTML = `<div class="bg"></div><div class="in"><div><div class="line"><span class="t w">${s.card[0]}</span></div><div class="s">${s.card[1]}</div></div></div>`;
+    cd.innerHTML = `<div class="bg"></div><div class="in"><div><div class="n">${String(++NCARD).padStart(2, '0')}</div><div class="line"><span class="t w">${s.card[0]}</span></div><div class="s">${s.card[1]}</div></div></div>`;
     $('cards').append(cd);
   }
 });
@@ -252,19 +268,18 @@ gsap.set('#introTag', { opacity: 0, y: 16 });
 tl.to('#introMark', { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.2, ease: 'expo.out' }, 0.35);
 tl.to('#introTag', { opacity: 1, y: 0, duration: 1, ease: 'expo.out' }, 1.0);
 tl.to('#intro', { scale: 1.12, opacity: 0, filter: 'blur(12px)', duration: 0.5, ease: 'power2.in' }, INTRO - 0.5);
-[0, 1, 2].forEach(k => {
-  const T0 = INTRO + k * 0.72;
-  tl.fromTo('#wd' + k, { opacity: 0, scale: 1.5, filter: 'blur(16px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.35, ease: 'expo.out', immediateRender: false }, T0);
-  tl.to('#wd' + k, { opacity: 0, scale: .82, duration: 0.25, ease: 'power2.in' }, T0 + 0.46);
-});
+gsap.set(['#st1', '#st2'], { yPercent: 175 });
+tl.to('#st1', { yPercent: 0, duration: 0.9, ease: 'expo.out' }, INTRO + 0.1);
+tl.to('#st2', { yPercent: 0, duration: 0.9, ease: 'expo.out' }, INTRO + 0.32);
+tl.to(['#st1', '#st2'], { yPercent: -175, duration: 0.45, stagger: 0.05, ease: 'power3.in' }, INTRO + TRIO - 0.55);
 
 // Copertina: un sipario che sale dal basso, titolo, sipario che esce in alto
 function copertina(id, T, dur) {
   const sel = '#' + id;
-  gsap.set(`${sel} .t`, { yPercent: 175 });
+  gsap.set(`${sel} .t`, { yPercent: 320 });
   tl.fromTo(`${sel} .bg`, { clipPath: 'circle(0% at 50% 55%)' }, { clipPath: 'circle(75% at 50% 55%)', duration: 0.45, ease: 'power3.inOut', immediateRender: false }, T);
   tl.to(`${sel} .t`, { yPercent: 0, duration: 0.75, ease: 'expo.out' }, T + 0.26);
-  tl.fromTo(`${sel} .s`, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, T + 0.5);
+  tl.fromTo([`${sel} .s`, `${sel} .n`], { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, T + 0.5);
   tl.to(`${sel} .in`, { opacity: 0, x: -60, duration: 0.3, ease: 'power2.in' }, T + dur - 0.42);
   tl.to(`${sel} .bg`, { clipPath: 'circle(0% at 50% 45%)', duration: 0.42, ease: 'power3.inOut' }, T + dur - 0.38);
 }

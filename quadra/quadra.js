@@ -25,10 +25,10 @@ function verifica(f) {
   });
   const esito = f.ibanDiverso ? 'bloccare' : prezzo || quantita ? 'contestare' : 'conforme';
   let azione;
-  if (f.ibanDiverso) azione = ['IBAN diverso dall’anagrafica: pagamento da bloccare e verifica telefonica al numero già noto.', euro(f.totale)];
-  else if (prezzo) azione = ['Prezzo sopra l’ordine: email al fornitore per una nota di credito, IVA compresa.', euro(prezzo * 1.22)];
-  else if (quantita) azione = ['Merce non ancora consegnata: email per la consegna mancante o una nota di credito, IVA compresa.', euro(quantita * 1.22)];
-  else azione = ['Tutto torna: Quadra la registra da sola in contabilità e nello scadenzario.', ''];
+  if (f.ibanDiverso) azione = ['IBAN difforme dall’anagrafica: pagamento sospeso e verifica telefonica tramite il recapito già registrato.', euro(f.totale)];
+  else if (prezzo) azione = ['Prezzo superiore all’ordine: richiesta di nota di credito al fornitore, IVA inclusa.', euro(prezzo * 1.22)];
+  else if (quantita) azione = ['Merce non ancora consegnata: richiesta di consegna o di nota di credito, IVA inclusa.', euro(quantita * 1.22)];
+  else azione = ['Fattura conforme: registrazione automatica in contabilità e nello scadenzario.', ''];
   return { esito, prezzo, quantita, azione };
 }
 
@@ -39,7 +39,7 @@ function mostra(id) {
   const segna = (c, t) => (c ? `<mark>${t}</mark>` : t);
   $('sheet').innerHTML = `
     <header><b>${f.fornitore}</b><span>fattura ${f.numero} · ordine ${f.ordine}</span>
-      <span class="esito ${v.esito}">${{ conforme: 'Conforme', contestare: 'Da contestare', bloccare: 'Da bloccare' }[v.esito]}</span></header>
+      <span class="esito ${v.esito}">${{ conforme: 'Conforme', contestare: 'Da contestare', bloccare: 'Pagamento sospeso' }[v.esito]}</span></header>
     <table class="three"><thead><tr><th>Articolo</th><th>Ordine</th><th>Consegnato</th><th>Fattura</th></tr></thead><tbody>
       ${f.righe.map((r) => {
         const pd = r.fatt[1] !== r.ord[1], qd = r.fatt[0] > r.cons;

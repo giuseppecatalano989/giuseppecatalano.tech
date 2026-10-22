@@ -65,10 +65,10 @@ function aggiorna() {
   if (p.apertura <= TARGET) {
     let n = 0; for (let y = p.apertura; y < TARGET; y = piu(y, 1)) if (lav(piu(y, 1))) n++;
     v.className = 'verdict ' + (n ? 'si' : 'stretto');
-    v.textContent = `Apertura ${breve(p.apertura)}: in tempo${n ? `, ${n} giorni lavorativi di margine` : ', ma senza margine'}.`;
+    v.textContent = `Apertura prevista il ${breve(p.apertura)}: data contrattuale rispettata${n ? `, con ${n} giorni lavorativi di margine` : ', senza margine'}.`;
   } else {
     v.className = 'verdict no';
-    v.textContent = `Apertura ${breve(p.apertura)}: ${Math.round((d(p.apertura) - d(TARGET)) / GIORNO)} giorni dopo l’11 gennaio. Il lavoro finisce dopo la chiusura natalizia.`;
+    v.textContent = `Apertura prevista il ${breve(p.apertura)}: ${Math.round((d(p.apertura) - d(TARGET)) / GIORNO)} giorni oltre la data contrattuale. Le attività finali slittano dopo la chiusura natalizia.`;
   }
 }
 $('data').addEventListener('input', aggiorna);

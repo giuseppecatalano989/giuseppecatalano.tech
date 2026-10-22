@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Minerva — L'agente AI che risponde con la knowledge base</title>
+<title>Minerva — Agente AI per service desk e knowledge management</title>
 <meta name="description" content="Minerva è un agente AI collegato alla knowledge base aziendale (Confluence, Notion o altre fonti) e al sistema di ticketing: trova la procedura giusta, scrive una nota privata con le fonti, assegna il ticket al tecnico corretto e risponde in automatico o con una bozza da approvare.">
-<meta property="og:title" content="Minerva — L'agente AI che risponde con la knowledge base">
-<meta property="og:description" content="Cerca, cita, assegna. Le risposte vengono da quello che la tua azienda sa già.">
+<meta property="og:title" content="Minerva — Agente AI per service desk e knowledge management">
+<meta property="og:description" content="Il sapere aziendale, applicato a ogni richiesta.">
 <meta name="theme-color" content="#1C241E">
 <link rel="icon" href="../assets/minerva.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,8 +26,9 @@
 
   <section class="hero">
     <div class="hero-copy">
-      <h1>La risposta c’è già.<br><span>Minerva sa dove trovarla.</span></h1>
-      <p class="lead">Minerva è un agente AI collegato alla knowledge base dell’azienda, come Confluence, Notion o un second brain, e al sistema di ticketing o alla casella email. Per ogni richiesta di clienti o colleghi trova la procedura giusta, scrive una nota privata per i tecnici con le fonti e assegna il ticket alla persona corretta. Poi risponde: in automatico se la procedura è verificata, altrimenti con una bozza che approvi tu.</p>
+      <p class="kicker">Agente AI · Service desk e knowledge management</p>
+      <h1>Il sapere aziendale,<br><span>applicato a ogni richiesta.</span></h1>
+      <p class="lead">Minerva collega la knowledge base aziendale, come Confluence, Notion o altri repository documentali, al sistema di ticketing e alla posta. Per ogni richiesta di clienti o colleghi individua la procedura pertinente, redige una nota privata con analisi e fonti e assegna il ticket al tecnico competente. Poi risponde: in automatico quando la procedura è verificata, con una bozza da approvare negli altri casi.</p>
       <div class="cta">
         <button type="button" class="btn btn-play" data-demo hidden>
           <span class="play-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
@@ -38,7 +39,7 @@
 
     <!-- Le decisioni che prende l'agente sui cinque ticket della demo -->
     <figure class="desk" aria-labelledby="desk-cap">
-      <figcaption id="desk-cap"><b>Cinque richieste in coda.</b> <span>Scegline una e guarda cosa decide Minerva.</span></figcaption>
+      <figcaption id="desk-cap"><b>Cinque richieste in coda.</b> <span>Seleziona un ticket e consulta la decisione di Minerva.</span></figcaption>
       <div class="desk-in">
         <ul class="tickets" id="tickets" role="tablist" aria-label="Ticket della demo"></ul>
         <div class="esito" id="esito" role="tabpanel" aria-live="polite"></div>
@@ -46,57 +47,93 @@
     </figure>
   </section>
 
+  <section class="benefits">
+    <div class="sec-head">
+      <h2>Perché Minerva</h2>
+      <p>La maggior parte delle richieste al supporto ha già una risposta documentata. Minerva la trova, la applica e lascia ai tecnici i casi che richiedono davvero competenza.</p>
+    </div>
+    <div class="benefit-grid">
+      <article class="benefit"><span class="ix">01</span><h3>Tempi di risoluzione ridotti</h3><p>Le richieste coperte da una procedura documentata ricevono subito una risposta completa, con i passi da seguire.</p></article>
+      <article class="benefit"><span class="ix">02</span><h3>Smistamento accurato</h3><p>Ogni ticket arriva al tecnico competente con un’analisi già pronta e le fonti consultate, secondo la matrice delle competenze.</p></article>
+      <article class="benefit"><span class="ix">03</span><h3>Risposte affidabili e tracciabili</h3><p>Ogni risposta cita le pagine della knowledge base. Incidenti aperti, richieste di sicurezza e casi incerti passano sempre da una revisione.</p></article>
+    </div>
+  </section>
+
   <section class="steps">
-    <h2>Come lavora</h2>
+    <h2>Come funziona</h2>
     <ol>
-      <li><b>Legge</b><p>Prende i ticket dal portale e le email di clienti e colleghi, e controlla lo stato dei servizi: se c’è un disservizio in corso, lo sa prima di rispondere.</p></li>
-      <li><b>Cerca</b><p>Interroga la knowledge base, legge le pagine più pertinenti e pesa quanto ognuna risponde davvero alla richiesta.</p></li>
-      <li><b>Annota e assegna</b><p>Scrive una nota privata nel ticket, con diagnosi e fonti, e lo assegna al tecnico giusto secondo la matrice di chi fa cosa.</p></li>
-      <li><b>Risponde</b><p>Invia da solo solo quando la procedura è verificata e il caso è semplice. Incidenti, sicurezza e casi incerti diventano bozze da approvare o lavoro per il tecnico.</p></li>
+      <li><b>Acquisizione</b><p>Riceve i ticket dal portale e le email di clienti e colleghi, e verifica lo stato dei servizi per riconoscere eventuali disservizi in corso.</p></li>
+      <li><b>Ricerca</b><p>Interroga la knowledge base, consulta le pagine più pertinenti e assegna a ciascuna un indice di confidenza rispetto alla richiesta.</p></li>
+      <li><b>Triage</b><p>Redige una nota privata nel ticket con diagnosi e fonti, e assegna il ticket al tecnico competente secondo la matrice delle responsabilità.</p></li>
+      <li><b>Risposta</b><p>Invia in automatico solo con procedura verificata e caso semplice. Incidenti, sicurezza e casi incerti diventano bozze da approvare o attività per il tecnico.</p></li>
     </ol>
   </section>
 
   <section class="tools">
     <div class="sec-head">
-      <h2>Otto strumenti, una regola nel codice</h2>
-      <p>L’invio automatico è bloccato dallo strumento stesso, non solo dalle istruzioni: se il ticket è legato a un incidente, riguarda la sicurezza o non ha una fonte verificata con confidenza alta, la risposta non parte.</p>
+      <h2>Otto funzioni, un vincolo nel codice</h2>
+      <p>L’invio automatico è bloccato a livello di strumento, non solo di istruzioni: i ticket collegati a un incidente, le richieste di sicurezza e quelli privi di una fonte ad alta confidenza non ricevono mai una risposta automatica.</p>
     </div>
     <ul class="tool-list">
-      <li><code>leggi_coda</code><span>Ticket e email in attesa</span></li>
+      <li><code>leggi_coda</code><span>Ticket ed email in attesa</span></li>
       <li><code>stato_servizi</code><span>Incidenti e disservizi in corso</span></li>
-      <li><code>cerca_knowledge_base</code><span>Pagine pertinenti e confidenza</span></li>
-      <li><code>leggi_pagina</code><span>Procedura completa, autore, data</span></li>
-      <li><code>nota_privata_e_assegna</code><span>Nota per il team e tecnico giusto</span></li>
-      <li><code>invia_risposta</code><span>Solo con procedura verificata</span><em class="lock">Con blocchi</em></li>
-      <li class="key"><code>prepara_bozza</code><span>Risposte da rivedere</span><em>Con approvazione</em></li>
-      <li><code>scrivi_riepilogo</code><span>Il resoconto della coda</span></li>
+      <li><code>cerca_knowledge_base</code><span>Pagine pertinenti e indice di confidenza</span></li>
+      <li><code>leggi_pagina</code><span>Procedura completa, autore e revisione</span></li>
+      <li><code>nota_privata_e_assegna</code><span>Nota per il team e assegnazione</span></li>
+      <li><code>invia_risposta</code><span>Solo con procedura verificata</span><em class="lock">Con vincoli</em></li>
+      <li class="key"><code>prepara_bozza</code><span>Risposte da revisionare</span><em>Con approvazione</em></li>
+      <li><code>scrivi_riepilogo</code><span>Report della coda per il responsabile</span></li>
     </ul>
   </section>
 
   <section class="rules">
     <div class="sec-head">
-      <h2>Le regole che segue</h2>
-      <p>Sono le istruzioni con cui lavora l’agente.</p>
+      <h2>Controllo e affidabilità</h2>
+      <p>Le regole operative che l’agente applica in ogni sessione.</p>
     </div>
     <ul class="rule-list">
-      <li>Risponde solo con quello che è scritto nella knowledge base, e cita le pagine.</li>
-      <li>Ogni ticket ha una nota privata e un assegnatario, anche quando risponde da solo.</li>
-      <li>Se la procedura non c’è o non calza, lo dice: niente soluzioni inventate.</li>
-      <li>Credenziali e accessi privilegiati non passano mai da una risposta.</li>
+      <li>Risposte basate esclusivamente sulla knowledge base, con le fonti citate.</li>
+      <li>Ogni ticket riceve una nota privata e un assegnatario, anche quando la risposta è automatica.</li>
+      <li>In assenza di una procedura adeguata il caso passa al tecnico: nessuna soluzione improvvisata.</li>
+      <li>Credenziali e accessi privilegiati non vengono mai gestiti in risposta.</li>
     </ul>
+  </section>
+
+  <section class="fit">
+    <div class="fit-grid">
+      <div>
+        <h3>A chi si rivolge</h3>
+        <ul>
+          <li>Service desk IT e managed service provider</li>
+          <li>Team di supporto clienti</li>
+          <li>Help desk interni: IT, HR, facility</li>
+          <li>Organizzazioni con una knowledge base strutturata</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Sistemi collegati</h3>
+        <ul>
+          <li>Confluence, Notion e altri repository documentali</li>
+          <li>Sistemi di ticketing</li>
+          <li>Posta elettronica</li>
+          <li>Pagina di stato dei servizi</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
   <section class="stack">
     <div class="stack-in">
-      <h2>Come è costruito</h2>
-      <p>Minerva usa Claude di Anthropic attraverso le API. Gli strumenti sono funzioni collegate alla knowledge base, al sistema di ticketing, alla posta e alla pagina di stato dei servizi: nella demo leggono spazi Confluence e pagine Notion simulati, ma il collegamento è lo stesso che si fa con le API reali. Ogni passaggio arriva all’interfaccia in tempo reale, e le bozze fermano l’agente finché non decidi.</p>
-      <p>La demo usa un service desk, clienti, colleghi e procedure inventati. Le decisioni dell’agente vengono da una sessione salvata; ricerche, note, assegnazioni e risposte sono eseguite davvero.</p>
+      <h2>Tecnologia</h2>
+      <p>Minerva è costruita su Claude di Anthropic tramite API, con strumenti collegati a knowledge base, ticketing, posta e stato dei servizi. Nella demo gli spazi Confluence e le pagine Notion sono simulati; il collegamento ai sistemi reali avviene tramite le rispettive API. L’interfaccia mostra ogni passaggio in tempo reale e le bozze sospendono l’agente fino alla decisione del responsabile.</p>
+      <p>La demo riguarda un service desk con clienti, colleghi e procedure di esempio. Le decisioni dell’agente provengono da una sessione registrata; ricerche, note, assegnazioni e risposte vengono eseguite realmente.</p>
     </div>
   </section>
 
   <section class="final">
     <img src="../assets/minerva.svg" alt="" width="84" height="84">
-    <h2>Quello che sai già,<br><span>al lavoro su ogni richiesta.</span></h2>
+    <h2>La conoscenza aziendale,<br><span>al servizio di ogni ticket.</span></h2>
+    <p class="contact-soft">Vuoi valutare un agente come Minerva sui tuoi processi? <a href="../#tav-05">Parliamone</a>.</p>
   </section>
 </main>
 

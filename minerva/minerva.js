@@ -10,31 +10,31 @@ const TICKET = [
     fonte: { s: 'Notion', t: 'Onboarding: PC e account per un nuovo dipendente', id: 'NT-07' }, conf: 'alta',
     a: 'Elena Conti', cat: 'Onboarding', esito: 'auto',
     nota: 'Nuova collega in commerciale dal 26/10. Inviata la procedura NT-07: il modulo va compilato entro oggi per rispettare i 2 giorni lavorativi.',
-    perche: 'Procedura interna chiara: risposta inviata in automatico, del tu perché è un collega.' },
+    perche: 'Procedura interna documentata: risposta automatica, con registro informale per un collega.' },
   { id: 'SD-2043', da: 'Marco Ferri', tipo: 'Cliente · portale', ogg: 'Outlook disconnesso su tutti i PC', urg: true,
     fonte: { s: 'Confluence', t: 'Outlook disconnesso o posta che non arriva', id: 'CF-114' }, conf: 'alta',
     a: 'Andrea Galli', cat: 'Posta e Microsoft 365', esito: 'bozza', inc: 'INC-88 · Exchange Online degradato',
     nota: 'Sintomi compatibili con INC-88. Come da CF-114 non ricreare i profili. Soluzione temporanea: Outlook sul web.',
-    perche: 'C’è un incidente aperto: anche con la procedura giusta, la risposta la approvi tu.' },
+    perche: 'Ticket collegato a un incidente aperto: la risposta richiede approvazione anche con procedura corretta.' },
   { id: 'SD-2044', da: 'Davide Colombo', tipo: 'Cliente · portale', ogg: 'Credenziali da amministratore del server',
     fonte: { s: 'Confluence', t: 'Richieste di accesso privilegiato', id: 'CF-120' }, conf: 'alta',
     a: 'Paolo Neri', cat: 'Sicurezza e accessi', esito: 'bozza',
     nota: 'Le credenziali da amministratore non vanno comunicate (CF-120). Serve il modulo firmato dal responsabile IT del cliente, poi sessione assistita e registrata.',
-    perche: 'Categoria sicurezza: l’invio automatico è bloccato, la bozza aspetta il tuo ok.' },
+    perche: 'Categoria sicurezza: invio automatico bloccato, bozza in attesa di approvazione.' },
   { id: 'SD-2045', da: 'Laura Pirovano', tipo: 'Cliente · portale', ogg: 'Stampante del terzo piano: pagine bianche',
     fonte: { s: 'Confluence', t: 'Stampanti: coda di stampa bloccata', id: 'CF-131' }, conf: 'bassa',
     a: 'Marco Sala', cat: 'Postazioni e stampanti', esito: 'tecnico',
     nota: 'Nessuna procedura adatta: CF-131 riguarda la coda bloccata. Pagine bianche dopo il cambio toner: probabile sigillo non rimosso o tamburo.',
-    perche: 'La pagina trovata non risponde alla domanda: niente risposta inventata, il caso va al tecnico.' },
+    perche: 'La pagina trovata non copre il caso: nessuna risposta automatica, intervento del tecnico.' },
 ];
 const ESITI = {
   auto: ['Risposta inviata in automatico', 'auto'],
-  bozza: ['Bozza in attesa della tua approvazione', 'bozza'],
-  tecnico: ['Nessuna risposta: affidato al tecnico', 'tecnico'],
+  bozza: ['Bozza in attesa di approvazione', 'bozza'],
+  tecnico: ['Affidato al tecnico, senza risposta automatica', 'tecnico'],
 };
 const $ = (id) => document.getElementById(id);
 const iniziali = (n) => n.split(' ').map((x) => x[0]).join('');
-const BREVE = { auto: 'Risponde', bozza: 'Bozza', tecnico: 'Tecnico' };
+const BREVE = { auto: 'Automatica', bozza: 'Bozza', tecnico: 'Tecnico' };
 
 $('tickets').innerHTML = TICKET.map((t, i) => `<li><button type="button" role="tab" id="tab-${i}" aria-selected="false" data-i="${i}">
   <span class="tid">${t.id}${t.urg ? ' <em>alta</em>' : ''}</span><b>${t.ogg}</b><small>${t.da} · ${t.tipo}</small>

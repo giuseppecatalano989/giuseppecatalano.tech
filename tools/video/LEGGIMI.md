@@ -39,6 +39,9 @@ Gli agenti AI (codice in `tools/agenti`) hanno una pipeline comune, che funziona
 4. `node agenti/render.js <agente> 16 out16` e `node agenti/render.js <agente> 45 out45`.
 5. `node agenti/monta.js <agente> ../../<vetrina> [secondo-locandina]`: video finali e locandine nella cartella della vetrina.
 
+I testi dei video (categoria in apertura, frase di posizionamento, capitoli numerati, titoli delle scene, chiusura) sono centralizzati in
+`agenti/copy_pro.py`: si modificano lì e si applicano con `python agenti/copy_pro.py`, poi si rifanno render e montaggio.
+
 ### Metis (`metis/`)
 - Concept "la regia": crepuscolo color petrolio, un fascio di luce che spazza lentamente la scena, cerchi di radar dietro la finestra,
   copertine a sipario che sale, zoom sul punto chiave di ogni scena (piano, variante, SAL, approvazioni). La ripresa si chiude

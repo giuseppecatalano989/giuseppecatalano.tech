@@ -151,4 +151,22 @@ h1 span, h2 span { font-weight: 300; color: var(--oliva); }
   section { padding: 70px 0; }
   .steps ol { grid-template-columns: 1fr; }
 }
+/* Categoria, vantaggi, destinatari */
+h1 { font-size: clamp(36px, 3.7vw, 52px); }
+.kicker { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--oliva); margin-bottom: 22px; }
+.kicker::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--oliva); }
+.benefits { border-top: 1px solid var(--riga); }
+.benefit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.benefit { background: var(--bianco); border: 1px solid var(--riga); border-radius: 18px; padding: 26px 26px 28px; }
+.benefit .ix { font-family: var(--mono); font-size: 13px; color: var(--oliva); }
+.benefit h3 { font-size: 21px; font-weight: 800; letter-spacing: -.015em; line-height: 1.25; margin: 14px 0 8px; }
+.benefit p { color: var(--grigio); font-size: 15.5px; }
+.fit { border-top: 1px solid var(--riga); }
+.fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+.fit h3 { font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--grigio); margin-bottom: 8px; }
+.fit li { padding: 14px 0; border-bottom: 1px solid var(--riga); font-size: clamp(17px, 1.6vw, 19px); font-weight: 600; letter-spacing: -.01em; }
+.contact-soft { color: var(--grigio); font-size: 16px; }
+.contact-soft a { color: var(--oliva); font-weight: 700; }
+@media (max-width: 960px) { .benefit-grid { grid-template-columns: 1fr; } .fit-grid { grid-template-columns: 1fr; gap: 32px; } }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } html { scroll-behavior: auto; } }

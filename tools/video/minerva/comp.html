@@ -109,6 +109,21 @@
   .outro-mark img { width: 64px; height: 64px; border-radius: 16px; }
   .outro-mark b { font-weight: 700; font-size: 56px; letter-spacing: -.04em; }
   .byline { margin-top: 34px; font-size: 28px; font-weight: 500; color: var(--grafite); }
+
+  /* Revisione professionale: frase di posizionamento e copertine numerate */
+  #trio .line { display: block; width: max-content; margin-left: auto; margin-right: auto; padding: 10px 24px 34px; }
+  .stmt .outro-l1, .stmt .outro-l2 { font-size: 92px; }
+  .f45 .stmt .outro-l1, .f45 .stmt .outro-l2 { font-size: 60px; }
+  .card .n { font-size: 26px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; opacity: 0; margin-bottom: 6px; }
+  .card .t { font-size: 124px !important; letter-spacing: -.045em !important; }
+  .f45 .card .t { font-size: 80px !important; }
+  .card .s { max-width: 1300px; margin-left: auto; margin-right: auto; font-size: 38px !important; }
+  .f45 .card .s { max-width: 900px; font-size: 30px !important; }
+  .outro-l1, .outro-l2 { font-size: 100px !important; }
+  .f45 .outro-l1, .f45 .outro-l2 { font-size: 62px !important; }
+  .byline { font-size: 24px !important; }
+  .f45 .byline { font-size: 20px !important; padding: 0 40px; }
+  .f45 .tagline { padding: 0 60px; }
 </style>
 </head>
 <body>
@@ -129,15 +144,15 @@
 
   <div class="center" id="intro"><div>
     <div class="mark" id="introMark"><img src="../../agenti/minerva/app/logo.svg" alt=""><b>Minerva</b></div>
-    <div class="tagline" id="introTag">L’agente che risponde con la conoscenza della tua azienda</div>
+    <div class="tagline" id="introTag">Agente AI per service desk e knowledge management</div>
   </div></div>
-  <div class="trio" id="trio"><div class="wd" id="wd0">Cerca<em>.</em></div><div class="wd" id="wd1">Cita<em>.</em></div><div class="wd" id="wd2">Assegna<em>.</em></div></div>
+  <div class="trio" id="trio"><div class="stmt"><div class="line"><span class="outro-l1 w" id="st1">Il sapere aziendale,</span></div><div class="line"><span class="outro-l2 w" id="st2">applicato a ogni ticket.</span></div></div></div>
 
   <div class="center" id="outro"><div>
-    <div class="line"><span class="outro-l1 w" id="o1">La tua conoscenza,</span></div>
-    <div class="line hl" id="o2line"><span class="outro-l2 w" id="o2">al lavoro.</span></div>
+    <div class="line"><span class="outro-l1 w" id="o1">La conoscenza aziendale,</span></div>
+    <div class="line hl" id="o2line"><span class="outro-l2 w" id="o2">al servizio di ogni ticket.</span></div>
     <div class="outro-mark" id="outroMark"><img src="../../agenti/minerva/app/logo.svg" alt=""><b>Minerva</b></div>
-    <div class="byline" id="byline">Un agente AI progettato da Giuseppe Catalano</div>
+    <div class="byline" id="byline">Agente AI progettato da Giuseppe Catalano · Demo con dati di esempio</div>
   </div></div>
 
   <div class="vignette"></div>
@@ -155,27 +170,27 @@ const CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
 
 /* ---------- Scene ---------- */
 const SCENES = [
-  { id: 'cerca', card: ['Cerca.', 'Nella knowledge base: Confluence, Notion e altre fonti.', 'a'],
-    eyebrow: 'knowledge base', l1: 'Ogni richiesta,', l2: 'con la sua fonte.',
-    points: ['Pagine con livello di confidenza', 'Stato dei servizi', 'Incidenti collegati'],
-    stat: [4.6, 5, 0, '', ' richieste', 'dal portale e via email'], focus: [50, 45, [[4.0, 1.24]]] },
-  { id: 'legge', eyebrow: 'procedure', l1: 'Legge le procedure,', l2: 'non le inventa.',
-    points: ['Passi verificati', 'Regole di sicurezza', 'Matrice di chi fa cosa'], focus: [50, 55, [[1.6, 1.26]]] },
-  { id: 'assegna', card: ['Assegna.', 'Nota privata e tecnico giusto, per ogni ticket.', 'b'],
-    eyebrow: 'ticketing', l1: 'Nota privata,', l2: 'tecnico giusto.',
-    points: ['Analisi per il tecnico', 'Fonti citate', 'Assegnazione per competenza'],
+  { id: 'cerca', card: ['Knowledge base', 'Confluence, Notion e altre fonti consultate per ogni richiesta.', 'a'],
+    eyebrow: 'knowledge base', l1: 'Ogni richiesta,', l2: 'collegata alla sua procedura.',
+    points: ['Indice di confidenza', 'Stato dei servizi', 'Incidenti collegati'],
+    stat: [4.6, 5, 0, '', ' richieste', 'da portale ed email'], focus: [50, 45, [[4.0, 1.24]]] },
+  { id: 'legge', eyebrow: 'procedure verificate', l1: 'Risposte da procedure,', l2: 'mai improvvisate.',
+    points: ['Passi documentati', 'Policy di sicurezza', 'Matrice delle competenze'], focus: [50, 55, [[1.6, 1.26]]] },
+  { id: 'assegna', card: ['Triage', 'Nota privata con analisi e fonti, ticket al tecnico competente.', 'b'],
+    eyebrow: 'triage e assegnazione', l1: 'Nota privata,', l2: 'tecnico competente.',
+    points: ['Analisi per il tecnico', 'Fonti citate', 'Instradamento per competenza'],
     stat: [3.2, 5, 0, '', ' ticket', 'assegnati con nota privata'], focus: [50, 60, [[1.6, 1.26]]] },
-  { id: 'risponde', card: ['Risponde.', 'Da solo se è sicuro. Altrimenti, una bozza per te.', 'c'],
-    eyebrow: 'risposte', l1: 'Invio automatico', l2: 'o bozza da approvare.',
-    points: ['Procedure self-service', 'Incidenti in bozza', 'Sicurezza in bozza'],
-    stat: [5.8, 2, 0, '', ' bozze', 'approvate con un clic'], focus: [86, 58, [[2.6, 1.3]]] },
-  { id: 'riepilogo', eyebrow: 'risultato', l1: 'La conoscenza', l2: 'diventa risposte.',
-    points: ['Riepilogo per il responsabile'],
+  { id: 'risponde', card: ['Risposta governata', 'Invio automatico solo con procedura verificata. Altrimenti, bozza.', 'c'],
+    eyebrow: 'risposta governata', l1: 'Invio automatico', l2: 'o bozza da approvare.',
+    points: ['Procedure self-service', 'Incidenti in revisione', 'Sicurezza in revisione'],
+    stat: [5.8, 2, 0, '', ' bozze', 'approvate dal responsabile'], focus: [86, 58, [[2.6, 1.3]]] },
+  { id: 'riepilogo', eyebrow: 'risultato', l1: 'Coda gestita,', l2: 'ogni risposta documentata.',
+    points: ['Report per il responsabile'],
     stat: [2.0, 4, 0, '', ' pagine', 'citate come fonte'], focus: [50, 40, [[2.4, 1.22]]] },
 ];
 
 /* ---------- Tempi ---------- */
-const INTRO = 3.6, TRIO = 2.2, CARD = 1.6, OUTRO_DUR = 6;
+const INTRO = 4.0, TRIO = 3.4, CARD = 2.2, OUTRO_DUR = 6.5;
 let t = INTRO + TRIO;
 SCENES.forEach(s => {
   if (s.card) { s.cardStart = t; t += CARD; }
@@ -207,6 +222,7 @@ const BUB = FMT === '16'
 $('bubbles').innerHTML = BUB.map(([x, y, w, h, s], i) => `<div class="bub ${s}" id="bub${i}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px"></div>`).join('');
 
 /* ---------- Costruzione ---------- */
+let NCARD = 0;
 const words = (txt, cls) => txt.split(' ').map(w => `<span class="w ${cls}">${w}&nbsp;</span>`).join('');
 const fmtNum = (v, dec) => v.toLocaleString('it-IT', { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: 'always' });
 SCENES.forEach((s, i) => {
@@ -234,7 +250,7 @@ SCENES.forEach((s, i) => {
   if (s.card) {
     const cd = document.createElement('div');
     cd.className = 'card tone-' + s.card[2]; cd.id = 'card' + i;
-    cd.innerHTML = `<div class="bg"></div><div class="in"><div><div class="line"><span class="t w">${s.card[0]}</span></div><div class="s">${s.card[1]}</div></div></div>`;
+    cd.innerHTML = `<div class="bg"></div><div class="in"><div><div class="n">${String(++NCARD).padStart(2, '0')}</div><div class="line"><span class="t w">${s.card[0]}</span></div><div class="s">${s.card[1]}</div></div></div>`;
     $('cards').append(cd);
   }
 });
@@ -253,19 +269,18 @@ gsap.set('#introTag', { opacity: 0, y: 16 });
 tl.to('#introMark', { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.2, ease: 'expo.out' }, 0.35);
 tl.to('#introTag', { opacity: 1, y: 0, duration: 1, ease: 'expo.out' }, 1.0);
 tl.to('#intro', { scale: 1.12, opacity: 0, filter: 'blur(12px)', duration: 0.5, ease: 'power2.in' }, INTRO - 0.5);
-[0, 1, 2].forEach(k => {
-  const T0 = INTRO + k * 0.72;
-  tl.fromTo('#wd' + k, { opacity: 0, scale: 1.5, filter: 'blur(16px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.35, ease: 'expo.out', immediateRender: false }, T0);
-  tl.to('#wd' + k, { opacity: 0, scale: .82, duration: 0.25, ease: 'power2.in' }, T0 + 0.46);
-});
+gsap.set(['#st1', '#st2'], { yPercent: 175 });
+tl.to('#st1', { yPercent: 0, duration: 0.9, ease: 'expo.out' }, INTRO + 0.1);
+tl.to('#st2', { yPercent: 0, duration: 0.9, ease: 'expo.out' }, INTRO + 0.32);
+tl.to(['#st1', '#st2'], { yPercent: -175, duration: 0.45, stagger: 0.05, ease: 'power3.in' }, INTRO + TRIO - 0.55);
 
 // Copertina: un sipario che sale dal basso, titolo, sipario che esce in alto
 function copertina(id, T, dur) {
   const sel = '#' + id;
-  gsap.set(`${sel} .t`, { yPercent: 175 });
+  gsap.set(`${sel} .t`, { yPercent: 320 });
   tl.fromTo(`${sel} .bg`, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.42, ease: 'power3.inOut', immediateRender: false }, T);
   tl.to(`${sel} .t`, { yPercent: 0, duration: 0.75, ease: 'expo.out' }, T + 0.26);
-  tl.fromTo(`${sel} .s`, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, T + 0.5);
+  tl.fromTo([`${sel} .s`, `${sel} .n`], { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, T + 0.5);
   tl.to(`${sel} .in`, { opacity: 0, x: -60, duration: 0.3, ease: 'power2.in' }, T + dur - 0.42);
   tl.to(`${sel} .bg`, { clipPath: 'inset(0% 0% 100% 0%)', duration: 0.42, ease: 'power3.inOut' }, T + dur - 0.38);
 }

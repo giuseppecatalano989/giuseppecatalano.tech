@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Comitas — L'agente AI per clienti e social</title>
-<meta name="description" content="Comitas è un agente AI per clienti e social: legge email, chat, messaggi privati e commenti, recupera ordini, tracciamenti e politiche, risponde con dati verificati, nasconde lo spam, chiede l'approvazione per rimborsi, modifiche e risposte pubbliche delicate e passa a una persona i casi difficili.">
-<meta property="og:title" content="Comitas — L'agente AI per clienti e social">
-<meta property="og:description" content="Ascolta, risponde, modera. Nessun cliente lasciato in attesa.">
+<title>Comitas — Agente AI per customer care e social media</title>
+<meta name="description" content="Comitas è un agente AI per customer care e social media: gestisce email, chat, messaggi diretti e commenti in un’unica coda, risponde con dati verificati, modera lo spam e sottopone al team rimborsi, modifiche e risposte pubbliche ai reclami.">
+<meta property="og:title" content="Comitas — Agente AI per customer care e social media">
+<meta property="og:description" content="Customer care omnicanale, con risposte basate sui dati.">
 <meta name="theme-color" content="#24183A">
 <link rel="icon" href="../assets/comitas.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,8 +26,9 @@
 
   <section class="hero">
     <div class="hero-copy">
-      <h1>Email, chat, DM, commenti.<br><span>Ognuno con la risposta giusta.</span></h1>
-      <p class="lead">Comitas è un agente AI per chi ha clienti da seguire: un e-commerce, uno studio, un’agenzia, un’attività di servizi. Legge email, chat, messaggi privati e commenti su Instagram e Facebook, recupera ordini, tracciamenti e politiche e risponde con dati verificati. Nasconde lo spam, chiede a te rimborsi, modifiche e risposte pubbliche ai reclami, e passa a una persona i clienti più insoddisfatti, anche quando scrivono su più canali.</p>
+      <p class="kicker">Agente AI · Customer care e social media</p>
+      <h1>Customer care omnicanale,<br><span>con risposte basate sui dati.</span></h1>
+      <p class="lead">Comitas gestisce in un’unica coda email, chat, messaggi diretti e commenti su Instagram e Facebook. Consulta ordini, tracking, storico cliente e policy aziendali, risponde alle richieste informative e modera i commenti. Rimborsi, modifiche agli ordini e risposte pubbliche ai reclami vengono sottoposti al team; i casi critici passano a un operatore con il quadro completo.</p>
       <div class="cta">
         <button type="button" class="btn btn-play" data-demo hidden>
           <span class="play-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
@@ -38,73 +39,108 @@
 
     <!-- Lo smistamento che fa l'agente sugli otto messaggi della demo -->
     <figure class="triage" aria-labelledby="tri-cap">
-      <figcaption id="tri-cap"><b>Otto messaggi da cinque canali.</b> <span>Chi decide cosa?</span></figcaption>
+      <figcaption id="tri-cap"><b>Otto messaggi da cinque canali.</b> <span>Guarda come vengono gestiti.</span></figcaption>
       <div class="incoming" id="incoming"></div>
-      <button type="button" class="sort" id="sort">Smista come Comitas</button>
+      <button type="button" class="sort" id="sort">Avvia lo smistamento</button>
       <div class="cols">
-        <div class="col" data-col="auto"><h3>Risponde da solo</h3><div class="drop"></div></div>
-        <div class="col" data-col="ok"><h3>Ti chiede l’ok</h3><div class="drop"></div></div>
-        <div class="col" data-col="nasconde"><h3>Nasconde</h3><div class="drop"></div></div>
-        <div class="col" data-col="umano"><h3>Passa a una persona</h3><div class="drop"></div></div>
+        <div class="col" data-col="auto"><h3>Gestiti in autonomia</h3><div class="drop"></div></div>
+        <div class="col" data-col="ok"><h3>Sottoposti ad approvazione</h3><div class="drop"></div></div>
+        <div class="col" data-col="nasconde"><h3>Moderati</h3><div class="drop"></div></div>
+        <div class="col" data-col="umano"><h3>Inoltrati a un operatore</h3><div class="drop"></div></div>
       </div>
     </figure>
   </section>
 
+  <section class="benefits">
+    <div class="sec-head">
+      <h2>Perché Comitas</h2>
+      <p>Pensato per e-commerce e aziende di servizi che seguono i clienti su più canali e vogliono tempi di risposta rapidi senza perdere il controllo sul brand.</p>
+    </div>
+    <div class="benefit-grid">
+      <article class="benefit"><span class="ix">01</span><h3>Tempi di risposta ridotti</h3><p>Le richieste informative ricevono subito una risposta precisa, sul canale da cui arrivano e con il registro adatto.</p></article>
+      <article class="benefit"><span class="ix">02</span><h3>Reputazione tutelata</h3><p>Spam e truffe vengono nascosti; i reclami pubblici ricevono una risposta approvata dal team e la conversazione prosegue in privato.</p></article>
+      <article class="benefit"><span class="ix">03</span><h3>Visione unica del cliente</h3><p>Lo stesso cliente che scrive su email e social viene riconosciuto e gestito come un unico caso, con lo storico completo.</p></article>
+    </div>
+  </section>
+
   <section class="steps">
-    <h2>Come lavora</h2>
+    <h2>Come funziona</h2>
     <ol>
-      <li><b>Ascolta</b><p>Raccoglie in una sola coda email, chat, messaggi privati e commenti pubblici, e capisce che tipo di richiesta è ognuno.</p></li>
-      <li><b>Verifica</b><p>Recupera i dati di ogni caso: ordine, tracciamento, base di conoscenza, storico. Riconosce lo stesso cliente quando scrive su canali diversi.</p></li>
-      <li><b>Risponde e modera</b><p>Alle domande e ai complimenti risponde subito, in privato o in pubblico, con il tono giusto per ogni canale. Lo spam lo nasconde.</p></li>
-      <li><b>Chiede o passa</b><p>Rimborsi, modifiche e risposte pubbliche ai reclami aspettano il tuo ok. I clienti molto insoddisfatti vanno a una persona, con tutti i loro messaggi in un solo caso.</p></li>
+      <li><b>Raccolta</b><p>Riunisce in un’unica coda email, chat, messaggi diretti e commenti pubblici, e classifica ogni richiesta.</p></li>
+      <li><b>Verifica</b><p>Consulta ordini, tracking, knowledge base e storico, e riconosce lo stesso cliente quando scrive su canali diversi.</p></li>
+      <li><b>Risposta e moderazione</b><p>Risponde a domande e complimenti, in privato o in pubblico, con il tono di ciascun canale. Nasconde spam e contenuti fraudolenti.</p></li>
+      <li><b>Approvazione ed escalation</b><p>Sottopone al team rimborsi, modifiche e risposte pubbliche ai reclami. Affida i clienti insoddisfatti a un operatore, con tutti i messaggi in un solo caso.</p></li>
     </ol>
   </section>
 
   <section class="tools">
     <div class="sec-head">
-      <h2>Tredici strumenti, tre livelli di autonomia</h2>
-      <p>Cosa può fare l’agente da solo è deciso in fase di progetto, strumento per strumento.</p>
+      <h2>Tredici funzioni, tre livelli di autonomia</h2>
+      <p>Il perimetro di autonomia è definito funzione per funzione in fase di progetto.</p>
     </div>
     <div class="levels">
-      <div class="lv"><h3>Da solo</h3><ul>
+      <div class="lv"><h3>In autonomia</h3><ul>
         <li><code>leggi_messaggi</code></li><li><code>cerca_ordine</code></li><li><code>traccia_spedizione</code></li>
         <li><code>cerca_conoscenza</code></li><li><code>storico_cliente</code><small>lo stesso cliente su email e social</small></li>
-        <li><code>invia_risposta</code><small>email, chat e DM: risposte informative o conferme</small></li>
-        <li><code>rispondi_commento</code><small>domande e complimenti in pubblico</small></li>
+        <li><code>invia_risposta</code><small>email, chat e DM: risposte informative e conferme</small></li>
+        <li><code>rispondi_commento</code><small>domande e ringraziamenti in pubblico</small></li>
         <li><code>nascondi_commento</code><small>spam, truffe, profili falsi</small></li><li><code>scrivi_riepilogo</code></li></ul></div>
-      <div class="lv ok"><h3>Con la tua approvazione</h3><ul>
+      <div class="lv ok"><h3>Con approvazione del team</h3><ul>
         <li><code>avvia_sostituzione</code><small>sostituzioni e rimborsi</small></li><li><code>aggiorna_indirizzo</code><small>modifiche agli ordini</small></li>
         <li><code>proponi_risposta_pubblica</code><small>reclami nei commenti</small></li></ul></div>
-      <div class="lv umano"><h3>Con una persona</h3><ul>
-        <li><code>passa_a_operatore</code><small>tutti i messaggi del caso, riepilogo e proposta di soluzione</small></li></ul></div>
+      <div class="lv umano"><h3>Con un operatore</h3><ul>
+        <li><code>passa_a_operatore</code><small>caso completo di tutti i messaggi, sintesi e proposta di soluzione</small></li></ul></div>
     </div>
   </section>
 
   <section class="rules">
     <div class="sec-head">
-      <h2>Le regole che segue</h2>
-      <p>Sono le istruzioni con cui lavora l’agente.</p>
+      <h2>Controllo e tutela del brand</h2>
+      <p>Le regole operative che l’agente applica in ogni sessione.</p>
     </div>
     <ul class="rule-list">
-      <li>Prima di rispondere recupera i dati. Date, misure e politiche non le inventa.</li>
-      <li>Alle domande informative risponde da solo, citando i dati verificati.</li>
-      <li>In pubblico niente dati personali: i reclami si spostano in privato.</li>
-      <li>Quello che costa denaro, cambia un ordine o risponde a un reclamo in pubblico passa da te.</li>
-      <li>Ai clienti molto insoddisfatti non risponde lui: li affida a una persona.</li>
+      <li>Ogni risposta si basa su dati verificati: ordini, tracking e policy aziendali.</li>
+      <li>Nessun dato personale nelle risposte pubbliche: i reclami proseguono in privato.</li>
+      <li>Rimborsi, modifiche agli ordini e risposte pubbliche ai reclami richiedono approvazione.</li>
+      <li>I clienti insoddisfatti vengono affidati a un operatore, con il caso già documentato.</li>
     </ul>
+  </section>
+
+  <section class="fit">
+    <div class="fit-grid">
+      <div>
+        <h3>A chi si rivolge</h3>
+        <ul>
+          <li>E-commerce e retail online</li>
+          <li>Aziende di servizi e studi professionali</li>
+          <li>Team di customer care e social media</li>
+          <li>Brand con community attive</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Canali gestiti</h3>
+        <ul>
+          <li>Email e live chat</li>
+          <li>Instagram: messaggi diretti e commenti</li>
+          <li>Facebook: commenti</li>
+          <li>Ordini, tracking e knowledge base aziendale</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
   <section class="stack">
     <div class="stack-in">
-      <h2>Come è costruito</h2>
-      <p>Comitas usa Claude di Anthropic attraverso le API, con gli strumenti definiti come funzioni collegate a ordini, corriere, storico, base di conoscenza e account social. I limiti più importanti sono nel codice degli strumenti, non solo nelle istruzioni: una risposta privata non può finire per sbaglio sotto un post pubblico. Ogni passaggio arriva all’interfaccia in tempo reale, e le approvazioni fermano l’agente finché non decidi.</p>
-      <p>La demo usa un negozio di casa e arredo, clienti, profili e ordini inventati. Le decisioni dell’agente vengono da una sessione salvata; strumenti, risposte e riepilogo sono eseguiti davvero.</p>
+      <h2>Tecnologia</h2>
+      <p>Comitas è costruito su Claude di Anthropic tramite API, con strumenti collegati a ordini, corriere, storico cliente, knowledge base e account social. I vincoli principali sono implementati negli strumenti, non solo nelle istruzioni: una risposta privata non può essere pubblicata per errore sotto un post. L’interfaccia mostra ogni passaggio in tempo reale e le approvazioni sospendono l’agente fino alla decisione del team.</p>
+      <p>La demo riguarda un negozio online di casa e arredo, con clienti, profili e ordini di esempio. Le decisioni dell’agente provengono da una sessione registrata; strumenti, risposte e report vengono eseguiti realmente.</p>
     </div>
   </section>
 
   <section class="final">
     <img src="../assets/comitas.svg" alt="" width="84" height="84">
-    <h2>Nessun cliente in attesa.<br><span>Su nessun canale.</span></h2>
+    <h2>Ogni canale presidiato.<br><span>Ogni cliente seguito.</span></h2>
+    <p class="contact-soft">Vuoi valutare un agente come Comitas sui tuoi processi? <a href="../#tav-05">Parliamone</a>.</p>
   </section>
 </main>
 

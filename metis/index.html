@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Metis — L'agente AI che pianifica i progetti con il PM</title>
-<meta name="description" content="Metis è un agente AI per il project manager: legge brief, offerte dei fornitori e attività del team, costruisce il piano a step con dipendenze e calendario reale, trova il percorso critico, simula varianti e genera chi fa cosa, schema dei SAL e report.">
-<meta property="og:title" content="Metis — L'agente AI che pianifica i progetti con il PM">
-<meta property="og:description" content="Incastra, calcola, coordina. Tu approvi.">
+<title>Metis — Agente AI per la pianificazione dei progetti</title>
+<meta name="description" content="Metis è un agente AI per project manager: analizza brief, offerte dei fornitori e capacità del team, costruisce il piano esecutivo sul calendario reale, individua il percorso critico, simula scenari alternativi e genera matrice RACI, piano dei SAL e report per il committente.">
+<meta property="og:title" content="Metis — Agente AI per la pianificazione dei progetti">
+<meta property="og:description" content="Pianificazione multi-fornitore, dal brief al piano esecutivo.">
 <meta name="theme-color" content="#0F2E33">
 <link rel="icon" href="../assets/metis.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,8 +26,9 @@
 
   <section class="hero">
     <div class="hero-copy">
-      <h1>Tanti fornitori, un solo piano.<br><span>E la data si rispetta.</span></h1>
-      <p class="lead">Metis è un agente AI che affianca il project manager. Legge brief, offerte dei fornitori e attività del team, incastra le lavorazioni in un piano a step sul calendario vero e trova dove si perde tempo. Poi prepara chi fa cosa, lo schema dei SAL, il report per il cliente e le richieste ai fornitori.</p>
+      <p class="kicker">Agente AI · Project management</p>
+      <h1>Pianificazione multi-fornitore,<br><span>dal brief al piano esecutivo.</span></h1>
+      <p class="lead">Metis affianca il project manager nei progetti che coinvolgono più fornitori. Analizza brief, offerte e capacità del team, costruisce il piano esecutivo sul calendario reale e individua il percorso critico. Dallo stesso piano genera matrice delle responsabilità, piano dei SAL, report per il committente e comunicazioni ai fornitori.</p>
       <div class="cta">
         <button type="button" class="btn btn-play" data-demo hidden>
           <span class="play-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
@@ -39,8 +40,8 @@
     <!-- Lo stesso calcolo dell'agente, sul tratto finale del piano della demo -->
     <figure class="sim" aria-labelledby="sim-cap">
       <figcaption id="sim-cap">
-        <b>Apertura della nuova sede: lunedì 11 gennaio.</b>
-        <span>Sposta la consegna degli arredi e guarda dove cade l’apertura.</span>
+        <b>Simulazione: apertura della nuova sede entro lunedì 11 gennaio.</b>
+        <span>Modifica la data di consegna degli arredi e verifica l’impatto sulla data di apertura.</span>
       </figcaption>
       <div class="track" id="track">
         <div class="freeze" id="freeze"><small>Chiusura natalizia</small></div>
@@ -50,67 +51,103 @@
       </div>
       <div class="controls">
         <label class="slider">
-          <span>Arredi disponibili dal <output id="data-out">14 dic</output></span>
+          <span>Consegna arredi dal <output id="data-out">14 dic</output></span>
           <input type="range" id="data" min="0" max="10" value="4">
         </label>
-        <label class="toggle"><input type="checkbox" id="lotti"> <span>Consegna in due lotti e Wi-Fi su planimetria</span></label>
+        <label class="toggle"><input type="checkbox" id="lotti"> <span>Variante: consegna in due lotti e survey Wi-Fi predittiva</span></label>
       </div>
       <p class="verdict" id="verdict" aria-live="polite"></p>
     </figure>
   </section>
 
+  <section class="benefits">
+    <div class="sec-head">
+      <h2>Perché Metis</h2>
+      <p>Nei progetti con molti fornitori il rischio non è nelle singole attività, ma negli incastri. Metis rende gli incastri visibili e calcolabili.</p>
+    </div>
+    <div class="benefit-grid">
+      <article class="benefit"><span class="ix">01</span><h3>Date affidabili</h3><p>Le scadenze sono calcolate da un motore deterministico che considera dipendenze, festività e chiusure aziendali. Nessuna stima approssimativa.</p></article>
+      <article class="benefit"><span class="ix">02</span><h3>Rischi visibili in anticipo</h3><p>Percorso critico e ritardi emergono in fase di pianificazione, quando è ancora possibile intervenire con varianti, lavorazioni in parallelo e consegne alternative.</p></article>
+      <article class="benefit"><span class="ix">03</span><h3>Documentazione sempre allineata</h3><p>Matrice RACI, piano dei SAL, flussi di pagamento e report per il committente derivano dallo stesso piano e si aggiornano con esso.</p></article>
+    </div>
+  </section>
+
   <section class="steps">
-    <h2>Come lavora</h2>
+    <h2>Come funziona</h2>
     <ol>
-      <li><b>Legge</b><p>Brief, vincoli, offerte dei fornitori con prerequisiti e disponibilità, attività e calendario del team.</p></li>
-      <li><b>Incastra</b><p>Costruisce il piano a step con le dipendenze reali e lo calcola su festivi e chiusure. Trova il percorso critico, cioè la sequenza che decide la data di fine.</p></li>
-      <li><b>Simula</b><p>Se la data non regge, cerca nelle offerte i margini veri, come lavorazioni in parallelo o consegne per zone, e confronta le varianti.</p></li>
-      <li><b>Documenta e coordina</b><p>Genera chi fa cosa, lo schema dei SAL e il report per il cliente. Le richieste ai fornitori partono solo con il tuo ok.</p></li>
+      <li><b>Analisi</b><p>Acquisisce brief e vincoli contrattuali, offerte dei fornitori con prerequisiti e disponibilità, attività e calendario del team interno.</p></li>
+      <li><b>Pianificazione</b><p>Costruisce il piano a step con le dipendenze reali, lo calcola su festività e chiusure e individua il percorso critico che determina la data di fine.</p></li>
+      <li><b>Simulazione</b><p>Se la data contrattuale è a rischio, ricerca nelle offerte i margini disponibili, come consegne per lotti o attività in parallelo, e confronta gli scenari.</p></li>
+      <li><b>Documentazione e coordinamento</b><p>Genera matrice delle responsabilità, piano dei SAL e report per il committente, e prepara le comunicazioni ai fornitori da sottoporre al PM.</p></li>
     </ol>
   </section>
 
   <section class="tools">
     <div class="sec-head">
-      <h2>Nove strumenti, un’unica regia</h2>
-      <p>L’agente decide quali strumenti usare e in che ordine. Le date non le stima mai lui: le calcola il motore di pianificazione. Le email ai fornitori passano da te.</p>
+      <h2>Nove funzioni, un unico piano di progetto</h2>
+      <p>L’agente orchestra le funzioni in autonomia. Le date sono sempre prodotte dal motore di pianificazione, mai stimate dal modello; le comunicazioni esterne richiedono l’approvazione del project manager.</p>
     </div>
     <ul class="tool-list">
-      <li><code>leggi_brief</code><span>Obiettivo, data, vincoli, parti</span></li>
-      <li><code>leggi_offerte_fornitori</code><span>Lavorazioni, prerequisiti, SAL</span></li>
-      <li><code>leggi_attivita_team</code><span>Attività e disponibilità interne</span></li>
-      <li><code>calcola_piano</code><span>Calendario, dipendenze, percorso critico</span></li>
-      <li><code>simula_variante</code><span>Scenari a confronto</span></li>
-      <li><code>genera_chi_fa_cosa</code><span>Matrice delle responsabilità</span></li>
-      <li><code>genera_schema_sal</code><span>Tappe, importi, pagamenti per mese</span></li>
-      <li><code>scrivi_report</code><span>Report di pianificazione per il cliente</span></li>
-      <li class="key"><code>prepara_email</code><span>Richieste a fornitori e cliente</span><em>Con approvazione</em></li>
+      <li><code>leggi_brief</code><span>Obiettivi, scadenze, vincoli e parti coinvolte</span></li>
+      <li><code>leggi_offerte_fornitori</code><span>Lavorazioni, prerequisiti e tappe di SAL</span></li>
+      <li><code>leggi_attivita_team</code><span>Attività e capacità del team interno</span></li>
+      <li><code>calcola_piano</code><span>Calendario, dipendenze e percorso critico</span></li>
+      <li><code>simula_variante</code><span>Analisi what-if e confronto tra scenari</span></li>
+      <li><code>genera_chi_fa_cosa</code><span>Matrice delle responsabilità (RACI)</span></li>
+      <li><code>genera_schema_sal</code><span>Tappe, importi e flussi mensili</span></li>
+      <li><code>scrivi_report</code><span>Report di pianificazione per il committente</span></li>
+      <li class="key"><code>prepara_email</code><span>Comunicazioni a fornitori e committente</span><em>Con approvazione</em></li>
     </ul>
   </section>
 
   <section class="rules">
     <div class="sec-head">
-      <h2>Le regole che segue</h2>
-      <p>Sono le istruzioni con cui lavora l’agente.</p>
+      <h2>Controllo e affidabilità</h2>
+      <p>Le regole operative che l’agente applica in ogni sessione.</p>
     </div>
     <ul class="rule-list">
-      <li>Prima di pianificare legge tutte le fonti.</li>
-      <li>Le dipendenze vengono dalle offerte, le date dal calcolo.</li>
-      <li>Adotta una variante solo se rispetta la data vincolante.</li>
-      <li>Una variante che cambia il lavoro di un fornitore va confermata da lui.</li>
+      <li>Il piano si basa esclusivamente su fonti verificate: brief, offerte e calendario del team.</li>
+      <li>Le dipendenze derivano dalle offerte, le date dal motore di calcolo.</li>
+      <li>Una variante viene adottata solo se rispetta la data contrattuale.</li>
+      <li>Nessuna comunicazione ai fornitori senza l’approvazione del project manager.</li>
     </ul>
+  </section>
+
+  <section class="fit">
+    <div class="fit-grid">
+      <div>
+        <h3>A chi si rivolge</h3>
+        <ul>
+          <li>Project manager e PMO</li>
+          <li>General contractor e system integrator</li>
+          <li>Facility e real estate manager</li>
+          <li>Uffici tecnici che coordinano più fornitori</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Su quali dati lavora</h3>
+        <ul>
+          <li>Brief, capitolati e vincoli contrattuali</li>
+          <li>Offerte e cronoprogrammi dei fornitori</li>
+          <li>Calendari e disponibilità del team</li>
+          <li>Festività e chiusure aziendali</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
   <section class="stack">
     <div class="stack-in">
-      <h2>Come è costruito</h2>
-      <p>Metis usa Claude di Anthropic attraverso le API. Gli strumenti sono funzioni che l’agente può chiamare, e il motore di pianificazione è codice deterministico: giorni lavorativi, festivi, chiusure, vincoli «non prima del» e fine settimana per il trasloco. Ogni passaggio arriva all’interfaccia in tempo reale, e le approvazioni fermano l’agente finché non decidi.</p>
-      <p>La demo pianifica l’apertura della sede di un’azienda inventata, con fornitori e importi inventati. Le decisioni dell’agente vengono da una sessione salvata; calcoli, documenti e report sono eseguiti davvero.</p>
+      <h2>Tecnologia</h2>
+      <p>Metis è costruito su Claude di Anthropic tramite API, con un’architettura ad agente e strumenti dedicati. Il motore di pianificazione è codice deterministico: giorni lavorativi, festività, chiusure, vincoli di inizio e finestre di trasloco nel fine settimana. L’interfaccia mostra ogni passaggio in tempo reale e le approvazioni sospendono l’agente fino alla decisione del project manager.</p>
+      <p>La demo riguarda l’apertura della nuova sede di un’azienda fittizia, con fornitori e importi di esempio. Le decisioni dell’agente provengono da una sessione registrata; calcoli, documenti e report vengono eseguiti realmente.</p>
     </div>
   </section>
 
   <section class="final">
     <img src="../assets/metis.svg" alt="" width="84" height="84">
-    <h2>Meno tempo a incastrare date.<br><span>Più tempo per guidare il progetto.</span></h2>
+    <h2>Più controllo sui progetti complessi.<br><span>Meno tempo in pianificazione manuale.</span></h2>
+    <p class="contact-soft">Vuoi valutare un agente come Metis sui tuoi processi? <a href="../#tav-05">Parliamone</a>.</p>
   </section>
 </main>
 

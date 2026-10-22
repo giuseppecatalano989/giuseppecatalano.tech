@@ -105,6 +105,21 @@
   .outro-mark img { width: 64px; height: 64px; border-radius: 16px; }
   .outro-mark b { font-weight: 700; font-size: 56px; letter-spacing: -.04em; }
   .byline { margin-top: 34px; font-size: 28px; font-weight: 500; color: var(--grafite); }
+
+  /* Revisione professionale: frase di posizionamento e copertine numerate */
+  #trio .line { display: block; width: max-content; margin-left: auto; margin-right: auto; padding: 10px 24px 34px; }
+  .stmt .outro-l1, .stmt .outro-l2 { font-size: 92px; }
+  .f45 .stmt .outro-l1, .f45 .stmt .outro-l2 { font-size: 60px; }
+  .card .n { font-size: 26px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; opacity: 0; margin-bottom: 6px; }
+  .card .t { font-size: 124px !important; letter-spacing: -.045em !important; }
+  .f45 .card .t { font-size: 80px !important; }
+  .card .s { max-width: 1300px; margin-left: auto; margin-right: auto; font-size: 38px !important; }
+  .f45 .card .s { max-width: 900px; font-size: 30px !important; }
+  .outro-l1, .outro-l2 { font-size: 100px !important; }
+  .f45 .outro-l1, .f45 .outro-l2 { font-size: 62px !important; }
+  .byline { font-size: 24px !important; }
+  .f45 .byline { font-size: 20px !important; padding: 0 40px; }
+  .f45 .tagline { padding: 0 60px; }
 </style>
 </head>
 <body>
@@ -125,15 +140,15 @@
 
   <div class="center" id="intro"><div>
     <div class="mark" id="introMark"><img src="../../agenti/quadra/app/logo.svg" alt=""><b>Quadra</b></div>
-    <div class="tagline" id="introTag">L’agente che fa quadrare le fatture fornitori</div>
+    <div class="tagline" id="introTag">Agente AI per il controllo delle fatture passive</div>
   </div></div>
-  <div class="trio" id="trio"><div class="wd" id="wd0">Controlla<em>.</em></div><div class="wd" id="wd1">Scova<em>.</em></div><div class="wd" id="wd2">Protegge<em>.</em></div></div>
+  <div class="trio" id="trio"><div class="stmt"><div class="line"><span class="outro-l1 w" id="st1">Controllo delle fatture,</span></div><div class="line"><span class="outro-l2 w" id="st2">automatico e verificabile.</span></div></div></div>
 
   <div class="center" id="outro"><div>
-    <div class="line"><span class="outro-l1 w" id="o1">Le fatture,</span></div>
-    <div class="line hl" id="o2line"><span class="outro-l2 w" id="o2">sempre in quadra.</span></div>
+    <div class="line"><span class="outro-l1 w" id="o1">Ogni fattura verificata,</span></div>
+    <div class="line hl" id="o2line"><span class="outro-l2 w" id="o2">prima del pagamento.</span></div>
     <div class="outro-mark" id="outroMark"><img src="../../agenti/quadra/app/logo.svg" alt=""><b>Quadra</b></div>
-    <div class="byline" id="byline">Un agente AI progettato da Giuseppe Catalano</div>
+    <div class="byline" id="byline">Agente AI progettato da Giuseppe Catalano · Demo con dati di esempio</div>
   </div></div>
 
   <div class="vignette"></div>
@@ -151,26 +166,26 @@ const CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
 
 /* ---------- Scene ---------- */
 const SCENES = [
-  { id: 'verifica', card: ['Controlla.', 'Ogni fattura, contro ordine e merce consegnata.', 'a'],
-    eyebrow: 'controllo a tre vie', l1: 'Ordine, consegna, fattura:', l2: 'tutto a confronto.',
-    points: ['Prezzi e quantità', 'Doppioni nel registro', 'IBAN, IVA e totali'],
-    stat: [4.2, 6, 0, '', ' fatture', 'verificate una per una'], focus: [34, 74, [[3.4, 1.28]]] },
-  { id: 'anomalie', card: ['Scova.', 'Le differenze che sfuggono a occhio nudo.', 'b'],
-    eyebrow: 'anomalie', l1: 'Le differenze', l2: 'saltano all’occhio.',
-    points: ['Prezzo sopra l’ordine', 'Merce non consegnata', 'Fattura già registrata'], focus: [34, 76, [[1.6, 1.3]]] },
-  { id: 'frode', eyebrow: 'sicurezza', l1: 'Un IBAN cambiato?', l2: 'Prima si verifica.',
-    points: ['Storico dei pagamenti', 'Pagamento bloccato', 'Verifica al telefono'], focus: [86, 62, [[2.0, 1.3]]] },
-  { id: 'approva', card: ['Protegge.', 'Blocca e contesta. Ma solo con il tuo ok.', 'c'],
-    eyebrow: 'azioni', l1: 'Blocca e contesta,', l2: 'solo con il tuo ok.',
-    points: ['Pagamenti sospesi', 'Email ai fornitori già scritte'],
-    stat: [5.0, 3, 0, '', ' azioni', 'approvate con un clic'], focus: [86, 70, [[2.4, 1.32]]] },
-  { id: 'riepilogo', eyebrow: 'risultato', l1: 'I conti', l2: 'tornano.',
-    points: ['Fatture conformi registrate', 'Riepilogo per l’amministrazione'],
-    stat: [2.4, 3977, 0, '', ' €', 'protetti da errori e frodi'], focus: [34, 78, [[2.6, 1.28]]] },
+  { id: 'verifica', card: ['Controllo a tre vie', 'Ogni fattura confrontata con ordine d’acquisto e documento di trasporto.', 'a'],
+    eyebrow: 'controllo a tre vie', l1: 'Ordine, DDT e fattura,', l2: 'riconciliati in automatico.',
+    points: ['Prezzi e quantità', 'Fatture duplicate', 'IBAN, IVA e totali'],
+    stat: [4.2, 6, 0, '', ' fatture', 'verificate in automatico'], focus: [34, 74, [[3.4, 1.28]]] },
+  { id: 'anomalie', card: ['Anomalie', 'Scostamenti di prezzo, merce non consegnata, duplicati.', 'b'],
+    eyebrow: 'rilevamento anomalie', l1: 'Ogni scostamento', l2: 'individuato e documentato.',
+    points: ['Prezzo superiore all’ordine', 'Merce non consegnata', 'Fattura già registrata'], focus: [34, 76, [[1.6, 1.3]]] },
+  { id: 'frode', eyebrow: 'prevenzione frodi', l1: 'IBAN modificato?', l2: 'Pagamento sospeso.',
+    points: ['Confronto con lo storico pagamenti', 'Blocco preventivo', 'Verifica con il fornitore'], focus: [86, 62, [[2.0, 1.3]]] },
+  { id: 'approva', card: ['Governance', 'Blocchi e contestazioni eseguiti solo dopo la tua approvazione.', 'c'],
+    eyebrow: 'governance', l1: 'Blocchi e contestazioni,', l2: 'solo con la tua approvazione.',
+    points: ['Pagamenti sospesi', 'Contestazioni ai fornitori pronte'],
+    stat: [5.0, 3, 0, '', ' azioni', 'approvate dall’amministrazione'], focus: [86, 70, [[2.4, 1.32]]] },
+  { id: 'riepilogo', eyebrow: 'risultato', l1: 'Contabilità corretta,', l2: 'pagamenti protetti.',
+    points: ['Fatture conformi registrate', 'Report per l’amministrazione'],
+    stat: [2.4, 3977, 0, '', ' €', 'di importi anomali intercettati'], focus: [34, 78, [[2.6, 1.28]]] },
 ];
 
 /* ---------- Tempi ---------- */
-const INTRO = 3.6, TRIO = 2.2, CARD = 1.6, OUTRO_DUR = 6;
+const INTRO = 4.0, TRIO = 3.4, CARD = 2.2, OUTRO_DUR = 6.5;
 let t = INTRO + TRIO;
 SCENES.forEach(s => {
   if (s.card) { s.cardStart = t; t += CARD; }
@@ -199,6 +214,7 @@ const posW = () => ({ x: G.win.x, y: G.win.y, rotationY: G.win.rotY, rotationX: 
 $('margine').style.left = (FMT === '16' ? 40 : 24) + 'px';
 
 /* ---------- Costruzione ---------- */
+let NCARD = 0;
 const words = (txt, cls) => txt.split(' ').map(w => `<span class="w ${cls}">${w}&nbsp;</span>`).join('');
 const fmtNum = (v, dec) => v.toLocaleString('it-IT', { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: 'always' });
 SCENES.forEach((s, i) => {
@@ -226,7 +242,7 @@ SCENES.forEach((s, i) => {
   if (s.card) {
     const cd = document.createElement('div');
     cd.className = 'card tone-' + s.card[2]; cd.id = 'card' + i;
-    cd.innerHTML = `<div class="bg"></div><div class="in"><div><div class="line"><span class="t w">${s.card[0]}</span></div><div class="s">${s.card[1]}</div></div></div>`;
+    cd.innerHTML = `<div class="bg"></div><div class="in"><div><div class="n">${String(++NCARD).padStart(2, '0')}</div><div class="line"><span class="t w">${s.card[0]}</span></div><div class="s">${s.card[1]}</div></div></div>`;
     $('cards').append(cd);
   }
 });
@@ -245,19 +261,18 @@ gsap.set('#introTag', { opacity: 0, y: 16 });
 tl.to('#introMark', { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.2, ease: 'expo.out' }, 0.35);
 tl.to('#introTag', { opacity: 1, y: 0, duration: 1, ease: 'expo.out' }, 1.0);
 tl.to('#intro', { scale: 1.12, opacity: 0, filter: 'blur(12px)', duration: 0.5, ease: 'power2.in' }, INTRO - 0.5);
-[0, 1, 2].forEach(k => {
-  const T0 = INTRO + k * 0.72;
-  tl.fromTo('#wd' + k, { opacity: 0, scale: 1.5, filter: 'blur(16px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.35, ease: 'expo.out', immediateRender: false }, T0);
-  tl.to('#wd' + k, { opacity: 0, scale: .82, duration: 0.25, ease: 'power2.in' }, T0 + 0.46);
-});
+gsap.set(['#st1', '#st2'], { yPercent: 175 });
+tl.to('#st1', { yPercent: 0, duration: 0.9, ease: 'expo.out' }, INTRO + 0.1);
+tl.to('#st2', { yPercent: 0, duration: 0.9, ease: 'expo.out' }, INTRO + 0.32);
+tl.to(['#st1', '#st2'], { yPercent: -175, duration: 0.45, stagger: 0.05, ease: 'power3.in' }, INTRO + TRIO - 0.55);
 
 // Copertina: un sipario che sale dal basso, titolo, sipario che esce in alto
 function copertina(id, T, dur) {
   const sel = '#' + id;
-  gsap.set(`${sel} .t`, { yPercent: 175 });
+  gsap.set(`${sel} .t`, { yPercent: 320 });
   tl.fromTo(`${sel} .bg`, { scaleX: 0, transformOrigin: 'left center' }, { scaleX: 1, duration: 0.4, ease: 'power3.inOut', immediateRender: false }, T);
   tl.to(`${sel} .t`, { yPercent: 0, duration: 0.75, ease: 'expo.out' }, T + 0.26);
-  tl.fromTo(`${sel} .s`, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, T + 0.5);
+  tl.fromTo([`${sel} .s`, `${sel} .n`], { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, T + 0.5);
   tl.to(`${sel} .in`, { opacity: 0, x: -60, duration: 0.3, ease: 'power2.in' }, T + dur - 0.42);
   tl.set(`${sel} .bg`, { transformOrigin: 'right center' }, T + dur - 0.38);
   tl.to(`${sel} .bg`, { scaleX: 0, duration: 0.42, ease: 'power3.inOut' }, T + dur - 0.38);
