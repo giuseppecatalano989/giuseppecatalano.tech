@@ -390,6 +390,18 @@ main { padding: 0 var(--gutter); }
   .btn { flex: 1 1 100%; justify-content: center; }
   .reg-name { font-size: 31px; }
 }
+/* Su telefono una tavola per pagina (vedi script.js) */
+.pager { display: none; }
+body.paged .tav { display: none; }
+body.paged .tav.attiva { display: block; min-height: calc(100svh - 20px); }
+body.paged .tav + .tav { border-top: 0; }
+body.paged .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 64px; padding-top: 18px; border-top: 1px dashed var(--grid-2); }
+.pager a { display: grid; gap: 4px; padding: 12px 14px; border: 1px solid var(--ink); text-decoration: none; color: var(--ink); }
+.pager a small { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--red); }
+.pager a b { font-family: var(--display); font-weight: 700; font-size: 17px; text-transform: uppercase; letter-spacing: .01em; }
+.pager .pager-next { text-align: right; grid-column: 2; }
+.topbar nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--red); text-underline-offset: 6px; text-decoration-thickness: 2px; }
+
 @media (max-width: 380px) {
   .topbar nav a b { display: none; }
 
