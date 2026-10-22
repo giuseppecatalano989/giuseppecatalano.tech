@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vedetta — Portale Clienti 2.0</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><img src="logo.svg" alt="" width="30" height="30"><b>Vedetta</b></div>
+  <div class="proj"><span id="progetto">Portale Clienti 2.0</span><small id="cliente">Ottavia Logistica</small></div>
+  <div class="top-r">
+    <span class="mode" id="mode" hidden>Dati dimostrativi</span>
+    <button class="run" id="run" type="button">Prepara lo stato settimanale</button>
+  </div>
+</header>
+
+<main class="grid">
+  <aside class="col sources">
+    <h2>Fonti</h2>
+    <ul id="fonti">
+      <li data-fonte="email"><i class="ic ic-email"></i><span>Email</span><em data-n></em></li>
+      <li data-fonte="ticket"><i class="ic ic-ticket"></i><span>Ticket</span><em data-n></em></li>
+      <li data-fonte="riunioni"><i class="ic ic-riunioni"></i><span>Note riunioni</span><em data-n></em></li>
+      <li data-fonte="piano"><i class="ic ic-piano"></i><span>Piano di progetto</span><em data-n></em></li>
+    </ul>
+    <h2>Piano</h2>
+    <ol class="plan" id="plan"></ol>
+    <p class="constraint" id="vincolo"></p>
+  </aside>
+
+  <section class="col log">
+    <h2>Giornale dell'agente</h2>
+    <div class="feed" id="feed">
+      <div class="empty" id="empty">
+        <p>Vedetta legge email, ticket, riunioni e piano, calcola gli impatti e scrive lo stato avanzamento.</p>
+        <p>Le azioni che toccano persone o sistemi aspettano la tua approvazione.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="col report" id="report">
+    <h2>Stato avanzamento</h2>
+    <div class="report-empty" id="report-empty">Il report comparirà qui.</div>
+    <article class="rep" id="rep" hidden></article>
+  </section>
+</main>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

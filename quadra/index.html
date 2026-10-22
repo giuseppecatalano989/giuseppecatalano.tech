@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quadra — L'agente AI che controlla le fatture fornitori</title>
+<meta name="description" content="Quadra è un agente AI per il ciclo passivo: confronta ogni fattura elettronica con ordine e merce consegnata, registra quelle conformi, blocca doppioni e IBAN sospetti e prepara le contestazioni, che partono solo con la tua approvazione.">
+<meta property="og:title" content="Quadra — L'agente AI che controlla le fatture fornitori">
+<meta property="og:description" content="Controlla, scova, protegge. Tu approvi.">
+<meta name="theme-color" content="#16233F">
+<link rel="icon" href="../assets/quadra.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quadra.css">
+</head>
+<body>
+
+<header class="bar">
+  <a class="back-tondo" href="../#tav-04" aria-label="Torna al portfolio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+  <a class="logo" href="#top"><img src="../assets/quadra.svg" alt="" width="32" height="32"> Quadra</a>
+  <span aria-hidden="true"></span>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>Ogni fattura, controllata.<br><span>Prima di pagarla.</span></h1>
+      <p class="lead">Quadra è un agente AI per il ciclo passivo. Confronta ogni fattura elettronica con l’ordine e con la merce davvero consegnata, registra quelle in regola e ferma quelle che non tornano. Blocchi e contestazioni li propone: decidi tu.</p>
+      <div class="cta">
+        <button type="button" class="btn btn-play" data-demo hidden>
+          <span class="play-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+          Guarda la demo
+        </button>
+      </div>
+    </div>
+
+    <!-- Il controllo che Quadra fa davvero, su quattro fatture della demo -->
+    <figure class="check" aria-labelledby="check-cap">
+      <figcaption id="check-cap">Scegli una fattura e guarda il controllo a tre vie.</figcaption>
+      <div class="picker" role="tablist" id="picker"></div>
+      <div class="sheet" id="sheet" role="tabpanel" aria-live="polite"></div>
+    </figure>
+  </section>
+
+  <section class="steps">
+    <h2>Come lavora</h2>
+    <ol>
+      <li><b>Legge</b><p>Prende le fatture elettroniche arrivate dallo SDI e non ancora registrate.</p></li>
+      <li><b>Confronta</b><p>Per ogni fattura: righe e prezzi contro l’ordine, quantità contro le bolle di consegna, doppioni nel registro, IBAN contro l’anagrafica, IVA e totale.</p></li>
+      <li><b>Registra</b><p>Le fatture conformi le registra da solo in contabilità e nello scadenzario. È l’unica cosa che fa senza chiedere.</p></li>
+      <li><b>Propone</b><p>Per le altre prepara il blocco del pagamento o l’email al fornitore, con gli importi calcolati. Parte tutto solo con il tuo ok.</p></li>
+    </ol>
+  </section>
+
+  <section class="autonomy">
+    <div class="sec-head">
+      <h2>Cosa fa da solo, cosa ti chiede</h2>
+      <p>Il livello di autonomia è una scelta di progetto: le azioni a basso rischio sono automatiche, quelle che spostano denaro o contattano persone passano da te.</p>
+    </div>
+    <div class="two">
+      <div class="col">
+        <h3>In autonomia</h3>
+        <ul>
+          <li><code>leggi_fatture_in_arrivo</code><span>Fatture dallo SDI</span></li>
+          <li><code>verifica_fattura</code><span>Controllo a tre vie</span></li>
+          <li><code>storico_fornitore</code><span>Pagamenti e IBAN usati</span></li>
+          <li><code>registra_fattura</code><span>Solo se conforme</span></li>
+          <li><code>scrivi_riepilogo</code><span>Totali calcolati, non stimati</span></li>
+        </ul>
+      </div>
+      <div class="col key">
+        <h3>Con la tua approvazione</h3>
+        <ul>
+          <li><code>sospendi_pagamento</code><span>Doppioni, IBAN sospetti</span></li>
+          <li><code>prepara_email</code><span>Contestazioni ai fornitori</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="rules">
+    <div class="sec-head">
+      <h2>Le regole che segue</h2>
+      <p>Sono le istruzioni con cui lavora l’agente.</p>
+    </div>
+    <ul class="rule-list">
+      <li>Nessuna decisione su una fattura prima di averla verificata.</li>
+      <li>Nessun conto fatto a mano: differenze e totali vengono dagli strumenti.</li>
+      <li>Un IBAN diverso dall’anagrafica è un possibile tentativo di frode: si blocca e si verifica al telefono, al numero già noto, mai ai contatti scritti in fattura.</li>
+      <li>I doppioni si bloccano, le differenze si contestano chiedendo nota di credito o consegna.</li>
+    </ul>
+  </section>
+
+  <section class="stack">
+    <div class="stack-in">
+      <h2>Come è costruito</h2>
+      <p>Quadra usa Claude di Anthropic attraverso le API. Gli strumenti sono funzioni che l’agente può chiamare; il controllo a tre vie è codice deterministico, così i numeri non dipendono dall’interpretazione del modello. Ogni passaggio arriva all’interfaccia in tempo reale e le approvazioni fermano l’agente finché non decidi.</p>
+      <p>La demo usa un’azienda, fornitori, IBAN e fatture inventati. Le decisioni dell’agente vengono da una sessione salvata; verifiche, registrazioni e riepilogo sono eseguiti davvero.</p>
+    </div>
+  </section>
+
+  <section class="final">
+    <img src="../assets/quadra.svg" alt="" width="84" height="84">
+    <h2>Meno fatture pagate per sbaglio.<br><span>Più tempo per il resto.</span></h2>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>Quadra è un progetto di <a href="../">Giuseppe Catalano</a>, progettato da lui e costruito con l’intelligenza artificiale.</p>
+  <a class="back-pill" href="../#tav-04">
+    <span class="back-tondo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span>
+    Torna ai progetti
+  </a>
+</footer>
+
+<dialog class="demo-modal" id="demo-modal" aria-label="Video di presentazione di Quadra">
+  <button type="button" class="demo-close" data-close aria-label="Chiudi il video">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <div class="demo-frame">
+    <video id="demo-video" controls playsinline preload="none"
+      data-wide="video/presentazione-16x9.mp4" data-wide-poster="video/presentazione-16x9.jpg"
+      data-tall="video/presentazione-4x5.mp4" data-tall-poster="video/presentazione-4x5.jpg"></video>
+  </div>
+</dialog>
+
+<script src="quadra.js"></script>
+</body>
+</html>

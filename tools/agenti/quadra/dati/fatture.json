@@ -1,0 +1,20 @@
+[
+ { "id": "FT-MN-2318", "numero": "2318", "fornitore": "Metalnova S.p.A.", "piva": "03817460961", "data": "2026-10-20", "ricevuta": "2026-10-21T08:14", "ordine": "OA-1107",
+   "righe": [ { "codice": "ST-40", "descrizione": "Staffa in acciaio zincato 40 mm", "quantita": 500, "prezzo": 3.80 }, { "codice": "BU-M8", "descrizione": "Bullone M8x30 classe 8.8", "quantita": 200, "prezzo": 0.42 } ],
+   "aliquota_iva": 22, "imponibile": 1984.00, "iva": 436.48, "totale": 2420.48, "scadenza": "2026-12-31", "iban": "IT48K0306933190000000041287" },
+ { "id": "FT-TA-0981", "numero": "0981", "fornitore": "Trasporti Adda S.r.l.", "piva": "02964310134", "data": "2026-10-20", "ricevuta": "2026-10-21T10:02", "ordine": "OA-1112",
+   "righe": [ { "codice": "TR-VIA", "descrizione": "Trasporto Desio–Lecco, bilico completo", "quantita": 3, "prezzo": 260.00 } ],
+   "aliquota_iva": 22, "imponibile": 780.00, "iva": 171.60, "totale": 951.60, "scadenza": "2026-11-30", "iban": "IT22C0569651590000006103X21" },
+ { "id": "FT-PF-7731", "numero": "7731", "fornitore": "Plastiform S.r.l.", "piva": "07419280155", "data": "2026-10-21", "ricevuta": "2026-10-21T15:47", "ordine": "OA-1109",
+   "righe": [ { "codice": "TP-32", "descrizione": "Tappo in polipropilene 32 mm", "quantita": 4000, "prezzo": 2.45 } ],
+   "aliquota_iva": 22, "imponibile": 9800.00, "iva": 2156.00, "totale": 11956.00, "scadenza": "2026-12-20", "iban": "IT73Q0200801633000105627448" },
+ { "id": "FT-MN-2291", "numero": "2291", "fornitore": "Metalnova S.p.A.", "piva": "03817460961", "data": "2026-09-29", "ricevuta": "2026-10-21T16:30", "ordine": "OA-1098",
+   "righe": [ { "codice": "LA-12", "descrizione": "Lamiera forata 1200x600", "quantita": 60, "prezzo": 18.00 } ],
+   "aliquota_iva": 22, "imponibile": 1080.00, "iva": 237.60, "totale": 1317.60, "scadenza": "2026-11-30", "iban": "IT48K0306933190000000041287" },
+ { "id": "FT-EB-5520", "numero": "5520", "fornitore": "Elettrica Brianza S.n.c.", "piva": "05582170963", "data": "2026-10-21", "ricevuta": "2026-10-22T07:55", "ordine": "OA-1110",
+   "righe": [ { "codice": "SN-IR", "descrizione": "Sensore di prossimità induttivo M12", "quantita": 120, "prezzo": 14.50 } ],
+   "aliquota_iva": 22, "imponibile": 1740.00, "iva": 382.80, "totale": 2122.80, "scadenza": "2026-11-20", "iban": "IT05D0844033270000000120558" },
+ { "id": "FT-IS-0412", "numero": "0412", "fornitore": "Imballaggi Seveso S.r.l.", "piva": "06120540968", "data": "2026-10-21", "ricevuta": "2026-10-22T09:21", "ordine": "OA-1111",
+   "righe": [ { "codice": "SC-40", "descrizione": "Scatola in cartone doppia onda 40x30x30", "quantita": 1500, "prezzo": 0.86 } ],
+   "aliquota_iva": 22, "imponibile": 1290.00, "iva": 283.80, "totale": 1573.80, "scadenza": "2026-11-05", "iban": "IT91R0347501605CC0011856412" }
+]

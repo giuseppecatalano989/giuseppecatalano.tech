@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vedetta — L'agente AI che tiene d'occhio i tuoi progetti</title>
+<meta name="description" content="Vedetta è un agente AI per il project management: legge email, ticket e note delle riunioni, calcola l'effetto dei ritardi sul piano, scrive lo stato avanzamento e propone le azioni, che esegue solo con la tua approvazione.">
+<meta property="og:title" content="Vedetta — L'agente AI che tiene d'occhio i tuoi progetti">
+<meta property="og:description" content="Legge, calcola, propone. Tu decidi.">
+<meta name="theme-color" content="#0F2E33">
+<link rel="icon" href="../assets/vedetta.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vedetta.css">
+</head>
+<body>
+
+<header class="bar">
+  <a class="back-tondo" href="../#tav-04" aria-label="Torna al portfolio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>
+  <a class="logo" href="#top"><img src="../assets/vedetta.svg" alt="" width="32" height="32"> Vedetta</a>
+  <span aria-hidden="true"></span>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>Il progetto, tenuto d’occhio.<br><span>Anche quando tu non puoi.</span></h1>
+      <p class="lead">Vedetta è un agente AI per il project management. Legge email, ticket e note delle riunioni, calcola l’effetto dei ritardi sul piano e scrive lo stato avanzamento. Le azioni le propone: decidi tu.</p>
+      <div class="cta">
+        <button type="button" class="btn btn-play" data-demo hidden>
+          <span class="play-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+          Guarda la demo
+        </button>
+      </div>
+    </div>
+
+    <!-- Il calcolo che Vedetta fa davvero: un ritardo esterno che scorre a cascata sulle milestone -->
+    <figure class="sim" aria-labelledby="sim-cap">
+      <figcaption id="sim-cap">
+        <b>La sandbox del fornitore è in ritardo.</b>
+        <span>Sposta il ritardo e guarda cosa succede al go-live.</span>
+      </figcaption>
+      <div class="track" id="track">
+        <div class="freeze" id="freeze"><small>Blocco rilasci del cliente</small></div>
+        <div class="axis"></div>
+        <div id="ticks"></div>
+        <div id="ms"></div>
+      </div>
+      <div class="controls">
+        <label class="slider">
+          <span>Ritardo della sandbox <output id="giorni-out">7 giorni</output></span>
+          <input type="range" id="giorni" min="0" max="14" value="7">
+        </label>
+        <label class="toggle"><input type="checkbox" id="mock"> <span>Mock delle API pronto (recupera 4 giorni)</span></label>
+      </div>
+      <p class="verdict" id="verdict" aria-live="polite"></p>
+    </figure>
+  </section>
+
+  <section class="steps">
+    <h2>Come lavora</h2>
+    <ol>
+      <li><b>Legge</b><p>Raccoglie in parallelo email, ticket, note delle riunioni e piano di progetto. Le comunicazioni non pertinenti le ignora.</p></li>
+      <li><b>Calcola</b><p>Ogni ritardo passa da un calcolo vero, a cascata su milestone e vincoli del cliente. Se trova una mitigazione, la simula e confronta gli scenari.</p></li>
+      <li><b>Scrive</b><p>Pubblica lo stato avanzamento: stato del progetto, milestone con data di piano e stima, rischi con la loro azione, decisioni da chiedere al cliente.</p></li>
+      <li><b>Propone</b><p>Prepara le email e le modifiche ai ticket. Restano in attesa finché non le approvi: senza il tuo ok non parte niente.</p></li>
+    </ol>
+  </section>
+
+  <section class="tools">
+    <div class="sec-head">
+      <h2>Otto strumenti, due chiavi</h2>
+      <p>L’agente decide quali strumenti usare e in che ordine. Quelli che contattano persone o modificano sistemi richiedono la tua approvazione.</p>
+    </div>
+    <ul class="tool-list">
+      <li><code>leggi_email</code><span>Email del progetto da una data</span></li>
+      <li><code>cerca_ticket</code><span>Ticket per stato, persona, blocchi</span></li>
+      <li><code>leggi_note_riunioni</code><span>Decisioni e azioni dalle riunioni</span></li>
+      <li><code>leggi_piano</code><span>Milestone, dipendenze, vincoli</span></li>
+      <li><code>calcola_impatto</code><span>Effetto a cascata di un ritardo</span></li>
+      <li><code>scrivi_report</code><span>Pubblica lo stato avanzamento</span></li>
+      <li class="key"><code>aggiorna_ticket</code><span>Assegnatario, priorità, scadenza</span><em>Con approvazione</em></li>
+      <li class="key"><code>prepara_email</code><span>Email a cliente, team, fornitori</span><em>Con approvazione</em></li>
+    </ul>
+  </section>
+
+  <section class="rules">
+    <div class="sec-head">
+      <h2>Le regole che segue</h2>
+      <p>Il comportamento dell’agente è progettato, non lasciato al caso. Sono le istruzioni con cui lavora.</p>
+    </div>
+    <ul class="rule-list">
+      <li>Prima di trarre conclusioni legge tutte le fonti.</li>
+      <li>Le date non le stima mai a mano: le calcola.</li>
+      <li>Tiene distinti i fatti scritti nelle fonti dalle ipotesi, e non inventa dati.</li>
+      <li>Mentre lavora spiega cosa sta facendo e perché.</li>
+      <li>Propone solo azioni concrete, e non le dà mai per fatte.</li>
+    </ul>
+  </section>
+
+  <section class="stack">
+    <div class="stack-in">
+      <h2>Come è costruito</h2>
+      <p>Vedetta usa Claude di Anthropic attraverso le API, con gli strumenti definiti come funzioni che l’agente può chiamare. Ogni passaggio arriva all’interfaccia in tempo reale, e le approvazioni fermano l’agente finché non decidi.</p>
+      <p>La demo gira su un progetto, un cliente e persone inventati. Le decisioni dell’agente vengono da una sessione salvata; strumenti, calcoli e report sono eseguiti davvero.</p>
+    </div>
+  </section>
+
+  <section class="final">
+    <img src="../assets/vedetta.svg" alt="" width="84" height="84">
+    <h2>Meno tempo a rincorrere aggiornamenti.<br><span>Più tempo per decidere.</span></h2>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>Vedetta è un progetto di <a href="../">Giuseppe Catalano</a>, progettato da lui e costruito con l’intelligenza artificiale.</p>
+  <a class="back-pill" href="../#tav-04">
+    <span class="back-tondo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></span>
+    Torna ai progetti
+  </a>
+</footer>
+
+<!-- Popup con il video di presentazione (registrato dall'agente in modalità demo) -->
+<dialog class="demo-modal" id="demo-modal" aria-label="Video di presentazione di Vedetta">
+  <button type="button" class="demo-close" data-close aria-label="Chiudi il video">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <div class="demo-frame">
+    <video id="demo-video" controls playsinline preload="none"
+      data-wide="video/presentazione-16x9.mp4" data-wide-poster="video/presentazione-16x9.jpg"
+      data-tall="video/presentazione-4x5.mp4" data-tall-poster="video/presentazione-4x5.jpg"></video>
+  </div>
+</dialog>
+
+<script src="vedetta.js"></script>
+</body>
+</html>

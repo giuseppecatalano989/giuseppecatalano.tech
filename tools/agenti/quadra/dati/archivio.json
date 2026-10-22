@@ -1,0 +1,33 @@
+{
+ "azienda": "Lariana Componenti S.r.l.",
+ "oggi": "2026-10-22",
+ "fornitori": [
+  { "nome": "Metalnova S.p.A.", "piva": "03817460961", "iban": "IT48K0306933190000000041287", "pagamento": "60 gg fine mese", "referente": "Ufficio amministrazione, amministrazione@metalnova.example" },
+  { "nome": "Trasporti Adda S.r.l.", "piva": "02964310134", "iban": "IT22C0569651590000006103X21", "pagamento": "30 gg fine mese", "referente": "Chiara Sala, chiara.sala@trasportiadda.example" },
+  { "nome": "Plastiform S.r.l.", "piva": "07419280155", "iban": "IT73Q0200801633000105627448", "pagamento": "60 gg data fattura", "referente": "Paolo Villa, commerciale, p.villa@plastiform.example" },
+  { "nome": "Elettrica Brianza S.n.c.", "piva": "05582170963", "iban": "IT05D0844033270000000120558", "pagamento": "30 gg data fattura", "referente": "Roberta Fumagalli, r.fumagalli@elettricabrianza.example" },
+  { "nome": "Imballaggi Seveso S.r.l.", "piva": "06120540968", "iban": "IT36P0503433100000000004781", "pagamento": "15 gg data fattura", "referente": "Ufficio amministrazione, amministrazione@imballaggiseveso.example" }
+ ],
+ "ordini": [
+  { "numero": "OA-1098", "fornitore": "Metalnova S.p.A.", "righe": [ { "codice": "LA-12", "quantita": 60, "prezzo": 18.00 } ] },
+  { "numero": "OA-1107", "fornitore": "Metalnova S.p.A.", "righe": [ { "codice": "ST-40", "quantita": 500, "prezzo": 3.80 }, { "codice": "BU-M8", "quantita": 200, "prezzo": 0.42 } ] },
+  { "numero": "OA-1109", "fornitore": "Plastiform S.r.l.", "righe": [ { "codice": "TP-32", "quantita": 4000, "prezzo": 2.30 } ] },
+  { "numero": "OA-1110", "fornitore": "Elettrica Brianza S.n.c.", "righe": [ { "codice": "SN-IR", "quantita": 120, "prezzo": 14.50 } ] },
+  { "numero": "OA-1111", "fornitore": "Imballaggi Seveso S.r.l.", "righe": [ { "codice": "SC-40", "quantita": 1500, "prezzo": 0.86 } ] },
+  { "numero": "OA-1112", "fornitore": "Trasporti Adda S.r.l.", "servizio": true, "righe": [ { "codice": "TR-VIA", "quantita": 3, "prezzo": 260.00 } ] }
+ ],
+ "ddt": [
+  { "numero": "DDT 1874", "ordine": "OA-1098", "data": "2026-09-26", "righe": [ { "codice": "LA-12", "quantita": 60 } ] },
+  { "numero": "DDT 1931", "ordine": "OA-1107", "data": "2026-10-19", "righe": [ { "codice": "ST-40", "quantita": 500 }, { "codice": "BU-M8", "quantita": 200 } ] },
+  { "numero": "DDT 0655", "ordine": "OA-1109", "data": "2026-10-20", "righe": [ { "codice": "TP-32", "quantita": 4000 } ] },
+  { "numero": "DDT 3310", "ordine": "OA-1110", "data": "2026-10-20", "righe": [ { "codice": "SN-IR", "quantita": 100 } ] },
+  { "numero": "DDT 0207", "ordine": "OA-1111", "data": "2026-10-20", "righe": [ { "codice": "SC-40", "quantita": 1500 } ] }
+ ],
+ "registro": [
+  { "fornitore": "Metalnova S.p.A.", "numero": "2291", "data_registrazione": "2026-10-02", "totale": 1317.60 },
+  { "fornitore": "Plastiform S.r.l.", "numero": "7650", "data_registrazione": "2026-09-18", "totale": 6734.40 }
+ ],
+ "storico_pagamenti": {
+  "Imballaggi Seveso S.r.l.": { "pagamenti": 14, "dal": "2025-03-10", "iban_usati": ["IT36P0503433100000000004781"], "comunicazioni_variazione_iban": 0 }
+ }
+}

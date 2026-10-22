@@ -1,0 +1,59 @@
+{
+ "_nota": "Scenario dimostrativo: le decisioni dell'agente sono scritte nello stesso formato prodotto dalla modalità --registra. Gli strumenti vengono eseguiti davvero sui dati di prova. Per sostituirlo con una sessione reale: node core/server.js quadra --registra (serve ANTHROPIC_API_KEY).",
+ "compito": "Controlla le fatture fornitori arrivate dallo SDI: registra quelle conformi, gestisci le anomalie e prepara il riepilogo per l'amministrazione.",
+ "turni": [
+  {
+   "content": [
+    { "type": "text", "text": "Leggo le fatture elettroniche arrivate dallo SDI." },
+    { "type": "tool_use", "id": "toolu_q01", "name": "leggi_fatture_in_arrivo", "input": {} }
+   ]
+  },
+  {
+   "content": [
+    { "type": "text", "text": "Sono 6 fatture da 5 fornitori. Le confronto tutte con ordini, bolle di consegna e anagrafica." },
+    { "type": "tool_use", "id": "toolu_q02", "name": "verifica_fattura", "input": { "id": "FT-MN-2318" } },
+    { "type": "tool_use", "id": "toolu_q03", "name": "verifica_fattura", "input": { "id": "FT-TA-0981" } },
+    { "type": "tool_use", "id": "toolu_q04", "name": "verifica_fattura", "input": { "id": "FT-PF-7731" } },
+    { "type": "tool_use", "id": "toolu_q05", "name": "verifica_fattura", "input": { "id": "FT-MN-2291" } },
+    { "type": "tool_use", "id": "toolu_q06", "name": "verifica_fattura", "input": { "id": "FT-EB-5520" } },
+    { "type": "tool_use", "id": "toolu_q07", "name": "verifica_fattura", "input": { "id": "FT-IS-0412" } }
+   ]
+  },
+  {
+   "content": [
+    { "type": "text", "text": "Due fatture sono conformi e le registro. Le altre quattro no: Plastiform applica 2,45 € al pezzo invece dei 2,30 € dell'ordine, Elettrica Brianza fattura 20 sensori non ancora consegnati, la 2291 di Metalnova è già stata registrata il 2 ottobre. Imballaggi Seveso indica un IBAN diverso dall'anagrafica: controllo lo storico dei pagamenti." },
+    { "type": "tool_use", "id": "toolu_q08", "name": "registra_fattura", "input": { "id": "FT-MN-2318" } },
+    { "type": "tool_use", "id": "toolu_q09", "name": "registra_fattura", "input": { "id": "FT-TA-0981" } },
+    { "type": "tool_use", "id": "toolu_q10", "name": "storico_fornitore", "input": { "fornitore": "Imballaggi Seveso S.r.l." } }
+   ]
+  },
+  {
+   "content": [
+    { "type": "text", "text": "In 14 pagamenti l'IBAN non è mai cambiato e non c'è nessuna comunicazione di variazione: lo tratto come un possibile tentativo di frode. Propongo di bloccare due pagamenti e di contestare le differenze ai fornitori." },
+    { "type": "tool_use", "id": "toolu_q11", "name": "sospendi_pagamento", "input": { "fatture": [
+     { "id": "FT-IS-0412", "motivo": "IBAN diverso da quello in anagrafica, nessuna variazione comunicata: verificare per telefono al numero già noto." },
+     { "id": "FT-MN-2291", "motivo": "Doppione della fattura 2291 registrata il 02/10." }
+    ] } },
+    { "type": "tool_use", "id": "toolu_q12", "name": "prepara_email", "input": { "fattura": "FT-PF-7731", "a": "Paolo Villa (Plastiform)", "oggetto": "Fattura 7731 — prezzo diverso dall'ordine OA-1109", "testo": "Buongiorno Paolo,\nnella fattura 7731 i tappi TP-32 sono indicati a 2,45 € al pezzo, mentre l'ordine OA-1109 riporta 2,30 €. Sui 4.000 pezzi la differenza è di 600,00 € più IVA.\nVi chiediamo una nota di credito per la differenza; nel frattempo la fattura resta in sospeso.\nGrazie,\nAmministrazione Lariana Componenti" } },
+    { "type": "tool_use", "id": "toolu_q13", "name": "prepara_email", "input": { "fattura": "FT-EB-5520", "a": "Roberta Fumagalli (Elettrica Brianza)", "oggetto": "Fattura 5520 — 20 sensori non ancora consegnati", "testo": "Buongiorno Roberta,\nla fattura 5520 riporta 120 sensori SN-IR, ma con il DDT 3310 ne abbiamo ricevuti 100.\nCi indicate quando arriveranno i 20 mancanti, oppure ci inviate una nota di credito di 290,00 € più IVA?\nGrazie,\nAmministrazione Lariana Componenti" } }
+   ]
+  },
+  {
+   "content": [
+    { "type": "text", "text": "Preparo il riepilogo per l'amministrazione." },
+    { "type": "tool_use", "id": "toolu_q14", "name": "scrivi_riepilogo", "input": {
+     "sintesi": "Su 6 fatture ricevute, 2 sono conformi e registrate. Due pagamenti sono bloccati: un doppione e un IBAN cambiato senza preavviso, da verificare per telefono. Due fatture sono contestate ai fornitori per differenze di prezzo e di quantità.",
+     "note": [
+      { "fattura": "FT-IS-0412", "testo": "Possibile frode: non pagare finché il fornitore non conferma l'IBAN al telefono, al numero già in anagrafica." },
+      { "fattura": "FT-PF-7731", "testo": "In attesa di nota di credito per 732,00 € IVA compresa." },
+      { "fattura": "FT-EB-5520", "testo": "Pagare dopo la consegna dei 20 sensori o con nota di credito." }
+     ] } }
+   ]
+  },
+  {
+   "content": [
+    { "type": "text", "text": "Fatto. Registrate 2 fatture, bloccati 2 pagamenti e inviate 2 contestazioni: quasi 4.000 € non escono più dalla cassa per errore." }
+   ]
+  }
+ ]
+}

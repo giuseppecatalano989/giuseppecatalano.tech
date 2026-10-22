@@ -1,0 +1,54 @@
+{
+ "_nota": "Scenario dimostrativo: le decisioni dell'agente sono scritte nello stesso formato prodotto dalla modalità --registra. Gli strumenti vengono eseguiti davvero sui dati di prova. Per sostituirlo con una sessione reale: node core/server.js sportello --registra (serve ANTHROPIC_API_KEY).",
+ "compito": "Gestisci i messaggi dei clienti arrivati stamattina: rispondi, risolvi o passa a un operatore, e chiudi con il riepilogo per il team.",
+ "turni": [
+  {
+   "content": [
+    { "type": "text", "text": "Leggo i messaggi arrivati stamattina." },
+    { "type": "tool_use", "id": "toolu_s01", "name": "leggi_messaggi", "input": {} }
+   ]
+  },
+  {
+   "content": [
+    { "type": "text", "text": "Sono 5: una consegna in ritardo, un prodotto difettoso, una domanda sulle misure, un cliente al terzo sollecito e un indirizzo da correggere. Recupero i dati di ogni caso." },
+    { "type": "tool_use", "id": "toolu_s02", "name": "cerca_ordine", "input": { "numero": "CO-48213" } },
+    { "type": "tool_use", "id": "toolu_s03", "name": "cerca_ordine", "input": { "numero": "CO-47950" } },
+    { "type": "tool_use", "id": "toolu_s04", "name": "cerca_conoscenza", "input": { "domanda": "lenzuola lino angoli materasso 140x200 altezza" } },
+    { "type": "tool_use", "id": "toolu_s05", "name": "storico_cliente", "input": { "email": "giorgio.ferraris@example.it" } },
+    { "type": "tool_use", "id": "toolu_s06", "name": "cerca_ordine", "input": { "numero": "CO-48390" } }
+   ]
+  },
+  {
+   "content": [
+    { "type": "text", "text": "Il pacco di Chiara risulta partito: controllo dove si trova. Per il piumone di Davide verifico la politica sui difetti. Giorgio ha già scritto due volte senza ricevere risposta: è un caso per una persona, lo passo a Marta con una proposta." },
+    { "type": "tool_use", "id": "toolu_s07", "name": "traccia_spedizione", "input": { "tracking": "LMP3381920" } },
+    { "type": "tool_use", "id": "toolu_s08", "name": "cerca_conoscenza", "input": { "domanda": "prodotto difettoso macchia sostituzione rimborso" } },
+    { "type": "tool_use", "id": "toolu_s09", "name": "passa_a_operatore", "input": { "messaggio": "MSG-504", "operatore": "Marta Rossi", "priorita": "alta",
+      "riepilogo": "Tavolino Tasso (ordine CO-47331) arrivato l'8/10 con una gamba rotta. Il cliente ha scritto il 9 e il 15 ottobre senza risposta: un ticket mai assegnato e uno chiuso per errore. Ora minaccia una recensione negativa. Cliente fedele: 6 ordini, 642 € spesi.",
+      "proposta": "Scuse personali per i ritardi, rimborso completo di 89 € con ritiro gratuito, oppure sostituzione con spedizione prioritaria, e un buono di 15 € per il disagio. Chiamarlo oggi." } }
+   ]
+  },
+  {
+   "content": [
+    { "type": "text", "text": "Rispondo subito alle due richieste informative. Sostituzione del piumone e correzione dell'indirizzo le propongo a te." },
+    { "type": "tool_use", "id": "toolu_s10", "name": "invia_risposta", "input": { "messaggio": "MSG-501", "testo": "Ciao Chiara! Ho controllato: il tuo pacco è partito il 17/10 ed è fermo all'hub di Bologna di Corriere Lampo per i volumi elevati di questi giorni. La consegna è stata riprogrammata per domani, 23 ottobre. Puoi seguirlo con il codice LMP3381920. Scusa per l'attesa!" } },
+    { "type": "tool_use", "id": "toolu_s11", "name": "invia_risposta", "input": { "messaggio": "MSG-503", "testo": "Ciao Laura! Sì, vanno benissimo: le lenzuola con angoli Ortensia 140x200 hanno angoli elasticizzati profondi 32 cm, adatti a materassi alti fino a 30 cm. Il lino si restringe al massimo dell'1-2% al primo lavaggio a 40°, quindi resta comodo anche con il tuo materasso da 25 cm." } },
+    { "type": "tool_use", "id": "toolu_s12", "name": "avvia_sostituzione", "input": { "ordine": "CO-47950", "tipo": "sostituzione", "motivo": "Macchia di fabbrica su un lato, foto allegata dal cliente; consegnato il 17/10, entro i 30 giorni." } },
+    { "type": "tool_use", "id": "toolu_s13", "name": "aggiorna_indirizzo", "input": { "ordine": "CO-48390", "indirizzo": "Via Manzoni 14, 22100 Como" } }
+   ]
+  },
+  {
+   "content": [
+    { "type": "text", "text": "Approvati. Confermo a Davide e a Sofia, poi preparo il riepilogo." },
+    { "type": "tool_use", "id": "toolu_s14", "name": "invia_risposta", "input": { "messaggio": "MSG-502", "testo": "Buongiorno Davide, ci dispiace per il piumone. Le inviamo subito un piumone nuovo e il corriere passerà a ritirare quello difettoso, senza costi per lei. Riceverà a breve l'email con la data del ritiro. Grazie per la foto, ci è stata utile." } },
+    { "type": "tool_use", "id": "toolu_s15", "name": "invia_risposta", "input": { "messaggio": "MSG-505", "testo": "Ciao Sofia, fatto: l'ordine CO-48390 verrà consegnato in via Manzoni 14, a Como. Il pacco non era ancora partito, quindi nessun problema." } },
+    { "type": "tool_use", "id": "toolu_s16", "name": "scrivi_riepilogo", "input": { "sintesi": "Gestiti tutti e 5 i messaggi della mattina: due risposte informative inviate in autonomia, due casi risolti con la tua approvazione (sostituzione e cambio indirizzo), un caso delicato passato a Marta con priorità alta." } }
+   ]
+  },
+  {
+   "content": [
+    { "type": "text", "text": "Fatto. Quattro clienti hanno già la risposta. Il caso di Giorgio è da Marta, con il riepilogo e una proposta: va chiamato oggi." }
+   ]
+  }
+ ]
+}

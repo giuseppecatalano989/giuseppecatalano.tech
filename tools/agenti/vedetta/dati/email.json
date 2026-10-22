@@ -1,0 +1,37 @@
+[
+ {
+  "id": "E-201", "data": "2026-10-19T09:12", "da": "Luca Ferri", "ruolo": "UX/UI designer",
+  "oggetto": "Schermate checkout su Figma",
+  "testo": "Ciao Giuseppe, ho caricato su Figma tutte le schermate del checkout, versione desktop e mobile. Manca solo la conferma del cliente sui testi legali (informativa e condizioni di vendita), senza quelli non posso chiudere PRT-125."
+ },
+ {
+  "id": "E-202", "data": "2026-10-20T16:47", "da": "Davide Neri", "ruolo": "Referente tecnico PayBridge (fornitore esterno)",
+  "oggetto": "Sandbox API v3 — nuova data di rilascio",
+  "testo": "Buongiorno, vi informo che il rilascio della sandbox API v3, previsto per il 23/10, slitta al 30/10 per il completamento della certificazione PCI. Vi confermo la data definitiva appena possibile. Ci scusiamo per il disagio."
+ },
+ {
+  "id": "E-203", "data": "2026-10-21T08:30", "da": "Marketing Cloud Weekly", "ruolo": "Newsletter",
+  "oggetto": "Webinar: 5 trend dell'e-commerce B2B",
+  "testo": "Iscriviti al nostro webinar gratuito di giovedì sui trend dell'e-commerce B2B per il 2027."
+ },
+ {
+  "id": "E-204", "data": "2026-10-21T11:05", "da": "Marco Rinaldi", "ruolo": "Head of Digital, Ottavia Logistica (cliente)",
+  "oggetto": "Login con Microsoft già al go-live?",
+  "testo": "Ciao Giuseppe, ieri il nostro CIO ha chiesto se possiamo avere il login con gli account Microsoft aziendali (SSO) già per il go-live del 1° dicembre. Mi fai sapere se è fattibile e con quale impatto?"
+ },
+ {
+  "id": "E-205", "data": "2026-10-21T14:22", "da": "Andrea Galli", "ruolo": "DevOps",
+  "oggetto": "Certificato SSL staging",
+  "testo": "Il certificato SSL dell'ambiente di staging scade il 28/10. Ho già avviato il rinnovo (PRT-128), nessun impatto sui test."
+ },
+ {
+  "id": "E-206", "data": "2026-10-22T09:40", "da": "Elena Marchi", "ruolo": "QA",
+  "oggetto": "Esito test di regressione tracking",
+  "testo": "Test di regressione sul tracking spedizioni: 46 su 48 superati. Restano due difetti minori, già aperti come PRT-131 e PRT-134. Nessuno blocca l'UAT."
+ },
+ {
+  "id": "E-207", "data": "2026-10-22T10:15", "da": "Marco Rinaldi", "ruolo": "Head of Digital, Ottavia Logistica (cliente)",
+  "oggetto": "Re: testi legali checkout",
+  "testo": "I testi legali del checkout ve li manda il nostro ufficio legale entro venerdì 23/10."
+ }
+]

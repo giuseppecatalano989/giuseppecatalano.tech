@@ -1,0 +1,36 @@
+{
+ "negozio": "Casa Ortensia",
+ "oggi": "2026-10-22",
+ "operatori": ["Marta Rossi", "Luca Bianchi"],
+ "ordini": [
+  { "numero": "CO-48213", "cliente": "chiara.bassi@example.it", "data": "2026-10-16", "stato": "spedito", "corriere": "Corriere Lampo", "tracking": "LMP3381920",
+    "articoli": [ { "nome": "Set asciugamani Ortensia, 4 pezzi", "prezzo": 49.00 } ], "consegna_prevista": "2026-10-21", "indirizzo": "Via Roma 8, 40121 Bologna" },
+  { "numero": "CO-47950", "cliente": "d.moretti@example.it", "data": "2026-10-13", "stato": "consegnato", "consegnato_il": "2026-10-17",
+    "articoli": [ { "nome": "Piumone matrimoniale in piuma d'oca, 4 stagioni", "codice": "PIU-250", "prezzo": 129.00 } ], "indirizzo": "Via Verdi 22, 20900 Monza" },
+  { "numero": "CO-47331", "cliente": "giorgio.ferraris@example.it", "data": "2026-10-03", "stato": "consegnato", "consegnato_il": "2026-10-08",
+    "articoli": [ { "nome": "Tavolino Tasso in rovere", "codice": "TAV-TS", "prezzo": 89.00 } ], "indirizzo": "Corso Italia 5, 21100 Varese" },
+  { "numero": "CO-48390", "cliente": "sofia.galli@example.it", "data": "2026-10-22", "stato": "in preparazione",
+    "articoli": [ { "nome": "Plaid in lana merino, salvia", "prezzo": 79.00 } ], "indirizzo": "Via Manzoni 41, 22100 Como" }
+ ],
+ "spedizioni": {
+  "LMP3381920": { "corriere": "Corriere Lampo", "eventi": [
+   { "data": "2026-10-17 18:40", "luogo": "Milano", "evento": "Partita dal magazzino" },
+   { "data": "2026-10-20 06:15", "luogo": "Hub di Bologna", "evento": "In giacenza per volumi elevati" },
+   { "data": "2026-10-22 07:30", "luogo": "Hub di Bologna", "evento": "Riprogrammata: consegna prevista il 23/10" } ] }
+ },
+ "storico": {
+  "giorgio.ferraris@example.it": { "contatti": [
+   { "data": "2026-10-09", "canale": "email", "esito": "nessuna risposta", "nota": "Ticket aperto e mai assegnato" },
+   { "data": "2026-10-15", "canale": "form", "esito": "nessuna risposta", "nota": "Ticket duplicato, chiuso in automatico" } ], "ordini_totali": 6, "spesa_totale": 642.00 },
+  "d.moretti@example.it": { "contatti": [], "ordini_totali": 2, "spesa_totale": 188.00 },
+  "chiara.bassi@example.it": { "contatti": [], "ordini_totali": 1, "spesa_totale": 49.00 },
+  "sofia.galli@example.it": { "contatti": [], "ordini_totali": 3, "spesa_totale": 211.00 },
+  "laura.pozzi@example.it": { "contatti": [], "ordini_totali": 0, "spesa_totale": 0 }
+ },
+ "conoscenza": [
+  { "id": "KB-12", "titolo": "Lenzuola con angoli: misure e altezza del materasso", "testo": "Le lenzuola con angoli Ortensia 140x200 hanno angoli elasticizzati profondi 32 cm: vanno bene per materassi alti fino a 30 cm. Il lino si restringe al massimo dell'1-2% con il primo lavaggio a 40°." , "parole": ["lenzuola", "lino", "angoli", "materasso", "misure", "140x200", "altezza"] },
+  { "id": "KB-31", "titolo": "Prodotti difettosi o danneggiati", "testo": "Se un prodotto arriva difettoso o danneggiato entro 30 giorni dalla consegna, offriamo sostituzione o rimborso completo, con ritiro gratuito a domicilio. Serve una foto del difetto. Sostituzioni e rimborsi vanno approvati da un operatore.", "parole": ["difetto", "difettoso", "danneggiato", "macchia", "rotto", "reso", "sostituzione", "rimborso"] },
+  { "id": "KB-07", "titolo": "Ritardi di consegna", "testo": "Se la consegna è in ritardo comunichiamo al cliente la posizione aggiornata e la nuova data. Oltre 5 giorni di ritardo rimborsiamo la spedizione.", "parole": ["ritardo", "consegna", "spedizione", "tracking", "dove", "arrivato"] },
+  { "id": "KB-18", "titolo": "Modifica di un ordine", "testo": "Indirizzo e articoli si possono modificare finché l'ordine è in preparazione. Dopo la spedizione si contatta il corriere.", "parole": ["modifica", "indirizzo", "civico", "cambiare", "ordine"] }
+ ]
+}

@@ -21,3 +21,14 @@ tools/video/familyhub/demo/advisor-input.log
 
 .vercel
 .env*
+tools/agenti/node_modules/
+tools/agenti/*/output/
+tools/agenti/riprese/
+tools/video/captures/
+tools/video/vedetta/frames/
+tools/video/*/out*/
+tools/video/quadra/frames/
+tools/video/*/musica.wav
+tools/video/*/prova*/
+tools/video/*/render*.log
+tools/video/sportello/frames/

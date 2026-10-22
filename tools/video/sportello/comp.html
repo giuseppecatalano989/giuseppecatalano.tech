@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Sportello — video di presentazione</title>
+<style>
+  @font-face { font-family: 'Figtree'; font-weight: 300; src: url('../../agenti/node_modules/@fontsource/figtree/files/figtree-latin-300-normal.woff2'); }
+  @font-face { font-family: 'Figtree'; font-weight: 400; src: url('../../agenti/node_modules/@fontsource/figtree/files/figtree-latin-400-normal.woff2'); }
+  @font-face { font-family: 'Figtree'; font-weight: 500; src: url('../../agenti/node_modules/@fontsource/figtree/files/figtree-latin-500-normal.woff2'); }
+  @font-face { font-family: 'Figtree'; font-weight: 600; src: url('../../agenti/node_modules/@fontsource/figtree/files/figtree-latin-600-normal.woff2'); }
+  @font-face { font-family: 'Figtree'; font-weight: 700; src: url('../../agenti/node_modules/@fontsource/figtree/files/figtree-latin-700-normal.woff2'); }
+  @font-face { font-family: 'Figtree'; font-weight: 800; src: url('../../agenti/node_modules/@fontsource/figtree/files/figtree-latin-800-normal.woff2'); }
+  @font-face { font-family: 'DM Mono'; font-weight: 500; src: url('../../agenti/node_modules/@fontsource/dm-mono/files/dm-mono-latin-500-normal.woff2'); }
+
+  /* Concept "la conversazione": fondo glicine, fumetti che fluttuano, copertine che si aprono a cerchio come un messaggio */
+  :root { --carta: #F4F2F6; --inchiostro: #24183A; --blu: #6A4BE8; --grafite: #6D6580; --conforme: #1E8E5A; --pennarello: #D9CCFF; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--carta); overflow: hidden; }
+  #stage { position: relative; overflow: hidden; font-family: 'Figtree', sans-serif; color: var(--inchiostro); background-color: var(--carta);
+  }
+  .bubbles { position: absolute; inset: 0; pointer-events: none; }
+  .bub { position: absolute; border-radius: 26px; opacity: 0; }
+  .bub.l { border-bottom-left-radius: 6px; background: #fff; box-shadow: 0 16px 40px rgba(36,24,58,.08); }
+  .bub.r { border-bottom-right-radius: 6px; background: #E4DCFF; }
+  .f16 #stage { width: 1920px; height: 1080px; }
+  .f45 #stage { width: 1080px; height: 1350px; }
+  .glow { position: absolute; border-radius: 50%; opacity: 0; }
+  .glow1 { width: 1300px; height: 1100px; background: radial-gradient(closest-side, rgba(139,108,255,.20), rgba(139,108,255,0)); }
+  .glow2 { width: 1200px; height: 1000px; background: radial-gradient(closest-side, rgba(194,65,107,.10), rgba(194,65,107,0)); }
+  .vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, rgba(0,0,0,0) 62%, rgba(22,35,63,.10) 100%); }
+
+  .copy { position: absolute; }
+  .eyebrow { display: flex; align-items: center; gap: 12px; font-family: 'DM Mono'; font-weight: 500; font-size: 21px; color: var(--blu); margin-bottom: 12px; }
+  .eyebrow i { display: block; width: 14px; height: 14px; border-radius: 7px 7px 7px 2px; background: var(--blu); }
+  .line { display: inline-block; overflow: hidden; vertical-align: top; white-space: nowrap; padding: 6px 16px 26px; margin: 0 -16px -20px; position: relative; }
+  .w { display: inline-block; will-change: transform; position: relative; z-index: 1; }
+  .l1 { font-weight: 700; font-size: 60px; line-height: 1.05; letter-spacing: -.03em; color: var(--inchiostro); }
+  .l2 { font-weight: 300; font-size: 60px; line-height: 1.05; letter-spacing: -.025em; color: var(--blu); }
+  /* Il tratto di evidenziatore sotto la seconda riga, animato con --hl */
+  .line.hl::before { content: ''; position: absolute; left: 14px; right: 18px; bottom: 20px; height: 6px; background: var(--pennarello); border-radius: 6px;
+    transform-origin: left center; transform: scaleX(var(--hl, 0)); }
+  .copy .line + .line { margin-left: 4px; }
+  .f45 .copy { text-align: center; }
+  .f45 .eyebrow { justify-content: center; font-size: 19px; }
+  .f45 .copy .line { display: block; width: max-content; margin-left: auto !important; margin-right: auto; }
+  .f45 .l1, .f45 .l2 { font-size: 64px; }
+
+  .chip { position: absolute; display: inline-flex; align-items: center; gap: 14px; padding: 13px 26px 13px 13px; border-radius: 999px;
+    background: #fff; color: var(--inchiostro); font-weight: 600; font-size: 25px; white-space: nowrap; opacity: 0;
+    border: 1.5px solid rgba(22,35,63,.12); box-shadow: 0 18px 40px rgba(22,35,63,.16); }
+  .chip b { width: 38px; height: 38px; border-radius: 50%; background: var(--blu); display: grid; place-items: center; flex: none; }
+  .chip b svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .f45 .chip { font-size: 22px; padding: 11px 22px 11px 11px; }
+
+  .stat { position: absolute; padding: 22px 30px 20px; border-radius: 26px 26px 26px 8px; background: var(--inchiostro); color: #fff; opacity: 0;
+    box-shadow: 0 30px 70px rgba(22,35,63,.35); }
+  .stat .v { font-weight: 800; font-size: 80px; letter-spacing: -.04em; line-height: 1; color: #CBBDFF; white-space: nowrap; }
+  .stat .k { margin-top: 10px; font-size: 22px; font-weight: 500; color: #B9AFCB; white-space: nowrap; }
+  .f45 .stat .v { font-size: 58px; }
+  .f45 .stat .k { font-size: 19px; }
+
+  .card { position: absolute; inset: 0; pointer-events: none; }
+  .card .bg { position: absolute; inset: 0; clip-path: circle(0% at 50% 55%); }
+  .card .in { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
+  .card .line { display: block; padding: 20px 50px 80px; margin: 0 -50px -64px; }
+  .card .t { font-weight: 700; font-size: 210px; letter-spacing: -.05em; line-height: 1; }
+  .card .s { margin-top: 26px; font-weight: 400; font-size: 42px; letter-spacing: -.01em; opacity: 0; }
+  .f45 .card .t { font-size: 140px; }
+  .f45 .card .s { font-size: 32px; padding: 0 60px; }
+  .tone-a .bg { background: var(--blu); } .tone-a { color: #fff; } .tone-a .s { color: #E4DCFF; }
+  .tone-b .bg { background: var(--inchiostro); } .tone-b { color: #fff; } .tone-b .s { color: #CBBDFF; }
+  .tone-c .bg { background: #fff; } .tone-c { color: var(--inchiostro); } .tone-c .s { color: var(--blu); }
+
+  .persp { position: absolute; inset: 0; perspective: 2600px; z-index: 1; }
+  /* I livelli dei testi occupano tutto il palco, sopra la finestra */
+  #copies, #chips, #stats, #cards { position: absolute; inset: 0; pointer-events: none; }
+  #copies, #chips, #stats { z-index: 3; }
+  #cards { z-index: 4; }
+  .center, .trio { z-index: 5; }
+  .rig { position: absolute; left: 0; top: 0; transform-style: preserve-3d; will-change: transform; opacity: 0; transform-origin: 50% 40%; }
+  .win { position: relative; border-radius: 16px; overflow: hidden; background: #fff;
+    box-shadow: 0 60px 120px rgba(22,35,63,.28), 0 0 0 1px rgba(22,35,63,.10); }
+  .win .bar { height: 44px; display: flex; align-items: center; gap: 9px; padding: 0 20px; background: #F7F8FB; border-bottom: 1px solid rgba(22,35,63,.08); }
+  .win .bar span { width: 12px; height: 12px; border-radius: 50%; background: #D3D8E2; }
+  .win .bar .url { margin-left: 18px; flex: 1; max-width: 420px; height: 28px; border-radius: 8px; background: #fff; border: 1px solid rgba(22,35,63,.08);
+    font-size: 15px; color: var(--grafite); display: flex; align-items: center; justify-content: center; font-weight: 500; }
+  .win img { display: block; background: var(--carta); }
+  .glare { position: absolute; left: 0; right: 0; bottom: 0; top: 44px; pointer-events: none; background: linear-gradient(120deg, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 30%); }
+
+  .center { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
+  .mark { display: inline-flex; align-items: center; gap: 34px; }
+  .mark img { width: 170px; height: 170px; border-radius: 42px; box-shadow: 0 30px 70px rgba(22,35,63,.3); }
+  .mark b { font-weight: 700; font-size: 170px; letter-spacing: -.05em; color: var(--inchiostro); }
+  .f45 .mark img { width: 130px; height: 130px; border-radius: 32px; }
+  .f45 .mark b { font-size: 130px; }
+  .tagline { margin-top: 40px; font-weight: 500; font-size: 34px; color: var(--grafite); }
+  .f45 .tagline { font-size: 28px; padding: 0 60px; }
+  .trio { position: absolute; inset: 0; display: grid; place-items: center; }
+  .trio .wd { position: absolute; font-weight: 700; font-size: 240px; letter-spacing: -.05em; color: var(--inchiostro); opacity: 0; }
+  .trio .wd em { font-style: normal; color: var(--blu); }
+  .f45 .trio .wd { font-size: 160px; }
+  .outro-l1 { font-weight: 700; font-size: 118px; letter-spacing: -.045em; line-height: 1.04; color: var(--inchiostro); }
+  .outro-l2 { font-weight: 300; font-size: 118px; letter-spacing: -.04em; line-height: 1.04; color: var(--blu); }
+  .f45 .outro-l1, .f45 .outro-l2 { font-size: 80px; }
+  #outro .line { display: block; width: max-content; margin-left: auto; margin-right: auto; padding: 10px 24px 36px; }
+  #outro .line.hl::before { bottom: 30px; height: 9px; }
+  .outro-mark { margin-top: 56px; display: inline-flex; align-items: center; gap: 18px; }
+  .outro-mark img { width: 64px; height: 64px; border-radius: 16px; }
+  .outro-mark b { font-weight: 700; font-size: 56px; letter-spacing: -.04em; }
+  .byline { margin-top: 34px; font-size: 28px; font-weight: 500; color: var(--grafite); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="glow glow1"></div><div class="glow glow2"></div>
+  <div class="bubbles" id="bubbles"></div>
+  <div class="persp">
+    <div class="rig" id="rig">
+      <div class="win" id="win"><div class="bar"><span></span><span></span><span></span><div class="url">🔒 sportello.giuseppecatalano.tech</div></div>
+        <img id="scr" alt=""><div class="glare"></div></div>
+    </div>
+  </div>
+
+  <div id="copies"></div>
+  <div id="chips"></div>
+  <div id="stats"></div>
+  <div id="cards"></div>
+
+  <div class="center" id="intro"><div>
+    <div class="mark" id="introMark"><img src="../../agenti/sportello/app/logo.svg" alt=""><b>Sportello</b></div>
+    <div class="tagline" id="introTag">L’agente che risponde ai tuoi clienti</div>
+  </div></div>
+  <div class="trio" id="trio"><div class="wd" id="wd0">Ascolta<em>.</em></div><div class="wd" id="wd1">Risponde<em>.</em></div><div class="wd" id="wd2">Chiede<em>.</em></div></div>
+
+  <div class="center" id="outro"><div>
+    <div class="line"><span class="outro-l1 w" id="o1">Ogni cliente,</span></div>
+    <div class="line hl" id="o2line"><span class="outro-l2 w" id="o2">una risposta.</span></div>
+    <div class="outro-mark" id="outroMark"><img src="../../agenti/sportello/app/logo.svg" alt=""><b>Sportello</b></div>
+    <div class="byline" id="byline">Un agente AI progettato da Giuseppe Catalano</div>
+  </div></div>
+
+  <div class="vignette"></div>
+</div>
+
+<script src="../node_modules/gsap/dist/gsap.min.js"></script>
+<script src="counts.js"></script>
+<script>
+const FMT = new URLSearchParams(location.search).get('fmt') === '45' ? '45' : '16';
+document.documentElement.className = 'f' + FMT;
+const W = FMT === '16' ? 1920 : 1080, H = FMT === '16' ? 1080 : 1350;
+const FPS = 30;
+const $ = id => document.getElementById(id);
+const CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+
+/* ---------- Scene ---------- */
+const SCENES = [
+  { id: 'ascolta', card: ['Ascolta.', 'Cinque clienti, ognuno con i suoi dati.', 'a'],
+    eyebrow: 'smistamento', l1: 'Ogni richiesta,', l2: 'con i suoi dati.',
+    points: ['Ordini e tracciamento', 'Base di conoscenza', 'Storico del cliente'],
+    stat: [4.0, 5, 0, '', ' messaggi', 'letti e capiti in pochi secondi'], focus: [47, 42, [[3.6, 1.24]]] },
+  { id: 'persona', eyebrow: 'casi delicati', l1: 'Al terzo sollecito', l2: 'serve una persona.',
+    points: ['Riepilogo del caso', 'Proposta concreta', 'Priorità alta'], focus: [48, 62, [[1.4, 1.3]]] },
+  { id: 'risponde', card: ['Risponde.', 'Subito, con dati verificati.', 'b'],
+    eyebrow: 'risposte', l1: 'Risposte immediate,', l2: 'mai inventate.',
+    points: ['Tracciamento aggiornato', 'Misure dalla scheda prodotto'],
+    stat: [3.0, 2, 0, '', ' risposte', 'inviate in autonomia'], focus: [50, 45, [[1.8, 1.28]]] },
+  { id: 'approva', card: ['Chiede.', 'Rimborsi e modifiche agli ordini? Decidi tu.', 'c'],
+    eyebrow: 'approvazioni', l1: 'Costa denaro?', l2: 'Decidi tu.',
+    points: ['Sostituzione con ritiro', 'Cambio di indirizzo'],
+    stat: [4.6, 2, 0, '', ' azioni', 'approvate con un clic'], focus: [86, 60, [[2.2, 1.3]]] },
+  { id: 'riepilogo', eyebrow: 'risultato', l1: 'Cinque clienti,', l2: 'nessuno in attesa.',
+    points: ['Riepilogo per il team'],
+    stat: [2.2, 5, 0, '', ' su 5', 'messaggi gestiti'], focus: [48, 40, [[2.4, 1.24]]] },
+];
+
+/* ---------- Tempi ---------- */
+const INTRO = 3.6, TRIO = 2.2, CARD = 1.6, OUTRO_DUR = 6;
+let t = INTRO + TRIO;
+SCENES.forEach(s => {
+  if (s.card) { s.cardStart = t; t += CARD; }
+  s.start = t; s.dur = COUNTS[s.id] / FPS; t += s.dur;
+});
+const OUTRO = t, END = t + OUTRO_DUR;
+
+/* ---------- Geometria ---------- */
+const G = FMT === '16' ? {
+  win: { x: 520, y: 176, w: 1340, rotY: -7 },
+  copy: { left: 64, top: 40, width: 1800 },
+  chip: i => [[44, 470], [44, 600], [44, 730]][i],
+  stat: { left: 44, top: 860 },
+} : {
+  win: { x: 20, y: 380, w: 1040, rotY: 0 },
+  copy: { left: 40, top: 70, width: 1000 },
+  chip: i => [[40, 1095], [300, 1170], [560, 1245]][i],
+  stat: { left: 610, top: 250 },
+};
+const scrH = Math.round(G.win.w * 900 / 1440);
+$('win').style.width = G.win.w + 'px';
+$('scr').style.width = G.win.w + 'px'; $('scr').style.height = scrH + 'px';
+const posW = () => ({ x: G.win.x, y: G.win.y, rotationY: G.win.rotY, rotationX: 2, scale: 1 });
+
+// Fumetti decorativi sullo sfondo: salgono lentamente
+const BUB = FMT === '16'
+  ? [[90, 840, 260, 70, 'l'], [1500, 900, 300, 76, 'r'], [300, 1040, 200, 60, 'r'], [1680, 120, 180, 56, 'l'], [60, 200, 160, 50, 'r'], [1150, 980, 240, 64, 'l']]
+  : [[40, 1220, 240, 66, 'l'], [760, 1280, 260, 70, 'r'], [820, 140, 180, 54, 'l'], [30, 260, 150, 48, 'r']];
+$('bubbles').innerHTML = BUB.map(([x, y, w, h, s], i) => `<div class="bub ${s}" id="bub${i}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px"></div>`).join('');
+
+/* ---------- Costruzione ---------- */
+const words = (txt, cls) => txt.split(' ').map(w => `<span class="w ${cls}">${w}&nbsp;</span>`).join('');
+const fmtNum = (v, dec) => v.toLocaleString('it-IT', { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: 'always' });
+SCENES.forEach((s, i) => {
+  const el = document.createElement('div');
+  el.className = 'copy'; el.id = 'copy' + i;
+  Object.assign(el.style, { left: G.copy.left + 'px', top: G.copy.top + 'px', width: G.copy.width + 'px' });
+  el.innerHTML = `<div class="eyebrow"><i></i><span>${s.eyebrow}</span></div>
+    <span class="line">${words(s.l1, 'l1')}</span><span class="line hl">${words(s.l2, 'l2')}</span>`;
+  $('copies').append(el);
+  s.points.forEach((p, j) => {
+    const [x, y] = G.chip(j);
+    const d = document.createElement('div');
+    d.className = 'chip'; d.id = `chip${i}_${j}`;
+    d.style.left = x + 'px'; d.style.top = y + 'px';
+    d.innerHTML = `<b>${CHECK}</b>${p}`;
+    $('chips').append(d);
+  });
+  if (s.stat) {
+    const st = document.createElement('div');
+    st.className = 'stat'; st.id = 'stat' + i;
+    st.style.left = G.stat.left + 'px'; st.style.top = G.stat.top + 'px';
+    st.innerHTML = `<div class="v" id="statv${i}">${s.stat[3] + fmtNum(0, s.stat[2]) + s.stat[4]}</div><div class="k">${s.stat[5]}</div>`;
+    $('stats').append(st);
+  }
+  if (s.card) {
+    const cd = document.createElement('div');
+    cd.className = 'card tone-' + s.card[2]; cd.id = 'card' + i;
+    cd.innerHTML = `<div class="bg"></div><div class="in"><div><div class="line"><span class="t w">${s.card[0]}</span></div><div class="s">${s.card[1]}</div></div></div>`;
+    $('cards').append(cd);
+  }
+});
+
+/* ---------- Timeline ---------- */
+const tl = gsap.timeline({ paused: true });
+gsap.set('.glow1', { x: W * .4, y: -H * .25 }); gsap.set('.glow2', { x: -W * .25, y: H * .45 });
+tl.to('.glow', { opacity: 1, duration: 1.8, ease: 'power2.out' }, 0);
+tl.to('.glow1', { x: -W * .1, y: H * .35, duration: END, ease: 'sine.inOut' }, 0);
+tl.to('.glow2', { x: W * .45, y: -H * .15, duration: END, ease: 'sine.inOut' }, 0);
+BUB.forEach((b, i) => { tl.to('#bub' + i, { opacity: .9, duration: 1.2 }, 0.4 + i * 0.25); tl.to('#bub' + i, { y: -220 - i * 30, duration: END, ease: 'none' }, 0); });
+
+// Apertura
+gsap.set('#introMark', { opacity: 0, scale: .92, filter: 'blur(14px)' });
+gsap.set('#introTag', { opacity: 0, y: 16 });
+tl.to('#introMark', { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.2, ease: 'expo.out' }, 0.35);
+tl.to('#introTag', { opacity: 1, y: 0, duration: 1, ease: 'expo.out' }, 1.0);
+tl.to('#intro', { scale: 1.12, opacity: 0, filter: 'blur(12px)', duration: 0.5, ease: 'power2.in' }, INTRO - 0.5);
+[0, 1, 2].forEach(k => {
+  const T0 = INTRO + k * 0.72;
+  tl.fromTo('#wd' + k, { opacity: 0, scale: 1.5, filter: 'blur(16px)' }, { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 0.35, ease: 'expo.out', immediateRender: false }, T0);
+  tl.to('#wd' + k, { opacity: 0, scale: .82, duration: 0.25, ease: 'power2.in' }, T0 + 0.46);
+});
+
+// Copertina: un sipario che sale dal basso, titolo, sipario che esce in alto
+function copertina(id, T, dur) {
+  const sel = '#' + id;
+  gsap.set(`${sel} .t`, { yPercent: 175 });
+  tl.fromTo(`${sel} .bg`, { clipPath: 'circle(0% at 50% 55%)' }, { clipPath: 'circle(75% at 50% 55%)', duration: 0.45, ease: 'power3.inOut', immediateRender: false }, T);
+  tl.to(`${sel} .t`, { yPercent: 0, duration: 0.75, ease: 'expo.out' }, T + 0.26);
+  tl.fromTo(`${sel} .s`, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', immediateRender: false }, T + 0.5);
+  tl.to(`${sel} .in`, { opacity: 0, x: -60, duration: 0.3, ease: 'power2.in' }, T + dur - 0.42);
+  tl.to(`${sel} .bg`, { clipPath: 'circle(0% at 50% 45%)', duration: 0.42, ease: 'power3.inOut' }, T + dur - 0.38);
+}
+
+SCENES.forEach((s, i) => {
+  const T = s.start;
+  if (s.card) {
+    copertina('card' + i, s.cardStart, CARD);
+    const coperto = s.cardStart + 0.42;
+    tl.set('#rig', { ...posW(), scale: 1.08, opacity: 1, transformOrigin: '50% 40%' }, coperto);
+    tl.to('#rig', { scale: 1, duration: 1.2, ease: 'expo.out' }, s.cardStart + CARD - 0.36);
+  }
+  // Zoom sul punto chiave della scena: l'origine si sposta solo mentre la finestra è a scala 1 (nessuno scatto)
+  if (s.focus) {
+    const [ox, oy, passi] = s.focus;
+    tl.set('#rig', { transformOrigin: `${ox}% ${oy}%` }, s.card ? s.cardStart + 0.43 : T - 0.01);
+    passi.forEach(([at, sc], k) => {
+      const fine = k + 1 < passi.length ? passi[k + 1][0] : s.dur - 0.5;
+      tl.to('#rig', { scale: FMT === '16' ? sc : 1 + (sc - 1) * 0.55, duration: Math.min(1.6, Math.max(0.6, fine - at)), ease: 'power2.inOut' }, T + at);
+    });
+    // Prima della scena successiva la finestra torna a scala 1
+    tl.to('#rig', { scale: 1, duration: 0.6, ease: 'power2.inOut' }, T + s.dur - (SCENES[i + 1]?.card ? 0.1 : 0.7));
+  }
+
+  const c = '#copy' + i, ws = `${c} .w`;
+  gsap.set(ws, { yPercent: 175 }); gsap.set(`${c} .eyebrow`, { opacity: 0, x: -20 });
+  tl.to(`${c} .eyebrow`, { opacity: 1, x: 0, duration: 0.6, ease: 'expo.out' }, T + 0.05);
+  tl.to(ws, { yPercent: 0, duration: 0.8, stagger: 0.045, ease: 'expo.out' }, T + 0.12);
+  gsap.set(`${c} .hl`, { '--hl': 0 });
+  tl.to(`${c} .hl`, { '--hl': 1, duration: 0.55, ease: 'power2.inOut' }, T + 0.75);
+  // Il titolo esce prima dello zoom, così la finestra ingrandita non lo copre
+  const uscita = s.focus && s.focus[2][0][1] > 1.2 ? T + s.focus[2][0][0] - 0.15 : T + s.dur - 0.5;
+  tl.to(ws, { yPercent: -175, duration: 0.4, stagger: 0.02, ease: 'power3.in' }, uscita);
+  tl.to(`${c} .eyebrow`, { opacity: 0, duration: 0.3 }, uscita + 0.05);
+  tl.to(`${c} .hl`, { '--hl': 0, duration: 0.3, ease: 'power2.in' }, uscita);
+
+  const step = Math.min(1.1, (s.dur - 3) / Math.max(1, s.points.length));
+  s.points.forEach((p, j) => {
+    const sel = `#chip${i}_${j}`;
+    tl.fromTo(sel, { opacity: 0, x: -40, scale: .9 }, { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: 'back.out(1.8)', immediateRender: false }, T + 0.9 + j * step);
+    tl.to(sel, { opacity: 0, x: -20, duration: 0.3, ease: 'power2.in' }, T + s.dur - 0.5);
+  });
+
+  if (s.stat) {
+    const [at, v, dec, pre, suf] = s.stat;
+    const box = '#stat' + i, k = { n: 0 };
+    const t0 = T + Math.min(at, s.dur - 2.2);
+    tl.fromTo(box, { opacity: 0, y: 40, scale: .85, rotation: -3 }, { opacity: 1, y: 0, scale: 1, rotation: 0, duration: 0.7, ease: 'back.out(1.6)', immediateRender: false }, t0);
+    // I numeri piccoli compaiono già al valore finale (niente "1 azioni" mentre conta)
+    if (v < 10) gsap.set(k, { n: v }), $('statv' + i).textContent = pre + fmtNum(v, dec) + suf;
+    else tl.to(k, { n: v, duration: 1.3, ease: 'power3.out', onUpdate: () => { $('statv' + i).textContent = pre + fmtNum(k.n, dec) + suf; } }, t0 + 0.1);
+    tl.to(box, { opacity: 0, y: -20, duration: 0.3, ease: 'power2.in' }, T + s.dur - 0.45);
+  }
+});
+
+// Chiusura
+gsap.set('#outro', { opacity: 0 }); gsap.set(['#o1', '#o2'], { yPercent: 175 });
+gsap.set('#outroMark', { opacity: 0, y: 20, filter: 'blur(10px)' }); gsap.set('#byline', { opacity: 0, y: 14 });
+tl.to('#rig', { scale: .62, opacity: 0, y: '+=120', duration: 0.8, ease: 'power3.in' }, OUTRO - 0.3);
+tl.set('#outro', { opacity: 1 }, OUTRO);
+tl.to('#o1', { yPercent: 0, duration: 1, ease: 'expo.out' }, OUTRO + 0.4);
+tl.to('#o2', { yPercent: 0, duration: 1, ease: 'expo.out' }, OUTRO + 0.65);
+gsap.set('#o2line', { '--hl': 0 });
+tl.to('#o2line', { '--hl': 1, duration: 0.7, ease: 'power2.inOut' }, OUTRO + 1.3);
+tl.to('#outroMark', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'expo.out' }, OUTRO + 1.4);
+tl.to('#byline', { opacity: 1, y: 0, duration: 0.8, ease: 'expo.out' }, OUTRO + 2.1);
+tl.to('#stage', { opacity: 0, duration: 0.6, ease: 'power1.in' }, END - 0.6);
+tl.set({}, {}, END);
+
+/* ---------- Un fotogramma al tempo t ---------- */
+SCENES.forEach(s => { s.swap = s.card ? s.cardStart + 0.42 : s.start; });
+let lastSrc = '';
+window.renderAt = async (time) => {
+  const s = [...SCENES].reverse().find(x => time >= x.swap) || SCENES[0];
+  const local = Math.max(0, time - s.start);
+  const n = Math.min(COUNTS[s.id], Math.floor(local * FPS) + 1);
+  const src = `frames/${s.id}/${String(n).padStart(5, '0')}.jpg`;
+  if (lastSrc !== src) { $('scr').src = src; lastSrc = src; await $('scr').decode().catch(() => {}); }
+  tl.seek(time, false);
+};
+window.DURATION = END;
+window.ready = document.fonts.ready.then(() => Promise.all([...document.images].filter(i => i.src).map(i => i.decode().catch(() => {})))).then(() => window.renderAt(0)).then(() => true);
+</script>
+</body>
+</html>
