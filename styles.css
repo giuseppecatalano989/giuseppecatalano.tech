@@ -503,7 +503,8 @@ body.paged .tav.attiva.entra { animation: rise .7s cubic-bezier(.2, .8, .2, 1) b
   .q-nodes { display: none; }
   .btn { flex: 1 1 100%; justify-content: center; }
   .reg-name { font-size: 31px; }
-  .topbar nav a b { display: none; }
+  .topbar nav a { display: flex; flex-direction: column; align-items: center; gap: 1px; line-height: 1.25; }
+  .topbar nav a b { display: block; margin: 0; font-size: 10px; }
   .anatomy { margin-top: 80px; }
   .ana-legend { grid-template-columns: 1fr; }
   .bom td { padding: 11px 8px; font-size: 15px; } .bom th { padding: 8px; }
