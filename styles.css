@@ -503,8 +503,8 @@ body.paged .tav.attiva.entra { animation: rise .7s cubic-bezier(.2, .8, .2, 1) b
   .q-nodes { display: none; }
   .btn { flex: 1 1 100%; justify-content: center; }
   .reg-name { font-size: 31px; }
-  .topbar nav a { display: flex; flex-direction: column; align-items: center; gap: 1px; line-height: 1.25; }
-  .topbar nav a b { display: block; margin: 0; font-size: 10px; }
+  .topbar nav { font-size: clamp(9px, 2.6vw, 11px); letter-spacing: 0; gap: 4px; }
+  .topbar nav a b { margin-right: 2px; }
   .anatomy { margin-top: 80px; }
   .ana-legend { grid-template-columns: 1fr; }
   .bom td { padding: 11px 8px; font-size: 15px; } .bom th { padding: 8px; }
@@ -528,3 +528,10 @@ body.paged .pager { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(10
 .topbar nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--red); text-underline-offset: 6px; text-decoration-thickness: 2px; }
 
 
+
+/* Telefoni molto stretti (320 px): menu con numeri ancora su una riga */
+@media (max-width: 345px) {
+  .topbar { padding-left: 12px; padding-right: 12px; }
+  .topbar nav { margin: 8px -12px 0; padding: 9px 12px; font-size: 8.4px; gap: 3px; }
+  .topbar nav a b { margin-right: 1px; }
+}
