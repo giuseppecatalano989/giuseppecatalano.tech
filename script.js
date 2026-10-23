@@ -109,6 +109,58 @@ tavole.forEach((t, i) => {
   t.insertAdjacentHTML('beforeend', `<nav class="pager" aria-label="Tavole">${voce(prima, 'prev')}${voce(dopo, 'next')}</nav>`);
 });
 const tavolaDa = (hash) => tavole.find((t) => '#' + t.id === hash) || tavole[0];
+
+/* Disegni: ogni tratto rosso o d'inchiostro si traccia, in sequenza; i gruppi blu (l'AI) compaiono dopo.
+   Le animazioni CSS ripartono da sole ogni volta che una tavola torna visibile. */
+if (!reduce) {
+  document.querySelectorAll('.tav svg.schema').forEach((svg) => {
+    let i = 0;
+    svg.querySelectorAll('path, rect, circle, ellipse').forEach((el) => {
+      if (el.closest('.s-blue') || el.classList.contains('pkt')) return;
+      el.setAttribute('pathLength', '1');
+      el.classList.add('dr');
+      el.style.setProperty('--d', `${Math.min(i++ * 0.06, 1.2)}s`);
+    });
+    svg.querySelectorAll('.s-blue').forEach((g, k) => { g.classList.add('fade'); g.style.setProperty('--d', `${0.5 + k * 0.15}s`); });
+  });
+}
+
+/* Numeri che contano da zero quando la tavola si apre */
+function conta(tav) {
+  tav.querySelectorAll('[data-count]').forEach((el) => {
+    const fine = Number(el.dataset.count);
+    if (reduce) { el.textContent = fine; return; }
+    const t0 = performance.now(), dur = 900;
+    const passo = (t) => {
+      const k = Math.min(1, (t - t0) / dur);
+      el.textContent = Math.round(fine * (1 - Math.pow(1 - k, 3)));
+      if (k < 1) requestAnimationFrame(passo);
+    };
+    requestAnimationFrame(passo);
+  });
+}
+
+/* Testina del plotter che scende a ogni cambio di tavola */
+const plotter = document.createElement('div');
+plotter.className = 'plotter'; plotter.setAttribute('aria-hidden', 'true');
+document.body.append(plotter);
+function passaggio(tav) {
+  if (reduce) return;
+  [plotter, tav].forEach((el) => { el.classList.remove(el === plotter ? 'via' : 'entra'); void el.offsetWidth; });
+  plotter.classList.add('via'); tav.classList.add('entra');
+}
+
+/* Elenco progetti: filtri per tipo */
+document.querySelectorAll('.filters button').forEach((b) => b.addEventListener('click', () => {
+  const f = b.dataset.f;
+  document.querySelectorAll('.filters button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+  document.querySelectorAll('.reg-row').forEach((r, i) => {
+    const via = f !== 'tutti' && r.dataset.cat !== f;
+    r.classList.toggle('fuori', via);
+    r.classList.remove('entra');
+    if (!via && !reduce) { void r.offsetWidth; r.style.animationDelay = `${i * 40}ms`; r.classList.add('entra'); }
+  });
+}));
 function mostraTavola(hash, inCima) {
   const att = tavolaDa(hash);
   tavole.forEach((t) => t.classList.toggle('attiva', t === att));
@@ -119,6 +171,8 @@ function mostraTavola(hash, inCima) {
   document.title = att.id === 'tav-01' ? titoloBase : `${att.dataset.name} · ${titoloBase}`;
   att.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
   allineaElenco();
+  conta(att);
+  passaggio(att);
   if (inCima) window.scrollTo({ top: 0, behavior: 'instant' });
 }
 const titoloBase = document.title;

@@ -341,7 +341,125 @@ main { padding: 0 var(--gutter); }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal { opacity: 1; transform: none; }
   .sign svg { stroke-dashoffset: 0; }
+  .schema .dr { stroke-dashoffset: 0; }
 }
+
+/* =========================================================
+   Tavole arricchite: disegni che si tracciano, sezione dell'agente,
+   distinta base, ciclo di progetto, note, filtri, cartiglio finale
+   ========================================================= */
+
+/* Disegni: il segno rosso e quello d'inchiostro si tracciano, il blu (l'AI) compare dopo */
+.schema .dr { stroke-dasharray: 1; stroke-dashoffset: 1; animation: traccia 1.3s cubic-bezier(.6, 0, .2, 1) var(--d, 0s) forwards; }
+@keyframes traccia { to { stroke-dashoffset: 0; } }
+.schema .s-blue.fade { animation: compare .9s ease var(--d, .6s) both; }
+.schema text { animation: compare .8s ease .8s both; }
+@keyframes compare { from { opacity: 0; } }
+.schema .pkt { fill: var(--red); stroke: none; }
+.schema .cn { fill: var(--red); font-size: 12px; letter-spacing: 0; }
+
+/* Passaggio da una tavola all'altra: la testina del plotter scende e la tavola compare */
+.plotter { position: fixed; left: 0; right: 0; top: 0; height: 2px; z-index: 28; pointer-events: none; opacity: 0;
+  background: var(--red); box-shadow: 0 0 14px var(--red); }
+.plotter.via { animation: plotter .85s cubic-bezier(.6, 0, .3, 1) both; }
+@keyframes plotter { 0% { opacity: 1; transform: translateY(0); } 85% { opacity: 1; } 100% { opacity: 0; transform: translateY(100vh); } }
+body.paged .tav.attiva.entra { animation: rise .7s cubic-bezier(.2, .8, .2, 1) both; }
+
+/* TAV 01 · Sezione A–A e scheda tecnica */
+.anatomy { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); margin-top: 120px; border: 1px solid var(--ink); }
+.ana-draw { padding: clamp(20px, 3vw, 36px); background: color-mix(in srgb, var(--paper) 70%, transparent); }
+.sheet-head, .bom-head { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+.ana { margin-bottom: 18px; }
+.ana-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; font-size: 14.5px; color: var(--ink-2); }
+.ana-legend span { display: flex; align-items: baseline; gap: 10px; }
+.ana-legend b { flex: none; display: inline-grid; place-items: center; width: 20px; height: 20px; border: 1.5px solid var(--red); border-radius: 50%; color: var(--red); font-family: var(--mono); font-size: 11px; font-weight: 500; }
+.spec { border-left: 1px solid var(--ink); display: flex; flex-direction: column; background: color-mix(in srgb, var(--paper) 80%, transparent); }
+.spec-head, .notes-head { padding: 12px 20px; font-family: var(--mono); font-size: 12px; letter-spacing: .14em; background: var(--ink); color: var(--on-ink); }
+.spec dl { display: grid; flex: 1; }
+.spec dl > div { display: grid; grid-template-columns: 116px 1fr; gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--grid-2); align-items: baseline; }
+.spec dl > div:last-child { border-bottom: 0; }
+.spec dt { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+.spec dd { font-size: 16px; line-height: 1.35; }
+.spec .num dd b { font-family: var(--display); font-weight: 800; font-stretch: 70%; font-size: 42px; line-height: 1; color: var(--red); font-variant-numeric: tabular-nums; }
+
+/* TAV 02 · Distinta base */
+.bom { margin-top: 64px; border: 1px solid var(--ink); padding: clamp(20px, 3vw, 36px); background: color-mix(in srgb, var(--paper) 70%, transparent); }
+.bom table { width: 100%; border-collapse: collapse; }
+.bom th { text-align: left; font-family: var(--mono); font-size: 11px; font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); padding: 8px 12px; border-bottom: 1px solid var(--ink); }
+.bom td { padding: 13px 12px; border-bottom: 1px solid var(--grid-2); vertical-align: baseline; }
+.bom td:first-child { font-family: var(--mono); font-size: 13px; color: var(--red); width: 64px; }
+.bom td:nth-child(2) { font-weight: 700; font-stretch: 90%; }
+.bom td:nth-child(3) { color: var(--ink-2); }
+.bom tbody tr { animation: rise .5s cubic-bezier(.2, .8, .2, 1) both; }
+.bom tbody tr:nth-child(2) { animation-delay: .07s; } .bom tbody tr:nth-child(3) { animation-delay: .14s; } .bom tbody tr:nth-child(4) { animation-delay: .21s; }
+.bom tbody tr:nth-child(5) { animation-delay: .28s; } .bom tbody tr:nth-child(6) { animation-delay: .35s; } .bom tbody tr:nth-child(7) { animation-delay: .42s; }
+.bom tbody tr:hover td { background: color-mix(in srgb, var(--red) 7%, transparent); }
+
+/* TAV 03 · Ciclo di progetto e note generali */
+.cycle { margin: 8px 0 72px; padding: 22px 0 10px; border-top: 1px solid var(--grid-2); border-bottom: 1px solid var(--grid-2); }
+.cyc text { font-size: 12px; }
+.cyc text.big { font-size: 16px; fill: var(--ink); letter-spacing: .04em; }
+.cyc .who { font-size: 10px; letter-spacing: .16em; }
+.cyc .who.r { fill: var(--red); } .cyc .who.b { fill: var(--blue); }
+.cycle-list { display: none; }
+.scroll-hint { display: none; }
+@media (max-width: 640px) {
+  .cyc { display: none; }
+  .cycle-list { display: grid; gap: 0; position: relative; padding: 4px 0; }
+  .cycle-list li { position: relative; display: grid; grid-template-columns: 52px 1fr auto; align-items: center; column-gap: 14px; padding: 10px 0; animation: rise .5s cubic-bezier(.2, .8, .2, 1) both; }
+  .cycle-list li:nth-child(2) { animation-delay: .1s; } .cycle-list li:nth-child(3) { animation-delay: .2s; } .cycle-list li:nth-child(4) { animation-delay: .3s; } .cycle-list li:nth-child(5) { animation-delay: .4s; }
+  .cycle-list li + li::before { content: ''; position: absolute; left: 25px; top: -10px; height: 20px; border-left: 2px solid var(--red); }
+  .cycle-list li.b + li::before, .cycle-list li.b::before { border-left-style: dashed; border-left-color: var(--blue); }
+  .cycle-list li.k::before { border-left-color: var(--ink); }
+  .cycle-list b { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; border: 2px solid var(--red); font-family: var(--mono); font-weight: 400; font-size: 15px; background: var(--paper); position: relative; z-index: 1; }
+  .cycle-list li.b b { border: 2px dashed var(--blue); }
+  .cycle-list li.k b { border-color: var(--ink); }
+  .cycle-list span { font-family: var(--mono); font-size: 13px; letter-spacing: .12em; text-transform: uppercase; }
+  .cycle-list em { font-style: normal; font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
+  .cycle-list li.b em { color: var(--blue); } .cycle-list li.k em { color: var(--ink-3); }
+  .cycle-list small { grid-column: 2 / -1; font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--red); margin-top: 2px; }
+  .ana-draw { overflow-x: auto; }
+  .ana { min-width: 540px; }
+  .scroll-hint { display: block; margin: -8px 0 14px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--red); }
+  body.paged .pager a b { font-size: 15px; }
+}
+.notes { margin-top: 56px; border: 1px solid var(--ink); max-width: 780px; background: color-mix(in srgb, var(--paper) 80%, transparent); }
+.notes ol { counter-reset: nota; }
+.notes li { counter-increment: nota; display: flex; gap: 14px; align-items: baseline; padding: 13px 20px; border-bottom: 1px solid var(--grid-2); font-size: 16.5px; }
+.notes li:last-child { border-bottom: 0; }
+.notes li::before { content: counter(nota) '.'; font-family: var(--mono); font-size: 13px; color: var(--red); }
+
+/* TAV 04 · Contatori e filtri */
+.reg-tools { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px; margin-bottom: 26px; }
+.counts { display: flex; gap: clamp(20px, 3.4vw, 48px); font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.counts b { display: block; font-family: var(--display); font-weight: 800; font-stretch: 70%; font-size: clamp(44px, 5.4vw, 68px); line-height: 1; letter-spacing: 0; color: var(--ink); font-variant-numeric: tabular-nums; }
+.counts span:first-child b { color: var(--red); }
+.filters { display: flex; flex-wrap: wrap; border: 1px solid var(--ink); }
+.filters button { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; padding: 10px 15px; background: none; color: var(--ink-2); border: 0; cursor: pointer; transition: background .2s, color .2s; }
+.filters button + button { border-left: 1px solid var(--ink); }
+.filters button:hover { color: var(--red); }
+.filters button[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); }
+.reg-row.fuori { display: none; }
+.reg-row.entra { animation: rise .45s cubic-bezier(.2, .8, .2, 1) both; }
+
+/* TAV 05 · Argomenti e cartiglio finale con il timbro */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 64px); margin: 56px 0 24px; align-items: start; }
+.topics { border: 1px solid var(--ink); background: color-mix(in srgb, var(--paper) 80%, transparent); }
+.topics .ticks { padding: 2px 20px 6px; }
+.topics .ticks li:first-child { border-top: 0; }
+.titleblock { position: relative; border: 2px solid var(--ink); background: color-mix(in srgb, var(--paper) 85%, transparent); margin-right: 40px; }
+.tb-row { display: grid; grid-template-columns: 128px 1fr; border-bottom: 1px solid var(--ink); align-items: stretch; }
+.tb-row:last-of-type { border-bottom: 0; }
+.tb-row span { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); padding: 13px 14px; border-right: 1px solid var(--ink); }
+.tb-row b { padding: 11px 14px; font-weight: 600; font-size: 16px; }
+.tb-row.two { grid-template-columns: 1fr 1fr; }
+.tb-row.two > div { display: grid; grid-template-columns: 128px 1fr; }
+.tb-row.two > div + div { border-left: 1px solid var(--ink); grid-template-columns: auto 1fr; }
+.stamp { position: absolute; right: -44px; bottom: -48px; width: 132px; height: 132px; transform: rotate(-14deg); opacity: .9; animation: timbro .55s cubic-bezier(.2, 1.5, .4, 1) .9s both; }
+.stamp circle, .stamp path { fill: none; stroke: var(--red); stroke-width: 2.2; }
+.stamp #stamp-arc { stroke: none; }
+.stamp text { fill: var(--red); font-family: var(--mono); font-size: 7.6px; letter-spacing: .1em; }
+@keyframes timbro { from { opacity: 0; transform: rotate(-14deg) scale(1.9); } to { opacity: .9; transform: rotate(-14deg) scale(1); } }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1180px) and (min-width: 901px) {
@@ -358,6 +476,10 @@ main { padding: 0 var(--gutter); }
   .hero .hero-note-1 { animation-name: rise; }
 }
 @media (max-width: 900px) {
+  .anatomy { grid-template-columns: 1fr; }
+  .spec { border-left: 0; border-top: 1px solid var(--ink); }
+  .contact-grid { grid-template-columns: 1fr; }
+  .titleblock { margin-right: 30px; }
   .hero-grid { grid-template-columns: 1fr; }
   .hero-cta { justify-content: flex-start; }
   .details { grid-template-columns: 1fr; }
@@ -389,6 +511,15 @@ main { padding: 0 var(--gutter); }
   .q-nodes { display: none; }
   .btn { flex: 1 1 100%; justify-content: center; }
   .reg-name { font-size: 31px; }
+  .topbar nav a b { display: none; }
+  .anatomy { margin-top: 80px; }
+  .ana-legend { grid-template-columns: 1fr; }
+  .bom td { padding: 11px 8px; font-size: 15px; } .bom th { padding: 8px; }
+  .bom td:first-child { width: 40px; }
+  .counts b { font-size: 46px; }
+  .filters { width: 100%; } .filters button { flex: 1; padding: 10px 6px; font-size: 11px; }
+  .stamp { width: 104px; height: 104px; right: -34px; bottom: -40px; }
+  .tb-row, .tb-row.two > div { grid-template-columns: 104px 1fr; }
 }
 /* Una tavola per pagina (vedi script.js) */
 .pager { display: none; }
@@ -403,7 +534,4 @@ body.paged .pager { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(10
 @media (min-width: 641px) { .pager a { padding: 18px 22px; } .pager a b { font-size: 24px; } .pager a:hover { border-color: var(--red); } .pager a:hover b { color: var(--red); } }
 .topbar nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--red); text-underline-offset: 6px; text-decoration-thickness: 2px; }
 
-@media (max-width: 380px) {
-  .topbar nav a b { display: none; }
 
-}
