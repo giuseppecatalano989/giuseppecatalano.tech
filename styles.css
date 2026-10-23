@@ -91,9 +91,9 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; }
 
 /* ---------- Barra superiore ---------- */
 .topbar {
-  position: fixed; top: 10px; left: 10px; right: 10px; z-index: 25;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 25;
   display: flex; justify-content: space-between; align-items: center; gap: 16px;
-  padding: 14px var(--gutter);
+  padding: 24px var(--gutter) 14px;
   background: color-mix(in srgb, var(--paper) 86%, transparent);
   backdrop-filter: blur(6px);
   border-bottom: 1px solid var(--grid-2);
@@ -108,7 +108,7 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; }
 .topbar nav a:hover { color: var(--ink); }
 /* Tre blocchi con spazi identici: le tavole sono equidistanti da nome e selettore.
    Margine interno ridotto per spingere nome e selettore verso i bordi (oltre il righello). */
-.topbar { justify-content: space-between; padding-left: clamp(30px, 3vw, 44px); padding-right: clamp(16px, 2.4vw, 32px); }
+.topbar { justify-content: space-between; padding-left: calc(10px + clamp(30px, 3vw, 44px)); padding-right: calc(10px + clamp(16px, 2.4vw, 32px)); }
 .theme-switch { display: flex; border: 1px solid var(--ink); flex: none; }
 .theme-switch button {
   font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
@@ -374,8 +374,8 @@ main { padding: 0 var(--gutter); }
   .sheet-frame, .ruler { inset: 6px; }
   .ruler { display: none; }
   /* Su telefono la barra va su due righe: nome e tema sopra, tutte le tavole sotto */
-  .topbar { top: 6px; left: 6px; right: 6px; padding: 10px 14px 0; flex-wrap: wrap; row-gap: 0; column-gap: 12px; }
-  .topbar nav { order: 3; flex: 1 0 100%; justify-content: space-between; gap: 6px; margin: 8px -14px 0; padding: 9px 14px; border-top: 1px solid var(--grid-2); font-size: 11px; letter-spacing: .03em; }
+  .topbar { top: 0; left: 0; right: 0; padding: 16px 20px 0; flex-wrap: wrap; row-gap: 0; column-gap: 12px; }
+  .topbar nav { order: 3; flex: 1 0 100%; justify-content: space-between; gap: 6px; margin: 8px -20px 0; padding: 9px 20px; border-top: 1px solid var(--grid-2); font-size: 11px; letter-spacing: .03em; }
   .topbar nav a { white-space: nowrap; }
   .topbar nav a b { margin-right: 3px; }
   .theme-switch button { padding-top: 5px; padding-bottom: 5px; }
