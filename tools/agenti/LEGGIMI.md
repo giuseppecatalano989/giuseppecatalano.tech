@@ -1,6 +1,6 @@
 # Agenti AI dimostrativi
 
-Agenti costruiti sulle API di Claude (tool use): l'agente ragiona e sceglie gli strumenti, gli strumenti
+Agenti costruiti sulle API di un modello AI (tool use): l'agente ragiona e sceglie gli strumenti, gli strumenti
 vengono eseguiti davvero. Ogni agente ha un'interfaccia web locale che mostra il suo lavoro in tempo reale.
 
 ## Struttura
@@ -18,7 +18,7 @@ vengono eseguiti davvero. Ogni agente ha un'interfaccia web locale che mostra il
 ```
 npm install
 node core/server.js metis            # modalità demo (predefinita), http://localhost:4300
-node core/server.js metis --live     # decisioni dalle API di Claude
+node core/server.js metis --live     # decisioni dalle API del modello AI
 node core/server.js metis --registra # come --live, e salva la sessione in scenario.json
 ```
 
@@ -30,7 +30,7 @@ predefinito `claude-sonnet-5-5`). Su Windows: `set ANTHROPIC_API_KEY=...` prima 
 Riproduce le decisioni salvate in `scenario.json` con tempi naturali, ma esegue comunque gli strumenti sui
 dati: risultati, calcoli e report sono veri. Le azioni con approvazione aspettano il clic sull'interfaccia.
 Lo scenario incluso è scritto a mano nello stesso formato della registrazione: per sostituirlo con una
-sessione reale di Claude basta una corsa con `--registra`.
+sessione reale del modello basta una corsa con `--registra`.
 
 Se si registra una nuova sessione, controllare che le frasi dell'agente restino coerenti con i dati e,
 per il video, rifare la ripresa (vedi `tools/video/LEGGIMI.md`).

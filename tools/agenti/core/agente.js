@@ -1,8 +1,8 @@
-// Ciclo dell'agente: Claude ragiona e decide quali strumenti usare, gli strumenti vengono eseguiti davvero.
+// Ciclo dell'agente: il modello AI ragiona e decide quali strumenti usare, gli strumenti vengono eseguiti davvero.
 //
 // Tre modalità:
-//  - "live":     ogni decisione arriva dalle API di Claude (serve ANTHROPIC_API_KEY).
-//  - "registra": come live, e in più salva le decisioni di Claude in scenario.json.
+//  - "live":     ogni decisione arriva dalle API del modello AI (serve la chiave API nell'ambiente).
+//  - "registra": come live, e in più salva le decisioni del modello in scenario.json.
 //  - "demo":     riproduce le decisioni salvate in scenario.json, ma esegue comunque gli strumenti
 //                sui dati: risultati, calcoli e report sono veri. Serve per riprese sempre identiche.
 //

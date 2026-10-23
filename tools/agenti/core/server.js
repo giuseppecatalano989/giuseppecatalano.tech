@@ -1,7 +1,7 @@
 // Server locale di un agente: interfaccia web, eventi in streaming (SSE) e approvazioni.
 // Uso:  node core/server.js <agente> [--demo | --live | --registra] [--porta 4300] [--ritmo 1]
 //   --demo      (predefinita) riproduce scenario.json, strumenti reali sui dati di prova
-//   --live      decisioni dalle API di Claude (serve ANTHROPIC_API_KEY)
+//   --live      decisioni dalle API del modello AI (serve la chiave API)
 //   --registra  come --live, e salva le decisioni in scenario.json
 import http from 'node:http';
 import fs from 'node:fs';
