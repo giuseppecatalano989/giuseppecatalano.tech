@@ -96,12 +96,11 @@ function allineaElenco() {
 allineaElenco();
 addEventListener('resize', allineaElenco);
 
-/* ---------- Su telefono: una tavola per pagina ----------
-   Sotto i 640 px ogni sezione si apre da sola, come una pagina: il menu, i pulsanti e gli indirizzi #tav-0X
-   la mostrano e tornano in cima; in fondo a ogni tavola ci sono la precedente e la successiva.
-   Su schermi più larghi il sito resta un'unica tavola continua. */
+/* ---------- Una tavola per pagina ----------
+   Ogni sezione si apre da sola, come una pagina: il menu, i pulsanti e gli indirizzi #tav-0X la mostrano
+   e tornano in cima; il tasto indietro del browser riporta alla tavola precedente.
+   In fondo a ogni tavola ci sono la precedente e la successiva. */
 const tavole = [...document.querySelectorAll('section.tav')];
-const telefono = window.matchMedia('(max-width: 640px)');
 tavole.forEach((t, i) => {
   const prima = tavole[i - 1], dopo = tavole[i + 1];
   const voce = (x, dir) => x
@@ -116,27 +115,21 @@ function mostraTavola(hash, inCima) {
   document.querySelectorAll('.topbar nav a').forEach((a) => {
     if (a.getAttribute('href') === '#' + att.id) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
   });
+  cTav.textContent = att.dataset.tav; cName.textContent = att.dataset.name;
+  document.title = att.id === 'tav-01' ? titoloBase : `${att.dataset.name} · ${titoloBase}`;
   att.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
   allineaElenco();
   if (inCima) window.scrollTo({ top: 0, behavior: 'instant' });
 }
-function modoPagine() {
-  document.body.classList.toggle('paged', telefono.matches);
-  if (telefono.matches) mostraTavola(location.hash, false);
-  else document.querySelectorAll('.topbar nav a').forEach((a) => a.removeAttribute('aria-current'));
-}
-modoPagine();
-telefono.addEventListener('change', () => {
-  const att = tavole.find((t) => t.classList.contains('attiva'));
-  modoPagine();
-  if (!telefono.matches && att) att.scrollIntoView();
-});
-// Con le pagine attive, un link a una tavola cambia pagina invece di scorrere
+const titoloBase = document.title;
+document.body.classList.add('paged');
+mostraTavola(location.hash, false);
+// Un link a una tavola cambia pagina invece di scorrere
 document.addEventListener('click', (e) => {
   const a = e.target.closest('a[href^="#tav-"]');
-  if (!a || !telefono.matches) return;
+  if (!a) return;
   e.preventDefault();
   if (location.hash !== a.getAttribute('href')) history.pushState(null, '', a.getAttribute('href'));
   mostraTavola(a.getAttribute('href'), true);
 });
-addEventListener('popstate', () => { if (telefono.matches) mostraTavola(location.hash, true); });
+addEventListener('popstate', () => mostraTavola(location.hash, true));
