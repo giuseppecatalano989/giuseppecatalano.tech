@@ -52,12 +52,18 @@ document.documentElement.classList.remove("no-js");
 const header = $("[data-header]");
 const hero = $("[data-cover]") || $("[data-hero]");
 
+// L'altezza della copertina si misura solo all'apertura e al ridimensionamento, non a ogni
+// evento di scorrimento (leggerla lì costringe il browser a ricalcolare l'impaginazione)
+let headerLimit = 0, headerTick = false;
+const measureHeader = () => { headerLimit = (hero ? hero.offsetHeight : 0) - 80; };
 function updateHeader() {
-  const limit = (hero ? hero.offsetHeight : 0) - 80;
-  header.classList.toggle("is-solid", window.scrollY > limit);
+  headerTick = false;
+  header.classList.toggle("is-solid", window.scrollY > headerLimit);
 }
+measureHeader();
 updateHeader();
-window.addEventListener("scroll", updateHeader, { passive: true });
+window.addEventListener("scroll", () => { if (!headerTick) { headerTick = true; requestAnimationFrame(updateHeader); } }, { passive: true });
+window.addEventListener("resize", () => { measureHeader(); updateHeader(); });
 
 /* ---------- Indice (menu a tutto schermo) ---------- */
 const menuBtn = $("[data-menu-toggle]");
@@ -88,25 +94,38 @@ if ("IntersectionObserver" in window && !reduceMotion) {
     });
   }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
   $$(".reveal").forEach((el) => io.observe(el));
-  // Foto (.curtain): compaiono quando entrano nello schermo e sono già caricate,
-  // così la dissolvenza non parte su un'immagine ancora vuota
+  // Foto (.curtain): il sipario si alza quando la foto entra nello schermo ed è già decodificata,
+  // così non si scopre un riquadro vuoto. Si alza una volta sola: tornando indietro le foto
+  // restano al loro posto (prima si rinascondevano e, risalendo, comparivano riquadri vuoti).
   const show = (el) => {
     const ready = el.tagName !== "IMG" || el.complete ? Promise.resolve() :
       new Promise((ok) => { el.addEventListener("load", ok, { once: true }); el.addEventListener("error", ok, { once: true }); });
-    ready.then(() => (el.decode ? el.decode().catch(() => {}) : null)).then(() => { if (el.inView) el.classList.add("is-in"); });
+    ready.then(() => (el.decode ? el.decode().catch(() => {}) : null)).then(() => {
+      el.classList.add("is-in");
+      // A sipario alzato si tolgono ritaglio e transizioni (serve anche all'effetto al passaggio del mouse)
+      let finished = false;
+      const done = (e) => {
+        if (finished || (e && (e.target !== el || e.propertyName !== "transform"))) return;
+        finished = true;
+        el.classList.add("is-done");
+      };
+      el.addEventListener("transitionend", done);
+      setTimeout(done, 2600 + (parseFloat(el.style.getPropertyValue("--delay")) || 0) * 1000);
+    });
   };
   const curtains = new IntersectionObserver((entries) => {
-    entries.forEach((en) => { if (en.isIntersecting) { en.target.inView = true; show(en.target); } });
-  }, { rootMargin: "0px 0px -6% 0px" });
-  // Quando la foto è uscita del tutto dallo schermo torna nascosta: al ritorno la dissolvenza si ripete
-  const reset = new IntersectionObserver((entries) => {
-    entries.forEach((en) => { if (!en.isIntersecting) { en.target.inView = false; en.target.classList.remove("is-in"); } });
-  }, { rootMargin: "60px 0px 60px 0px" });
-  // Foto vicine (es. le tre residenze in fila) entrano una dopo l'altra
+    entries.forEach((en) => { if (en.isIntersecting) { curtains.unobserve(en.target); show(en.target); } });
+  }, { rootMargin: "0px 0px -8% 0px" });
+  // Foto vicine (es. le residenze in fila) entrano una dopo l'altra
   new Set($$(".curtain").map((el) => el.closest("ul, ol, .grid12, .portico")).filter(Boolean)).forEach((group) => {
-    $$(".curtain", group).forEach((el, i) => el.style.setProperty("--delay", `${Math.min(i, 4) * 0.18}s`));
+    $$(".curtain", group).forEach((el, i) => el.style.setProperty("--delay", `${Math.min(i, 4) * 0.12}s`));
   });
-  $$(".curtain").forEach((el) => { curtains.observe(el); reset.observe(el); });
+  // Il caricamento "lazy" del browser considera invisibile una foto a sipario chiuso (tutta ritagliata
+  // da clip-path) e non la scarica mai: la si fa scaricare qui, quando arriva a 1000 px dallo schermo
+  const preload = new IntersectionObserver((entries) => {
+    entries.forEach((en) => { if (en.isIntersecting) { preload.unobserve(en.target); en.target.loading = "eager"; } });
+  }, { rootMargin: "1000px 0px" });
+  $$(".curtain").forEach((el) => { if (el.tagName === "IMG") preload.observe(el); curtains.observe(el); });
 } else {
   $$(".reveal, .curtain").forEach((el) => el.classList.add("is-in"));
 }
@@ -234,6 +253,7 @@ function frameSequence(canvas) {
   for (let i = 0; i < count; i += 16) coarse.push(i);
   if (coarse[coarse.length - 1] !== count - 1) coarse.push(count - 1);
   const requested = new Uint8Array(count);
+  const retries = new Uint8Array(count);
   let coarseNext = 0;
   function nextIndex() {
     while (coarseNext < coarse.length) {
@@ -263,8 +283,13 @@ function frameSequence(canvas) {
         }
         if (Math.abs(i - center) <= AHEAD + BEHIND) schedule();
       })
-      .catch(() => { requested[i] = 0; })
-      .finally(download);
+      // Errore di rete: il fotogramma si ritenta più tardi, con attese crescenti e al massimo 4 volte
+      // (prima si ritentava subito e all'infinito: senza rete il telefono girava a vuoto al 100%)
+      .then(() => download(), () => {
+        retries[i]++;
+        if (retries[i] <= 4) setTimeout(() => { requested[i] = 0; download(); }, 400 * 2 ** retries[i]);
+        else download();
+      });
   }
   for (let k = 0; k < 8; k++) download();
 

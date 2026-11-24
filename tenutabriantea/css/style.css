@@ -512,18 +512,76 @@ body.menu-open { overflow: hidden; }
     linear-gradient(0deg, rgba(30, 26, 18, .55) 0%, rgba(30, 26, 18, 0) 45%);
   pointer-events: none;
 }
+/* Grana fotografica ferma sopra copertine e cinemagraph: maschera l'ammorbidimento dei video
+   ingranditi sugli schermi grandi e i gradini nelle sfumature del cielo (banding).
+   È un livello statico, separato dal video: non aggiunge lavoro a ogni fotogramma. */
+.cover-stage::after, .page-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 220px;
+  mix-blend-mode: overlay;
+}
+/* Il testo e i comandi della copertina restano sopra la grana */
+.page-hero-text, .loop-toggle { z-index: 3; }
+
+/* Invito a scorrere: la copertina è lunga, si scopre scorrendo. Sparisce al primo movimento */
+.cover-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  translate: -50% 0;
+  font-size: .66rem;
+  font-weight: 600;
+  letter-spacing: .28em;
+  margin-right: -.28em;
+  text-transform: uppercase;
+  color: var(--on-dark-soft);
+  opacity: clamp(0, calc(1 - var(--p) * 25), 1);
+  pointer-events: none;
+}
+.cover-cue::after {
+  content: "";
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(currentColor 50%, transparent 0) 0 0 / 1px 200% no-repeat;
+  background-color: rgba(239, 230, 212, .22);
+  animation: cue 2.4s cubic-bezier(.65, 0, .35, 1) infinite;
+}
+@keyframes cue {
+  0% { background-position: 0 100%; }
+  100% { background-position: 0 -100%; }
+}
 
 .cover-steps { position: absolute; left: var(--gutter); right: var(--gutter); bottom: clamp(110px, 17vh, 190px); z-index: 2; }
 .cover-step {
   position: absolute;
   left: 0;
   bottom: 0;
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity .8s var(--ease), transform .8s var(--ease);
   pointer-events: none;
 }
-.cover-step.is-active { opacity: 1; transform: none; }
+.cover-step > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .45s cubic-bezier(.4, 0, 1, 1), transform .45s cubic-bezier(.4, 0, 1, 1);
+}
+.cover-step.is-active > * {
+  opacity: 1;
+  transform: none;
+  transition: opacity 1s cubic-bezier(.22, .61, .36, 1) .25s, transform 1.2s cubic-bezier(.16, 1, .3, 1) .25s;
+}
+.cover-step.is-active > .cover-title { transition-delay: .38s; }
+/* Prima apertura: il titolo non aspetta l'uscita di una didascalia precedente */
+.cover-step:first-child.is-active > * { transition-delay: .05s; }
+.cover-step:first-child.is-active > .cover-title { transition-delay: .18s; }
 .cover-kicker {
   font-family: var(--display);
   font-style: italic;
@@ -764,8 +822,10 @@ body.menu-open { overflow: hidden; }
 .portico-item h3 { margin-top: 1rem; font-size: 1.6rem; color: var(--walnut); transition: color .3s; }
 .portico-item p { margin: .2em 0 0; color: var(--ink-soft); font-style: italic; font-size: .95rem; }
 .portico-item:hover h3 { color: var(--honey); font-style: italic; }
-.portico-item .ph { transition: filter .5s var(--ease); }
-.portico-item:hover .ph { filter: brightness(.96); }
+.portico-item .media.is-done { transition: transform .7s cubic-bezier(.16, 1, .3, 1), filter .7s var(--ease); }
+@media (hover: hover) {
+  .portico-item:hover .media.is-done { transform: translateY(-6px); filter: brightness(1.04) saturate(1.06); }
+}
 
 /* Banda finale di invito */
 .invite { text-align: center; }
@@ -1163,7 +1223,7 @@ html.lb-open { overflow: hidden; }
    ========================================================= */
 .wide { position: relative; }
 .wide .ph::after { top: 30px; bottom: auto; }
-.wide:has(> img)::after {
+.wide:has(> img, > picture)::after {
   content: "";
   position: absolute;
   inset: 35% 0 0;
@@ -1171,9 +1231,9 @@ html.lb-open { overflow: hidden; }
   pointer-events: none;
   transition: opacity 1.2s var(--ease) .3s;
 }
-.wide:has(> img.curtain:not(.is-in))::after { opacity: 0; }
-.wide:has(> img) .wide-title { color: #f6efe1; text-shadow: 0 2px 24px rgba(20, 16, 10, .4); }
-.wide:has(> img) .wide-title em { color: #f0d9a8; }
+.wide:has(> img.curtain:not(.is-in), > picture > img.curtain:not(.is-in))::after { opacity: 0; }
+.wide:has(> img, > picture) .wide-title { color: #f6efe1; text-shadow: 0 2px 24px rgba(20, 16, 10, .4); }
+.wide:has(> img, > picture) .wide-title em { color: #f0d9a8; }
 .wide-title {
   position: absolute;
   z-index: 1;
@@ -1445,29 +1505,35 @@ html.lb-open { overflow: hidden; }
 /* ---------- Animazioni ---------- */
 .reveal { opacity: 0; transform: translateY(22px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease); }
 .reveal.is-in { opacity: 1; transform: none; }
-/* Foto: compaiono dal bianco. Prima emerge una sagoma chiara, poi colori e contrasto
-   tornano, mentre l'immagine sale appena e si mette a fuoco. Il filetto color legno
-   attorno alla foto fa parte dell'immagine, quindi compare sfumato insieme a lei */
+/* Foto: si alzano come un sipario. Il ritaglio sale dal basso (con l'arco e il filetto
+   color legno, che fanno parte dell'immagine) mentre la foto sale appena e si assesta.
+   Solo clip-path, opacity e transform: la scheda grafica li anima senza ridisegnare
+   l'immagine, quindi niente scatti nemmeno con quattro foto insieme su un telefono.
+   (Il vecchio effetto con blur e brightness ridisegnava ogni foto a ogni fotogramma.)
+   Il ritaglio finale è -8px per non tagliare il filetto, che sta 6px fuori dalla foto. */
 img.curtain {
   outline: 1px solid var(--oak);
   outline-offset: 6px;
 }
 .curtain {
+  --reveal-ease: cubic-bezier(.77, 0, .18, 1);
   opacity: 0;
-  transform: translateY(20px) scale(1.01);
-  filter: brightness(1.9) contrast(.6) saturate(0) blur(5px);
-  transition: none;  /* uscendo dallo schermo torna subito al bianco, senza animazione */
+  clip-path: inset(100% -8px -8px -8px);
+  transform: translateY(36px);
+  transition: none;
 }
 .curtain.is-in {
   opacity: 1;
+  clip-path: inset(-8px -8px -8px -8px);
   transform: none;
-  filter: none;
   transition:
-    opacity 1.2s cubic-bezier(.25, .46, .45, .94),
-    filter 2.6s cubic-bezier(.33, .0, .2, 1),
-    transform 2.4s cubic-bezier(.22, .61, .36, 1);
+    opacity .5s linear,
+    clip-path 1.5s var(--reveal-ease),
+    transform 1.8s cubic-bezier(.16, 1, .3, 1);
   transition-delay: var(--delay, 0s);
 }
+/* A sipario alzato si tolgono ritaglio e livello: le foto tornano normali per il resto della pagina */
+.curtain.is-done { clip-path: none; transition: none; }
 .no-js .reveal, .no-js .curtain { opacity: 1; transform: none; clip-path: none; filter: none; }
 .page-hero h1, .page-hero-kicker { animation: rise 1.2s var(--ease) both; }
 .page-hero-kicker { animation-delay: .1s; }
@@ -1478,6 +1544,8 @@ img.curtain {
   .reveal, .curtain { opacity: 1 !important; transform: none !important; clip-path: none !important; filter: none !important; transition: none !important; }
   .indice-nav a { transform: none; }
   .page-hero h1, .page-hero-kicker { animation: none; }
+  .cover-cue::after { animation: none; }
+  .cover-step > * { transition: none !important; }
 }
 
 /* =========================================================
@@ -1507,6 +1575,11 @@ img.curtain {
 
   .cover-foot { grid-template-columns: 1fr auto; }
   .cover-coords { display: none; }
+  .cover-shade {
+    background:
+      linear-gradient(180deg, rgba(30, 34, 22, .55) 0%, rgba(30, 34, 22, 0) 22%),
+      linear-gradient(0deg, rgba(24, 20, 13, .82) 0%, rgba(24, 20, 13, .5) 34%, rgba(24, 20, 13, 0) 62%);
+  }
 
   .grid12 > * { grid-column: 1 / -1 !important; grid-row: auto !important; }
   .story-fig-a, .teaser-fig-a { grid-column: 1 / 10 !important; }
@@ -1620,6 +1693,15 @@ img.curtain {
     linear-gradient(0deg, rgba(28, 24, 16, .78) 0%, rgba(28, 24, 16, .35) 38%, rgba(28, 24, 16, 0) 62%);
 }
 .page-hero h1, .cover-title { text-shadow: 0 2px 30px rgba(20, 16, 10, .35); }
+/* Telefoni: il titolo cade più in alto, sulla foto: ombra più alta e decisa, e più scura in cima
+   perché il logo resti leggibile anche sui cieli chiari */
+@media (max-width: 900px) {
+  .page-hero:has(> img, > video) .page-hero-shade {
+    background:
+      linear-gradient(180deg, rgba(30, 34, 22, .55) 0%, rgba(30, 34, 22, 0) 22%),
+      linear-gradient(0deg, rgba(28, 24, 16, .82) 0%, rgba(28, 24, 16, .4) 40%, rgba(28, 24, 16, 0) 64%);
+  }
+}
 
 /* Copertina: più clip video in sequenza, si vede solo quella corrente */
 video.cover-media { opacity: 0; }
@@ -1670,3 +1752,7 @@ canvas.cover-media { will-change: contents; transform: translateZ(0); }
   .carta-stampa { display: none; }
   .piatto { break-inside: avoid; }
 }
+
+/* Foto in più formati (AVIF, WebP, JPEG): il <picture> non fa da contenitore,
+   la foto resta figlia diretta della griglia come prima */
+picture { display: contents; }
