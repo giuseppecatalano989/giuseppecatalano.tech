@@ -21,16 +21,19 @@ La procedura qui sotto risolve i primi due. Il terzo lo risolve lo script di pre
 
 ```
 THE ESTATE (always identical): a historic Lombard "cascina a corte" in the green hills of Brianza,
-northern Italy. A closed rectangular courtyard farmstead: two long two-storey wings of exposed
-river-stone and warm ochre lime plaster, low-pitched roofs of old terracotta coppi tiles, a
-ground-floor portico of seven round brick arches facing the courtyard, grey-blue wooden shutters.
-At the head of the courtyard, a three-storey manor house in pale ochre plaster with a small
-central dormer. On the east wing, a brick silkworm barn ("bigattiera") whose upper floor is closed
-by diamond-pattern terracotta brick lattice. A stone well in the middle of a cobbled courtyard.
-A dirt avenue lined with old pollarded mulberry trees leads to the gate. A small rectangular
-pool sits alone in the meadow south of the farmstead. Around it: rolling meadows, chestnut woods,
-and on the northern horizon the jagged limestone ridge of Monte Resegone.
+northern Italy. A courtyard farmstead: at the head, a three-storey manor house in faded ochre
+plaster with grey-blue shutters, a small central dormer and a small iron balcony; on its ground
+floor and along the west wing, a two-level loggia of round brick arches facing the courtyard.
+The long west wing is two storeys of exposed river stone and peeling ochre plaster. The east wing
+ends in a tall red-brick silkworm barn ("bigattiera") whose walls are closed by large
+diamond-pattern terracotta brick lattice panels. Old terracotta coppi roofs with moss. A stone
+well in a cobbled courtyard closed at the front by a low wall with brick gate pillars. A dirt
+avenue lined with old pollarded mulberry trees leads to the gate. A small rectangular pool with a
+stone edge sits in the meadow in front of the barn. Around it: rolling meadows with tractor
+tracks, chestnut woods, and on the horizon the jagged saw-toothed limestone ridge of Monte Resegone.
 ```
+
+La descrizione corrisponde alla foto di riferimento scelta (candidato 3 del 24 novembre).
 
 ```
 STYLE (always identical): photorealistic editorial travel photography, full-frame camera, natural
