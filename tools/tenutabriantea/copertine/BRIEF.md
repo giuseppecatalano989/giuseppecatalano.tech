@@ -21,19 +21,21 @@ La procedura qui sotto risolve i primi due. Il terzo lo risolve lo script di pre
 
 ```
 THE ESTATE (always identical): a historic Lombard "cascina a corte" in the green hills of Brianza,
-northern Italy. A courtyard farmstead: at the head, a three-storey manor house in faded ochre
-plaster with grey-blue shutters, a small central dormer and a small iron balcony; on its ground
-floor and along the west wing, a two-level loggia of round brick arches facing the courtyard.
-The long west wing is two storeys of exposed river stone and peeling ochre plaster. The east wing
-ends in a tall red-brick silkworm barn ("bigattiera") whose walls are closed by large
-diamond-pattern terracotta brick lattice panels. Old terracotta coppi roofs with moss. A stone
-well in a cobbled courtyard closed at the front by a low wall with brick gate pillars. A dirt
-avenue lined with old pollarded mulberry trees leads to the gate. A small rectangular pool with a
-stone edge sits in the meadow in front of the barn. Around it: rolling meadows with tractor
-tracks, chestnut woods, and on the horizon the jagged saw-toothed limestone ridge of Monte Resegone.
+northern Italy, seen as a courtyard farmstead. At the head of the courtyard, a three-storey manor
+house in faded ochre plaster with grey-blue shutters, a small central dormer and a small iron
+balcony. A continuous ground-floor portico of round brick arches, warmly lit, runs along the manor
+and the whole west wing, facing the cobbled courtyard with a stone well in the middle. The west
+wing is two storeys of exposed river stone and peeling ochre plaster. The east wing is a long
+two-storey stone building with grey-blue shutters. In the north-east corner, next to the manor,
+a red-brick silkworm barn ("bigattiera") closed by large diamond-pattern terracotta brick lattice
+panels. Old terracotta coppi roofs with moss and uneven lines. The courtyard is closed at the
+front by a low stone wall with brick gate pillars and an iron gate. A dirt avenue lined with old
+pollarded mulberry trees runs diagonally to the gate. A small rectangular pool with a pale stone
+edge sits in the meadow in front of the farmstead. Around it: rolling meadows with tractor tracks,
+chestnut woods, and on the horizon the jagged saw-toothed limestone ridge of Monte Resegone.
 ```
 
-La descrizione corrisponde alla foto di riferimento scelta (candidato 3 del 24 novembre).
+La descrizione corrisponde alla foto di riferimento scelta (vista obliqua da sud, 24 novembre).
 
 ```
 STYLE (always identical): photorealistic editorial travel photography, full-frame camera, natural
