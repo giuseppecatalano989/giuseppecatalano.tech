@@ -1,0 +1,71 @@
+# Kit Qualità — controlli automatici a ogni push e pull request.
+# Per il controllo SEO/prestazioni imposta la variabile del repository
+# PREVIEW_URL (Settings → Secrets and variables → Actions → Variables).
+name: Qualità
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sicurezza:
+    name: Sicurezza (segreti, codice, dipendenze)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Segreti (gitleaks)
+        run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:latest git /repo --no-banner --redact
+      - name: Analisi del codice (semgrep)
+        run: docker run --rm -v "$PWD:/src" -w /src semgrep/semgrep semgrep scan --config p/default --error --quiet
+      - name: Dipendenze e configurazioni (trivy)
+        run: docker run --rm -v "$PWD:/src" aquasec/trivy:latest fs --scanners vuln,secret,misconfig --severity HIGH,CRITICAL --exit-code 1 /src
+
+  test:
+    name: Test end-to-end (Playwright)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Test Playwright (saltati se il progetto non li ha)
+        run: |
+          if ls playwright.config.* >/dev/null 2>&1; then
+            npm ci
+            npx playwright install --with-deps
+            npx playwright test
+          else
+            echo "Nessuna configurazione Playwright nel progetto: test saltati."
+          fi
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: report-playwright
+          path: playwright-report/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  seo:
+    name: SEO, prestazioni e accessibilità (Unlighthouse)
+    runs-on: ubuntu-latest
+    if: ${{ vars.PREVIEW_URL != '' }}
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Lighthouse su tutte le pagine (soglia 80)
+        run: npx -y -p unlighthouse unlighthouse-ci --site "${{ vars.PREVIEW_URL }}" --budget 80 --build-static
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: report-unlighthouse
+          path: .unlighthouse/
+          if-no-files-found: ignore
+          retention-days: 14
