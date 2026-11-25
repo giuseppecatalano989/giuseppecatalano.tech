@@ -19,11 +19,11 @@ from PIL import Image
 
 # file, inizio, fine (secondi), vista iniziale e finale: (zoom, centro x, centro y) in pixel della foto
 INQUADRATURE = [
-    ("home-K1.jpg",               0.0,  5.4, (1.00, 1000, 558), (1.55, 1005, 840)),
-    ("riferimento.jpg",           4.2, 10.0, (1.00, 1000, 558), (1.55, 1060, 600)),
-    ("home-K3-sera.jpg",          8.8, 14.6, (1.00, 1000, 558), (1.70, 1000, 545)),
-    ("home-K4-sera-corretto.png", 13.4, 19.0, (1.00, 1000, 560), (1.75, 1000, 545)),
-    ("home-K5.jpg",              17.8, 24.0, (1.00, 1000, 558), (1.10, 1060, 560)),
+    ("home-K1.jpg",                0.0,  5.0, (1.00, 1000, 558), (1.35, 1005, 820)),
+    ("riferimento.jpg",            4.5,  9.5, (1.00, 1000, 558), (1.35, 1050, 600)),
+    ("home-K3-sera.jpg",           9.0, 14.0, (1.00, 1000, 558), (1.40, 1000, 545)),
+    ("home-K4-sera-corretto.png", 13.5, 18.5, (1.00, 1000, 560), (1.40, 1000, 545)),
+    ("home-K5.jpg",               18.0, 23.5, (1.00, 1000, 558), (1.08, 1060, 560)),
 ]
 
 
