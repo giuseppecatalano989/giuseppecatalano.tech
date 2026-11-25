@@ -4,3 +4,15 @@ tools/
 Avvia sito.cmd
 .env*
 .vercel/
+DESIGN.md
+.impeccable/
+# Strumenti di sviluppo e test (Kit Qualità): non vanno pubblicati
+node_modules/
+package.json
+package-lock.json
+playwright.config.ts
+tests/
+specs/
+.github/
+.mcp.json
+CLAUDE.md

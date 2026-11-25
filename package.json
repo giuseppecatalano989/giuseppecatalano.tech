@@ -1,0 +1,14 @@
+{
+  "name": "giuseppecatalano-tech",
+  "private": true,
+  "description": "Portfolio statico e progetti dimostrativi (nessuna build: i file HTML sono i sorgenti)",
+  "scripts": {
+    "dev": "python3 -m http.server 4173",
+    "test": "playwright test",
+    "versioni": "python3 tools/tenutabriantea/versiona.py"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.1",
+    "@playwright/test": "^1.63.0"
+  }
+}

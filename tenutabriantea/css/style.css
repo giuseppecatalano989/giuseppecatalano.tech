@@ -455,13 +455,13 @@ body.menu-open { overflow: hidden; }
 
 /* =========================================================
    COPERTINA SCROLL-DRIVEN (home)
-   La sezione è alta 3 schermate: mentre si scorre, .cover-sticky
+   La sezione è alta 4 schermate: mentre si scorre, .cover-sticky
    resta fermo e --p (0 → 1) fa avanzare video, strati e didascalie.
    ========================================================= */
 .cover {
   --p: 0;
   position: relative;
-  height: 480vh;
+  height: 400vh;
   background: var(--moss);
   color: var(--on-dark);
 }

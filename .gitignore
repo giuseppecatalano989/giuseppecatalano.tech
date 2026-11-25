@@ -30,3 +30,12 @@ tools/video/*/musica.wav
 tools/video/*/prova*/
 tools/video/*/render*.log
 tools/video/*/frames/
+.claude/.qualita-ok
+.env
+.env.*
+!.env.example
+.unlighthouse/
+playwright-report/
+test-results/
+node_modules/
+tools/tenutabriantea/copertine/sorgenti/

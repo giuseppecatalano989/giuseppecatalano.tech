@@ -69,7 +69,10 @@ function setMenu(open) {
   document.body.classList.toggle("menu-open", open);
   if (open) {
     menu.hidden = false;
-    requestAnimationFrame(() => requestAnimationFrame(() => menu.classList.add("is-open")));
+    // Se il menu viene richiuso prima dei due fotogrammi (Esc o doppio tocco), non va riaperto
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (document.body.classList.contains("menu-open")) menu.classList.add("is-open");
+    }));
   } else {
     menu.classList.remove("is-open");
     setTimeout(() => { if (!menu.classList.contains("is-open")) menu.hidden = true; }, 500);
