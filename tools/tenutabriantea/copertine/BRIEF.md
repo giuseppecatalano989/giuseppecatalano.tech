@@ -86,25 +86,41 @@ Fai le prove in **Veo 3.1 Fast** (20 crediti) e la versione finale in **Quality*
 
 Se il passaggio K3→K4 (dalla corte alla finestra) non riesce, si può rinunciare al volo verso la finestra: K4 diventa una ripresa che si avvicina alla finestra dalla corte e l'ingresso in camera si risolve con una dissolvenza. La preparo io in fase di montaggio.
 
-## 4. Le copertine delle pagine interne (foto + loop)
+## 4. Le copertine delle pagine interne (una foto + una sola clip in loop)
 
-Ogni copertina è una foto 16:9, che fa anche da poster, poi animata con **Image to video**. Le regole per l'animazione sono sempre le stesse:
+Regola: **una sola clip per copertina**, mai clip unite.
 
-- **camera ferma** (`locked-off tripod shot, the camera does not move`);
-- **8 s**, senza audio;
-- **un solo movimento piccolo e naturale.** Nebbia, fiamme, acqua, foglie e luce sono cose che l'AI rende bene. Persone, mani, tessuti in volo, porte che si aprono e animali le sbaglia.
+Ogni copertina si fa in due passi:
+1. **La foto** in Flow, nella modalità immagini (Nano Banana), formato 16:9. Allegare il riferimento
+   indicato (stessa cascina e stessa luce di casa).
+2. **La clip** in Flow: Video → **Fotogrammi**, **Veo 3.1 - Fast**, 16:9, 8 s, x2,
+   con **Inizio = Fine = la stessa foto**. La clip parte e finisce sullo stesso fotogramma, quindi il
+   loop gira senza stacco, e la foto fa anche da poster (il passaggio foto → video non si vede).
 
-| Pagina | Foto (dopo bibbia e stile) | Movimento (prompt video) |
-|---|---|---|
-| I · Tenuta | `Aerial three-quarter view at 80 m, late golden hour, long soft shadows across the meadows, the whole courtyard and the mulberry avenue visible.` | `Locked-off shot. Only a very slow drift of light: soft clouds' shadows glide across the meadows, leaves of the chestnut woods stir slightly.` |
-| II · Residenze | `The Fienile bedroom at dusk: chestnut beams, lime-washed walls, linen bed, wooden chair, bedside lamp lit, one candle lit, open window with a sheer linen curtain hanging still, blue evening light outside.` | `Locked-off shot. The candle flame flickers gently, the sheer curtain sways very slightly at its hem only, the light outside the window dims imperceptibly. Nothing else moves.` |
-| III · Osteria | `The osteria dining room in the evening: terracotta floor, walnut tables set for dinner, rush-seat chairs, a large stone fireplace with a lit fire, blue window light.` | `Locked-off shot. The fire in the fireplace burns and crackles softly, candle flames flicker on the tables. Nothing else moves.` |
-| IV · Piscina | `The small rectangular pool in the meadow, late afternoon, two teak loungers and a canvas umbrella, the farmstead behind, the Resegone on the horizon.` | `Locked-off shot. Gentle ripples and sun glints move on the water surface, the grass sways slightly in a light breeze, the umbrella fabric is still.` |
-| V · Matrimoni | `The courtyard set for a wedding dinner at blue hour: long tables with linen cloths, olive branches and many lit candles, string lights under the seven brick arches. Empty chairs, no people.` | `Locked-off shot. Candle flames flicker softly, the string lights glow steadily. Nothing else moves.` |
-| VI · Prenota | `Two old leather suitcases and a straw hat under the brick portico, the sunlit courtyard and the stone well beyond the arches, morning light.` | Nessun video: solo foto, come oggi. |
-| VII · Contatti | `The mulberry avenue at dawn in light mist, a dirt track between rows of old pollarded mulberry trees, the farmstead far at the end, the Resegone faint on the horizon.` | `Locked-off shot. Low morning mist drifts slowly across the avenue from left to right, the light warms very slightly. Trees and track are still.` |
+Il prompt di ogni clip comincia sempre con:
 
-Per ogni copertina tieni sia la foto che il video.
+```
+Locked-off tripod shot, the camera does not move at all. The first and the last frame are identical to the reference image. The architecture, furniture and objects never change; nothing appears or disappears; no people, no animals.
+```
+
+seguito dal movimento della tabella. Muovere solo luce, fiamme, acqua, nebbia, foglie: sono le cose
+che l'AI rende bene. Tessuti in volo, porte, persone e animali vanno evitati.
+
+| Pagina | Allegato | Foto (dopo la frase "Same estate as the reference image, identical architecture.") | Movimento della clip |
+|---|---|---|---|
+| I · Tenuta | `riferimento.png` | `Real aerial photograph from a drone at 90 metres, three-quarter view from the south-east, the whole farmstead, the mulberry avenue and the pool in the meadows, chestnut woods around, the Resegone ridge on the horizon. Late golden hour, long soft shadows across the fields, warm low sun on the facades.` | `Only the light moves: soft cloud shadows drift very slowly across the meadows from left to right, the leaves of the chestnut woods stir slightly in a light breeze.` |
+| II · Residenze | `home-K5.png` | `The same bedroom as the reference, seen from the opposite corner: the open French door with the sheer linen curtain on the right, the wooden bed, the rush-seat chair, chestnut ceiling beams, lime-washed walls, terracotta floor. Blue dusk light through the door, warm lamp and one candle lit.` | `Only the candle flame flickers gently and the warm lamp light breathes very slightly. The curtain hangs still.` |
+| III · Osteria | `home-K5.png` (solo per luce e materiali) | `Real interior photograph of the osteria in the manor house: a vaulted room with brick arches and lime-washed walls, terracotta floor, walnut tables set for dinner with linen napkins and wine glasses, rush-seat chairs, a large stone fireplace with a lit fire. Evening, warm firelight and candles, blue dusk light from a small window.` | `Only the fire in the fireplace burns softly and the candle flames flicker. Everything else is still.` |
+| IV · Piscina | `riferimento.png` | `Real photograph at eye level from the meadow: the small rectangular pool with its pale stone edge in the foreground, two teak loungers and a closed canvas umbrella, the stone wall of the farmstead behind, the mulberry avenue on the left, the Resegone on the horizon. Late afternoon, warm low sun.` | `Only gentle ripples and soft sun glints move on the water; the grass sways very slightly in a light breeze. The umbrella and loungers are still.` |
+| V · Matrimoni | `home-K3-sera.png` | `The same courtyard as the reference at blue hour, set for a wedding dinner: one long table under the lit brick portico with white linen, olive branches and many lit candles, empty wooden chairs, a few strings of warm lights between the arches. No people.` | `Only the candle flames flicker softly and the string lights glow steadily. Nothing else moves.` |
+| VI · Prenota | `home-K3-sera.png` | `Under the brick portico of the same courtyard, morning light: two old leather suitcases and a straw hat on the stone floor by a wooden bench, the sunny cobbled courtyard and the stone well seen through the arches.` | Nessuna clip: solo la foto. |
+| VII · Contatti | `riferimento.png` | `Real photograph at eye level on the dirt avenue between two rows of old pollarded mulberry trees, the farmstead far at the end of the avenue, the Resegone faint on the horizon. Dawn, low mist lying over the meadows, soft pale light.` | `Only the low mist drifts very slowly across the avenue from left to right. Trees and track are still.` |
+
+Ogni foto finisce con la riga di stile:
+
+```
+Shot on a full-frame camera, 35 mm, natural light only, fine sensor noise, muted natural colours, weathered and lived-in, not a 3D render, no HDR, no glow, no people, no text, no watermark.
+```
 
 ## 5. Come scartare una clip (controllo prima di consegnarla)
 
