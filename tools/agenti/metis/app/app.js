@@ -161,10 +161,11 @@ const agente = collegaAgente({
   approvato: ({ id }) => { const c = $('ap-' + id); c.classList.add('fatto'); c.querySelector('header').textContent = 'Approvata da te · inviata'; },
   rifiutato: ({ id }) => { const c = $('ap-' + id); c.classList.add('no'); c.querySelector('header').textContent = 'Rifiutata · non inviata'; },
   fine: (ev) => {
-    feed.insertAdjacentHTML('beforeend', `<span class="riepilogo">${ev.strumenti} strumenti · ${ev.approvazioni} azioni approvate · ${ev.secondi} s</span>`);
+    const r = document.createElement('span'); r.className = 'riepilogo';
+    r.textContent = `${ev.strumenti} strumenti · ${ev.approvazioni} azioni approvate · ${ev.secondi} s`; feed.append(r);
     $('run').disabled = false; $('run').textContent = 'Pianifica di nuovo'; giu();
   },
-  errore: (ev) => { feed.insertAdjacentHTML('beforeend', `<p class="say">Errore: ${esc(ev.messaggio)}</p>`); $('run').disabled = false; },
+  errore: (ev) => { const p = document.createElement('p'); p.className = 'say'; p.textContent = `Errore: ${ev.messaggio}`; feed.append(p); $('run').disabled = false; },
 });
 
 info = await agente.info();

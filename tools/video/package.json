@@ -12,6 +12,6 @@
   "type": "commonjs",
   "dependencies": {
     "gsap": "^3.12.5",
-    "puppeteer-core": "^23.11.1"
+    "puppeteer-core": "^25.19.0"
   }
 }

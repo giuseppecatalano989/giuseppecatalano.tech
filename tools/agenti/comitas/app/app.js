@@ -151,10 +151,11 @@ const agente = collegaAgente({
   rifiutato: ({ id }) => { const c = $('ap-' + id); c.classList.add('no'); c.querySelector('header').textContent = 'Rifiutata · non eseguita'; },
   output: (ev) => { if (ev.tipo === 'riepilogo') riepilogo(ev.contenuto); },
   fine: (ev) => {
-    feed.insertAdjacentHTML('beforeend', `<span class="riepilogo">${ev.strumenti} strumenti · ${ev.approvazioni} azioni approvate · ${ev.secondi} s</span>`);
+    const r = document.createElement('span'); r.className = 'riepilogo';
+    r.textContent = `${ev.strumenti} strumenti · ${ev.approvazioni} azioni approvate · ${ev.secondi} s`; feed.append(r);
     $('run').disabled = false; $('run').textContent = 'Gestisci di nuovo'; giu();
   },
-  errore: (ev) => { feed.insertAdjacentHTML('beforeend', `<p class="say">Errore: ${esc(ev.messaggio)}</p>`); $('run').disabled = false; },
+  errore: (ev) => { const p = document.createElement('p'); p.className = 'say'; p.textContent = `Errore: ${ev.messaggio}`; feed.append(p); $('run').disabled = false; },
 });
 
 const info = await agente.info();

@@ -45,6 +45,7 @@ for (const s of scenes) {
   }
   const dir = path.join(__dirname, 'frames', s.id);
   fs.rmSync(dir, { recursive: true, force: true }); fs.mkdirSync(dir, { recursive: true });
+  // nosemgrep: javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal (nomi fatti di soli numeri)
   pick.forEach((f, n) => fs.copyFileSync(path.join(raw, String(f + 1).padStart(5, '0') + '.jpg'), path.join(dir, String(n + 1).padStart(5, '0') + '.jpg')));
   counts[s.id] = pick.length;
   console.log(`${s.id}: ${N} → ${pick.length} fotogrammi (${(pick.length / 30).toFixed(1)} s)`);
