@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=7508e0b6">
+  <link rel="stylesheet" href="css/style.css?v=5ee9efa3">
   <!-- Navigazione istantanea (Chrome, Edge): la pagina sotto il mouse si prepara in anticipo -->
   <script type="speculationrules">
   {
@@ -30,7 +30,7 @@
   <!-- ================= HEADER ================= -->
   <header class="hd" data-header>
     <div class="hd-side">
-      <button class="hd-menu" type="button" aria-expanded="false" aria-controls="indice" data-menu-toggle>
+      <button class="hd-menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="indice" data-menu-toggle>
         <span class="hd-menu-lines" aria-hidden="true"><i></i><i></i></span>
         <span class="hd-menu-label">Menu</span>
       </button>
@@ -43,7 +43,7 @@
 
     <!-- Logo: il profilo del Resegone (l'orizzonte della tenuta) con il sole del miele,
          il nome e una foglia di gelso, l'albero del viale e dei bachi da seta -->
-    <a href="index.html" class="hd-mark" aria-label="Tenuta Briantea, pagina iniziale">
+    <a href="index.html" class="hd-mark" aria-label="Tenuta Briantea, Brianza, Lombardia: pagina iniziale">
       <svg class="hd-mark-ridge" viewBox="0 0 120 22" aria-hidden="true">
         <path d="M0 20.5H17L27 14.5 32 16.5 39 9.5 43 12 48.5 5 52 8.5 56 3 60 7.5 64.5 4.5 69 9 74 7.5 80 12.5 86 11 94 16 103 20.5H120" />
         <circle cx="90" cy="6" r="2.4" />
@@ -326,7 +326,7 @@
         <span class="chapter-num">✦</span>
         <span class="chapter-name">Un anno in tenuta</span>
       </header>
-      <ol class="year-list" data-year>
+      <ol class="year-list" data-year tabindex="0" aria-label="Un anno in tenuta, mese per mese">
         <li data-m="1"><b>Gen</b>Cassœula davanti al camino</li>
         <li data-m="2"><b>Feb</b>Si potano i gelsi</li>
         <li data-m="3"><b>Mar</b>Il bosco si risveglia</li>
