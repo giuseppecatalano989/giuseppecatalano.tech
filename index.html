@@ -1,101 +1,190 @@
 <!doctype html>
-<html lang="it">
+<html lang="it" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Giuseppe Catalano — Progettista di software e agenti AI</title>
-<meta name="description" content="Giuseppe Catalano progetta software, siti web e agenti AI: idea, regole e architettura sono sue, la costruzione è dell'intelligenza artificiale. Software e siti web in vibe coding, agenti AI per i processi aziendali.">
-<meta property="og:title" content="Giuseppe Catalano — Progettista di software e agenti AI">
-<meta property="og:description" content="Io progetto. L'AI costruisce. Io rispondo del risultato.">
+<title>Giuseppe Catalano · Progettista di software e agenti AI</title>
+<meta name="description" content="Progetto software, siti web e agenti AI per le aziende e li costruisco con l'intelligenza artificiale, seguendo ogni passaggio. Otto progetti da vedere: tre già online, cinque demo da provare.">
+<meta property="og:title" content="Giuseppe Catalano · Progettista di software e agenti AI">
+<meta property="og:description" content="Progetto software e agenti AI e li faccio costruire all'intelligenza artificiale. Del risultato rispondo io.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://giuseppecatalano.tech">
+<meta property="og:url" content="https://giuseppecatalano.tech/">
 <meta property="og:image" content="https://giuseppecatalano.tech/assets/og-image.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://giuseppecatalano.tech/">
+<meta name="theme-color" content="#0e2649">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css?v=077b576f">
 <script>
-  // Applica subito il tema salvato, prima del disegno della pagina
-  // All'apertura il tema è scuro; se il visitatore ha scelto Light, si ricorda la sua scelta
-  var t = 'dark';
-  try { t = localStorage.getItem('gc-theme') || 'dark'; } catch (e) {}
-  document.documentElement.dataset.theme = t;
+  // Il tema scuro è quello di partenza; se il visitatore sceglie il chiaro, la scelta resta su questo dispositivo.
+  (function () {
+    var t = 'dark';
+    try { t = localStorage.getItem('gc-theme') === 'light' ? 'light' : 'dark'; } catch (e) {}
+    document.documentElement.dataset.theme = t;
+    if (t === 'light') document.querySelector('meta[name="theme-color"]').content = '#f2efe7';
+  })();
 </script>
 </head>
 <body>
 
-<!-- Cornice del foglio, righello e mirino: puramente decorativi -->
-<div class="sheet-frame" aria-hidden="true">
-  <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-</div>
-<div class="ruler" aria-hidden="true"></div>
-<div class="crosshair" aria-hidden="true"><i class="ch-x"></i><i class="ch-y"></i></div>
+<a class="skip" href="#main">Salta al contenuto</a>
 
 <header class="topbar">
-  <a class="mark" href="#tav-01">G. Catalano<span>/</span><em>progettista</em></a>
-  <nav aria-label="Tavole">
-    <a href="#tav-01"><b>01</b> Ruolo</a>
-    <a href="#tav-02"><b>02</b> Competenze</a>
-    <a href="#tav-03"><b>03</b> Metodo</a>
-    <a href="#tav-04"><b>04</b> Progetti</a>
-    <a href="#tav-05"><b>05</b> Contatti</a>
+  <a class="mark" href="#inizio">Giuseppe Catalano</a>
+  <nav aria-label="Sezioni della pagina">
+    <a href="#cosa-faccio">Cosa faccio</a>
+    <a href="#metodo">Come lavoro</a>
+    <a href="#progetti">Progetti</a>
+    <a href="#chi-sono">Chi sono</a>
+    <a href="#contatti">Contatti</a>
   </nav>
   <div class="theme-switch" role="group" aria-label="Tema">
-    <button type="button" data-set-theme="light">Light</button>
-    <button type="button" data-set-theme="dark">Dark</button>
+    <button type="button" data-set-theme="dark" aria-pressed="true">Scuro</button>
+    <button type="button" data-set-theme="light" aria-pressed="false">Chiaro</button>
   </div>
 </header>
 
-<main>
+<main id="main" tabindex="-1">
 
-  <!-- TAV. 01 — IL RUOLO -->
-  <section class="tav hero" id="tav-01" data-tav="01" data-name="Il ruolo">
-    <div class="tav-label"><span>TAV. 01 — IL RUOLO</span><span>REV. 2026</span></div>
-
-    <div class="hero-head">
-      <p class="hero-name">Giuseppe Catalano,</p>
-      <h1 class="hero-title">
-        <span class="giant" id="giant">Progettista</span>
-        <span class="wide">di software e di agenti&nbsp;AI.</span>
-      </h1>
-      <p class="note note-red hero-note-1">
-        <svg viewBox="0 0 120 70" aria-hidden="true"><path d="M114 62 C 84 64, 40 50, 14 10"/><path d="M8 25 L13 8 L29 14"/></svg>
-        <span>la mente<br>dietro l'idea</span>
-      </p>
-    </div>
+  <!-- Apertura -->
+  <section class="sec hero" id="inizio" aria-labelledby="titolo">
+    <p class="hero-name">Giuseppe Catalano,</p>
+    <h1 class="hero-title" id="titolo">
+      <span class="giant">Progettista</span>
+      <span class="wide">di software e di agenti&nbsp;AI.</span>
+    </h1>
 
     <div class="hero-grid">
-      <p class="hero-lead">Parto da un problema reale e lo trasformo in un progetto preciso: cosa deve fare il software, per chi e con quali regole. Poi lo costruisco con l'intelligenza artificiale, guidandola passo dopo passo fino al prodotto finito.</p>
+      <p class="hero-lead">Parto da un problema concreto e scrivo, prima di tutto, cosa deve fare il programma, per chi e con quali regole. Poi lo faccio costruire all'intelligenza artificiale un pezzo alla volta: leggo quello che produce, lo provo e decido io quando è pronto.</p>
       <div class="hero-cta">
-        <a class="btn" href="#tav-04">Vedi i progetti</a>
-        <a class="btn btn-line" href="#tav-05">Contatti</a>
+        <a class="btn" href="#progetti">Vedi i progetti</a>
+        <a class="btn btn-line" href="#contatti">Scrivetemi</a>
       </div>
     </div>
 
-    <!-- Quota: chi fa cosa lungo il percorso -->
-    <figure class="quota" aria-label="Dall'idea al prodotto: ideazione e progettazione sono mie, lo sviluppo è dell'AI sotto la mia direzione">
-      <div class="q-seg q-red">
-        <span class="q-top">Ideazione · Progettazione</span>
+    <!-- Chi fa cosa lungo il percorso: il rosso è mio, il blu tratteggiato è dell'AI -->
+    <figure class="quota">
+      <figcaption class="sr-only">Dall'idea al prodotto: ideazione e progettazione sono mie, lo sviluppo lo fa l'AI seguendo le mie indicazioni.</figcaption>
+      <div class="q-seg q-red" aria-hidden="true">
+        <span class="q-top">Ideazione e progetto</span>
         <span class="q-line"></span>
-        <span class="q-bottom">la mia mano</span>
+        <span class="q-bottom">li faccio io</span>
       </div>
-      <div class="q-seg q-blue">
+      <div class="q-seg q-blue" aria-hidden="true">
         <span class="q-top">Sviluppo</span>
         <span class="q-line"></span>
-        <span class="q-bottom">AI, sotto la mia regia</span>
+        <span class="q-bottom">l'AI, con le mie regole</span>
       </div>
-      <div class="q-nodes"><span>Idea</span><span>Progetto</span><span>Prodotto</span></div>
+      <div class="q-nodes" aria-hidden="true"><span>Idea</span><span>Progetto</span><span>Prodotto</span></div>
     </figure>
+  </section>
 
-    <!-- Sezione A–A: com'è fatto un agente AI, con i dati che scorrono -->
-    <div class="anatomy">
-      <figure class="ana-draw">
-        <div class="sheet-head"><span class="callout">A</span><span class="detail-tag">SEZIONE A–A · ANATOMIA DI UN AGENTE AI</span></div>
-        <svg class="schema ana" viewBox="0 0 640 300" role="img" aria-label="Schema di un agente AI: fonti in ingresso, agente con i suoi strumenti, approvazione umana, risultati">
+  <!-- Cosa faccio -->
+  <section class="sec" id="cosa-faccio" aria-labelledby="t-cosa">
+    <p class="eyebrow">Cosa faccio</p>
+    <h2 class="sec-title reveal" id="t-cosa">Tre tipi di lavoro, lo stesso metodo.</h2>
+
+    <div class="details">
+      <article class="detail reveal">
+        <svg class="schema" viewBox="0 0 420 150" aria-hidden="true">
+          <g class="s-red">
+            <path d="M18 30 h108 a10 10 0 0 1 10 10 v44 a10 10 0 0 1 -10 10 h-70 l-18 16 v-16 h-20 a10 10 0 0 1 -10 -10 v-44 a10 10 0 0 1 10 -10z"/>
+            <path d="M32 52 h80 M32 66 h64 M32 80 h44"/>
+          </g>
+          <path class="s-arrow" d="M150 64 h44 M186 57 l8 7 -8 7"/>
+          <g class="s-blue">
+            <path d="M232 34 q-14 0 -14 14 v8 q0 8 -8 8 q8 0 8 8 v8 q0 14 14 14"/>
+            <path d="M262 34 q14 0 14 14 v8 q0 8 8 8 q-8 0 -8 8 v8 q0 14 -14 14"/>
+            <path d="M240 54 h14 M240 64 h20 M240 74 h10"/>
+          </g>
+          <path class="s-arrow" d="M296 64 h30 M318 57 l8 7 -8 7"/>
+          <g class="s-ink">
+            <rect x="338" y="26" width="70" height="78" rx="6"/>
+            <path d="M338 40 h70 M348 52 h30 M348 62 h50 M348 72 h50 M348 84 h22"/>
+          </g>
+          <text x="18" y="134">progetto</text><text x="214" y="134">codice</text><text x="338" y="134">prodotto</text>
+        </svg>
+        <h3>Software su misura</h3>
+        <p>Prima scrivo cosa deve fare il programma, schermata per schermata, con le regole e i casi difficili. Poi lo faccio scrivere all'AI e lo controllo a ogni passaggio, finché non funziona come deve.</p>
+        <ul class="ticks">
+          <li>Web app, app mobile e gestionali</li>
+          <li>Database, accessi e sicurezza</li>
+          <li>Pubblicazione online e manutenzione</li>
+        </ul>
+      </article>
+
+      <article class="detail reveal">
+        <svg class="schema" viewBox="0 0 420 150" aria-hidden="true">
+          <g class="s-ink">
+            <rect x="14" y="18" width="50" height="30" rx="3"/><path d="M14 20 l25 16 25 -16"/>
+            <rect x="20" y="58" width="38" height="44" rx="3"/><path d="M28 70 h22 M28 80 h22 M28 90 h14"/>
+            <ellipse cx="39" cy="114" rx="22" ry="5"/><path d="M17 114 v14 a22 5 0 0 0 44 0 v-14"/>
+          </g>
+          <path class="s-arrow" d="M78 72 h44 M114 65 l8 7 -8 7"/>
+          <g class="s-blue">
+            <path d="M174 30 l40 23 v46 l-40 23 -40 -23 v-46z"/>
+            <circle cx="174" cy="76" r="13"/>
+            <path d="M174 30 v-12 M174 134 v-12 M134 53 l-10 -6 M214 53 l10 -6"/>
+          </g>
+          <g class="s-arrow"><path d="M226 76 C 262 76, 262 32, 296 32"/><path d="M226 76 h70"/><path d="M226 76 C 262 76, 262 118, 296 118"/></g>
+          <g class="s-red">
+            <circle cx="324" cy="32" r="13"/><path d="M317 32 l5 5 9 -10"/>
+            <path d="M310 88 h34 M316 86 v-14 M324 86 v-22 M332 86 v-10 M340 86 v-18"/>
+            <path d="M310 118 h40 M342 111 l8 7 -8 7"/>
+          </g>
+          <path class="s-ink" d="M368 18 v116" stroke-dasharray="2 4"/>
+          <text x="376" y="36">fatto</text><text x="376" y="80">analisi</text><text x="376" y="122">invio</text>
+          <text x="14" y="146">ingresso</text><text x="146" y="146">agente AI</text><text x="306" y="146">azioni</text>
+        </svg>
+        <h3>Agenti AI per le aziende</h3>
+        <p>In ogni ufficio ci sono lavori che tornano tutti i giorni: smistare email, controllare fatture, rispondere alle stesse domande. Progetto agenti che se ne occupano con gli strumenti che l'azienda usa già, e che chiedono conferma a una persona prima di fare qualcosa che conta.</p>
+        <ul class="ticks">
+          <li>Collegati a email, documenti e gestionali che avete già</li>
+          <li>Seguono le vostre regole e la vostra documentazione</li>
+          <li>Un'approvazione umana sulle azioni con effetti reali</li>
+        </ul>
+      </article>
+
+      <article class="detail reveal">
+        <svg class="schema" viewBox="0 0 420 150" aria-hidden="true">
+          <g class="s-red">
+            <rect x="14" y="24" width="112" height="82" rx="4"/>
+            <path d="M14 38 h112"/>
+            <rect x="24" y="46" width="52" height="34"/><path d="M24 46 l52 34 M76 46 l-52 34"/>
+            <path d="M86 50 h30 M86 60 h30 M86 70 h20 M24 92 h92"/>
+          </g>
+          <path class="s-arrow" d="M138 64 h34 M164 57 l8 7 -8 7"/>
+          <g class="s-blue">
+            <rect x="184" y="24" width="96" height="70" rx="4"/>
+            <path d="M184 36 h96 M192 30 h4 M200 30 h4 M192 46 h80 v20 h-80z M192 74 h36 M236 74 h36 M192 82 h36 M236 82 h36"/>
+            <rect x="262" y="58" width="30" height="50" rx="5"/>
+            <path d="M268 68 h18 M268 76 h18 M268 84 h12"/>
+          </g>
+          <path class="s-arrow" d="M304 64 h30 M326 57 l8 7 -8 7"/>
+          <g class="s-ink">
+            <circle cx="376" cy="64" r="34"/>
+            <path d="M342 64 h68 M376 30 v68 M376 30 c -20 16, -20 52, 0 68 M376 30 c 20 16, 20 52, 0 68 M347 46 h58 M347 82 h58"/>
+          </g>
+          <text x="14" y="134">bozza</text><text x="184" y="134">pagine</text><text x="344" y="134">online</text>
+        </svg>
+        <h3>Siti web</h3>
+        <p>Lo stesso metodo, applicato al web. Parto da chi visiterà il sito e da cosa deve trovarci, non da un modello già pronto. Prima di pubblicarlo controllo velocità, accessibilità e resa sul telefono.</p>
+        <ul class="ticks">
+          <li>Design su misura, dal telefono al grande schermo</li>
+          <li>Animazioni e video che non appesantiscono le pagine</li>
+          <li>Dominio, pubblicazione e aggiornamenti</li>
+        </ul>
+      </article>
+    </div>
+
+    <!-- Com'è fatto un agente: i dati entrano, l'agente usa i suoi strumenti, una persona approva -->
+    <figure class="anatomy reveal">
+      <h3 class="fig-title">Com'è fatto, in pratica, un agente</h3>
+      <div class="anim-wrap">
+        <svg class="schema ana" viewBox="0 0 640 300" aria-hidden="true">
           <g class="s-ink">
             <rect x="24" y="38" width="62" height="40" rx="3"/><path d="M24 41 l31 20 31 -20"/>
             <rect x="31" y="114" width="48" height="58" rx="3"/><path d="M39 128 h32 M39 140 h32 M39 152 h20"/>
@@ -127,312 +216,234 @@
             <circle cx="112" cy="26" r="11"/><circle cx="356" cy="40" r="11"/><circle cx="430" cy="98" r="11"/><circle cx="616" cy="24" r="11"/>
           </g>
           <text class="cn" x="108" y="30">1</text><text class="cn" x="352" y="44">2</text><text class="cn" x="426" y="102">3</text><text class="cn" x="612" y="28">4</text>
-          <text x="20" y="96">EMAIL</text><text x="20" y="190">DOCUMENTI</text><text x="28" y="272">DATI</text>
-          <text x="258" y="292">STRUMENTI</text><text x="290" y="154" text-anchor="middle">AI</text>
-          <text x="392" y="200">APPROVAZIONE</text>
-          <text x="540" y="104">REPORT</text><text x="540" y="190">AZIONE</text><text x="540" y="272">ANALISI</text>
+          <text x="20" y="96">email</text><text x="20" y="190">documenti</text><text x="28" y="272">dati</text>
+          <text x="258" y="292">strumenti</text><text x="290" y="154" text-anchor="middle">AI</text>
+          <text x="392" y="200">approvazione</text>
+          <text x="540" y="104">report</text><text x="540" y="190">azione</text><text x="540" y="272">analisi</text>
           <circle class="pkt" r="4"><animateMotion dur="5s" repeatCount="indefinite" path="M90 143 C 150 143, 170 150, 228 150 L 345 150 L 404 150 L 456 150 C 500 150, 505 62, 538 62"/></circle>
           <circle class="pkt" r="4"><animateMotion dur="5s" begin="1.7s" repeatCount="indefinite" path="M96 58 C 160 58, 170 150, 228 150 L 345 150 L 404 150 L 456 150 L 538 150"/></circle>
           <circle class="pkt" r="4"><animateMotion dur="5s" begin="3.4s" repeatCount="indefinite" path="M92 232 C 160 232, 170 150, 228 150 L 345 150 L 404 150 L 456 150 C 500 150, 505 236, 538 236"/></circle>
         </svg>
-        <span class="scroll-hint" aria-hidden="true">Scorri il disegno →</span>
-        <figcaption class="ana-legend">
-          <span><b>1</b> Fonti: email, documenti, dati</span><span><b>2</b> Strumenti che l'agente sa usare</span>
-          <span><b>3</b> Approvazione umana sulle azioni che contano</span><span><b>4</b> Risultati verificabili</span>
-        </figcaption>
-      </figure>
+        <button class="anim-toggle" type="button" aria-pressed="false">Ferma l'animazione</button>
+      </div>
+      <figcaption>
+        <ol class="ana-legend">
+          <li><b>1</b> Entrano email, documenti e dati</li>
+          <li><b>2</b> L'agente usa gli strumenti che gli ho dato</li>
+          <li><b>3</b> Le azioni che contano aspettano l'ok di una persona</li>
+          <li><b>4</b> Escono report, azioni e analisi controllabili</li>
+        </ol>
+      </figcaption>
+    </figure>
 
-      <aside class="spec" aria-label="Scheda tecnica">
-        <div class="spec-head">SCHEDA TECNICA</div>
-        <dl>
-          <div><dt>Disciplina</dt><dd>Software e agenti AI</dd></div>
-          <div><dt>Metodo</dt><dd>Progetto esecutivo, sviluppo con l'AI</dd></div>
-          <div class="num"><dt>Progetti in tavola</dt><dd><b data-count="8">8</b></dd></div>
-          <div class="num"><dt>Agenti AI</dt><dd><b data-count="4">4</b></dd></div>
-          <div class="num"><dt>Online</dt><dd><b data-count="3">3</b></dd></div>
-          <div><dt>Modelli</dt><dd>Modelli AI, via API</dd></div>
-          <div><dt>Principio</dt><dd>L'AI esegue, le decisioni restano umane</dd></div>
-        </dl>
-      </aside>
-    </div>
-  </section>
-
-  <!-- TAV. 02 — COMPETENZE -->
-  <section class="tav" id="tav-02" data-tav="02" data-name="Competenze">
-    <div class="tav-label"><span>TAV. 02 — COMPETENZE</span><span>3 DETTAGLI</span></div>
-    <h2 class="tav-title reveal">Tre mestieri,<br><em>un'unica regia.</em></h2>
-
-    <div class="details">
-      <article class="detail reveal">
-        <header class="detail-head"><span class="callout">A</span><span class="detail-tag">DETTAGLIO A · SCALA 1:1</span></header>
-        <svg class="schema" viewBox="0 0 420 150" aria-hidden="true">
-          <g class="s-red">
-            <path d="M18 30 h108 a10 10 0 0 1 10 10 v44 a10 10 0 0 1 -10 10 h-70 l-18 16 v-16 h-20 a10 10 0 0 1 -10 -10 v-44 a10 10 0 0 1 10 -10z"/>
-            <path d="M32 52 h80 M32 66 h64 M32 80 h44"/>
-          </g>
-          <path class="s-arrow" d="M150 64 h44 M186 57 l8 7 -8 7"/>
-          <g class="s-blue">
-            <path d="M232 34 q-14 0 -14 14 v8 q0 8 -8 8 q8 0 8 8 v8 q0 14 14 14"/>
-            <path d="M262 34 q14 0 14 14 v8 q0 8 8 8 q-8 0 -8 8 v8 q0 14 -14 14"/>
-            <path d="M240 54 h14 M240 64 h20 M240 74 h10"/>
-          </g>
-          <path class="s-arrow" d="M296 64 h30 M318 57 l8 7 -8 7"/>
-          <g class="s-ink">
-            <rect x="338" y="26" width="70" height="78" rx="6"/>
-            <path d="M338 40 h70 M348 52 h30 M348 62 h50 M348 72 h50 M348 84 h22"/>
-          </g>
-          <text x="18" y="134">PROGETTO</text><text x="214" y="134">CODICE</text><text x="338" y="134">PRODOTTO</text>
-        </svg>
-        <h3>Software in <em>vibe coding</em></h3>
-        <p>Descrivo all'AI cosa costruire con la precisione di un progetto esecutivo. Lei scrive il codice, io lo indirizzo, lo verifico e decido quando è pronto. Così un'idea diventa un prodotto vero in tempi che prima erano impensabili.</p>
-        <ul class="ticks">
-          <li>Web app, app mobile e gestionali completi</li>
-          <li>Database, accessi e sicurezza fatti bene</li>
-          <li>Pubblicazione online e manutenzione</li>
-        </ul>
-      </article>
-
-      <article class="detail reveal">
-        <header class="detail-head"><span class="callout">B</span><span class="detail-tag">DETTAGLIO B · SCALA 1:1</span></header>
-        <svg class="schema" viewBox="0 0 420 150" aria-hidden="true">
-          <!-- Input generici: messaggi, documenti, dati -->
-          <g class="s-ink">
-            <rect x="14" y="18" width="50" height="30" rx="3"/><path d="M14 20 l25 16 25 -16"/>
-            <rect x="20" y="58" width="38" height="44" rx="3"/><path d="M28 70 h22 M28 80 h22 M28 90 h14"/>
-            <ellipse cx="39" cy="114" rx="22" ry="5"/><path d="M17 114 v14 a22 5 0 0 0 44 0 v-14"/>
-          </g>
-          <path class="s-arrow" d="M78 72 h44 M114 65 l8 7 -8 7"/>
-          <!-- L'agente -->
-          <g class="s-blue">
-            <path d="M174 30 l40 23 v46 l-40 23 -40 -23 v-46z"/>
-            <circle cx="174" cy="76" r="13"/>
-            <path d="M174 30 v-12 M174 134 v-12 M134 53 l-10 -6 M214 53 l10 -6"/>
-          </g>
-          <g class="s-arrow"><path d="M226 76 C 262 76, 262 32, 296 32"/><path d="M226 76 h70"/><path d="M226 76 C 262 76, 262 118, 296 118"/></g>
-          <!-- Azioni: fatto, analisi, consegna -->
-          <g class="s-red">
-            <circle cx="324" cy="32" r="13"/><path d="M317 32 l5 5 9 -10"/>
-            <path d="M310 88 h34 M316 86 v-14 M324 86 v-22 M332 86 v-10 M340 86 v-18"/>
-            <path d="M310 118 h40 M342 111 l8 7 -8 7"/>
-          </g>
-          <path class="s-ink" d="M368 18 v116" stroke-dasharray="2 4"/>
-          <text x="376" y="36">FATTO</text><text x="376" y="80">ANALISI</text><text x="376" y="122">INVIO</text>
-          <text x="14" y="146">INPUT</text><text x="146" y="146">AGENTE AI</text><text x="306" y="146">AZIONI</text>
-        </svg>
-        <h3>Agenti AI per i <em>processi aziendali</em></h3>
-        <p>In ogni azienda ci sono attività che si ripetono ogni giorno e tolgono tempo alle persone. Progetto agenti AI che se ne fanno carico: lavorano senza pause, seguono le vostre regole e restituiscono al team ore preziose da dedicare a ciò che conta davvero.</p>
-        <ul class="ticks">
-          <li>Meno lavoro ripetitivo, più tempo per le persone</li>
-          <li>Collegati agli strumenti che l'azienda usa già</li>
-          <li>Costruiti sulle vostre regole e sulla vostra conoscenza</li>
-          <li>Su misura: dall'assistenza clienti all'amministrazione</li>
-        </ul>
-      </article>
-      <article class="detail reveal">
-        <header class="detail-head"><span class="callout">C</span><span class="detail-tag">DETTAGLIO C · SCALA 1:1</span></header>
-        <svg class="schema" viewBox="0 0 420 150" aria-hidden="true">
-          <!-- Bozza: impaginazione disegnata a mano -->
-          <g class="s-red">
-            <rect x="14" y="24" width="112" height="82" rx="4"/>
-            <path d="M14 38 h112"/>
-            <rect x="24" y="46" width="52" height="34"/><path d="M24 46 l52 34 M76 46 l-52 34"/>
-            <path d="M86 50 h30 M86 60 h30 M86 70 h20 M24 92 h92"/>
-          </g>
-          <path class="s-arrow" d="M138 64 h34 M164 57 l8 7 -8 7"/>
-          <!-- Le pagine: il sito costruito, su schermo grande e su telefono -->
-          <g class="s-blue">
-            <rect x="184" y="24" width="96" height="70" rx="4"/>
-            <path d="M184 36 h96 M192 30 h4 M200 30 h4 M192 46 h80 v20 h-80z M192 74 h36 M236 74 h36 M192 82 h36 M236 82 h36"/>
-            <rect x="262" y="58" width="30" height="50" rx="5"/>
-            <path d="M268 68 h18 M268 76 h18 M268 84 h12"/>
-          </g>
-          <path class="s-arrow" d="M304 64 h30 M326 57 l8 7 -8 7"/>
-          <!-- Online -->
-          <g class="s-ink">
-            <circle cx="376" cy="64" r="34"/>
-            <path d="M342 64 h68 M376 30 v68 M376 30 c -20 16, -20 52, 0 68 M376 30 c 20 16, 20 52, 0 68 M347 46 h58 M347 82 h58"/>
-          </g>
-          <text x="14" y="134">BOZZA</text><text x="184" y="134">PAGINE</text><text x="344" y="134">ONLINE</text>
-        </svg>
-        <h3>Siti web in <em>vibe coding</em></h3>
-        <p>Lo stesso metodo, applicato al web. Progetto ogni sito come un prodotto, non come un modello da riempire: struttura, testi, immagini e animazioni pensati per chi lo visita. L'AI lo costruisce, io ne verifico velocità e accessibilità prima di andare online.</p>
-        <ul class="ticks">
-          <li>Design su misura, dal telefono al grande schermo</li>
-          <li>Animazioni e video fluidi, senza appesantire le pagine</li>
-          <li>Pubblicazione, dominio e aggiornamenti</li>
-        </ul>
-      </article>
-    </div>
-
-    <!-- Gli strumenti con cui sono costruiti i progetti in tavola -->
+    <!-- Gli strumenti con cui sono costruiti i progetti di questa pagina -->
     <div class="bom reveal">
-      <div class="bom-head"><span class="callout">D</span><span class="detail-tag">STRUMENTI DEI PROGETTI IN TAVOLA</span></div>
-      <table>
-        <thead><tr><th>Pos.</th><th>Componente</th><th>Impiego</th></tr></thead>
+      <h3 class="fig-title" id="t-strumenti">Con cosa sono costruiti i progetti di questa pagina</h3>
+      <table aria-labelledby="t-strumenti">
+        <thead><tr><th scope="col">Strumento</th><th scope="col">A cosa serve</th></tr></thead>
         <tbody>
-          <tr><td>01</td><td>Modelli AI</td><td>Agenti, sviluppo e contenuti, scegliendo il modello adatto a ogni compito</td></tr>
-          <tr><td>02</td><td>Tool use e approvazioni</td><td>Agenti collegati a dati, strumenti e persone</td></tr>
-          <tr><td>03</td><td>React · Next.js · TypeScript</td><td>Interfacce e applicazioni web</td></tr>
-          <tr><td>04</td><td>React Native · Expo</td><td>App mobile</td></tr>
-          <tr><td>05</td><td>C# · .NET</td><td>Applicazioni e servizi</td></tr>
-          <tr><td>06</td><td>JavaScript · Node.js</td><td>Server, automazioni e agenti</td></tr>
-          <tr><td>07</td><td>Python · FastAPI</td><td>API, dati e automazioni</td></tr>
-          <tr><td>08</td><td>PostgreSQL · Supabase</td><td>Database, accessi e sicurezza</td></tr>
-          <tr><td>09</td><td>HTML · CSS · animazioni</td><td>Siti e interfacce su misura</td></tr>
-          <tr><td>10</td><td>Puppeteer · FFmpeg · GSAP</td><td>Riprese e video di presentazione</td></tr>
-          <tr><td>11</td><td>GitHub · Vercel</td><td>Versioni e pubblicazione</td></tr>
+          <tr><td>Modelli AI</td><td>Agenti, sviluppo e contenuti, scegliendo il modello in base al compito</td></tr>
+          <tr><td>Uso degli strumenti e approvazioni</td><td>Agenti collegati a dati, programmi e persone</td></tr>
+          <tr><td>React · Next.js · TypeScript</td><td>Interfacce e applicazioni web</td></tr>
+          <tr><td>React Native · Expo</td><td>App mobile</td></tr>
+          <tr><td>C# · .NET</td><td>Applicazioni e servizi</td></tr>
+          <tr><td>JavaScript · Node.js</td><td>Server, automazioni e agenti</td></tr>
+          <tr><td>Python · FastAPI</td><td>API, dati e automazioni</td></tr>
+          <tr><td>PostgreSQL · Supabase</td><td>Database, accessi e sicurezza</td></tr>
+          <tr><td>HTML · CSS · animazioni</td><td>Siti e interfacce su misura</td></tr>
+          <tr><td>Puppeteer · FFmpeg · GSAP</td><td>Riprese e video di presentazione</td></tr>
+          <tr><td>GitHub · Vercel</td><td>Versioni e pubblicazione</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <!-- TAV. 03 — METODO / LEGENDA -->
-  <section class="tav" id="tav-03" data-tav="03" data-name="Metodo">
-    <div class="tav-label"><span>TAV. 03 — LEGENDA</span><span>CHI FA COSA</span></div>
-    <h2 class="tav-title reveal">Io progetto. L'AI costruisce.<br><em>Io rispondo del risultato.</em></h2>
+  <!-- Come lavoro -->
+  <section class="sec" id="metodo" aria-labelledby="t-metodo">
+    <p class="eyebrow">Come lavoro</p>
+    <h2 class="sec-title reveal" id="t-metodo">L'AI scrive il codice. <em>Del risultato rispondo io.</em></h2>
+    <p class="sec-lead reveal">Nei disegni di questa pagina il tratto rosso è il mio, quello blu tratteggiato è dell'AI. È anche il modo in cui ci dividiamo il lavoro in ogni progetto.</p>
 
-    <!-- Il ciclo di progetto: chi tiene la penna in ogni fase -->
     <figure class="cycle">
-      <svg class="schema cyc" viewBox="0 0 1000 210" role="img" aria-label="Ciclo di progetto: idea, specifiche, costruzione con l'AI, collaudo con eventuale revisione, rilascio">
-        <g class="s-red"><path d="M110 100 h140"/><path d="M310 100 h160"/></g>
-        <g class="s-blue"><path d="M530 100 h160"/></g>
-        <g class="s-ink"><path d="M750 100 h140"/></g>
-        <g class="s-red"><path d="M720 66 C 690 12, 530 12, 500 66"/><path d="M506 54 l-6 12 13 -2"/></g>
-        <g class="s-red"><circle cx="80" cy="100" r="30"/><circle cx="280" cy="100" r="30"/><circle cx="720" cy="100" r="30"/></g>
-        <g class="s-blue"><circle cx="500" cy="100" r="30"/></g>
-        <g class="s-ink"><circle cx="920" cy="100" r="30"/></g>
-        <text class="big" x="70" y="106">01</text><text class="big" x="270" y="106">02</text><text class="big" x="490" y="106">03</text><text class="big" x="710" y="106">04</text><text class="big" x="910" y="106">05</text>
-        <text x="58" y="158">IDEA</text><text x="240" y="158">SPECIFICHE</text><text x="456" y="158">COSTRUZIONE</text><text x="688" y="158">COLLAUDO</text><text x="886" y="158">RILASCIO</text>
-        <text class="who r" x="52" y="186">GIUSEPPE</text><text class="who r" x="252" y="186">GIUSEPPE</text><text class="who b" x="490" y="186">AI</text><text class="who r" x="692" y="186">GIUSEPPE</text><text class="who" x="884" y="186">PRODOTTO</text>
-        <text class="who r" x="580" y="18">REVISIONE</text>
-        <circle class="pkt" r="5"><animateMotion dur="7s" repeatCount="indefinite" keyPoints="0;0.42;0.5;0.58;1" keyTimes="0;0.35;0.5;0.65;1" calcMode="linear" path="M80 100 L 920 100"/></circle>
-      </svg>
-      <ol class="cycle-list" aria-hidden="true">
-        <li class="r"><b>01</b><span>Idea</span><em>Giuseppe</em></li>
-        <li class="r"><b>02</b><span>Specifiche</span><em>Giuseppe</em></li>
-        <li class="b"><b>03</b><span>Costruzione</span><em>AI</em></li>
-        <li class="r"><b>04</b><span>Collaudo</span><em>Giuseppe</em><small>se serve, torna alla costruzione: revisione</small></li>
-        <li class="k"><b>05</b><span>Rilascio</span><em>Prodotto</em></li>
+      <div class="anim-wrap">
+        <svg class="schema cyc" viewBox="0 0 1000 210" aria-hidden="true">
+          <g class="s-red"><path d="M110 100 h140"/><path d="M310 100 h160"/></g>
+          <g class="s-blue"><path d="M530 100 h160"/></g>
+          <g class="s-ink"><path d="M750 100 h140"/></g>
+          <g class="s-red"><path d="M720 66 C 690 12, 530 12, 500 66"/><path d="M506 54 l-6 12 13 -2"/></g>
+          <g class="s-red"><circle cx="80" cy="100" r="30"/><circle cx="280" cy="100" r="30"/><circle cx="720" cy="100" r="30"/></g>
+          <g class="s-blue"><circle cx="500" cy="100" r="30"/></g>
+          <g class="s-ink"><circle cx="920" cy="100" r="30"/></g>
+          <text class="big" x="80" y="106" text-anchor="middle">1</text><text class="big" x="280" y="106" text-anchor="middle">2</text><text class="big" x="500" y="106" text-anchor="middle">3</text><text class="big" x="720" y="106" text-anchor="middle">4</text><text class="big" x="920" y="106" text-anchor="middle">5</text>
+          <text x="80" y="158" text-anchor="middle">idea</text><text x="280" y="158" text-anchor="middle">specifiche</text><text x="500" y="158" text-anchor="middle">costruzione</text><text x="720" y="158" text-anchor="middle">collaudo</text><text x="920" y="158" text-anchor="middle">rilascio</text>
+          <text class="who r" x="80" y="186" text-anchor="middle">io</text><text class="who r" x="280" y="186" text-anchor="middle">io</text><text class="who b" x="500" y="186" text-anchor="middle">l'AI</text><text class="who r" x="720" y="186" text-anchor="middle">io</text><text class="who" x="920" y="186" text-anchor="middle">il prodotto</text>
+          <text class="who r" x="610" y="18" text-anchor="middle">se serve, si rifà</text>
+          <circle class="pkt" r="5"><animateMotion dur="7s" repeatCount="indefinite" keyPoints="0;0.42;0.5;0.58;1" keyTimes="0;0.35;0.5;0.65;1" calcMode="linear" path="M80 100 L 920 100"/></circle>
+        </svg>
+        <button class="anim-toggle" type="button" aria-pressed="false">Ferma l'animazione</button>
+      </div>
+      <figcaption class="sr-only">Le cinque fasi di ogni progetto e chi se ne occupa.</figcaption>
+      <ol class="cycle-list">
+        <li class="r"><b aria-hidden="true">1</b><span>Idea</span><em>io</em></li>
+        <li class="r"><b aria-hidden="true">2</b><span>Specifiche</span><em>io</em></li>
+        <li class="b"><b aria-hidden="true">3</b><span>Costruzione</span><em>l'AI</em></li>
+        <li class="r"><b aria-hidden="true">4</b><span>Collaudo</span><em>io</em><small>se qualcosa non va, si torna alla costruzione</small></li>
+        <li class="k"><b aria-hidden="true">5</b><span>Rilascio</span><em>il prodotto</em></li>
       </ol>
     </figure>
 
     <div class="legend reveal">
       <div class="legend-col">
-        <div class="legend-key"><i class="key key-red"></i><span>Segno rosso — <strong>Giuseppe</strong></span></div>
-        <ol>
-          <li>L'idea e il problema da risolvere</li>
-          <li>Le funzioni e le regole del prodotto</li>
+        <h3 class="legend-key"><i class="key key-red" aria-hidden="true"></i>In rosso, quello che faccio io</h3>
+        <ul>
+          <li>Capire il problema e chi lo vive</li>
+          <li>Decidere funzioni e regole del prodotto</li>
           <li>L'architettura: dati, accessi, sicurezza</li>
-          <li>Le scelte di design e di esperienza d'uso</li>
+          <li>Le scelte di design e di uso</li>
           <li>Il collaudo e il via libera finale</li>
-        </ol>
+        </ul>
       </div>
       <div class="legend-col">
-        <div class="legend-key"><i class="key key-blue"></i><span>Segno blu — <strong>Intelligenza artificiale</strong></span></div>
-        <ol>
+        <h3 class="legend-key"><i class="key key-blue" aria-hidden="true"></i>In blu, quello che fa l'AI</h3>
+        <ul>
           <li>La scrittura del codice</li>
           <li>I test automatici</li>
           <li>La documentazione tecnica</li>
           <li>Le varianti da mettere a confronto</li>
-          <li>La velocità di esecuzione</li>
-        </ol>
+          <li>Il lavoro ripetitivo, in poco tempo</li>
+        </ul>
       </div>
     </div>
+
     <div class="notes reveal">
-      <div class="notes-head">NOTE GENERALI</div>
+      <h3 class="fig-title">Quattro regole che non salto mai</h3>
       <ol>
         <li>Nessuna riga di codice senza una specifica scritta prima.</li>
-        <li>Ogni scelta dell'AI è leggibile e verificabile.</li>
+        <li>Ogni scelta dell'AI deve essere leggibile e verificabile.</li>
         <li>Le azioni con effetti reali passano da un'approvazione umana.</li>
-        <li>Si collauda su dati realistici prima di andare online.</li>
+        <li>Prima di andare online si prova tutto su dati realistici.</li>
       </ol>
     </div>
-    <p class="signature-note reveal">La firma in fondo alla tavola è sempre la mia.</p>
   </section>
 
-  <!-- TAV. 04 — PROGETTI -->
-  <section class="tav" id="tav-04" data-tav="04" data-name="Progetti">
-    <div class="tav-label"><span>TAV. 04 — ELENCO PROGETTI</span><span>8 VOCI</span></div>
-    <h2 class="tav-title reveal">Progettati da me,<br><em>in produzione davvero.</em></h2>
+  <!-- Progetti -->
+  <section class="sec" id="progetti" aria-labelledby="t-progetti">
+    <p class="eyebrow">Progetti</p>
+    <h2 class="sec-title reveal" id="t-progetti">Otto progetti: tre online, cinque demo da provare.</h2>
 
     <div class="reg-tools reveal">
-      <div class="counts">
-        <span><b data-count="8">8</b> progetti</span><span><b data-count="3">3</b> online</span><span><b data-count="4">4</b> agenti AI</span>
-      </div>
-      <div class="filters" role="group" aria-label="Filtra i progetti">
+      <div class="filters" role="group" aria-label="Filtra i progetti per tipo">
         <button type="button" data-f="tutti" aria-pressed="true">Tutti</button>
         <button type="button" data-f="software" aria-pressed="false">Software</button>
         <button type="button" data-f="sito" aria-pressed="false">Siti web</button>
         <button type="button" data-f="agente" aria-pressed="false">Agenti AI</button>
       </div>
+      <p class="reg-count" id="reg-count" aria-live="polite">8 progetti</p>
     </div>
 
-    <div class="register reveal" role="list">
-      <div class="reg-head" aria-hidden="true"><span>N°</span><span>Progetto</span><span>Tipo</span><span>Stato</span><span></span></div>
+    <ul class="register reveal">
+      <li data-cat="software">
+        <a class="reg-row" href="nocchiero/" data-preview="nocchiero">
+          <img class="reg-ico" src="assets/nocchiero-icona.png" alt="" width="32" height="40" loading="lazy" decoding="async">
+          <span class="reg-name">Nocchiero</span>
+          <span class="reg-info">
+            <span class="reg-type">Gestionale per la ristorazione</span>
+            <span class="reg-desc">Incassi, margini e magazzino in tempo reale, prenotazioni e ordini, e un assistente AI che risponde e agisce per voi.</span>
+          </span>
+          <span class="reg-state"><i class="dot dot-green" aria-hidden="true"></i>Online</span>
+          <span class="reg-go" aria-hidden="true">→</span>
+        </a>
+      </li>
+      <li data-cat="software">
+        <a class="reg-row" href="filo/" data-preview="filo">
+          <span class="reg-ico reg-ico-filo" aria-hidden="true">filo.</span>
+          <span class="reg-name">Filo</span>
+          <span class="reg-info">
+            <span class="reg-type">App per seguire le serie TV</span>
+            <span class="reg-desc">Episodi visti, rewatch, consigli su misura e notifiche solo per le serie che seguite.</span>
+          </span>
+          <span class="reg-state"><i class="dot dot-green" aria-hidden="true"></i>Online</span>
+          <span class="reg-go" aria-hidden="true">→</span>
+        </a>
+      </li>
+      <li data-cat="software">
+        <a class="reg-row" href="family-hub/" data-preview="family">
+          <img class="reg-ico" src="assets/family-hub.svg" alt="" width="40" height="40" loading="lazy" decoding="async">
+          <span class="reg-name">Family Hub</span>
+          <span class="reg-info">
+            <span class="reg-type">App per la gestione familiare</span>
+            <span class="reg-desc">Conti e vita di casa nello stesso posto: budget, obiettivi, spesa, menu, scadenze e una bacheca condivisa.</span>
+          </span>
+          <span class="reg-state"><i class="dot dot-green" aria-hidden="true"></i>Online</span>
+          <span class="reg-go" aria-hidden="true">→</span>
+        </a>
+      </li>
+      <li data-cat="sito">
+        <a class="reg-row" href="tenutabriantea/" data-preview="tenuta">
+          <img class="reg-ico reg-ico-foto" src="assets/tenuta-briantea.webp" alt="" width="40" height="40" loading="lazy" decoding="async">
+          <span class="reg-name">Tenuta Briantea</span>
+          <span class="reg-info">
+            <span class="reg-type">Sito web su misura</span>
+            <span class="reg-desc">Il sito di una tenuta immaginaria in Brianza: osteria, residenze, matrimoni e prenotazioni, con il Lunario del giorno.</span>
+          </span>
+          <span class="reg-state"><i class="dot dot-amber" aria-hidden="true"></i>Demo</span>
+          <span class="reg-go" aria-hidden="true">→</span>
+        </a>
+      </li>
+      <li data-cat="agente">
+        <a class="reg-row" href="metis/" data-preview="metis">
+          <img class="reg-ico" src="assets/metis.svg" alt="" width="40" height="40" loading="lazy" decoding="async">
+          <span class="reg-name">Metis</span>
+          <span class="reg-info">
+            <span class="reg-type">Agente AI per pianificare i progetti</span>
+            <span class="reg-desc">Legge brief, offerte dei fornitori, email e note delle call, e costruisce il piano sul calendario vero, con percorso critico e scenari.</span>
+          </span>
+          <span class="reg-state"><i class="dot dot-amber" aria-hidden="true"></i>Demo</span>
+          <span class="reg-go" aria-hidden="true">→</span>
+        </a>
+      </li>
+      <li data-cat="agente">
+        <a class="reg-row" href="quadra/" data-preview="quadra">
+          <img class="reg-ico" src="assets/quadra.svg" alt="" width="40" height="40" loading="lazy" decoding="async">
+          <span class="reg-name">Quadra</span>
+          <span class="reg-info">
+            <span class="reg-type">Agente AI per fatture e pagamenti</span>
+            <span class="reg-desc">Confronta fatture, ordini e DDT, trova doppioni e IBAN che non tornano; invia, blocca e sollecita solo dopo la vostra approvazione.</span>
+          </span>
+          <span class="reg-state"><i class="dot dot-amber" aria-hidden="true"></i>Demo</span>
+          <span class="reg-go" aria-hidden="true">→</span>
+        </a>
+      </li>
+      <li data-cat="agente">
+        <a class="reg-row" href="comitas/" data-preview="comitas">
+          <img class="reg-ico" src="assets/comitas.svg" alt="" width="40" height="40" loading="lazy" decoding="async">
+          <span class="reg-name">Comitas</span>
+          <span class="reg-info">
+            <span class="reg-type">Agente AI per assistenza clienti e social</span>
+            <span class="reg-desc">Email, chat, messaggi e commenti in un'unica coda; risponde con dati verificati e lascia al team rimborsi e reclami pubblici.</span>
+          </span>
+          <span class="reg-state"><i class="dot dot-amber" aria-hidden="true"></i>Demo</span>
+          <span class="reg-go" aria-hidden="true">→</span>
+        </a>
+      </li>
+      <li data-cat="agente">
+        <a class="reg-row" href="minerva/" data-preview="minerva">
+          <img class="reg-ico" src="assets/minerva.svg" alt="" width="40" height="40" loading="lazy" decoding="async">
+          <span class="reg-name">Minerva</span>
+          <span class="reg-info">
+            <span class="reg-type">Agente AI per il service desk</span>
+            <span class="reg-desc">Trova la procedura nella documentazione interna, scrive una nota con le fonti e passa il ticket al tecnico giusto.</span>
+          </span>
+          <span class="reg-state"><i class="dot dot-amber" aria-hidden="true"></i>Demo</span>
+          <span class="reg-go" aria-hidden="true">→</span>
+        </a>
+      </li>
+    </ul>
 
-      <a class="reg-row" role="listitem" href="nocchiero/" data-preview="nocchiero" data-cat="software">
-        <span class="reg-n">01</span>
-        <span class="reg-name">Nocchiero</span>
-        <span class="reg-type">Gestionale SaaS per la ristorazione</span>
-        <span class="reg-state"><i class="dot dot-green"></i>Online</span>
-        <span class="reg-go" aria-hidden="true">→</span>
-      </a>
-      <a class="reg-row" role="listitem" href="filo/" data-preview="filo" data-cat="software">
-        <span class="reg-n">02</span>
-        <span class="reg-name">Filo</span>
-        <span class="reg-type">App per il tracking delle serie TV</span>
-        <span class="reg-state"><i class="dot dot-green"></i>Online</span>
-        <span class="reg-go" aria-hidden="true">→</span>
-      </a>
-      <a class="reg-row" role="listitem" href="family-hub/" data-preview="family" data-cat="software">
-        <span class="reg-n">03</span>
-        <span class="reg-name">Family Hub</span>
-        <span class="reg-type">App per la gestione familiare</span>
-        <span class="reg-state"><i class="dot dot-green"></i>Online</span>
-        <span class="reg-go" aria-hidden="true">→</span>
-      </a>
-      <a class="reg-row" role="listitem" href="tenutabriantea/" data-preview="tenuta" data-cat="sito">
-        <span class="reg-n">04</span>
-        <span class="reg-name">Tenuta Briantea</span>
-        <span class="reg-type">Sito web su misura</span>
-        <span class="reg-state"><i class="dot dot-amber"></i>Demo</span>
-        <span class="reg-go" aria-hidden="true">→</span>
-      </a>
-      <a class="reg-row" role="listitem" href="metis/" data-preview="metis" data-cat="agente">
-        <span class="reg-n">05</span>
-        <span class="reg-name">Metis</span>
-        <span class="reg-type">Agente AI per la pianificazione dei progetti</span>
-        <span class="reg-state"><i class="dot dot-amber"></i>Demo</span>
-        <span class="reg-go" aria-hidden="true">→</span>
-      </a>
-      <a class="reg-row" role="listitem" href="quadra/" data-preview="quadra" data-cat="agente">
-        <span class="reg-n">06</span>
-        <span class="reg-name">Quadra</span>
-        <span class="reg-type">Agente AI per il ciclo passivo e attivo</span>
-        <span class="reg-state"><i class="dot dot-amber"></i>Demo</span>
-        <span class="reg-go" aria-hidden="true">→</span>
-      </a>
-      <a class="reg-row" role="listitem" href="comitas/" data-preview="comitas" data-cat="agente">
-        <span class="reg-n">07</span>
-        <span class="reg-name">Comitas</span>
-        <span class="reg-type">Agente AI per customer care e social media</span>
-        <span class="reg-state"><i class="dot dot-amber"></i>Demo</span>
-        <span class="reg-go" aria-hidden="true">→</span>
-      </a>
-      <a class="reg-row" role="listitem" href="minerva/" data-preview="minerva" data-cat="agente">
-        <span class="reg-n">08</span>
-        <span class="reg-name">Minerva</span>
-        <span class="reg-type">Agente AI per service desk e knowledge base</span>
-        <span class="reg-state"><i class="dot dot-amber"></i>Demo</span>
-        <span class="reg-go" aria-hidden="true">→</span>
-      </a>
-    </div>
-    <p class="register-note reveal">Ogni progetto ha la sua vetrina.</p>
-
-    <!-- Anteprime che seguono il cursore (solo desktop) -->
+    <!-- Anteprime che seguono il cursore (solo con mouse) -->
     <div class="previews" aria-hidden="true">
       <div class="pv pv-nocchiero" data-pv="nocchiero">
-        <img src="assets/nocchiero-icona.png" alt="" width="44" height="55">
+        <img src="assets/nocchiero-icona.png" alt="" width="44" height="55" loading="lazy" decoding="async">
         <b>Nocchiero</b><small>Il timone del tuo ristorante</small>
         <span class="pv-bars"><u style="--h:40%"></u><u style="--h:62%"></u><u style="--h:48%"></u><u style="--h:80%"></u><u style="--h:70%"></u></span>
       </div>
@@ -442,65 +453,74 @@
         <span class="pv-progress"><i style="--w:80%"></i><i style="--w:45%"></i><i style="--w:92%"></i></span>
       </div>
       <div class="pv pv-family" data-pv="family">
-        <img src="assets/family-hub.svg" alt="" width="54" height="54">
+        <img src="assets/family-hub.svg" alt="" width="54" height="54" loading="lazy" decoding="async">
         <b>Family Hub</b><small>Una casa organizzata.<br>Più spazio per voi.</small>
       </div>
       <div class="pv pv-metis" data-pv="metis">
-        <img src="assets/metis.svg" alt="" width="46" height="46">
+        <img src="assets/metis.svg" alt="" width="46" height="46" loading="lazy" decoding="async">
         <b>Metis</b><small>Pianificazione multi-fornitore,<br>dal brief al piano esecutivo.</small>
         <span class="pv-gantt"><i style="--l:0;--w:45%"></i><i style="--l:30%;--w:40%"></i><i style="--l:55%;--w:30%"></i><i class="m" style="--l:88%"></i></span>
       </div>
       <div class="pv pv-quadra" data-pv="quadra">
-        <img src="assets/quadra.svg" alt="" width="46" height="46">
+        <img src="assets/quadra.svg" alt="" width="46" height="46" loading="lazy" decoding="async">
         <b>Quadra</b><small>Fatture passive e attive,<br>sotto controllo.</small>
         <span class="pv-mark">2,45</span>
       </div>
       <div class="pv pv-comitas" data-pv="comitas">
-        <img src="assets/comitas.svg" alt="" width="46" height="46">
+        <img src="assets/comitas.svg" alt="" width="46" height="46" loading="lazy" decoding="async">
         <b>Comitas</b><small>Customer care omnicanale,<br>con risposte basate sui dati.</small>
         <span class="pv-bubbles"><i></i><i></i></span>
       </div>
       <div class="pv pv-minerva" data-pv="minerva">
-        <img src="assets/minerva.svg" alt="" width="46" height="46">
+        <img src="assets/minerva.svg" alt="" width="46" height="46" loading="lazy" decoding="async">
         <b>Minerva</b><small>Il sapere aziendale,<br>applicato a ogni richiesta.</small>
         <span class="pv-kb"><code>CF-101</code><i></i></span>
       </div>
       <div class="pv pv-tenuta" data-pv="tenuta">
-        <img src="assets/tenuta-briantea.webp" alt="" width="230" height="170" loading="lazy">
+        <img src="assets/tenuta-briantea.webp" alt="" width="230" height="170" loading="lazy" decoding="async">
         <b>Tenuta Briantea</b><small>Cascina, osteria e residenze<br>nel verde della Brianza</small>
       </div>
     </div>
   </section>
 
-  <!-- TAV. 05 — CONTATTI -->
-  <section class="tav contact" id="tav-05" data-tav="05" data-name="Contatti">
-    <div class="tav-label"><span>TAV. 05 — CONTATTI</span><span>FINE TAVOLE</span></div>
-    <h2 class="tav-title reveal">I miei contatti</h2>
+  <!-- Chi sono -->
+  <section class="sec about" id="chi-sono" aria-labelledby="t-chi">
+    <p class="eyebrow">Chi sono</p>
+    <h2 class="sec-title reveal" id="t-chi">Piacere, Giuseppe.</h2>
+    <div class="about-grid reveal">
+      <!-- DA COMPLETARE: una foto vera (anche informale), per esempio
+           <img class="about-foto" src="assets/giuseppe.webp" alt="Giuseppe Catalano" width="480" height="600" loading="lazy" decoding="async"> -->
+      <div class="about-text">
+        <p>Progetto software, siti e agenti AI, e li costruisco con l'intelligenza artificiale. Il mio lavoro è la parte che l'AI da sola non sa fare: capire il problema, decidere cosa deve fare il prodotto e controllare che lo faccia davvero.</p>
+        <p>I progetti di questa pagina li ho pensati, scritti nelle specifiche e collaudati io, uno per uno. Tre sono già usati online; gli altri sono demo complete, da aprire e provare.</p>
+        <!-- DA COMPLETARE: due o tre righe sul percorso (studi, lavori precedenti, settore),
+             la città o "lavoro da remoto", la disponibilità (progetti, ruolo, consulenza)
+             e, se ci sono, link a CV in PDF e profilo GitHub. -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Contatti -->
+  <section class="sec contact" id="contatti" aria-labelledby="t-contatti">
+    <p class="eyebrow">Contatti</p>
+    <h2 class="sec-title reveal" id="t-contatti">Parliamo del vostro progetto.</h2>
+    <p class="sec-lead reveal">Scrivetemi per un progetto, per un ruolo in azienda o anche solo per confrontarci su AI e progettazione.</p>
     <div class="contact-cta reveal">
-      <a class="btn" href="mailto:giuseppe.catalano989@gmail.com">Email <span aria-hidden="true">↗</span></a>
-      <a class="btn btn-line" href="https://www.linkedin.com/in/giuseppe-catalano-010484288" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+      <a class="btn" href="mailto:giuseppe.catalano989@gmail.com">giuseppe.catalano989@gmail.com</a>
+      <a class="btn btn-line" href="https://www.linkedin.com/in/giuseppe-catalano-010484288" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span><span class="sr-only">(si apre in una nuova scheda)</span></a>
     </div>
 
-    <div class="contact-grid reveal">
-      <div class="topics">
-        <div class="notes-head">DI COSA POSSIAMO PARLARE</div>
-        <ul class="ticks">
-          <li>Progetti e ruoli nel campo dell'intelligenza artificiale</li>
-          <li>Agenti AI per i processi aziendali</li>
-          <li>Software e siti web in vibe coding</li>
-          <li>Confronto tra professionisti su AI e progettazione</li>
-        </ul>
-        <svg class="stamp" viewBox="0 0 120 120" aria-hidden="true">
-          <circle cx="60" cy="60" r="54"/><circle cx="60" cy="60" r="44"/>
-          <path id="stamp-arc" d="M60 60 m-46 0 a46 46 0 1 1 92 0 a46 46 0 1 1 -92 0" fill="none" stroke="none"/>
-          <text><textPath href="#stamp-arc" startOffset="2%">PROGETTO · APPROVATO · G. CATALANO · 2026 ·</textPath></text>
-          <path d="M42 61 l12 12 26 -28"/>
-        </svg>
-      </div>
+    <div class="topics reveal">
+      <h3 class="fig-title">Di cosa possiamo parlare</h3>
+      <ul class="ticks">
+        <li>Progetti e ruoli nel campo dell'intelligenza artificiale</li>
+        <li>Agenti AI per i processi della vostra azienda</li>
+        <li>Software e siti web costruiti con l'AI</li>
+        <li>Un confronto tra professionisti su AI e progettazione</li>
+      </ul>
     </div>
 
     <div class="sign reveal">
-      <span class="sign-label">IL PROGETTISTA</span>
       <span class="sign-name">Giuseppe Catalano</span>
       <svg viewBox="0 0 300 30" aria-hidden="true"><path d="M4 20 C 60 4, 90 28, 150 14 S 250 6, 296 18"/></svg>
     </div>
@@ -508,13 +528,12 @@
 
 </main>
 
-<!-- Cartiglio: riquadro tecnico in basso a destra -->
-<aside class="cartiglio" aria-label="Cartiglio">
-  <div class="c-cell"><small>Tav.</small><b><span id="c-tav">01</span>/05 · <span id="c-name">Il ruolo</span></b></div>
-  <div class="c-cell c-coords"><small>X</small><b id="cx">0000</b><small>Y</small><b id="cy">0000</b></div>
-  <button class="c-cell c-theme" id="theme" type="button" aria-label="Cambia tema: light o dark"><small>Tema</small><b id="theme-label">Light</b></button>
-</aside>
+<footer class="footer">
+  <p>© 2026 Giuseppe Catalano</p>
+  <!-- DA COMPLETARE se si fattura come professionista: P.IVA 00000000000 -->
+  <p>Nessun cookie e nessun tracciamento: il sito ricorda solo il tema scelto, sul vostro dispositivo.</p>
+</footer>
 
-<script src="script.js"></script>
+<script src="script.js?v=33e3c0d0" defer></script>
 </body>
 </html>

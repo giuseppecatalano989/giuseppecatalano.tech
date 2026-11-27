@@ -1,119 +1,66 @@
+/* Portfolio di Giuseppe Catalano: tema, menu, disegni, filtri dei progetti.
+   Senza questo file la pagina resta completa e leggibile: qui si aggiunge solo il movimento. */
 const root = document.documentElement;
-const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+const hasIO = 'IntersectionObserver' in window;
+if (!reduce && hasIO) root.classList.add('anima');
 
-/* ---------- Tema: light (carta) / dark (cianografia) ---------- */
-const themeBtn = document.getElementById('theme');
-const themeLabel = document.getElementById('theme-label');
-const switchBtns = document.querySelectorAll('[data-set-theme]');
-const isDark = () => root.dataset.theme
-  ? root.dataset.theme === 'dark'
-  : window.matchMedia('(prefers-color-scheme: dark)').matches;
-function syncTheme() {
-  const dark = isDark();
-  themeLabel.textContent = dark ? 'Dark' : 'Light';
-  switchBtns.forEach((b) => b.setAttribute('aria-pressed', String((b.dataset.setTheme === 'dark') === dark)));
-}
-function setTheme(t) {
+/* ---------- Tema: scuro di partenza, chiaro a scelta ---------- */
+const themeMeta = document.querySelector('meta[name="theme-color"]');
+const themeBtns = document.querySelectorAll('[data-set-theme]');
+function setTheme(t, salva) {
   root.dataset.theme = t;
-  try { localStorage.setItem('gc-theme', t); } catch (e) {}
-  syncTheme();
+  themeBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.setTheme === t)));
+  if (themeMeta) themeMeta.content = t === 'light' ? '#f2efe7' : '#0e2649';
+  if (salva) { try { localStorage.setItem('gc-theme', t); } catch (e) { /* archiviazione non disponibile */ } }
 }
-syncTheme();
-themeBtn.addEventListener('click', () => setTheme(isDark() ? 'light' : 'dark'));
-switchBtns.forEach((b) => b.addEventListener('click', () => setTheme(b.dataset.setTheme)));
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncTheme);
+setTheme(root.dataset.theme === 'light' ? 'light' : 'dark', false);
+themeBtns.forEach((b) => b.addEventListener('click', () => setTheme(b.dataset.setTheme, true)));
 
-/* ---------- Mirino e coordinate ---------- */
-const cross = document.querySelector('.crosshair');
-const cx = document.getElementById('cx');
-const cy = document.getElementById('cy');
-const pad = (n) => String(Math.max(0, Math.round(n))).padStart(4, '0');
-let mx = 0, my = 0, ticking = false;
-
-function paintPointer() {
-  ticking = false;
-  cross.style.setProperty('--x', mx + 'px');
-  cross.style.setProperty('--y', my + 'px');
-  cx.textContent = pad(mx);
-  cy.textContent = pad(my + window.scrollY);
-  previews.style.setProperty('--px', mx + 'px');
-  previews.style.setProperty('--py', my + 'px');
-}
-const previews = document.querySelector('.previews');
-
-if (fine) {
-  window.addEventListener('pointermove', (e) => {
-    mx = e.clientX; my = e.clientY;
-    cross.classList.add('on');
-    if (!ticking) { ticking = true; requestAnimationFrame(paintPointer); }
-  }, { passive: true });
-  document.addEventListener('pointerleave', () => cross.classList.remove('on'));
-}
-
-/* ---------- Anteprime dei progetti ---------- */
-if (fine) {
-  document.querySelectorAll('.reg-row').forEach((row) => {
-    const pv = previews.querySelector(`[data-pv="${row.dataset.preview}"]`);
-    row.addEventListener('pointerenter', () => { pv.classList.add('on'); cross.style.opacity = '0'; });
-    row.addEventListener('pointerleave', () => { pv.classList.remove('on'); cross.style.opacity = ''; });
+/* ---------- Menu: segna la sezione che si sta leggendo ---------- */
+const navLinks = [...document.querySelectorAll('.topbar nav a[href^="#"]')];
+const sezioni = navLinks.map((a) => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+function segna(id) {
+  navLinks.forEach((a) => {
+    if (a.getAttribute('href') === '#' + id) a.setAttribute('aria-current', 'true');
+    else a.removeAttribute('aria-current');
   });
 }
+if (hasIO && sezioni.length) {
+  const visibili = new Set();
+  const so = new IntersectionObserver((entries) => {
+    entries.forEach((e) => (e.isIntersecting ? visibili.add(e.target) : visibili.delete(e.target)));
+    const attuale = sezioni.find((s) => visibili.has(s));
+    segna(attuale ? attuale.id : '');
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sezioni.forEach((s) => so.observe(s));
+}
 
-/* ---------- Cartiglio: tavola corrente ---------- */
-const cTav = document.getElementById('c-tav');
-const cName = document.getElementById('c-name');
-const sectionObserver = new IntersectionObserver((entries) => {
-  entries.forEach((e) => {
-    if (e.isIntersecting) { cTav.textContent = e.target.dataset.tav; cName.textContent = e.target.dataset.name; }
-  });
-}, { rootMargin: '-45% 0px -50% 0px' });
-document.querySelectorAll('.tav').forEach((s) => sectionObserver.observe(s));
-
-/* ---------- Comparse allo scroll ---------- */
-const els = document.querySelectorAll('.reveal');
-if (reduce || !('IntersectionObserver' in window)) {
-  els.forEach((el) => el.classList.add('in'));
+/* ---------- Comparse allo scorrimento ---------- */
+const reveals = document.querySelectorAll('.reveal');
+if (!root.classList.contains('anima')) {
+  reveals.forEach((el) => el.classList.add('in'));
 } else {
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
     });
-  }, { threshold: 0.15 });
-  els.forEach((el) => io.observe(el));
+  }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+  reveals.forEach((el) => io.observe(el));
 }
 
-/* ---------- Elenco progetti: la colonna del nome parte sempre su una linea della griglia ---------- */
-// I quadretti dello sfondo sono di 24 px: la colonna del numero si allarga quanto basta
-// (da 56 px in su) perché il nome del progetto cominci sulla linea successiva.
-const regHead = document.querySelector('.reg-head');
-function allineaElenco() {
-  if (!regHead) return;
-  const x = regHead.getBoundingClientRect().left + scrollX, gap = 16;
-  const inizioNome = Math.ceil((x + 56 + gap) / 24) * 24;
-  regHead.parentElement.style.setProperty('--reg-num', `${inizioNome - x - gap}px`);
-}
-allineaElenco();
-addEventListener('resize', allineaElenco);
+/* ---------- Disegni ----------
+   Il tratto rosso e quello d'inchiostro si tracciano in sequenza, i gruppi blu (l'AI) compaiono dopo.
+   I puntini che scorrono (SMIL) si fermano fuori dallo schermo, con il pulsante o se il movimento è ridotto. */
+const schemi = document.querySelectorAll('svg.schema');
+schemi.forEach((svg) => {
+  const toggle = svg.parentElement.querySelector('.anim-toggle');
+  const haPkt = !!svg.querySelector('.pkt');
+  if (toggle && (!haPkt || reduce)) toggle.hidden = true;
+  if (reduce) { if (svg.pauseAnimations) svg.pauseAnimations(); return; }
 
-/* ---------- Una tavola per pagina ----------
-   Ogni sezione si apre da sola, come una pagina: il menu, i pulsanti e gli indirizzi #tav-0X la mostrano
-   e tornano in cima; il tasto indietro del browser riporta alla tavola precedente.
-   In fondo a ogni tavola ci sono la precedente e la successiva. */
-const tavole = [...document.querySelectorAll('section.tav')];
-tavole.forEach((t, i) => {
-  const prima = tavole[i - 1], dopo = tavole[i + 1];
-  const voce = (x, dir) => x
-    ? `<a class="pager-${dir}" href="#${x.id}"><small>${dir === 'prev' ? '← Tavola precedente' : 'Tavola successiva →'}</small><b>${x.dataset.tav} · ${x.dataset.name}</b></a>`
-    : '<span></span>';
-  t.insertAdjacentHTML('beforeend', `<nav class="pager" aria-label="Tavole">${voce(prima, 'prev')}${voce(dopo, 'next')}</nav>`);
-});
-const tavolaDa = (hash) => tavole.find((t) => '#' + t.id === hash) || tavole[0];
-
-/* Disegni: ogni tratto rosso o d'inchiostro si traccia, in sequenza; i gruppi blu (l'AI) compaiono dopo.
-   Le animazioni CSS ripartono da sole ogni volta che una tavola torna visibile. */
-if (!reduce) {
-  document.querySelectorAll('.tav svg.schema').forEach((svg) => {
+  if (hasIO) {
     let i = 0;
     svg.querySelectorAll('path, rect, circle, ellipse').forEach((el) => {
       if (el.closest('.s-blue') || el.classList.contains('pkt')) return;
@@ -121,69 +68,100 @@ if (!reduce) {
       el.classList.add('dr');
       el.style.setProperty('--d', `${Math.min(i++ * 0.06, 1.2)}s`);
     });
-    svg.querySelectorAll('.s-blue').forEach((g, k) => { g.classList.add('fade'); g.style.setProperty('--d', `${0.5 + k * 0.15}s`); });
-  });
-}
+    svg.querySelectorAll('.s-blue').forEach((g, k) => {
+      g.classList.add('fade');
+      g.style.setProperty('--d', `${0.5 + k * 0.15}s`);
+    });
+    svg.classList.add('anim');
+  }
 
-/* Numeri che contano da zero quando la tavola si apre */
-function conta(tav) {
-  tav.querySelectorAll('[data-count]').forEach((el) => {
-    const fine = Number(el.dataset.count);
-    if (reduce) { el.textContent = fine; return; }
-    const t0 = performance.now(), dur = 900;
-    const passo = (t) => {
-      const k = Math.min(1, (t - t0) / dur);
-      el.textContent = Math.round(fine * (1 - Math.pow(1 - k, 3)));
-      if (k < 1) requestAnimationFrame(passo);
-    };
-    requestAnimationFrame(passo);
-  });
-}
+  let fermatoDaUtente = false, inVista = !hasIO;
+  const aggiorna = () => {
+    if (!svg.pauseAnimations) return;
+    if (inVista && !fermatoDaUtente) svg.unpauseAnimations(); else svg.pauseAnimations();
+  };
+  if (hasIO) {
+    new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        inVista = e.isIntersecting;
+        if (inVista) svg.classList.add('vista');
+        aggiorna();
+      });
+    }, { threshold: 0.2 }).observe(svg);
+  }
+  aggiorna();
 
-/* Testina del plotter che scende a ogni cambio di tavola */
-const plotter = document.createElement('div');
-plotter.className = 'plotter'; plotter.setAttribute('aria-hidden', 'true');
-document.body.append(plotter);
-function passaggio(tav) {
-  if (reduce) return;
-  [plotter, tav].forEach((el) => { el.classList.remove(el === plotter ? 'via' : 'entra'); void el.offsetWidth; });
-  plotter.classList.add('via'); tav.classList.add('entra');
-}
-
-/* Elenco progetti: filtri per tipo */
-document.querySelectorAll('.filters button').forEach((b) => b.addEventListener('click', () => {
-  const f = b.dataset.f;
-  document.querySelectorAll('.filters button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-  document.querySelectorAll('.reg-row').forEach((r, i) => {
-    const via = f !== 'tutti' && r.dataset.cat !== f;
-    r.classList.toggle('fuori', via);
-    r.classList.remove('entra');
-    if (!via && !reduce) { void r.offsetWidth; r.style.animationDelay = `${i * 40}ms`; r.classList.add('entra'); }
-  });
-}));
-function mostraTavola(hash, inCima) {
-  const att = tavolaDa(hash);
-  tavole.forEach((t) => t.classList.toggle('attiva', t === att));
-  document.querySelectorAll('.topbar nav a').forEach((a) => {
-    if (a.getAttribute('href') === '#' + att.id) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
-  });
-  cTav.textContent = att.dataset.tav; cName.textContent = att.dataset.name;
-  document.title = att.id === 'tav-01' ? titoloBase : `${att.dataset.name} · ${titoloBase}`;
-  att.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
-  allineaElenco();
-  conta(att);
-  passaggio(att);
-  if (inCima) window.scrollTo({ top: 0, behavior: 'instant' });
-}
-const titoloBase = document.title;
-document.body.classList.add('paged');
-mostraTavola(location.hash, false);
-// Un link a una tavola cambia pagina invece di scorrere
-document.addEventListener('click', (e) => {
-  const a = e.target.closest('a[href^="#tav-"]');
-  if (!a) return;
-  e.preventDefault();
-  if (location.hash !== a.getAttribute('href')) history.pushState(null, '', a.getAttribute('href'));
-  mostraTavola(a.getAttribute('href'), true);
+  if (toggle && !toggle.hidden) {
+    toggle.addEventListener('click', () => {
+      fermatoDaUtente = !fermatoDaUtente;
+      toggle.setAttribute('aria-pressed', String(fermatoDaUtente));
+      toggle.textContent = fermatoDaUtente ? "Riprendi l'animazione" : "Ferma l'animazione";
+      aggiorna();
+    });
+  }
 });
-addEventListener('popstate', () => mostraTavola(location.hash, true));
+
+/* ---------- Progetti: anteprima vicino al puntatore (o alla riga, con la tastiera) ---------- */
+const previews = document.querySelector('.previews');
+if (previews && fine) {
+  let px = 0, py = 0, inAttesa = false;
+  const muovi = () => {
+    inAttesa = false;
+    previews.style.setProperty('--px', `${px}px`);
+    previews.style.setProperty('--py', `${py}px`);
+  };
+  document.querySelectorAll('.reg-row').forEach((row) => {
+    const pv = previews.querySelector(`[data-pv="${row.dataset.preview}"]`);
+    if (!pv) return;
+    row.addEventListener('pointermove', (e) => {
+      px = e.clientX; py = e.clientY;
+      if (!inAttesa) { inAttesa = true; requestAnimationFrame(muovi); }
+    }, { passive: true });
+    row.addEventListener('pointerenter', (e) => { px = e.clientX; py = e.clientY; muovi(); pv.classList.add('on'); });
+    row.addEventListener('pointerleave', () => pv.classList.remove('on'));
+    row.addEventListener('focus', () => {
+      if (!row.matches(':focus-visible')) return;
+      const r = row.getBoundingClientRect();
+      px = Math.min(r.right - 320, r.left + r.width * 0.55); py = r.top + r.height / 2; muovi();
+      pv.classList.add('on');
+    });
+    row.addEventListener('blur', () => pv.classList.remove('on'));
+  });
+  addEventListener('scroll', () => previews.querySelectorAll('.pv.on').forEach((p) => {
+    if (!document.querySelector('.reg-row:hover, .reg-row:focus-visible')) p.classList.remove('on');
+  }), { passive: true });
+}
+
+/* ---------- Progetti: filtri per tipo (l'indirizzo ricorda la scelta con ?f=) ---------- */
+const filtri = [...document.querySelectorAll('.filters button[data-f]')];
+const voci = [...document.querySelectorAll('.register li[data-cat]')];
+const conteggio = document.getElementById('reg-count');
+function filtra(f, anima) {
+  if (!filtri.some((b) => b.dataset.f === f)) f = 'tutti';
+  filtri.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.f === f)));
+  let n = 0, k = 0;
+  voci.forEach((li) => {
+    const via = f !== 'tutti' && li.dataset.cat !== f;
+    li.classList.toggle('fuori', via);
+    li.classList.remove('entra');
+    if (via) return;
+    n++;
+    if (anima && !reduce) {
+      void li.offsetWidth;
+      li.style.animationDelay = `${k++ * 40}ms`;
+      li.classList.add('entra');
+    }
+  });
+  if (conteggio) conteggio.textContent = n === 1 ? '1 progetto' : `${n} progetti`;
+  return f;
+}
+if (filtri.length) {
+  filtri.forEach((b) => b.addEventListener('click', () => {
+    const f = filtra(b.dataset.f, true);
+    const url = new URL(location.href);
+    if (f === 'tutti') url.searchParams.delete('f'); else url.searchParams.set('f', f);
+    history.replaceState(history.state, '', url);
+  }));
+  const iniziale = new URLSearchParams(location.search).get('f');
+  if (iniziale) filtra(iniziale, false);
+}
