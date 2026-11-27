@@ -17,7 +17,7 @@
 <meta name="theme-color" content="#0e2649">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=077b576f">
+<link rel="stylesheet" href="styles.css?v=249c4bdb">
 <script>
   // Il tema scuro è quello di partenza; se il visitatore sceglie il chiaro, la scelta resta su questo dispositivo.
   (function () {
@@ -32,14 +32,20 @@
 
 <a class="skip" href="#main">Salta al contenuto</a>
 
+<!-- Cornice del foglio, righello e mirino: solo decorazione -->
+<div class="sheet-frame" aria-hidden="true"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i></div>
+<div class="ruler" aria-hidden="true"></div>
+<div class="crosshair" aria-hidden="true"><i class="ch-x"></i><i class="ch-y"></i></div>
+
 <header class="topbar">
   <a class="mark" href="#inizio">Giuseppe Catalano</a>
-  <nav aria-label="Sezioni della pagina">
-    <a href="#cosa-faccio">Cosa faccio</a>
-    <a href="#metodo">Come lavoro</a>
-    <a href="#progetti">Progetti</a>
-    <a href="#chi-sono">Chi sono</a>
-    <a href="#contatti">Contatti</a>
+  <nav aria-label="Tavole">
+    <a href="#inizio"><b aria-hidden="true">01</b> Ruolo</a>
+    <a href="#cosa-faccio"><b aria-hidden="true">02</b> Cosa faccio</a>
+    <a href="#metodo"><b aria-hidden="true">03</b> Come lavoro</a>
+    <a href="#progetti"><b aria-hidden="true">04</b> Progetti</a>
+    <a href="#chi-sono"><b aria-hidden="true">05</b> Chi sono</a>
+    <a href="#contatti"><b aria-hidden="true">06</b> Contatti</a>
   </nav>
   <div class="theme-switch" role="group" aria-label="Tema">
     <button type="button" data-set-theme="dark" aria-pressed="true">Scuro</button>
@@ -49,13 +55,20 @@
 
 <main id="main" tabindex="-1">
 
-  <!-- Apertura -->
-  <section class="sec hero" id="inizio" aria-labelledby="titolo">
-    <p class="hero-name">Giuseppe Catalano,</p>
-    <h1 class="hero-title" id="titolo">
-      <span class="giant">Progettista</span>
-      <span class="wide">di software e di agenti&nbsp;AI.</span>
-    </h1>
+  <!-- Tav. 01: il ruolo -->
+  <section class="tav hero" id="inizio" data-tav="01" data-name="Il ruolo" aria-labelledby="titolo">
+    <p class="tav-label"><span>Tav. 01 — Il ruolo</span><span>Rev. 2026</span></p>
+    <div class="hero-head">
+      <p class="hero-name">Giuseppe Catalano,</p>
+      <h1 class="hero-title" id="titolo">
+        <span class="giant">Progettista</span>
+        <span class="wide">di software e di agenti&nbsp;AI.</span>
+      </h1>
+      <p class="note note-red hero-note-1" aria-hidden="true">
+        <svg viewBox="0 0 120 70"><path d="M114 62 C 84 64, 40 50, 14 10"/><path d="M8 25 L13 8 L29 14"/></svg>
+        <span>la mente<br>dietro l'idea</span>
+      </p>
+    </div>
 
     <div class="hero-grid">
       <p class="hero-lead">Parto da un problema concreto e scrivo, prima di tutto, cosa deve fare il programma, per chi e con quali regole. Poi lo faccio costruire all'intelligenza artificiale un pezzo alla volta: leggo quello che produce, lo provo e decido io quando è pronto.</p>
@@ -82,13 +95,14 @@
     </figure>
   </section>
 
-  <!-- Cosa faccio -->
-  <section class="sec" id="cosa-faccio" aria-labelledby="t-cosa">
-    <p class="eyebrow">Cosa faccio</p>
+  <!-- Tav. 02: cosa faccio -->
+  <section class="tav" id="cosa-faccio" data-tav="02" data-name="Cosa faccio" aria-labelledby="t-cosa">
+    <p class="tav-label"><span>Tav. 02 — Cosa faccio</span><span>3 dettagli</span></p>
     <h2 class="sec-title reveal" id="t-cosa">Tre tipi di lavoro, lo stesso metodo.</h2>
 
     <div class="details">
       <article class="detail reveal">
+        <header class="detail-head" aria-hidden="true"><span class="callout">A</span><span class="detail-tag">Dettaglio A · scala 1:1</span></header>
         <svg class="schema" viewBox="0 0 420 150" aria-hidden="true">
           <g class="s-red">
             <path d="M18 30 h108 a10 10 0 0 1 10 10 v44 a10 10 0 0 1 -10 10 h-70 l-18 16 v-16 h-20 a10 10 0 0 1 -10 -10 v-44 a10 10 0 0 1 10 -10z"/>
@@ -117,6 +131,7 @@
       </article>
 
       <article class="detail reveal">
+        <header class="detail-head" aria-hidden="true"><span class="callout">B</span><span class="detail-tag">Dettaglio B · scala 1:1</span></header>
         <svg class="schema" viewBox="0 0 420 150" aria-hidden="true">
           <g class="s-ink">
             <rect x="14" y="18" width="50" height="30" rx="3"/><path d="M14 20 l25 16 25 -16"/>
@@ -149,6 +164,7 @@
       </article>
 
       <article class="detail reveal">
+        <header class="detail-head" aria-hidden="true"><span class="callout">C</span><span class="detail-tag">Dettaglio C · scala 1:1</span></header>
         <svg class="schema" viewBox="0 0 420 150" aria-hidden="true">
           <g class="s-red">
             <rect x="14" y="24" width="112" height="82" rx="4"/>
@@ -182,6 +198,7 @@
 
     <!-- Com'è fatto un agente: i dati entrano, l'agente usa i suoi strumenti, una persona approva -->
     <figure class="anatomy reveal">
+      <div class="sheet-head" aria-hidden="true"><span class="callout">D</span><span class="detail-tag">Sezione D–D · anatomia di un agente AI</span></div>
       <h3 class="fig-title">Com'è fatto, in pratica, un agente</h3>
       <div class="anim-wrap">
         <svg class="schema ana" viewBox="0 0 640 300" aria-hidden="true">
@@ -238,6 +255,7 @@
 
     <!-- Gli strumenti con cui sono costruiti i progetti di questa pagina -->
     <div class="bom reveal">
+      <div class="bom-head" aria-hidden="true"><span class="callout">E</span><span class="detail-tag">Distinta degli strumenti</span></div>
       <h3 class="fig-title" id="t-strumenti">Con cosa sono costruiti i progetti di questa pagina</h3>
       <table aria-labelledby="t-strumenti">
         <thead><tr><th scope="col">Strumento</th><th scope="col">A cosa serve</th></tr></thead>
@@ -258,9 +276,9 @@
     </div>
   </section>
 
-  <!-- Come lavoro -->
-  <section class="sec" id="metodo" aria-labelledby="t-metodo">
-    <p class="eyebrow">Come lavoro</p>
+  <!-- Tav. 03: come lavoro -->
+  <section class="tav" id="metodo" data-tav="03" data-name="Come lavoro" aria-labelledby="t-metodo">
+    <p class="tav-label"><span>Tav. 03 — Come lavoro</span><span>Chi fa cosa</span></p>
     <h2 class="sec-title reveal" id="t-metodo">L'AI scrive il codice. <em>Del risultato rispondo io.</em></h2>
     <p class="sec-lead reveal">Nei disegni di questa pagina il tratto rosso è il mio, quello blu tratteggiato è dell'AI. È anche il modo in cui ci dividiamo il lavoro in ogni progetto.</p>
 
@@ -316,7 +334,7 @@
     </div>
 
     <div class="notes reveal">
-      <h3 class="fig-title">Quattro regole che non salto mai</h3>
+      <h3 class="notes-head">Note generali: quattro regole che non salto mai</h3>
       <ol>
         <li>Nessuna riga di codice senza una specifica scritta prima.</li>
         <li>Ogni scelta dell'AI deve essere leggibile e verificabile.</li>
@@ -324,13 +342,15 @@
         <li>Prima di andare online si prova tutto su dati realistici.</li>
       </ol>
     </div>
+    <p class="signature-note reveal">La firma in fondo alla tavola è sempre la mia.</p>
   </section>
 
-  <!-- Progetti -->
-  <section class="sec" id="progetti" aria-labelledby="t-progetti">
-    <p class="eyebrow">Progetti</p>
+  <!-- Tav. 04: progetti -->
+  <section class="tav" id="progetti" data-tav="04" data-name="Progetti" aria-labelledby="t-progetti">
+    <p class="tav-label"><span>Tav. 04 — Elenco progetti</span><span>8 voci</span></p>
     <h2 class="sec-title reveal" id="t-progetti">Otto progetti: tre online, cinque demo da provare.</h2>
 
+    <p class="counts reveal"><span><b data-count="8">8</b> progetti</span><span><b data-count="3">3</b> online</span><span><b data-count="4">4</b> agenti AI</span></p>
     <div class="reg-tools reveal">
       <div class="filters" role="group" aria-label="Filtra i progetti per tipo">
         <button type="button" data-f="tutti" aria-pressed="true">Tutti</button>
@@ -341,9 +361,11 @@
       <p class="reg-count" id="reg-count" aria-live="polite">8 progetti</p>
     </div>
 
+    <div class="reg-head" aria-hidden="true"><span>N°</span><span>Progetto</span><span>Tipo</span><span>Stato</span></div>
     <ul class="register reveal">
       <li data-cat="software">
         <a class="reg-row" href="nocchiero/" data-preview="nocchiero">
+          <span class="reg-n" aria-hidden="true">01</span>
           <img class="reg-ico" src="assets/nocchiero-icona.png" alt="" width="32" height="40" loading="lazy" decoding="async">
           <span class="reg-name">Nocchiero</span>
           <span class="reg-info">
@@ -356,6 +378,7 @@
       </li>
       <li data-cat="software">
         <a class="reg-row" href="filo/" data-preview="filo">
+          <span class="reg-n" aria-hidden="true">02</span>
           <span class="reg-ico reg-ico-filo" aria-hidden="true">filo.</span>
           <span class="reg-name">Filo</span>
           <span class="reg-info">
@@ -368,6 +391,7 @@
       </li>
       <li data-cat="software">
         <a class="reg-row" href="family-hub/" data-preview="family">
+          <span class="reg-n" aria-hidden="true">03</span>
           <img class="reg-ico" src="assets/family-hub.svg" alt="" width="40" height="40" loading="lazy" decoding="async">
           <span class="reg-name">Family Hub</span>
           <span class="reg-info">
@@ -380,6 +404,7 @@
       </li>
       <li data-cat="sito">
         <a class="reg-row" href="tenutabriantea/" data-preview="tenuta">
+          <span class="reg-n" aria-hidden="true">04</span>
           <img class="reg-ico reg-ico-foto" src="assets/tenuta-briantea.webp" alt="" width="40" height="40" loading="lazy" decoding="async">
           <span class="reg-name">Tenuta Briantea</span>
           <span class="reg-info">
@@ -392,6 +417,7 @@
       </li>
       <li data-cat="agente">
         <a class="reg-row" href="metis/" data-preview="metis">
+          <span class="reg-n" aria-hidden="true">05</span>
           <img class="reg-ico" src="assets/metis.svg" alt="" width="40" height="40" loading="lazy" decoding="async">
           <span class="reg-name">Metis</span>
           <span class="reg-info">
@@ -404,6 +430,7 @@
       </li>
       <li data-cat="agente">
         <a class="reg-row" href="quadra/" data-preview="quadra">
+          <span class="reg-n" aria-hidden="true">06</span>
           <img class="reg-ico" src="assets/quadra.svg" alt="" width="40" height="40" loading="lazy" decoding="async">
           <span class="reg-name">Quadra</span>
           <span class="reg-info">
@@ -416,6 +443,7 @@
       </li>
       <li data-cat="agente">
         <a class="reg-row" href="comitas/" data-preview="comitas">
+          <span class="reg-n" aria-hidden="true">07</span>
           <img class="reg-ico" src="assets/comitas.svg" alt="" width="40" height="40" loading="lazy" decoding="async">
           <span class="reg-name">Comitas</span>
           <span class="reg-info">
@@ -428,6 +456,7 @@
       </li>
       <li data-cat="agente">
         <a class="reg-row" href="minerva/" data-preview="minerva">
+          <span class="reg-n" aria-hidden="true">08</span>
           <img class="reg-ico" src="assets/minerva.svg" alt="" width="40" height="40" loading="lazy" decoding="async">
           <span class="reg-name">Minerva</span>
           <span class="reg-info">
@@ -483,9 +512,9 @@
     </div>
   </section>
 
-  <!-- Chi sono -->
-  <section class="sec about" id="chi-sono" aria-labelledby="t-chi">
-    <p class="eyebrow">Chi sono</p>
+  <!-- Tav. 05: chi sono -->
+  <section class="tav about" id="chi-sono" data-tav="05" data-name="Chi sono" aria-labelledby="t-chi">
+    <p class="tav-label"><span>Tav. 05 — Chi sono</span><span>Scheda tecnica</span></p>
     <h2 class="sec-title reveal" id="t-chi">Piacere, Giuseppe.</h2>
     <div class="about-grid reveal">
       <!-- DA COMPLETARE: una foto vera (anche informale), per esempio
@@ -497,12 +526,23 @@
              la città o "lavoro da remoto", la disponibilità (progetti, ruolo, consulenza)
              e, se ci sono, link a CV in PDF e profilo GitHub. -->
       </div>
+      <aside class="spec" aria-labelledby="t-spec">
+        <h3 class="spec-head" id="t-spec">Scheda tecnica</h3>
+        <dl>
+          <div><dt>Disciplina</dt><dd>Software, siti e agenti AI</dd></div>
+          <div><dt>Metodo</dt><dd>Prima la specifica scritta, poi lo sviluppo con l'AI</dd></div>
+          <div class="num"><dt>Progetti in tavola</dt><dd><b data-count="8">8</b></dd></div>
+          <div class="num"><dt>Agenti AI</dt><dd><b data-count="4">4</b></dd></div>
+          <div class="num"><dt>Online</dt><dd><b data-count="3">3</b></dd></div>
+          <div><dt>Principio</dt><dd>L'AI esegue, le decisioni restano mie</dd></div>
+        </dl>
+      </aside>
     </div>
   </section>
 
-  <!-- Contatti -->
-  <section class="sec contact" id="contatti" aria-labelledby="t-contatti">
-    <p class="eyebrow">Contatti</p>
+  <!-- Tav. 06: contatti -->
+  <section class="tav contact" id="contatti" data-tav="06" data-name="Contatti" aria-labelledby="t-contatti">
+    <p class="tav-label"><span>Tav. 06 — Contatti</span><span>Fine tavole</span></p>
     <h2 class="sec-title reveal" id="t-contatti">Parliamo del vostro progetto.</h2>
     <p class="sec-lead reveal">Scrivetemi per un progetto, per un ruolo in azienda o anche solo per confrontarci su AI e progettazione.</p>
     <div class="contact-cta reveal">
@@ -511,16 +551,23 @@
     </div>
 
     <div class="topics reveal">
-      <h3 class="fig-title">Di cosa possiamo parlare</h3>
+      <h3 class="notes-head">Di cosa possiamo parlare</h3>
       <ul class="ticks">
         <li>Progetti e ruoli nel campo dell'intelligenza artificiale</li>
         <li>Agenti AI per i processi della vostra azienda</li>
         <li>Software e siti web costruiti con l'AI</li>
         <li>Un confronto tra professionisti su AI e progettazione</li>
       </ul>
+      <svg class="stamp" viewBox="0 0 120 120" aria-hidden="true">
+        <circle cx="60" cy="60" r="54"/><circle cx="60" cy="60" r="44"/>
+        <path id="stamp-arc" d="M60 60 m-46 0 a46 46 0 1 1 92 0 a46 46 0 1 1 -92 0"/>
+        <text><textPath href="#stamp-arc" startOffset="2%">PROGETTO · APPROVATO · G. CATALANO · 2026 ·</textPath></text>
+        <path class="stamp-check" d="M42 61 l12 12 26 -28"/>
+      </svg>
     </div>
 
     <div class="sign reveal">
+      <span class="sign-label">Il progettista</span>
       <span class="sign-name">Giuseppe Catalano</span>
       <svg viewBox="0 0 300 30" aria-hidden="true"><path d="M4 20 C 60 4, 90 28, 150 14 S 250 6, 296 18"/></svg>
     </div>
@@ -534,6 +581,12 @@
   <p>Nessun cookie e nessun tracciamento: il sito ricorda solo il tema scelto, sul vostro dispositivo.</p>
 </footer>
 
-<script src="script.js?v=33e3c0d0" defer></script>
+<!-- Cartiglio: tavola aperta e coordinate del puntatore (decorativo, su schermi grandi) -->
+<div class="cartiglio" aria-hidden="true">
+  <div class="c-cell"><small>Tav.</small><b><span id="c-tav">01</span>/06 · <span id="c-name">Il ruolo</span></b></div>
+  <div class="c-cell c-coords"><small>X</small><b id="cx">0000</b><small>Y</small><b id="cy">0000</b></div>
+</div>
+
+<script src="script.js?v=5f9024f0" defer></script>
 </body>
 </html>

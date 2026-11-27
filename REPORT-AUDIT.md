@@ -49,6 +49,30 @@ Sul telefono non aggiungono nulla.
   - "riduci movimento";
   - scorrimento orizzontale.
 
+### Ritorno alle tavole (scelta del 27 novembre 2026)
+
+Dopo le correzioni la home era diventata una pagina che scorre, senza timbro e cartiglio. È stata una
+decisione presa senza chiederti, e l'hai ribaltata: **le tavole tornano a pagine**, con i loro dettagli grafici.
+Il problema segnalato al punto 3 ("il contenuto è nascosto") è risolto in un altro modo:
+
+- **Ctrl+F trova tutto.** Le tavole chiuse hanno `hidden="until-found"`: il browser cerca anche lì e, se trova
+  il testo, apre la tavola da solo (evento `beforematch`), aggiorna l'indirizzo e il cartiglio.
+- **In stampa escono tutte le tavole**, una per foglio, su carta chiara, senza menu né decorazioni.
+- **Senza JavaScript** le tavole restano una sotto l'altra.
+- **Ogni tavola ha il suo indirizzo** (`#progetti`, `#contatti`…), il tasto Indietro funziona, i vecchi `#tav-01`…`#tav-05`
+  portano alla tavola giusta e `?f=` apre direttamente l'elenco dei progetti.
+- **Tornano:** cornice del foglio con gli angoli rossi, righello, mirino con le coordinate, cartiglio,
+  testina del plotter al cambio tavola, etichette "Tav. NN", richiami A–E, nota a mano "la mente dietro l'idea",
+  contatori, intestazione del registro con il N°, scheda tecnica in "Chi sono", "La firma in fondo alla tavola
+  è sempre la mia", il timbro "Progetto approvato" e i pulsanti precedente/successiva.
+- **Restano** tutte le correzioni: tema scuro di partenza, contrasti, testi ≥ 12 px, bersagli da 44 px,
+  "Salta al contenuto", font sul sito, nessuno scorrimento orizzontale, "riduci movimento" (niente mirino,
+  plotter né contatori animati), token `--ease` e `--dur-*`.
+- **Test:** 91 superati, 3 saltati di proposito, 0 falliti su 94. Nuovi test: tavole e `aria-current="page"`,
+  tasto Indietro, pulsanti precedente/successiva, `until-found` e `beforematch`, stampa, vecchi indirizzi,
+  pagina senza JavaScript, scorrimento orizzontale tavola per tavola. axe-core controlla ora tutte e sei le
+  tavole, e due anche con il tema chiaro: 0 violazioni.
+
 Il resto del report descrive lo stato **prima** delle correzioni e resta come riferimento.
 
 ---
@@ -220,6 +244,6 @@ Sono gli stessi segni che i modelli generativi mettono quando ricevono "stile bl
 
 1. **I primi 5 secondi:** nome, ruolo in una riga ("Progetto software e agenti AI per le PMI"), foto, disponibilità e due pulsanti: "Vedi i casi studio" e "Scarica il CV".
 2. **Casi studio, non elenchi:** 3 progetti in evidenza, ciascuno con uno screenshot grande, il problema, la soluzione, il risultato in numeri e lo stack. Gli altri 5 restano nell'elenco compatto.
-3. **Pagina che scorre:** le tavole funzionano bene come sezioni con il loro cartiglio. Non vanno usate come diapositive che nascondono il resto.
+3. **Tavole a pagine, ma trovabili:** una tavola per volta va bene se Ctrl+F, la stampa e gli indirizzi diretti arrivano a tutto il contenuto (scelta adottata).
 4. **Credibilità:** GitHub, una frase di un cliente o di un collega e, per i tre progetti online, utenti o date di rilascio.
 5. **Un'azione sola alla fine:** "Scrivimi" con l'email ben visibile, più un pulsante "Prenota 20 minuti" se usi un calendario.

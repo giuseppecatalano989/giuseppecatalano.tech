@@ -18,23 +18,164 @@ function setTheme(t, salva) {
 setTheme(root.dataset.theme === 'light' ? 'light' : 'dark', false);
 themeBtns.forEach((b) => b.addEventListener('click', () => setTheme(b.dataset.setTheme, true)));
 
-/* ---------- Menu: segna la sezione che si sta leggendo ---------- */
+/* ---------- Tavole: una per pagina ----------
+   Le tavole chiuse restano nel documento con hidden="until-found": Ctrl+F le trova e il browser
+   le apre (evento beforematch). In stampa escono tutte. Senza JavaScript restano una sotto l'altra. */
+const tavole = [...document.querySelectorAll('main .tav[id]')];
 const navLinks = [...document.querySelectorAll('.topbar nav a[href^="#"]')];
-const sezioni = navLinks.map((a) => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-function segna(id) {
-  navLinks.forEach((a) => {
-    if (a.getAttribute('href') === '#' + id) a.setAttribute('aria-current', 'true');
-    else a.removeAttribute('aria-current');
+const titoloBase = document.title;
+const cTav = document.getElementById('c-tav');
+const cName = document.getElementById('c-name');
+const vecchie = { 'tav-01': 'inizio', 'tav-02': 'cosa-faccio', 'tav-03': 'metodo', 'tav-04': 'progetti', 'tav-05': 'contatti' };
+let attiva = null;
+
+function tavolaDa(hash) {
+  let id = decodeURIComponent((hash || '').replace(/^#/, ''));
+  if (vecchie[id]) id = vecchie[id];
+  if (!id) return null;
+  const el = document.getElementById(id);
+  return el ? el.closest('main .tav[id]') : null;
+}
+
+/* Pulsanti "precedente / successiva" in fondo alla tavola aperta */
+const pager = document.createElement('nav');
+pager.className = 'pager';
+pager.setAttribute('aria-label', 'Tavola precedente e successiva');
+function vocePager(tav, classe, etichetta) {
+  const a = document.createElement('a');
+  a.className = classe;
+  a.href = '#' + tav.id;
+  const small = document.createElement('small');
+  small.textContent = `${etichetta} · Tav. ${tav.dataset.tav}`;
+  const b = document.createElement('b');
+  b.textContent = tav.dataset.name;
+  a.append(small, b);
+  return a;
+}
+function aggiornaPager(i) {
+  pager.replaceChildren();
+  if (i > 0) pager.append(vocePager(tavole[i - 1], 'pager-prev', 'Precedente'));
+  if (i < tavole.length - 1) pager.append(vocePager(tavole[i + 1], 'pager-next', 'Successiva'));
+  tavole[i].append(pager);
+}
+
+/* Contatori: da 0 al valore finale */
+function conta(tav) {
+  tav.querySelectorAll('[data-count]').forEach((el) => {
+    const fine = Number(el.dataset.count);
+    if (reduce || !Number.isFinite(fine)) { el.textContent = String(fine); return; }
+    const t0 = performance.now();
+    const passo = (t) => {
+      const k = Math.min((t - t0) / 900, 1);
+      el.textContent = String(Math.round(fine * (1 - Math.pow(1 - k, 3))));
+      if (k < 1) requestAnimationFrame(passo);
+    };
+    el.textContent = '0';
+    requestAnimationFrame(passo);
   });
 }
-if (hasIO && sezioni.length) {
-  const visibili = new Set();
-  const so = new IntersectionObserver((entries) => {
-    entries.forEach((e) => (e.isIntersecting ? visibili.add(e.target) : visibili.delete(e.target)));
-    const attuale = sezioni.find((s) => visibili.has(s));
-    segna(attuale ? attuale.id : '');
-  }, { rootMargin: '-40% 0px -55% 0px' });
-  sezioni.forEach((s) => so.observe(s));
+
+/* La testina del plotter scende sul foglio nuovo */
+const plotter = document.createElement('div');
+plotter.className = 'plotter';
+plotter.setAttribute('aria-hidden', 'true');
+document.body.append(plotter);
+function passaggio(tav) {
+  if (reduce) return;
+  [plotter, tav].forEach((el) => el.classList.remove(el === plotter ? 'via' : 'entra'));
+  void plotter.offsetWidth;
+  plotter.classList.add('via');
+  tav.classList.add('entra');
+}
+
+function mostraTavola(tav, opzioni = {}) {
+  if (!tav) tav = tavole[0];
+  const cambia = tav !== attiva;
+  tavole.forEach((t) => {
+    const on = t === tav;
+    t.classList.toggle('attiva', on);
+    if (on) t.removeAttribute('hidden'); else t.setAttribute('hidden', 'until-found');
+  });
+  navLinks.forEach((a) => {
+    if (tavolaDa(a.getAttribute('href')) === tav) a.setAttribute('aria-current', 'page');
+    else a.removeAttribute('aria-current');
+  });
+  const i = tavole.indexOf(tav);
+  if (cTav) cTav.textContent = tav.dataset.tav;
+  if (cName) cName.textContent = tav.dataset.name;
+  document.title = i === 0 ? titoloBase : `${tav.dataset.name} · ${titoloBase}`;
+  aggiornaPager(i);
+  attiva = tav;
+  if (cambia) {
+    conta(tav);
+    if (opzioni.anima) passaggio(tav);
+  }
+  if (opzioni.inCima) window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+if (tavole.length) {
+  document.body.classList.add('paged');
+  // ?f= senza un'ancora apre l'elenco dei progetti
+  const iniziale = location.hash || (new URLSearchParams(location.search).has('f') ? '#progetti' : '');
+  const prima = tavolaDa(iniziale);
+  mostraTavola(prima);
+  // un'ancora interna (non la tavola stessa) va mostrata dopo l'apertura
+  const dentro = iniziale && document.getElementById(decodeURIComponent(iniziale.slice(1)));
+  if (dentro && prima && dentro !== prima) requestAnimationFrame(() => dentro.scrollIntoView());
+  else window.scrollTo(0, 0);
+  if (vecchie[iniziale.slice(1)]) history.replaceState(history.state, '', '#' + prima.id);
+
+  document.addEventListener('click', (e) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const href = a.getAttribute('href');
+    if (href === '#main') return; // il collegamento "Salta al contenuto" fa il suo lavoro
+    const tav = tavolaDa(href);
+    if (!tav) return;
+    e.preventDefault();
+    const url = new URL(location.href);
+    url.hash = href;
+    if (url.href !== location.href) history.pushState(null, '', url);
+    const bersaglio = document.getElementById(href.slice(1));
+    mostraTavola(tav, { anima: true, inCima: bersaglio === tav });
+    if (bersaglio !== tav) bersaglio.scrollIntoView();
+    // il fuoco va al titolo della tavola, così chi usa la tastiera o un lettore di schermo riparte da lì
+    const titolo = tav.querySelector('h1, h2');
+    if (titolo && bersaglio === tav) { titolo.setAttribute('tabindex', '-1'); titolo.focus({ preventScroll: true }); }
+  });
+
+  addEventListener('popstate', () => mostraTavola(tavolaDa(location.hash), { anima: true, inCima: true }));
+  addEventListener('hashchange', () => { const t = tavolaDa(location.hash); if (t && t !== attiva) mostraTavola(t, { inCima: true }); });
+
+  // Ctrl+F ha trovato del testo in una tavola chiusa: la si apre lì, senza saltare in cima
+  tavole.forEach((t) => t.addEventListener('beforematch', () => {
+    mostraTavola(t);
+    history.replaceState(history.state, '', '#' + t.id);
+  }));
+}
+
+/* Mirino e coordinate nel cartiglio, solo con mouse e senza movimento ridotto */
+const crosshair = document.querySelector('.crosshair');
+const cx = document.getElementById('cx');
+const cy = document.getElementById('cy');
+if (crosshair && fine && !reduce) {
+  const pad = (n) => String(Math.max(0, Math.round(n))).padStart(4, '0');
+  let mx = 0, my = 0, inAttesaMirino = false;
+  const disegna = () => {
+    inAttesaMirino = false;
+    crosshair.style.setProperty('--x', `${mx}px`);
+    crosshair.style.setProperty('--y', `${my}px`);
+    if (cx) cx.textContent = pad(mx);
+    if (cy) cy.textContent = pad(my + scrollY);
+  };
+  addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    mx = e.clientX; my = e.clientY;
+    crosshair.classList.add('on');
+    if (!inAttesaMirino) { inAttesaMirino = true; requestAnimationFrame(disegna); }
+  }, { passive: true });
+  document.documentElement.addEventListener('pointerleave', () => crosshair.classList.remove('on'));
 }
 
 /* ---------- Comparse allo scorrimento ---------- */

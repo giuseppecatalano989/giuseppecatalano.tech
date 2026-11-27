@@ -43,17 +43,80 @@ test('il tema chiaro si sceglie e resta dopo il ricaricamento', async ({ page })
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
 
-test('le voci del menu portano alle sezioni e segnano quella in lettura', async ({ page }) => {
+test('le voci del menu aprono una tavola per volta e segnano quella aperta', async ({ page }) => {
   await page.goto('/');
   const voci = page.locator('.topbar nav a');
-  await expect(voci).toHaveCount(5);
-  for (const href of await voci.evaluateAll((a) => a.map((x) => x.getAttribute('href')!))) {
-    await expect(page.locator(href!)).toHaveCount(1);
-  }
-  await page.locator('#progetti').scrollIntoViewIfNeeded();
-  await page.evaluate(() => document.querySelector('#progetti')!.scrollIntoView({ block: 'start' }));
-  await expect(page.locator('.topbar nav a[href="#progetti"]')).toHaveAttribute('aria-current', 'true');
+  await expect(voci).toHaveCount(6);
+  await expect(page.locator('#inizio')).toBeVisible();
+  await expect(page.locator('#progetti')).toHaveAttribute('hidden', 'until-found');
+
+  await page.locator('.topbar nav a[href="#progetti"]').click();
+  await expect(page).toHaveURL(/#progetti$/);
+  await expect(page.locator('#progetti')).toBeVisible();
+  await expect(page.locator('#progetti')).not.toHaveAttribute('hidden');
+  await expect(page.locator('#inizio')).toHaveAttribute('hidden', 'until-found');
+  await expect(page.locator('.topbar nav a[href="#progetti"]')).toHaveAttribute('aria-current', 'page');
   await expect(page.locator('.topbar nav a[aria-current]')).toHaveCount(1);
+  await expect(page).toHaveTitle(/^Progetti · /);
+  await expect(page.locator('#c-tav')).toHaveText('04');
+
+  // indietro nel browser riporta alla tavola di prima
+  await page.goBack();
+  await expect(page.locator('#inizio')).toBeVisible();
+  await expect(page.locator('#progetti')).toHaveAttribute('hidden', 'until-found');
+  await expect(page.locator('.topbar nav a[href="#inizio"]')).toHaveAttribute('aria-current', 'page');
+});
+
+test('i pulsanti in fondo portano alla tavola successiva e alla precedente', async ({ page }) => {
+  await page.goto('/#metodo');
+  const pager = page.getByRole('navigation', { name: 'Tavola precedente e successiva' });
+  await expect(pager.getByRole('link')).toHaveCount(2);
+  await pager.getByRole('link', { name: /Successiva/ }).click();
+  await expect(page.locator('#progetti')).toBeVisible();
+  await expect(page).toHaveURL(/#progetti$/);
+  await pager.getByRole('link', { name: /Precedente/ }).click();
+  await expect(page.locator('#metodo')).toBeVisible();
+  // prima e ultima tavola hanno un solo pulsante
+  await page.goto('/#contatti');
+  await expect(pager.getByRole('link')).toHaveCount(1);
+  await expect(pager.getByRole('link', { name: /Precedente/ })).toBeVisible();
+});
+
+test('le tavole chiuse restano trovabili con Ctrl+F e si aprono da sole', async ({ page }) => {
+  await page.goto('/');
+  const chiuse = await page.locator('main .tav[hidden="until-found"]').count();
+  expect(chiuse).toBe(5);
+  // il testo delle tavole chiuse è nel documento
+  await expect(page.locator('#chi-sono')).toContainText('Scheda tecnica');
+  // il browser, trovando il testo, manda beforematch alla tavola
+  await page.locator('#chi-sono').evaluate((t) => t.dispatchEvent(new Event('beforematch')));
+  await expect(page.locator('#chi-sono')).toBeVisible();
+  await expect(page.locator('#inizio')).toHaveAttribute('hidden', 'until-found');
+  await expect(page).toHaveURL(/#chi-sono$/);
+});
+
+test('in stampa escono tutte le tavole', async ({ page }) => {
+  await page.goto('/');
+  await page.emulateMedia({ media: 'print' });
+  for (const id of ['inizio', 'cosa-faccio', 'metodo', 'progetti', 'chi-sono', 'contatti']) {
+    await expect(page.locator(`#${id}`), id).toBeVisible();
+  }
+  await expect(page.locator('.topbar')).toBeHidden();
+  await expect(page.locator('.cartiglio')).toBeHidden();
+});
+
+test('gli indirizzi vecchi #tav-NN aprono la tavola giusta', async ({ page }) => {
+  await page.goto('/#tav-04');
+  await expect(page.locator('#progetti')).toBeVisible();
+  await expect(page).toHaveURL(/#progetti$/);
+});
+
+test('senza JavaScript tutte le tavole sono una sotto l\'altra', async ({ browser }) => {
+  const contesto = await browser.newContext({ javaScriptEnabled: false });
+  const page = await contesto.newPage();
+  await page.goto('/');
+  await expect(page.locator('main .tav:visible')).toHaveCount(6);
+  await contesto.close();
 });
 
 test('il collegamento "Salta al contenuto" è il primo elemento raggiungibile con Tab', async ({ page, isMobile }) => {
@@ -76,13 +139,14 @@ test.describe('filtri dei progetti', () => {
 
   for (const [etichetta, valore, attesi] of casi) {
     test(`"${etichetta}" mostra ${attesi} progetti e lo ricorda nell'indirizzo`, async ({ page }) => {
-      await page.goto('/');
+      await page.goto('/#progetti');
       await page.getByRole('button', { name: etichetta, exact: true }).click();
       await expect(page.getByRole('button', { name: etichetta, exact: true })).toHaveAttribute('aria-pressed', 'true');
       await expect(page.locator('.register li[data-cat]:visible')).toHaveCount(attesi);
       await expect(page.locator(`.register li[data-cat="${valore}"]:visible`)).toHaveCount(attesi);
       await expect(page.locator('#reg-count')).toHaveText(attesi === 1 ? '1 progetto' : `${attesi} progetti`);
       expect(new URL(page.url()).searchParams.get('f')).toBe(valore);
+      expect(new URL(page.url()).hash).toBe('#progetti');
 
       await page.getByRole('button', { name: 'Tutti', exact: true }).click();
       await expect(page.locator('.register li[data-cat]:visible')).toHaveCount(8);
@@ -93,6 +157,7 @@ test.describe('filtri dei progetti', () => {
 
   test('un indirizzo con ?f= apre la lista già filtrata', async ({ page }) => {
     await page.goto('/?f=agente');
+    await expect(page.locator('#progetti')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Agenti AI', exact: true })).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('.register li[data-cat]:visible')).toHaveCount(4);
   });
@@ -119,7 +184,7 @@ test('tutti i collegamenti interni della pagina rispondono 200', async ({ page, 
 
 test('il pulsante ferma e riprende l\'animazione dello schema', async ({ page, isMobile }) => {
   test.skip(isMobile, 'stesso comportamento su desktop e telefono');
-  await page.goto('/');
+  await page.goto('/#cosa-faccio');
   const pulsante = page.locator('.anim-toggle:visible').first();
   await pulsante.scrollIntoViewIfNeeded();
   await expect(pulsante).toHaveText("Ferma l'animazione");
@@ -138,16 +203,21 @@ test('con "riduci movimento" i contenuti sono subito visibili e i pulsanti di an
   await page.goto('/');
   await expect(page.locator('html')).not.toHaveClass(/anima/);
   await expect(page.locator('.anim-toggle:visible')).toHaveCount(0);
-  const nascosti = await page.locator('.reveal').evaluateAll((els) =>
+  await page.goto('/#metodo');
+  const nascosti = await page.locator('.tav.attiva .reveal').evaluateAll((els) =>
     els.filter((e) => Number(getComputedStyle(e).opacity) < 1).length);
   expect(nascosti).toBe(0);
 });
 
-test('nessuno scorrimento orizzontale, in entrambi i temi', async ({ page }) => {
+test('nessuno scorrimento orizzontale, in ogni tavola e in entrambi i temi', async ({ page }) => {
   await page.goto('/');
   for (const tema of ['Scuro', 'Chiaro']) {
     await page.getByRole('button', { name: tema }).click();
-    const largo = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-    expect(largo, tema).toBeLessThanOrEqual(0);
+    for (const id of ['inizio', 'cosa-faccio', 'metodo', 'progetti', 'chi-sono', 'contatti']) {
+      await page.locator(`.topbar nav a[href="#${id}"]`).click();
+      await expect(page.locator(`#${id}`)).toBeVisible();
+      const largo = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      expect(largo, `${tema} #${id}`).toBeLessThanOrEqual(0);
+    }
   }
 });
